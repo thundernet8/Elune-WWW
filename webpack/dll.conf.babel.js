@@ -17,7 +17,7 @@ const getPlugins = function() {
         })
     ];
 
-    if (isDev) {
+    if (!isDev) {
         plugins.push(
             new webpack.optimize.UglifyJsPlugin({
                 compress: {
