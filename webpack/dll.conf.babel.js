@@ -1,0 +1,54 @@
+import path from "path";
+import webpack from "webpack";
+const AssetsPlugin = require("assets-webpack-plugin");
+
+const getPlugins = function() {
+    let plugins = [
+        new webpack.DllPlugin({
+            context: __dirname,
+            path: "manifest.json",
+            name: "[name]_[chunkhash:8]"
+        }),
+        new AssetsPlugin({
+            filename: "venders-config.json",
+            path: "./"
+        })
+    ];
+
+    if (process.env.NODE_ENV === "production") {
+        plugins.push(
+            new webpack.optimize.UglifyJsPlugin({
+                compress: {
+                    warnings: false
+                },
+                sourceMap: true
+            })
+        );
+    }
+    return plugins;
+};
+
+export default {
+    devtool: "#source-map", // '#eval-source-map'
+    entry: {
+        venders: [
+            "react",
+            "react-dom",
+            "react-router",
+            "react-router-redux",
+            "babel-polyfill",
+            "redux",
+            "redux-thunk",
+            "react-redux",
+            "axios",
+            "classnames"
+        ]
+    },
+    output: {
+        path: path.resolve(__dirname, "../dist/assets/js"),
+        publicPath: "/assets/js/",
+        filename: "[name].[chunkhash:8].js",
+        library: "[name]_[chunkhash:8]"
+    },
+    plugins: getPlugins()
+};
