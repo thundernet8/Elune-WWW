@@ -26,8 +26,8 @@ const getPlugins = function(morePlugins) {
             filename: path.resolve(__dirname, "../dist/index.html"),
             template: "src/index.html",
             inject: true,
-            vendersName: vendersConfig.venders.js,
-            beetlLayout: "${layoutContent}"
+            vendersName: vendersConfig.venders.js
+            //beetlLayout: "${layoutContent}"
         })
     ];
 
