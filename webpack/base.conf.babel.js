@@ -23,7 +23,7 @@ const getPlugins = function(morePlugins) {
             manifest: require("../manifest.json")
         }),
         new HtmlWebpackPlugin({
-            filename: path.resolve(__dirname, "../dist/layout.htm"),
+            filename: path.resolve(__dirname, "../dist/index.html"),
             template: "src/index.html",
             inject: true,
             vendersName: vendersConfig.venders.js,

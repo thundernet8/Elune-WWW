@@ -1,3 +1,3 @@
 require("STYLES/app.less");
 
-let app = "elune";
+let app = "elune2";
