@@ -10,7 +10,7 @@ const vendersConfig = require("../venders-config.json");
 const getPlugins = function(morePlugins) {
     let plugins = [
         new webpack.BannerPlugin(
-            `${pkg.name} v${pkg.version}\n\nCopyright 2017-present, WuXueqian.\nAll rights reserved.`
+            `Generated on ${new Date().toString()}\n\nCopyright 2017-present, WuXueqian. All rights reserved.\n\n@package   ${pkg.name}\n@version   v${pkg.version}\n@author    ${pkg.author}\n@site      Elune <elune.fuli.news>\n@license   https://opensource.org/licenses/gpl-3.0.html GPL v3\n`
         ),
         new webpack.HashedModuleIdsPlugin(),
         new SimpleProgressWebpackPlugin({ format: "compact" }),
@@ -61,7 +61,7 @@ const getRules = function(moreRules) {
             loader: "url-loader",
             query: {
                 limit: 2000,
-                name: "assets/img/[name].[ext]" // 'assets/img/[name].[ext]?[hash:7]'
+                name: "img/[name].[ext]" // 'assets/img/[name].[ext]?[hash:7]'
             }
         },
         {
@@ -70,7 +70,7 @@ const getRules = function(moreRules) {
             loader: "url-loader",
             query: {
                 limit: 10000,
-                name: "assets/fonts/[name].[ext]"
+                name: "fonts/[name].[ext]"
             }
         }
     ];
@@ -101,7 +101,8 @@ export default function(morePlugins, moreRules) {
             ],
             alias: {
                 IMG: path.resolve(__dirname, "../src/assets/images/"),
-                STYLES: path.resolve(__dirname, "../src/assets/styles")
+                STYLES: path.resolve(__dirname, "../src/assets/styles"),
+                FONTS: path.resolve(__dirname, "../src/assets/fonts")
             },
             modules: [
                 "node_modules",

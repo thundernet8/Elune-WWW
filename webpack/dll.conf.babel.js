@@ -49,7 +49,7 @@ export default {
     output: {
         path: path.resolve(__dirname, "../dist/assets/js"),
         publicPath: "/assets/js/",
-        filename: isDev ? "[name].js" : "[name].[chunkhash:8].js",
+        filename: "[name].[chunkhash:8].js",
         library: "[name]_[chunkhash:8]"
     },
     plugins: getPlugins()
