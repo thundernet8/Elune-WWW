@@ -37,14 +37,28 @@ const loaders = [
 ];
 
 const entry = {
-    app: path.resolve(__dirname, "../src/app.ts")
+    app: ["babel-polyfill", path.resolve(__dirname, "../src/app.ts")]
+};
+
+const output = {
+    path: path.resolve(__dirname, "../dist/assets"),
+    publicPath: "/assets/",
+    filename: "js/[name].js",
+    chunkFilename: "js/[name].chunk.js"
 };
 
 let config = baseConf(plugins, loaders);
 config.entry = entry;
+config.output = output;
 config.devServer = {
-    contentBase: "../dist",
-    hot: true
+    contentBase: path.resolve(__dirname, "../dist"),
+    compress: true,
+    host: "localhost",
+    port: 9001,
+    hot: true,
+    open: true
+    // openPage: "layout.htm"
+    // publicPath: "http://localhost:9001/"
 };
 
 export default config;

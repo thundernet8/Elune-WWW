@@ -2,6 +2,8 @@ import path from "path";
 import webpack from "webpack";
 const AssetsPlugin = require("assets-webpack-plugin");
 
+const isDev = process.env.NODE_ENV !== "production";
+
 const getPlugins = function() {
     let plugins = [
         new webpack.DllPlugin({
@@ -15,7 +17,7 @@ const getPlugins = function() {
         })
     ];
 
-    if (process.env.NODE_ENV === "production") {
+    if (isDev) {
         plugins.push(
             new webpack.optimize.UglifyJsPlugin({
                 compress: {
@@ -47,7 +49,7 @@ export default {
     output: {
         path: path.resolve(__dirname, "../dist/assets/js"),
         publicPath: "/assets/js/",
-        filename: "[name].[chunkhash:8].js",
+        filename: isDev ? "[name].js" : "[name].[chunkhash:8].js",
         library: "[name]_[chunkhash:8]"
     },
     plugins: getPlugins()
