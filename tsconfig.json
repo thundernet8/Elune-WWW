@@ -9,6 +9,7 @@
         "noUnusedLocals": true,
         "target": "es6",
         "lib": ["dom", "es7"],
+        "outDir": "./ssr",
         "typeRoots": ["node_modules/@types", "typings"]
     },
     "exclude": ["node_modules", "dist"]

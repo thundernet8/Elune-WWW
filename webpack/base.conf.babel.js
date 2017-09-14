@@ -104,10 +104,7 @@ export default function(morePlugins, moreRules) {
                 STYLES: path.resolve(__dirname, "../src/assets/styles"),
                 FONTS: path.resolve(__dirname, "../src/assets/fonts")
             },
-            modules: [
-                "node_modules",
-                path.resolve(__dirname, "../src/components")
-            ]
+            modules: ["node_modules", path.resolve(__dirname, "../src/shared")]
         },
         target: "web",
         externals: {
