@@ -38,9 +38,8 @@ export default {
       "react-router",
       "react-router-redux",
       "babel-polyfill",
-      "redux",
-      "redux-thunk",
-      "react-redux",
+      "mobx",
+      "mobx-react",
       "axios",
       "classnames"
     ]
