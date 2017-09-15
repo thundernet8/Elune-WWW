@@ -1,19 +1,19 @@
 /**
- * Generated on Fri, 15 Sep 2017 15:57:42 GMT 
+ * Generated on Fri, 15 Sep 2017 16:23:40 GMT 
  * 本文件由routes.yaml模板生成, 请不要直接修改
  */
 
 const routes = [
     {
         path: "/",
-        module: "views/home",
+        module: "entries/home",
         exact: true,
         getComponent(cb) {
             require.ensure(
-                ["views/home"],
+                ["entries/home"],
                 require => {
                     /* tslint:disable */
-                    cb && cb(require("views/home")["default"]);
+                    cb && cb(require("entries/home")["default"]);
                     /* tslint:enable */
                 },
                 "home"
@@ -21,34 +21,98 @@ const routes = [
         }
     },
     {
-        path: "/a",
-        module: "views/a",
-        exact: false,
+        path: "/blog",
+        module: "entries/blog",
+        exact: true,
         getComponent(cb) {
             require.ensure(
-                ["views/a"],
+                ["entries/blog"],
                 require => {
                     /* tslint:disable */
-                    cb && cb(require("views/a")["default"]);
+                    cb && cb(require("entries/blog")["default"]);
                     /* tslint:enable */
                 },
-                "a"
+                "blog"
             );
         }
     },
     {
-        path: "/b",
-        module: "views/b",
+        path: "/channels",
+        module: "entries/channels",
+        exact: true,
+        getComponent(cb) {
+            require.ensure(
+                ["entries/channels"],
+                require => {
+                    /* tslint:disable */
+                    cb && cb(require("entries/channels")["default"]);
+                    /* tslint:enable */
+                },
+                "channels"
+            );
+        }
+    },
+    {
+        path: "/channel/:id",
+        module: "entries/channel",
         exact: false,
         getComponent(cb) {
             require.ensure(
-                ["views/b"],
+                ["entries/channel"],
                 require => {
                     /* tslint:disable */
-                    cb && cb(require("views/b")["default"]);
+                    cb && cb(require("entries/channel")["default"]);
                     /* tslint:enable */
                 },
-                "b"
+                "channel"
+            );
+        }
+    },
+    {
+        path: "/topic/:id",
+        module: "entries/topic",
+        exact: false,
+        getComponent(cb) {
+            require.ensure(
+                ["entries/topic"],
+                require => {
+                    /* tslint:disable */
+                    cb && cb(require("entries/topic")["default"]);
+                    /* tslint:enable */
+                },
+                "topic"
+            );
+        }
+    },
+    {
+        path: "/article/:id",
+        module: "entries/article",
+        exact: false,
+        getComponent(cb) {
+            require.ensure(
+                ["entries/article"],
+                require => {
+                    /* tslint:disable */
+                    cb && cb(require("entries/article")["default"]);
+                    /* tslint:enable */
+                },
+                "article"
+            );
+        }
+    },
+    {
+        path: "/u/:username",
+        module: "entries/uc",
+        exact: false,
+        getComponent(cb) {
+            require.ensure(
+                ["entries/uc"],
+                require => {
+                    /* tslint:disable */
+                    cb && cb(require("entries/uc")["default"]);
+                    /* tslint:enable */
+                },
+                "uc"
             );
         }
     }

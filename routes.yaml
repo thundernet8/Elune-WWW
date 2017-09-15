@@ -5,14 +5,30 @@
 # exact React-router 对应的exact, 严格匹配路由
 
 - path: /
-  module: views/home
+  module: entries/home
   chunk: home
   exact: true
-- path: /a
-  module: views/a
-  chunk: a
+- path: /blog
+  module: entries/blog
+  chunk: blog
+  exact: true
+- path: /channels
+  module: entries/channels
+  chunk: channels
+  exact: true
+- path: /channel/:id
+  module: entries/channel
+  chunk: channel
   exact: false
-- path: /b
-  module: views/b
-  chunk: b
+- path: /topic/:id
+  module: entries/topic
+  chunk: topic
+  exact: false
+- path: /article/:id
+  module: entries/article
+  chunk: article
+  exact: false
+- path: /u/:username
+  module: entries/uc
+  chunk: uc
   exact: false
