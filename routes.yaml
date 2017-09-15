@@ -4,15 +4,15 @@
 # chunk 模块chunk别名, 影响生成的chunk文件名
 # exact React-router 对应的exact, 严格匹配路由
 
-- path: "/",
-  module: "views/home",
-  chunk: "home",
+- path: /
+  module: views/home
+  chunk: home
   exact: true
-- path: "/a",
-  module: "views/a",
-  chunk: "a",
-  exact: true
-- path: "/b",
-  module: "views/b",
-  chunk: "b",
-  exact: true
+- path: /a
+  module: views/a
+  chunk: a
+  exact: false
+- path: /b
+  module: views/b
+  chunk: b
+  exact: false

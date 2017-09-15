@@ -1,6 +1,6 @@
 import * as React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import routes from "../shared/routes";
+import routes from "./routes";
 
 require("STYLES/global/index.less");
 require("STYLES/app.less");
