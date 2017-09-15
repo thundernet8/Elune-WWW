@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import routes from "./routes";
 
 require("STYLES/global/index.less");
@@ -53,7 +53,7 @@ export default function Client() {
     return (
         <Router>
             <div>
-                <ul>
+                {/* <ul>
                     <li>
                         <Link to="/">Home</Link>
                     </li>
@@ -75,7 +75,7 @@ export default function Client() {
                     <li>
                         <Link to="/u/wuxueqian">UC</Link>
                     </li>
-                </ul>
+                </ul> */}
                 {routes.map((route, index) => (
                     <Route
                         key={index}

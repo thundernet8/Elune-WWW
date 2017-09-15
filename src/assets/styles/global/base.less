@@ -1,0 +1,96 @@
+@import "../vars";
+
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+html {
+    font-family: sans-serif;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    background: #fff;
+    color: @textColor;
+    font-family: Helvetica, Arial, Simsun, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    overflow-y: scroll;
+}
+
+a {
+    cursor: pointer;
+    color: @linkColor;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+button:focus,
+input:focus {
+    outline: none;
+}
+
+.container {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+@media (min-width: 1100px) {
+    .container {
+        width: 1100px;
+    }
+}
+
+.btn {
+    display: inline-block;
+    margin-bottom: 0;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    white-space: nowrap;
+    line-height: 20px;
+    padding: 8px 13px;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    color: @mainColor;
+    background: #e8ecf3;
+    border: 0;
+    text-decoration: none;
+}
+
+.btn-link {
+    background: transparent;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    height: 36px;
+    padding: 8px 13px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: @mainColor;
+    background-color: #e8ecf3;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    transition: all 0.15s;
+    -webkit-appearance: none;
+    &.focus,
+    &:focus {
+        background-color: #fff;
+        color: @textColor;
+        border-color: @borderColor;
+        outline: none;
+    }
+}

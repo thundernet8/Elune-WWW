@@ -1,0 +1,77 @@
+@import "../../../assets/styles/vars";
+
+.appHeader {
+    padding: 8px;
+    height: 52px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.container {
+    transition: width 0.2s;
+}
+
+.headerTitle {
+    float: left;
+    vertical-align: top;
+    font-size: 18px;
+    font-weight: normal;
+    margin: 0 15px 0 0;
+    line-height: 34px;
+}
+
+.headerPrimary {
+    float: left;
+}
+
+.headerControls {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: inline-block;
+    vertical-align: middle;
+    & > li {
+        display: inline-block;
+        vertical-align: middle;
+    }
+}
+
+.btnLink {
+    & > i {
+        margin-right: 5px;
+    }
+    &:hover {
+        color: @linkColor;
+    }
+}
+
+.headerSecondary {
+    float: right;
+}
+
+.search {
+    position: relative;
+    margin-right: 10px;
+    transition: margin-left 0.4s;
+}
+
+.searchInput {
+    overflow: hidden;
+    color: @mainColor;
+    input {
+        float: left;
+        width: 225px;
+        padding-left: 32px;
+        padding-right: 32px;
+        -webkit-transition: all 0.4s;
+        -o-transition: all 0.4s;
+        transition: all 0.4s;
+    }
+}
+
+.btnLabel {
+    transition: margin-right 0.1s;
+}

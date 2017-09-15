@@ -21,7 +21,7 @@ const loaders = [
         test: /\.css$/,
         exclude: [/global/, /node_modules/],
         loader:
-            "style-loader!css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader"
+            "style-loader!css-loader?modules&sourceMap&importLoaders=1&localIdentName=__[hash:base64:5]!postcss-loader"
     },
     {
         test: /\.less$/,
@@ -32,7 +32,7 @@ const loaders = [
         test: /\.less$/,
         exclude: [/global/, /node_modules/],
         loader:
-            "style-loader!css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader!less-loader"
+            "style-loader!css-loader?modules&sourceMap&importLoaders=1&localIdentName=__[hash:base64:5]!postcss-loader!less-loader"
     }
 ];
 
