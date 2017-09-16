@@ -5223,9 +5223,9 @@ selfsigned@^1.9.1:
   dependencies:
     node-forge "0.6.33"
 
-semantic-ui-css@^2.2.12:
+semantic-ui-less@^2.2.12:
   version "2.2.12"
-  resolved "https://registry.yarnpkg.com/semantic-ui-css/-/semantic-ui-css-2.2.12.tgz#afc462e5bb4f8a0dcfe3dca11274499a997490dd"
+  resolved "https://registry.yarnpkg.com/semantic-ui-less/-/semantic-ui-less-2.2.12.tgz#d028698f080e81cdb0bf80e55e5e637fc99435d4"
   dependencies:
     jquery x.*
 
