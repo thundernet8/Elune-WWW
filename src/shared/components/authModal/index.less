@@ -1,0 +1,68 @@
+@import "../../../assets/styles/vars";
+
+.authModal {
+    position: relative;
+}
+
+.header {
+    text-align: center;
+    border: 0;
+    padding: 25px;
+
+    h3 {
+        font-size: 2rem;
+        font-weight: normal;
+        margin: 0;
+    }
+}
+
+.alert {
+    text-align: center;
+    & > p {
+        padding: 12px 16px;
+        margin: 0;
+        line-height: 1.5;
+        background: @dangerColor;
+        color: #fff;
+    }
+}
+
+.body {
+    background-color: #e8ecf3;
+    padding: 25px 30px;
+    color: @mainColor;
+    .formControl {
+        background-color: #fff;
+        color: #111;
+    }
+}
+
+.footer {
+    border: 0;
+    padding: 20px;
+    text-align: center;
+    color: @mainColor;
+}
+
+.socialBtns {
+    width: 200px;
+    margin: 0 auto;
+    .loginBtn {
+        margin-bottom: 5px;
+        &:last-child {
+            margin-bottom: 20px;
+        }
+        i {
+            font-size: 1.8rem;
+            vertical-align: -1px;
+            margin-right: 5px;
+        }
+    }
+    .githubLoginBtn {
+        color: #333;
+        background: #ccc;
+        &:hover {
+            background-color: #bfbfbf;
+        }
+    }
+}

@@ -1,0 +1,78 @@
+@import "../../../assets/styles/vars";
+
+.modalMask {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1040;
+    background-color: rgba(77, 105, 142, 0.9);
+    -webkit-transition: 0.2s opacity;
+    -o-transition: 0.2s opacity;
+    transition: 0.2s opacity;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.modalManager {
+    animation-duration: 0.5s;
+    position: relative;
+    width: auto;
+}
+
+.modalContent {
+    position: relative;
+    background-color: #fff;
+    background-clip: padding-box;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.modalClose {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 1;
+    & > button {
+        display: inline-block;
+        margin-bottom: 0;
+        vertical-align: middle;
+        cursor: pointer;
+        white-space: nowrap;
+        line-height: 20px;
+        border-radius: 4px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        color: @mainColor;
+        border: 0;
+        width: 36px;
+        text-align: center;
+        padding: 8px 0;
+        background: transparent;
+        &:hover {
+            color: @linkColor;
+        }
+        i {
+            font-size: 1.6rem;
+            vertical-align: -1px;
+            margin: 0;
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .modalManager {
+        margin: 120px auto;
+        max-width: 375px;
+    }
+
+    .modalContent {
+        border: 0;
+        border-radius: 4px;
+        -webkit-box-shadow: 0 7px 15px rgba(0, 0, 0, 0.35);
+        box-shadow: 0 7px 15px rgba(0, 0, 0, 0.35);
+    }
+}

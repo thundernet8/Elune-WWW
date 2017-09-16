@@ -1,52 +1,45 @@
 import * as React from "react";
 import ClassNames from "classnames";
-import LoginModal from "components/loginModal";
+import AuthModal, { AuthType } from "components/authModal";
 
 const styles = require("./index.less");
 
 interface HeaderProps {}
 
 interface HeaderState {
-    showLogin: boolean;
-    showRegister: boolean;
+    authType: AuthType;
 }
 
 export default class Header extends React.Component<HeaderProps, HeaderState> {
     constructor(props) {
         super(props);
         this.state = {
-            showLogin: false,
-            showRegister: false
+            authType: AuthType.None
         };
     }
 
-    toggleLoginPannel = () => {
-        const { showLogin } = this.state;
+    closeAuthPannel = () => {
         this.setState({
-            showLogin: !showLogin
+            authType: AuthType.None
         });
-        if (!showLogin) {
-            this.setState({
-                showRegister: false
-            });
-        }
     };
 
-    toggleRegisterPannel = () => {
-        const { showRegister } = this.state;
+    switchAuthType = (authType: AuthType) => {
         this.setState({
-            showRegister: !showRegister
+            authType
         });
-        if (!showRegister) {
-            this.setState({
-                showLogin: false
-            });
-        }
     };
 
-    renderLoginPanel = () => {
-        const { showLogin } = this.state;
-        return <LoginModal open={showLogin} onClose={this.toggleLoginPannel} />;
+    renderAuthPanel = () => {
+        const { authType } = this.state;
+        return (
+            <AuthModal
+                open={authType !== AuthType.None}
+                onClose={this.closeAuthPannel}
+                authType={authType}
+                switchType={this.switchAuthType}
+            />
+        );
     };
 
     render() {
@@ -92,7 +85,10 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
                                     ])}
                                     type="button"
                                     title="注册"
-                                    onClick={this.toggleRegisterPannel}
+                                    onClick={this.switchAuthType.bind(
+                                        this,
+                                        AuthType.Register
+                                    )}
                                 >
                                     <span className={styles.btnLabel}>注册</span>
                                 </button>
@@ -104,7 +100,10 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
                                     ])}
                                     type="button"
                                     title="登录"
-                                    onClick={this.toggleLoginPannel}
+                                    onClick={this.switchAuthType.bind(
+                                        this,
+                                        AuthType.Login
+                                    )}
                                 >
                                     <span className={styles.btnLabel}>登录</span>
                                 </button>
@@ -112,7 +111,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
                         </ul>
                     </div>
                 </div>
-                {this.renderLoginPanel()}
+                {this.renderAuthPanel()}
             </header>
         );
     }

@@ -10,6 +10,10 @@ html {
     font-family: sans-serif;
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    // -webkit-font-smoothing: antialiased;
+    // -moz-osx-font-smoothing: grayscale;
+    font-size: 62.5%;
 }
 
 body {
@@ -31,6 +35,10 @@ a {
     }
 }
 
+p {
+    margin: 0 0 10px;
+}
+
 button:focus,
 input:focus {
     outline: none;
@@ -49,6 +57,7 @@ input:focus {
     }
 }
 
+/** Button */
 .btn {
     display: inline-block;
     margin-bottom: 0;
@@ -67,12 +76,33 @@ input:focus {
     background: #e8ecf3;
     border: 0;
     text-decoration: none;
+    .btn-label {
+        -webkit-transition: margin-right 0.1s;
+        -o-transition: margin-right 0.1s;
+        transition: margin-right 0.1s;
+    }
 }
 
 .btn-link {
     background: transparent;
 }
 
+.btn--primary {
+    color: #fff;
+    background: @primaryColor;
+    font-weight: bold;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.btn--block {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/** Form */
 .form-control {
     display: block;
     width: 100%;
@@ -95,32 +125,29 @@ input:focus {
     }
 }
 
-// modal
-.modals {
-    & > .Modal {
-        animation-duration: 0.5s;
-        position: relative;
-        width: auto;
+// .form {
+// }
 
-        & > .content {
-            position: relative;
-            background-color: #fff;
-            background-clip: padding-box;
-            margin: 0 auto;
-            overflow: hidden;
-        }
+.form-group {
+    margin-bottom: 24px;
+    &:last-child {
+        margin-bottom: 0 !important;
     }
 }
 
-@media (min-width: 768px) {
-    .Modal {
-        margin: 120px auto;
-        max-width: 375px;
-        & > .content {
-            border: 0;
-            border-radius: 4px;
-            -webkit-box-shadow: 0 7px 15px rgba(0, 0, 0, 0.35);
-            box-shadow: 0 7px 15px rgba(0, 0, 0, 0.35);
-        }
+.form--centered {
+    text-align: center;
+    .form-group {
+        margin-bottom: 12px;
+    }
+    .form-control[type="text"],
+    .form-control[type="email"],
+    .form-control[type="password"],
+    .btn {
+        margin: 0 auto;
+        text-align: center;
+        height: 50px;
+        padding: 15px 20px;
+        font-size: 1.5rem;
     }
 }
