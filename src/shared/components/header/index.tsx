@@ -1,9 +1,54 @@
 import * as React from "react";
 import ClassNames from "classnames";
+import LoginModal from "components/loginModal";
 
 const styles = require("./index.less");
 
-export default class Header extends React.Component<any, any> {
+interface HeaderProps {}
+
+interface HeaderState {
+    showLogin: boolean;
+    showRegister: boolean;
+}
+
+export default class Header extends React.Component<HeaderProps, HeaderState> {
+    constructor(props) {
+        super(props);
+        this.state = {
+            showLogin: false,
+            showRegister: false
+        };
+    }
+
+    toggleLoginPannel = () => {
+        const { showLogin } = this.state;
+        this.setState({
+            showLogin: !showLogin
+        });
+        if (!showLogin) {
+            this.setState({
+                showRegister: false
+            });
+        }
+    };
+
+    toggleRegisterPannel = () => {
+        const { showRegister } = this.state;
+        this.setState({
+            showRegister: !showRegister
+        });
+        if (!showRegister) {
+            this.setState({
+                showLogin: false
+            });
+        }
+    };
+
+    renderLoginPanel = () => {
+        const { showLogin } = this.state;
+        return <LoginModal open={showLogin} />;
+    };
+
     render() {
         return (
             <header id="header" className={styles.appHeader}>
@@ -47,6 +92,7 @@ export default class Header extends React.Component<any, any> {
                                     ])}
                                     type="button"
                                     title="注册"
+                                    onClick={this.toggleRegisterPannel}
                                 >
                                     <span className={styles.btnLabel}>注册</span>
                                 </button>
@@ -58,6 +104,7 @@ export default class Header extends React.Component<any, any> {
                                     ])}
                                     type="button"
                                     title="登录"
+                                    onClick={this.toggleLoginPannel}
                                 >
                                     <span className={styles.btnLabel}>登录</span>
                                 </button>
