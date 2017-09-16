@@ -5,6 +5,9 @@ import CopyWebpackPlugin from "copy-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import pkg from "../package.json";
 
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+    .BundleAnalyzerPlugin;
+
 const vendersConfig = require("../venders-config.json");
 
 const getPlugins = function(morePlugins) {
@@ -30,6 +33,10 @@ const getPlugins = function(morePlugins) {
             //beetlLayout: "${layoutContent}"
         })
     ];
+
+    if (!!process.env.ANALYZE_ENV) {
+        plugins.push(new BundleAnalyzerPlugin());
+    }
 
     if (morePlugins) {
         plugins = plugins.concat(morePlugins);
