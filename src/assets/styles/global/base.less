@@ -94,3 +94,33 @@ input:focus {
         outline: none;
     }
 }
+
+// modal
+.modals {
+    & > .Modal {
+        animation-duration: 0.5s;
+        position: relative;
+        width: auto;
+
+        & > .content {
+            position: relative;
+            background-color: #fff;
+            background-clip: padding-box;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .Modal {
+        margin: 120px auto;
+        max-width: 375px;
+        & > .content {
+            border: 0;
+            border-radius: 4px;
+            -webkit-box-shadow: 0 7px 15px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 7px 15px rgba(0, 0, 0, 0.35);
+        }
+    }
+}

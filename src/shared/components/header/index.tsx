@@ -46,7 +46,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
 
     renderLoginPanel = () => {
         const { showLogin } = this.state;
-        return <LoginModal open={showLogin} />;
+        return <LoginModal open={showLogin} onClose={this.toggleLoginPannel} />;
     };
 
     render() {
@@ -112,6 +112,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
                         </ul>
                     </div>
                 </div>
+                {this.renderLoginPanel()}
             </header>
         );
     }
