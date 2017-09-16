@@ -1,5 +1,5 @@
 /**
- * Generated on Fri, 15 Sep 2017 16:23:40 GMT 
+ * Generated on Sat, 16 Sep 2017 06:09:18 GMT 
  * 本文件由routes.yaml模板生成, 请不要直接修改
  */
 

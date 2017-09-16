@@ -43,7 +43,7 @@ class LazyComponentWrapper extends React.Component<
     render() {
         const { LazyComponent } = this.state;
         if (!LazyComponent) {
-            return null;
+            return <div>Loading</div>; // TODO a common loading component
         }
         return React.createElement(LazyComponent, this.props);
     }

@@ -10,7 +10,8 @@
         "target": "es6",
         "lib": ["dom", "es7"],
         "outDir": "./ssr",
-        "typeRoots": ["node_modules/@types", "typings"]
+        "typeRoots": ["node_modules/@types", "typings"],
+        "baseUrl": "./src/shared"
     },
     "exclude": ["node_modules", "dist"]
 }
