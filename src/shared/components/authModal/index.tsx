@@ -123,13 +123,25 @@ export default class AuthModal extends React.Component<
     };
 
     requestRegister = (username: string, email: string, password: string) => {
-        // TODO
-        console.log(username);
-        console.log(email);
-        console.log(password);
         this.setState({
             requesting: true
         });
+        return GlobalStore.Instance
+            .requestRegister(username, email, password)
+            .then((resp: CommonResp<UserInfo>) => {
+                console.log(resp);
+                this.setState({
+                    requesting: false
+                });
+                this.props.switchType(AuthType.None);
+            })
+            .catch(err => {
+                console.dir(err);
+                this.alert(err.response ? err.response.data : err.message);
+                this.setState({
+                    requesting: false
+                });
+            });
     };
 
     render() {
