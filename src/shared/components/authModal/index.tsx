@@ -1,7 +1,10 @@
 import * as React from "react";
 import ClassNames from "classnames";
 import Modal from "common/modal";
-import { isEmail } from "utils/textUtil";
+import { isEmail } from "utils/TextKit";
+import GlobalStore from "store/GlobalStore";
+import UserInfo from "model/User";
+import CommonResp from "model/Resp";
 
 const styles = require("./index.less");
 
@@ -23,7 +26,8 @@ interface AuthModalState {
     email: string;
     password: string;
     alert: string;
-    [field: string]: string;
+    requesting: boolean;
+    [field: string]: string | boolean;
 }
 
 export default class AuthModal extends React.Component<
@@ -36,7 +40,8 @@ export default class AuthModal extends React.Component<
             username: "",
             email: "",
             password: "",
-            alert: ""
+            alert: "",
+            requesting: false
         };
     }
 
@@ -54,8 +59,13 @@ export default class AuthModal extends React.Component<
         e.stopPropagation();
         e.preventDefault();
 
-        const { username, email, password } = this.state;
+        const { username, email, password, requesting } = this.state;
         const { authType } = this.props;
+
+        if (requesting) {
+            return false;
+        }
+
         if (!username || username.length < 4) {
             this.alert("用户名不能为空或少于4位");
             return false;
@@ -91,9 +101,25 @@ export default class AuthModal extends React.Component<
     };
 
     requestLogin = (username: string, password: string) => {
-        // TODO
-        console.log(username);
-        console.log(password);
+        this.setState({
+            requesting: true
+        });
+        return GlobalStore.Instance
+            .requestLogin(username, password)
+            .then((resp: CommonResp<UserInfo>) => {
+                console.log(resp);
+                this.setState({
+                    requesting: false
+                });
+                this.props.switchType(AuthType.None);
+            })
+            .catch(err => {
+                console.dir(err);
+                this.alert(err.response ? err.response.data : err.message);
+                this.setState({
+                    requesting: false
+                });
+            });
     };
 
     requestRegister = (username: string, email: string, password: string) => {
@@ -101,11 +127,14 @@ export default class AuthModal extends React.Component<
         console.log(username);
         console.log(email);
         console.log(password);
+        this.setState({
+            requesting: true
+        });
     };
 
     render() {
         const { open, authType, switchType } = this.props;
-        const { username, email, password, alert } = this.state;
+        const { username, email, password, alert, requesting } = this.state;
         const title = authType === AuthType.Login ? "登入" : "注册";
         return (
             <Modal
@@ -198,8 +227,14 @@ export default class AuthModal extends React.Component<
                                     type="submit"
                                     title={title}
                                     onClick={this.onSubmit}
+                                    disabled={requesting}
                                 >
-                                    <span className="btn-label">{title}</span>
+                                    <span className="btn-label">
+                                        {title}
+                                        {requesting && (
+                                            <i className="fa fa-spin fa-spinner" />
+                                        )}
+                                    </span>
                                 </button>
                             </div>
                         </div>
@@ -215,10 +250,14 @@ export default class AuthModal extends React.Component<
                                         <p>
                                             还没有注册？{" "}
                                             <a
-                                                onClick={switchType.bind(
-                                                    this,
-                                                    AuthType.Register
-                                                )}
+                                                onClick={
+                                                    requesting
+                                                        ? () => {}
+                                                        : switchType.bind(
+                                                              this,
+                                                              AuthType.Register
+                                                          )
+                                                }
                                             >
                                                 注册
                                             </a>
@@ -231,10 +270,14 @@ export default class AuthModal extends React.Component<
                                         <p>
                                             已经注册过了？ {" "}
                                             <a
-                                                onClick={switchType.bind(
-                                                    this,
-                                                    AuthType.Login
-                                                )}
+                                                onClick={
+                                                    requesting
+                                                        ? () => {}
+                                                        : switchType.bind(
+                                                              this,
+                                                              AuthType.Login
+                                                          )
+                                                }
                                             >
                                                 登入
                                             </a>

@@ -1,6 +1,10 @@
 import * as React from "react";
+import { observer } from "mobx-react";
 import ClassNames from "classnames";
 import AuthModal, { AuthType } from "components/authModal";
+import Dropdown from "common/dropdown";
+import GlobalStore from "store/GlobalStore";
+import { Link } from "react-router-dom";
 
 const styles = require("./index.less");
 
@@ -10,6 +14,7 @@ interface HeaderState {
     authType: AuthType;
 }
 
+@observer
 export default class Header extends React.Component<HeaderProps, HeaderState> {
     constructor(props) {
         super(props);
@@ -30,6 +35,10 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
         });
     };
 
+    logout = () => {
+        // TODO
+    };
+
     renderAuthPanel = () => {
         const { authType } = this.state;
         return (
@@ -42,7 +51,48 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
         );
     };
 
+    renderSession = () => {
+        const globalStore = GlobalStore.Instance;
+        const user = globalStore.user;
+        if (!user || !user.id) {
+            return null;
+        }
+
+        return (
+            <li className={styles.itemSession}>
+                <Dropdown
+                    className={styles.sessionDropdown}
+                    anchorNode={
+                        <span className="btn-label">{user.username}</span>}
+                >
+                    <Dropdown.Item hasIcon>
+                        <Link to={`/u/${user.username}`}>
+                            <i className="fa fa-fw fa-user" />
+                            <span className="btn-label">我的资料</span>
+                        </Link>
+                    </Dropdown.Item>
+                    <Dropdown.Item hasIcon>
+                        <Link to={"/settings"}>
+                            <i className="fa fa-fw fa-cog" />
+                            <span className="btn-label">个人设置</span>
+                        </Link>
+                    </Dropdown.Item>
+                    <Dropdown.Divider />
+                    <Dropdown.Item hasIcon>
+                        <button onClick={this.logout}>
+                            <i className="fa fa-fw fa-sign-out" />
+                            <span className="btn-label">登出</span>
+                        </button>
+                    </Dropdown.Item>
+                </Dropdown>
+            </li>
+        );
+    };
+
     render() {
+        const globalStore = GlobalStore.Instance;
+        const user = globalStore.user;
+        const logged = user && user.id > 0;
         return (
             <header id="header" className={styles.appHeader}>
                 <div className={ClassNames("container", [styles.container])}>
@@ -78,36 +128,45 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
                             </li>
                             {/* <li className={styles.itemNotifications}></li>
                         <li className={styles.itemSession}></li> */}
-                            <li className={styles.itemSignup}>
-                                <button
-                                    className={ClassNames("btn btn-link", [
-                                        styles.btnLink
-                                    ])}
-                                    type="button"
-                                    title="注册"
-                                    onClick={this.switchAuthType.bind(
-                                        this,
-                                        AuthType.Register
-                                    )}
-                                >
-                                    <span className={styles.btnLabel}>注册</span>
-                                </button>
-                            </li>
-                            <li className={styles.itemSignin}>
-                                <button
-                                    className={ClassNames("btn btn-link", [
-                                        styles.btnLink
-                                    ])}
-                                    type="button"
-                                    title="登录"
-                                    onClick={this.switchAuthType.bind(
-                                        this,
-                                        AuthType.Login
-                                    )}
-                                >
-                                    <span className={styles.btnLabel}>登录</span>
-                                </button>
-                            </li>
+                            {!logged && (
+                                <li className={styles.itemSignup}>
+                                    <button
+                                        className={ClassNames("btn btn-link", [
+                                            styles.btnLink
+                                        ])}
+                                        type="button"
+                                        title="注册"
+                                        onClick={this.switchAuthType.bind(
+                                            this,
+                                            AuthType.Register
+                                        )}
+                                    >
+                                        <span className={styles.btnLabel}>
+                                            注册
+                                        </span>
+                                    </button>
+                                </li>
+                            )}
+                            {!logged && (
+                                <li className={styles.itemSignin}>
+                                    <button
+                                        className={ClassNames("btn btn-link", [
+                                            styles.btnLink
+                                        ])}
+                                        type="button"
+                                        title="登录"
+                                        onClick={this.switchAuthType.bind(
+                                            this,
+                                            AuthType.Login
+                                        )}
+                                    >
+                                        <span className={styles.btnLabel}>
+                                            登录
+                                        </span>
+                                    </button>
+                                </li>
+                            )}
+                            {this.renderSession()}
                         </ul>
                     </div>
                 </div>
