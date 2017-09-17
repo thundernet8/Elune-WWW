@@ -19,6 +19,7 @@ export default class Dropdown extends React.Component<
 > {
     public static Item;
     public static Divider;
+    private timer;
 
     static defaultProps = {
         className: "",
@@ -38,6 +39,18 @@ export default class Dropdown extends React.Component<
         });
     };
 
+    blurClose = () => {
+        this.timer = setTimeout(() => {
+            this.setState({
+                open: false
+            });
+        }, 200);
+    };
+
+    componentWillUnmount() {
+        clearTimeout(this.timer);
+    }
+
     render() {
         const { className, anchorNode, children, menuPosition } = this.props;
         const { open } = this.state;
@@ -49,6 +62,7 @@ export default class Dropdown extends React.Component<
                     [className],
                     { [styles.open]: open }
                 )}
+                onBlur={this.blurClose}
             >
                 <button
                     className={ClassNames("btn btn--flat", [styles.toggle])}

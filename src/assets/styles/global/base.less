@@ -20,7 +20,7 @@ body {
     background: #fff;
     color: @textColor;
     font-family: Helvetica, Arial, Simsun, sans-serif;
-    font-size: 13px;
+    font-size: 1.3rem;
     line-height: 1.5;
     overflow-y: scroll;
 }
@@ -31,12 +31,20 @@ a {
     text-decoration: none;
 
     &:hover {
-        text-decoration: underline;
+        text-decoration: none;
     }
 }
 
 p {
     margin: 0 0 10px;
+}
+
+ul,
+ol,
+li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 button:focus,
@@ -73,7 +81,7 @@ input:focus {
     -ms-user-select: none;
     user-select: none;
     color: @mainColor;
-    background: #e8ecf3;
+    background: @grayLight;
     border: 0;
     text-decoration: none;
     .btn-label {
@@ -86,8 +94,14 @@ input:focus {
     }
 }
 
-.btn-link {
+.btn--link {
     background: transparent;
+}
+
+.btn--icon {
+    width: 36px;
+    text-align: center;
+    padding: 8px 0;
 }
 
 .btn--primary {
@@ -111,7 +125,7 @@ input:focus {
     width: 100%;
     height: 36px;
     padding: 8px 13px;
-    font-size: 13px;
+    font-size: 1.3rem;
     line-height: 1.5;
     color: @mainColor;
     background-color: #e8ecf3;
@@ -152,5 +166,33 @@ input:focus {
         height: 50px;
         padding: 15px 20px;
         font-size: 1.5rem;
+    }
+}
+
+// app
+#app {
+    position: relative !important;
+    // padding-top: 52px;
+    padding-bottom: 50px;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+@media (min-width: 768px) {
+    #app:before {
+        height: 52px;
+    }
+}
+
+.app-content {
+    border-top: 1px solid @grayLight;
+}
+
+.headroom {
+    &.headroom--pinned {
+        header {
+            -webkit-box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+        }
     }
 }

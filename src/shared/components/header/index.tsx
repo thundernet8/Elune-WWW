@@ -5,6 +5,7 @@ import AuthModal, { AuthType } from "components/authModal";
 import Dropdown from "common/dropdown";
 import GlobalStore from "store/GlobalStore";
 import { Link } from "react-router-dom";
+import Headroom from "react-headroom";
 
 const styles = require("./index.less");
 
@@ -97,84 +98,90 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
         const user = globalStore.user;
         const logged = user && user.id > 0;
         return (
-            <header id="header" className={styles.appHeader}>
-                <div className={ClassNames("container", [styles.container])}>
-                    <h1 className={styles.headerTitle}>
-                        <a href="/">Elune Forum</a>
-                    </h1>
-                    <div className={styles.headerPrimary}>
-                        <ul className={styles.headerControls}>
-                            <li>
-                                <a
-                                    href="/"
-                                    className={ClassNames("btn btn-link", [
-                                        styles.btnLink
-                                    ])}
-                                >
-                                    <i className="fa fa-home" />首页
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div className={styles.headerSecondary}>
-                        <ul className={styles.headerControls}>
-                            <li className={styles.itemSearch}>
-                                <div className={styles.search}>
-                                    <div className={styles.searchInput}>
-                                        <input
-                                            className="form-control"
-                                            placeholder="搜索其实很简单"
-                                        />
+            <Headroom>
+                <header id="header" className={styles.appHeader}>
+                    <div
+                        className={ClassNames("container", [styles.container])}
+                    >
+                        <h1 className={styles.headerTitle}>
+                            <a href="/">Elune Forum</a>
+                        </h1>
+                        <div className={styles.headerPrimary}>
+                            <ul className={styles.headerControls}>
+                                <li>
+                                    <a
+                                        href="/"
+                                        className={ClassNames("btn btn--link", [
+                                            styles.btnLink
+                                        ])}
+                                    >
+                                        <i className="fa fa-home" />首页
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div className={styles.headerSecondary}>
+                            <ul className={styles.headerControls}>
+                                <li className={styles.itemSearch}>
+                                    <div className={styles.search}>
+                                        <div className={styles.searchInput}>
+                                            <input
+                                                className="form-control"
+                                                placeholder="搜索其实很简单"
+                                            />
+                                        </div>
+                                        <ul className={styles.searchResults} />
                                     </div>
-                                    <ul className={styles.searchResults} />
-                                </div>
-                            </li>
-                            {/* <li className={styles.itemNotifications}></li>
+                                </li>
+                                {/* <li className={styles.itemNotifications}></li>
                         <li className={styles.itemSession}></li> */}
-                            {!logged && (
-                                <li className={styles.itemSignup}>
-                                    <button
-                                        className={ClassNames("btn btn-link", [
-                                            styles.btnLink
-                                        ])}
-                                        type="button"
-                                        title="注册"
-                                        onClick={this.switchAuthType.bind(
-                                            this,
-                                            AuthType.Register
-                                        )}
-                                    >
-                                        <span className={styles.btnLabel}>
-                                            注册
-                                        </span>
-                                    </button>
-                                </li>
-                            )}
-                            {!logged && (
-                                <li className={styles.itemSignin}>
-                                    <button
-                                        className={ClassNames("btn btn-link", [
-                                            styles.btnLink
-                                        ])}
-                                        type="button"
-                                        title="登录"
-                                        onClick={this.switchAuthType.bind(
-                                            this,
-                                            AuthType.Login
-                                        )}
-                                    >
-                                        <span className={styles.btnLabel}>
-                                            登录
-                                        </span>
-                                    </button>
-                                </li>
-                            )}
-                            {this.renderSession()}
-                        </ul>
+                                {!logged && (
+                                    <li className={styles.itemSignup}>
+                                        <button
+                                            className={ClassNames(
+                                                "btn btn--link",
+                                                [styles.btnLink]
+                                            )}
+                                            type="button"
+                                            title="注册"
+                                            onClick={this.switchAuthType.bind(
+                                                this,
+                                                AuthType.Register
+                                            )}
+                                        >
+                                            <span className={styles.btnLabel}>
+                                                注册
+                                            </span>
+                                        </button>
+                                    </li>
+                                )}
+                                {!logged && (
+                                    <li className={styles.itemSignin}>
+                                        <button
+                                            className={ClassNames(
+                                                "btn btn--link",
+                                                [styles.btnLink]
+                                            )}
+                                            type="button"
+                                            title="登录"
+                                            onClick={this.switchAuthType.bind(
+                                                this,
+                                                AuthType.Login
+                                            )}
+                                        >
+                                            <span className={styles.btnLabel}>
+                                                登录
+                                            </span>
+                                        </button>
+                                    </li>
+                                )}
+                                {this.renderSession()}
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                {this.renderAuthPanel()}
-            </header>
+                    {this.renderAuthPanel()}
+                </header>
+            </Headroom>
         );
     }
 }

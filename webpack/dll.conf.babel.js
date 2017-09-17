@@ -40,7 +40,8 @@ export default {
             "mobx",
             "mobx-react",
             "axios",
-            "classnames"
+            "classnames",
+            "react-headroom"
         ]
     },
     output: {

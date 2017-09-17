@@ -165,7 +165,7 @@ export default class AuthModal extends React.Component<
                         </div>
                     )}
                     <div className={styles.body}>
-                        <div className={styles.socialBtns}>
+                        {/* <div className={styles.socialBtns}>
                             <button
                                 className={ClassNames(
                                     "btn btn--block",
@@ -180,7 +180,7 @@ export default class AuthModal extends React.Component<
                                     使用 GitHub 登入
                                 </span>
                             </button>
-                        </div>
+                        </div> */}
                         <div className="form form--centered">
                             <div className="form-group">
                                 <input

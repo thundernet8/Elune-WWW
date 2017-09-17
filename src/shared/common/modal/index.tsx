@@ -24,12 +24,12 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
         super(props);
     }
 
-    componentDidMount() {
-        document.body.style.overflow = "hidden";
-    }
-
-    componentWillUnmount() {
-        document.body.style.overflow = "";
+    componentWillUpdate(nextProps) {
+        if (nextProps.visible) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
     }
 
     render() {
