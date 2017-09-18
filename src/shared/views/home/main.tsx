@@ -16,6 +16,9 @@ export default class HomeMain extends React.Component<
 > {
     constructor(props) {
         super(props);
+        this.state = {
+            sort: "latest"
+        };
     }
 
     selectSort = (value: string) => {
@@ -26,10 +29,11 @@ export default class HomeMain extends React.Component<
     };
 
     render() {
+        const { sort } = this.state;
         return (
             <div className={styles.main}>
                 <div className={styles.toolbar}>
-                    <Select value="latest" onSelect={this.selectSort}>
+                    <Select value={sort} onSelect={this.selectSort}>
                         <Select.Option value="latest">最新回复</Select.Option>
                         <Select.Option value="top">热门话题</Select.Option>
                         <Select.Option value="newest">近期话题</Select.Option>

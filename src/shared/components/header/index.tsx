@@ -66,8 +66,7 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
                 <Dropdown
                     className={styles.sessionDropdown}
                     anchorNode={
-                        <span className="btn-label">{user.username}</span>
-                    }
+                        <span className="btn-label">{user.username}</span>}
                 >
                     <Dropdown.Item hasIcon>
                         <Link to={`/u/${user.username}`}>

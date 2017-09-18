@@ -27,7 +27,7 @@ export default class TopicItem extends React.Component<
         return (
             <div className={styles.topicItem}>
                 <Dropdown
-                    className={styles.actionDropdown}
+                    className={ClassNames("btn-flat", [styles.actionDropdown])}
                     anchorNode={
                         <span className="btn-label">
                             <i className="fa fa-fw fa-ellipsis-v" />
@@ -53,7 +53,7 @@ export default class TopicItem extends React.Component<
                         data-original-title="justjavac 发布于 12月 '15"
                     >
                         <img
-                            className="Avatar "
+                            className={styles.avatar}
                             src="http://discuss.flarum.org.cn/assets/avatars/ycg91duh2jas1tas.jpg"
                         />
                     </Link>
@@ -75,20 +75,27 @@ export default class TopicItem extends React.Component<
                         <h3 className={styles.title}>Flarum 新人必看，注意事项以及 FAQ</h3>
                         <ul className={styles.info}>
                             <li className={styles.channels}>
-                                <span className="TagsLabel ">
+                                <span className={styles.channelLabels}>
                                     <span
-                                        className="TagLabel  colored"
+                                        className={ClassNames([
+                                            styles.channelLabel,
+                                            styles.colored
+                                        ])}
                                         style={{
                                             color: "rgb(254, 181, 77)",
                                             backgroundColor: "rgb(254, 181, 77)"
                                         }}
                                     >
-                                        <span className="TagLabel-text">
+                                        <span
+                                            className={styles.channelLabelText}
+                                        >
                                             求助
                                         </span>
                                     </span>
-                                    <span className="TagLabel ">
-                                        <span className="TagLabel-text">
+                                    <span className={styles.channelLabel}>
+                                        <span
+                                            className={styles.channelLabelText}
+                                        >
                                             Flarum
                                         </span>
                                     </span>
@@ -96,7 +103,7 @@ export default class TopicItem extends React.Component<
                             </li>
                             <li className={styles.reply}>
                                 <span>
-                                    <i className="icon fa fa-fw fa-reply " />{" "}
+                                    <i className="icon fa fa-fw fa-reply " />
                                     <span className={styles.username}>
                                         TestTest
                                     </span>{" "}
@@ -125,7 +132,7 @@ export default class TopicItem extends React.Component<
                         </ul>
                     </Link>
                     <span className={styles.count} title="标记为已读">
-                        54
+                        <i className="fa fa-fw fa-comment" />54
                     </span>
                 </div>
             </div>

@@ -4,15 +4,17 @@
 }
 
 @media (min-width: 768px) {
-    position: relative;
-    margin-right: -15px;
-    padding-right: 25px;
-    padding-left: 15px;
-    margin-left: -15px;
-    border-radius: 4px;
-    transition: background 0.2s;
-    &:hover {
-        background: @lightColor;
+    .topicItem {
+        position: relative;
+        margin-right: -15px;
+        padding-right: 25px;
+        padding-left: 15px;
+        margin-left: -15px;
+        border-radius: 4px;
+        transition: background 0.2s;
+        &:hover {
+            background: @lightColor;
+        }
     }
 }
 
@@ -22,19 +24,36 @@
 }
 
 @media (min-width: 768px) {
-    padding-left: 52px;
-    padding-right: 80px;
-    a {
-        text-decoration: none;
-    }
-    .author {
-        margin-left: -52px;
+    .content {
+        padding-left: 52px;
+        padding-right: 80px;
+        a {
+            text-decoration: none;
+        }
+        .author {
+            margin-left: -52px;
+        }
     }
 }
 
 .author {
     float: left;
     margin-top: 13px;
+
+    .avatar {
+        display: inline-block;
+        box-sizing: content-box;
+        color: #fff;
+        text-align: center;
+        vertical-align: top;
+        background-color: @grayLight;
+        font-weight: normal;
+        width: 36px;
+        height: 36px;
+        border-radius: 36px;
+        font-size: 18px;
+        line-height: 36px;
+    }
 }
 
 .badges {
@@ -65,9 +84,25 @@
     }
 }
 
+.badge {
+    width: 22px;
+    height: 22px;
+    border-radius: 11px;
+    line-height: 21px;
+    background: @mainColor;
+    color: #fff;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+
 @media (min-width: 768px) {
-    margin-left: -55px;
-    width: 48px;
+    .badges {
+        margin-left: -55px;
+        width: 48px;
+    }
 }
 
 .main {
@@ -123,7 +158,7 @@
             margin-right: 0;
             position: absolute;
             right: 80px;
-            top: 23px;
+            top: 21px;
             max-width: 150px;
             white-space: nowrap;
             overflow: hidden;
@@ -162,10 +197,88 @@
 @media (min-width: 768px) {
     .count {
         margin-top: 21px;
-        margin-right: -70px;
-        width: 55px;
+        margin-right: -55px;
+        width: 60px;
         color: @mainColor;
-        font-size: 14px;
+        font-size: 1.4rem;
         padding-left: 21px;
+        i {
+            margin-right: 5px;
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .actionDropdown {
+        position: absolute;
+        right: 5px;
+        top: 15px;
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 0.2s;
+        & > button {
+            padding: 8px 10px;
+            i {
+                margin: 0 !important;
+            }
+        }
+    }
+
+    .topicItem:hover {
+        .actionDropdown {
+            opacity: 1;
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .channels {
+        margin-right: 0;
+        position: absolute;
+        right: 80px;
+        top: 23px;
+        max-width: 150px;
+        white-space: nowrap;
+        overflow: hidden;
+        transition: max-width 0.2s ease-in-out, -webkit-mask-image 0.2s;
+        -webkit-mask-image: linear-gradient(
+            to right,
+            #000 140px,
+            rgba(0, 0, 0, 0) 150px
+        );
+    }
+    .topicItem:hover {
+        .channels {
+            opacity: 1;
+        }
+    }
+}
+
+.channelLabels {
+    .channelLabel {
+        border-radius: 0;
+    }
+}
+
+.channelLabel {
+    font-size: 85%;
+    font-weight: 500;
+    display: inline-block;
+    padding: 2px 5px;
+    border-radius: 4px;
+    background: @grayLight;
+    color: @mainColor;
+    text-transform: none;
+    &:first-child {
+        border-radius: 4px 0 0 4px;
+    }
+    &:last-child {
+        border-radius: 0 4px 4px 0;
+    }
+    &.colored {
+        position: relative;
+        .channelLabelText {
+            color: #fff !important;
+        }
     }
 }

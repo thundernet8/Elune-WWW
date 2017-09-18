@@ -57,11 +57,12 @@ input:focus {
     margin-left: auto;
     padding-left: 15px;
     padding-right: 15px;
+    width: 100%;
 }
 
-@media (min-width: 1100px) {
+@media (min-width: 1200px) {
     .container {
-        width: 1100px;
+        max-width: 1200px;
     }
 }
 
@@ -84,6 +85,9 @@ input:focus {
     background: @grayLight;
     border: 0;
     text-decoration: none;
+    &:hover {
+        background: @grayLightPair;
+    }
     .btn-label {
         -webkit-transition: margin-right 0.1s;
         -o-transition: margin-right 0.1s;
@@ -110,6 +114,9 @@ input:focus {
     font-weight: bold;
     padding-left: 20px;
     padding-right: 20px;
+    &:hover {
+        background: @primaryPairColor;
+    }
 }
 
 .btn--block {
@@ -117,6 +124,11 @@ input:focus {
     width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.btn--flat {
+    background: transparent;
+    border-radius: 18px;
 }
 
 /** Form */
@@ -186,6 +198,10 @@ input:focus {
 
 .app-content {
     border-top: 1px solid @grayLight;
+}
+
+.headroom-wrapper {
+    height: 52px !important;
 }
 
 .headroom {

@@ -3,6 +3,7 @@ import ClassNames from "classnames";
 import WelcomeHero from "components/welcomeHero";
 import HomeAside from "./aside";
 import HomeMain from "./main";
+import Sidebar from "components/sidebar";
 
 const styles = require("./index.less");
 
@@ -25,6 +26,7 @@ export default class HomeView extends React.Component<
                 <div className={ClassNames("container", [styles.container])}>
                     <HomeAside />
                     <HomeMain />
+                    <Sidebar where="home" />
                 </div>
             </div>
         );
