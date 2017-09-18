@@ -41,7 +41,8 @@ export default {
             "mobx-react",
             "axios",
             "classnames",
-            "react-headroom"
+            "react-headroom",
+            "react-document-meta"
         ]
     },
     output: {
