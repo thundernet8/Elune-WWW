@@ -111,7 +111,7 @@ let config = {
         publicPath: "/assets/",
         filename: "js/[name].js",
         chunkFilename: "js/[name].chunk.js",
-        libraryTarget: "commonjs",
+        libraryTarget: "commonjs2",
         library: "ssr"
     },
     resolve: {
