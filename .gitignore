@@ -2,3 +2,4 @@ node_modules/
 dist/
 ssr/
 *.log
+env.js

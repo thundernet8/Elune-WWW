@@ -29,8 +29,17 @@ const getPlugins = function(morePlugins) {
             filename: path.resolve(__dirname, "../dist/index.html"),
             template: "src/index.html",
             inject: true,
-            vendersName: vendersConfig.venders.js
-            //beetlLayout: "${layoutContent}"
+            vendersName: vendersConfig.venders.js,
+            meta: "",
+            htmlDom: ""
+        }),
+        new HtmlWebpackPlugin({
+            filename: path.resolve(__dirname, "../ssr/index.ejs"),
+            template: "src/index.html",
+            inject: true,
+            vendersName: vendersConfig.venders.js,
+            meta: "<%- meta %>",
+            htmlDom: "<%- html %>"
         })
     ];
 

@@ -1,4 +1,4 @@
-import { apiBase, isProd } from "../../../env";
+import { API_BASE, IS_PROD } from "../../../env";
 import axios from "axios";
 
 // axios.defaults.withCredentials = true;
@@ -13,7 +13,7 @@ function webApi<T>(httpMethod: string, path: string, params: any): Promise<T> {
     /* tslint:enable */
 
     const ax = axios.create({
-        baseURL: apiBase,
+        baseURL: API_BASE,
         timeout: 10000,
         withCredentials: true,
         headers: {
@@ -33,13 +33,13 @@ function webApi<T>(httpMethod: string, path: string, params: any): Promise<T> {
             }
         })
         .then<T>(resp => {
-            if (!isProd) {
+            if (!IS_PROD) {
                 console.dir(resp);
             }
             return resp.data;
         })
         .catch(error => {
-            if (!isProd) {
+            if (!IS_PROD) {
                 console.dir(error);
             }
             throw error;

@@ -12,7 +12,6 @@ build:
 
 clean:
 	rm -rf dist
-	rm -rf ssr
 
 genRoutes:
 	node ./tool/genRoutes.js

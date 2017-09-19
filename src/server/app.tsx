@@ -2,9 +2,9 @@ import * as React from "react";
 import { StaticRouter as Router, Route } from "react-router-dom";
 import routes from "./routes";
 
-export default function Server() {
+export default function Server(location, context) {
     return (
-        <Router>
+        <Router location={location} context={context}>
             <div>
                 {routes.map((route, index) => (
                     <Route
