@@ -4,6 +4,7 @@ import ClassNames from "classnames";
 import { Link } from "react-router-dom";
 
 const styles = require("./index.less");
+const defaultAvatar = require("IMG/avatar-default.png");
 
 interface TopicItemProps {}
 
@@ -54,7 +55,7 @@ export default class TopicItem extends React.Component<
                     >
                         <img
                             className={styles.avatar}
-                            src="http://discuss.flarum.org.cn/assets/avatars/ycg91duh2jas1tas.jpg"
+                            src={defaultAvatar}
                         />
                     </Link>
                     <ul className={styles.badges}>

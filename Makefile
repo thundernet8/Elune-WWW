@@ -1,8 +1,11 @@
 export PATH := $(shell pwd)/node_modules/.bin:$(PATH)
-.PHONY: init dev build clean genRoutes
+.PHONY: init aly dev build clean genRoutes
 
 init:
 	yarn
+
+aly:
+	yarn analyze
 
 dev:
 	yarn dev
