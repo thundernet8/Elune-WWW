@@ -6,6 +6,7 @@ import Dropdown from "common/dropdown";
 import GlobalStore from "store/GlobalStore";
 import { Link } from "react-router-dom";
 import Headroom from "react-headroom";
+import * as PropTypes from "prop-types";
 
 const styles = require("./index.less");
 
@@ -17,11 +18,30 @@ interface HeaderState {
 
 @observer
 export default class Header extends React.Component<HeaderProps, HeaderState> {
+    static contextTypes = {
+        router: PropTypes.shape({
+            staticContext: PropTypes.object
+        })
+    };
+
     constructor(props) {
         super(props);
         this.state = {
             authType: AuthType.None
         };
+    }
+
+    componentWillMount() {
+        // if is ssr, set the sessionid from cookie to the global store
+        console.log("componentWillMount");
+        if (this.context.router.staticContext) {
+            console.log(
+                `SESSIONID: ${this.context.router.staticContext.SESSIONID}`
+            );
+            GlobalStore.getInstance(
+                this.context.router.staticContext.SESSIONID
+            );
+        }
     }
 
     closeAuthPannel = () => {
@@ -66,7 +86,8 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
                 <Dropdown
                     className={styles.sessionDropdown}
                     anchorNode={
-                        <span className="btn-label">{user.username}</span>}
+                        <span className="btn-label">{user.username}</span>
+                    }
                 >
                     <Dropdown.Item hasIcon>
                         <Link to={`/u/${user.username}`}>

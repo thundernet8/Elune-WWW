@@ -98,7 +98,6 @@ const loaders = [
 ];
 
 let config = {
-    devtool: "#source-map", // '#eval-source-map'
     node: {
         __filename: false,
         __dirname: false

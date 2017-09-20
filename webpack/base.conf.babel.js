@@ -39,7 +39,7 @@ const getPlugins = function(morePlugins) {
             inject: true,
             vendersName: vendersConfig.venders.js,
             meta: "<%- meta %>",
-            htmlDom: "<%- html %>"
+            htmlDom: "<%- markup %>"
         })
     ];
 

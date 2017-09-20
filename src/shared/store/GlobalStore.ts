@@ -9,17 +9,41 @@ import WebApi from "api/WebApi";
  */
 export default class GlobalStore {
     private static instance: GlobalStore;
+    private sessionId: string;
 
     public static get Instance() {
         if (!GlobalStore.instance) {
-            GlobalStore.instance = new GlobalStore();
+            GlobalStore.instance = new GlobalStore("");
+            GlobalStore.instance.init();
         }
         return GlobalStore.instance;
     }
 
-    private constructor() {
-        this.init();
+    public static getInstance(sessionId: string) {
+        if (!GlobalStore.instance) {
+            GlobalStore.instance = new GlobalStore(sessionId);
+            GlobalStore.instance.init();
+        } else {
+            GlobalStore.instance.setSessionId(sessionId);
+        }
+        return GlobalStore.instance;
     }
+
+    private constructor(sessionId: string) {
+        this.sessionId = sessionId;
+        // this.init(); // may cause cycle call
+    }
+
+    public get SessionId() {
+        return this.sessionId || "";
+    }
+
+    /**
+     * 保存来自cookie并经由staticRouter context传递的SESSIONID
+     */
+    setSessionId = (sessiondId: string) => {
+        this.sessionId = sessiondId;
+    };
 
     /**
      * 当前用户
@@ -84,7 +108,6 @@ export default class GlobalStore {
     /**
      * 初始化 - 根据会话获取当前用户信息
      */
-    @action
     checkMe = () => {
         return WebApi.Post<CommonResp<UserInfo>>(
             ApiPath.checkMe,

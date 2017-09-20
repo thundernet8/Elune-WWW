@@ -1,5 +1,7 @@
 import { API_BASE, IS_PROD } from "../../../env";
 import axios from "axios";
+import GlobalStore from "store/GlobalStore";
+import { SESSION_COOKIE_NAME } from "../../../env";
 
 // axios.defaults.withCredentials = true;
 
@@ -12,15 +14,27 @@ function webApi<T>(httpMethod: string, path: string, params: any): Promise<T> {
             : global["csrfToken"];
     /* tslint:enable */
 
+    const headers = {
+        Accept: "application/json",
+        "Content-type": "application/json"
+    };
+
+    if (csrfToken) {
+        headers["X-CSRF-Token"] = csrfToken;
+    }
+
+    if (GlobalStore.Instance.SessionId) {
+        headers["Cookie"] = `${SESSION_COOKIE_NAME}=${GlobalStore.Instance
+            .SessionId}`;
+    }
+
+    console.log(`HEADERS for axios: ${JSON.stringify(headers)}`);
+
     const ax = axios.create({
         baseURL: API_BASE,
         timeout: 10000,
         withCredentials: true,
-        headers: {
-            Accept: "application/json",
-            "Content-type": "application/json",
-            "X-CSRF-Token": csrfToken
-        }
+        headers
     });
     return ax
         .request({
