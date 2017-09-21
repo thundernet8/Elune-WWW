@@ -1,7 +1,7 @@
 import * as path from "path";
 import * as express from "express";
 import * as bodyParser from "body-parser";
-import * as cookieParser from "cookie-parser";
+// import * as cookieParser from "cookie-parser";
 import * as compression from "compression";
 import * as responseTimer from "response-time";
 import ssrRouter from "./render";
@@ -11,7 +11,7 @@ let app = express();
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
+// app.use(cookieParser());
 app.use(responseTimer());
 
 app.use(

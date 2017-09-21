@@ -1,20 +1,25 @@
 import * as React from "react";
-import { StaticRouter as Router, Route } from "react-router-dom";
+import { StaticRouter as Router, Route, Switch } from "react-router-dom";
+import { Provider } from "mobx-react";
 import routes from "./routes";
 
-export default function Server(location, context) {
+export const Routes = routes;
+
+export default function Server(location, context, stores) {
     return (
-        <Router location={location} context={context}>
-            <div>
-                {routes.map((route, index) => (
-                    <Route
-                        key={index}
-                        exact={!!route.exact}
-                        path={route.path}
-                        component={route.component}
-                    />
-                ))}
-            </div>
-        </Router>
+        <Provider stores={stores}>
+            <Router location={location} context={context}>
+                <Switch>
+                    {routes.map((route, index) => (
+                        <Route
+                            key={index}
+                            exact={!!route.exact}
+                            path={route.path}
+                            component={route.component}
+                        />
+                    ))}
+                </Switch>
+            </Router>
+        </Provider>
     );
 }

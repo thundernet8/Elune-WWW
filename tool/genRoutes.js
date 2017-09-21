@@ -44,6 +44,9 @@ const genNodeEnvRoutes = () => {
 
     codes.push(`\r\n\r\nconst routes = [`);
     routes.forEach(route => {
+        if (!route.routePath) {
+            route.routePath = "";
+        }
         codes.push(
             `{path: "${route.routePath}", exact: ${route.exact
                 ? "true"
@@ -62,6 +65,9 @@ const genBrowserEnvRoutes = () => {
 
     codes.push(`const routes = [`);
     routes.forEach(route => {
+        if (!route.routePath) {
+            route.routePath = "";
+        }
         codes.push(
             `{path: "${route.routePath}", module: "${route.moduleName}", exact: ${route.exact
                 ? "true"

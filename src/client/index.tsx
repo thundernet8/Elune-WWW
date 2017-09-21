@@ -1,5 +1,6 @@
 import * as React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Provider } from "mobx-react";
 import routes from "./routes";
 
 require("STYLES/global/index.less");
@@ -51,9 +52,10 @@ class LazyComponentWrapper extends React.Component<
 
 export default function Client() {
     return (
-        <Router>
-            <div>
-                {/* <ul>
+        <Provider stores={{}}>
+            <Router>
+                <Switch>
+                    {/* <ul>
                     <li>
                         <Link to="/">Home</Link>
                     </li>
@@ -76,20 +78,21 @@ export default function Client() {
                         <Link to="/u/wuxueqian">UC</Link>
                     </li>
                 </ul> */}
-                {routes.map((route, index) => (
-                    <Route
-                        key={index}
-                        exact={!!route.exact}
-                        path={route.path}
-                        component={props => (
-                            <LazyComponentWrapper
-                                {...props}
-                                getComponent={route.getComponent}
-                            />
-                        )}
-                    />
-                ))}
-            </div>
-        </Router>
+                    {routes.map((route, index) => (
+                        <Route
+                            key={index}
+                            exact={!!route.exact}
+                            path={route.path}
+                            component={props => (
+                                <LazyComponentWrapper
+                                    {...props}
+                                    getComponent={route.getComponent}
+                                />
+                            )}
+                        />
+                    ))}
+                </Switch>
+            </Router>
+        </Provider>
     );
 }

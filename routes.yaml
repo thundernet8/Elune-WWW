@@ -32,3 +32,7 @@
   module: entries/uc
   chunk: uc
   exact: false
+- path:
+  module: entries/notFound
+  chunk: notFound
+  exact: false

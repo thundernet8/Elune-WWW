@@ -1,28 +1,31 @@
 import * as React from "react";
-import { observer } from "mobx-react";
+import { observer, inject } from "mobx-react";
 import ClassNames from "classnames";
 import AuthModal, { AuthType } from "components/authModal";
 import Dropdown from "common/dropdown";
 import GlobalStore from "store/GlobalStore";
 import { Link } from "react-router-dom";
 import Headroom from "react-headroom";
-import * as PropTypes from "prop-types";
+// import * as PropTypes from "prop-types";
 
 const styles = require("./index.less");
 
-interface HeaderProps {}
+interface HeaderProps {
+    stores?: any;
+}
 
 interface HeaderState {
     authType: AuthType;
 }
 
+@inject("stores")
 @observer
 export default class Header extends React.Component<HeaderProps, HeaderState> {
-    static contextTypes = {
-        router: PropTypes.shape({
-            staticContext: PropTypes.object
-        })
-    };
+    // static contextTypes = {
+    //     router: PropTypes.shape({
+    //         staticContext: PropTypes.object
+    //     })
+    // };
 
     constructor(props) {
         super(props);
@@ -34,13 +37,19 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
     componentWillMount() {
         // if is ssr, set the sessionid from cookie to the global store
         console.log("componentWillMount");
-        if (this.context.router.staticContext) {
-            console.log(
-                `SESSIONID: ${this.context.router.staticContext.SESSIONID}`
-            );
-            GlobalStore.getInstance(
-                this.context.router.staticContext.SESSIONID
-            );
+        // if (this.context.router.staticContext) {
+        //     console.log(
+        //         `SESSIONID: ${this.context.router.staticContext.SESSIONID}`
+        //     );
+        //     GlobalStore.getInstance(
+        //         this.context.router.staticContext.SESSIONID
+        //     );
+        // }
+        const { globalStore } = this.props.stores;
+        if (globalStore) {
+            console.log("cookies: " + globalStore.Cookies);
+        } else {
+            console.log("globalStore inject failed");
         }
     }
 

@@ -1,5 +1,5 @@
 /**
- * Generated on Sat, 16 Sep 2017 06:09:18 GMT
+ * Generated on Thu, 21 Sep 2017 14:37:58 GMT 
  * 本文件由routes.yaml模板生成, 请不要直接修改
  */
 
@@ -113,6 +113,22 @@ const routes = [
                     /* tslint:enable */
                 },
                 "uc"
+            );
+        }
+    },
+    {
+        path: "",
+        module: "entries/notFound",
+        exact: false,
+        getComponent(cb) {
+            require.ensure(
+                ["entries/notFound"],
+                require => {
+                    /* tslint:disable */
+                    cb && cb(require("entries/notFound")["default"]);
+                    /* tslint:enable */
+                },
+                "notFound"
             );
         }
     }
