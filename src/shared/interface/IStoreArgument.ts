@@ -15,4 +15,4 @@ export default interface IStoreArgument {
     match: IMatch;
     location: ILocation;
     cookies: string; // SSR use
-};
+}
