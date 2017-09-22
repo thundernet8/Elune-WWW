@@ -64,12 +64,16 @@ export default (req, res) => {
             const context: any = {};
             // const result = await getReduxPromise(nextState, store, history);
             const markup = ReactDOMServer.renderToString(
-                App(location, match, context, stores)
+                App(location, context, stores)
             );
             if (context.url) {
                 // Somewhere a `<Redirect>` was rendered
                 res.redirect(302, context.url);
                 return;
+            }
+
+            if (context) {
+                throw new Error("xxx");
             }
 
             const meta = DocumentMeta.renderAsHTML();
@@ -89,18 +93,20 @@ export default (req, res) => {
                 }
             );
         })
-        .catch(() => {
-            ejs.renderFile(
-                path.resolve(__dirname, "../dist/index.html"),
-                {},
-                {},
-                function(err, html) {
-                    if (!err) {
-                        res.send(html);
-                    } else {
-                        res.status(500).send(err.toString());
-                    }
-                }
-            );
+        .catch(err => {
+            console.log(err);
+            res.sendFile(path.resolve(__dirname, "../dist/index.html"));
+            // ejs.renderFile(
+            //     path.resolve(__dirname, "../dist/index.html"),
+            //     {},
+            //     {},
+            //     function(err, html) {
+            //         if (!err) {
+            //             res.send(html);
+            //         } else {
+            //             res.status(500).send(err.toString());
+            //         }
+            //     }
+            // );
         });
 };

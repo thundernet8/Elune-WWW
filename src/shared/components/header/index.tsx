@@ -20,8 +20,6 @@ interface HeaderState {
 }
 
 @inject("stores")
-@inject("location")
-@inject("match")
 @observer
 class Header extends React.Component<HeaderProps, HeaderState> {
     // static contextTypes = {
@@ -55,14 +53,10 @@ class Header extends React.Component<HeaderProps, HeaderState> {
             console.log("globalStore inject failed");
         }
 
-        const match = this.props.match;
+        const match = this.props["match"];
         console.log(JSON.stringify(match));
-        const location = this.props.location;
+        const location = this.props["location"];
         console.log(JSON.stringify(location));
-        const _match = this.props._match;
-        console.log(JSON.stringify(_match));
-        const _location = this.props._location;
-        console.log(JSON.stringify(_location));
     }
 
     closeAuthPannel = () => {
@@ -107,7 +101,8 @@ class Header extends React.Component<HeaderProps, HeaderState> {
                 <Dropdown
                     className={styles.sessionDropdown}
                     anchorNode={
-                        <span className="btn-label">{user.username}</span>}
+                        <span className="btn-label">{user.username}</span>
+                    }
                 >
                     <Dropdown.Item hasIcon>
                         <Link to={`/u/${user.username}`}>
