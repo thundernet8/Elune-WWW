@@ -55,29 +55,6 @@ export default function Client() {
         <Provider stores={{}}>
             <Router>
                 <Switch>
-                    {/* <ul>
-                    <li>
-                        <Link to="/">Home</Link>
-                    </li>
-                    <li>
-                        <Link to="/blog">Blog</Link>
-                    </li>
-                    <li>
-                        <Link to="/article/1">Article</Link>
-                    </li>
-                    <li>
-                        <Link to="/topic/1">Topic</Link>
-                    </li>
-                    <li>
-                        <Link to="/channels">Channels</Link>
-                    </li>
-                    <li>
-                        <Link to="/channel/1">Channel</Link>
-                    </li>
-                    <li>
-                        <Link to="/u/wuxueqian">UC</Link>
-                    </li>
-                </ul> */}
                     {routes.map((route, index) => (
                         <Route
                             key={index}

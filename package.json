@@ -62,6 +62,7 @@
         "cookie-parser": "^1.4.3",
         "ejs": "^2.5.7",
         "express": "^4.15.4",
+        "forever": "^0.15.3",
         "mobx": "^3.2.2",
         "mobx-react": "^4.2.2",
         "prop-types": "^15.5.10",
@@ -90,6 +91,12 @@
         "ssr": "npm run build && npm run build:ssr && node ssr",
         "ssr:dev":
             "rimraf ssr/*.js && npm run build:dev && webpack --progress --hide-modules --config webpack/ssr.conf.babel.js && nodemon --watch ssr/**/*.ts --exec ts-node ssr/index.ts",
+        "start":
+            "npm run build && npm run build:ssr && forever start ssr/index.js",
+        "start:o": "forever start ssr/index.js",
+        "tasklist": "forever list",
+        "restart": "forever restart ssr/index.js",
+        "stop": "forever stop ssr/index.js",
         "lint": "npm run lint:ts && npm run lint:style",
         "lint:ts":
             "tslint -e node_modules typings -c .tslintrc.json src/**/*.tsx",

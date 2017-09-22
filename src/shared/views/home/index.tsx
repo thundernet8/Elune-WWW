@@ -34,6 +34,8 @@ export default class HomeView extends React.Component<
             }
         };
 
+        // DocumentMeta.rewind();
+
         return (
             <div className={styles.homeview}>
                 <DocumentMeta {...meta} />

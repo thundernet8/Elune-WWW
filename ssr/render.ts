@@ -66,17 +66,14 @@ export default (req, res) => {
             const markup = ReactDOMServer.renderToString(
                 App(location, context, stores)
             );
+            const meta = DocumentMeta.renderAsHTML();
+
             if (context.url) {
                 // Somewhere a `<Redirect>` was rendered
                 res.redirect(302, context.url);
                 return;
             }
 
-            if (context) {
-                throw new Error("xxx");
-            }
-
-            const meta = DocumentMeta.renderAsHTML();
             ejs.renderFile(
                 path.resolve(__dirname, "./index.ejs"),
                 {

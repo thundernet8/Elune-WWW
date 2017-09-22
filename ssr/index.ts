@@ -19,7 +19,7 @@ app.use(
         index: ""
     })
 );
-app.get("*", ssrRouter);
+app.get(/^[^.]+$/, ssrRouter);
 
 app.disable("x-powered-by");
 app.listen(SSR_SERVER_PORT, SSR_SERVER_HOST, err => {
