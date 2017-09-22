@@ -3,36 +3,32 @@ import UserInfo from "model/User";
 import CommonResp from "model/Resp";
 import * as ApiPath from "api/ApiPath";
 import WebApi from "api/WebApi";
+import IStoreArgument from "interface/IStoreArgument";
+import IStore from "interface/IStore";
 import { IS_NODE } from "../../../env";
 
 /**
  * 全局Store(单例)
  */
-export default class GlobalStore {
+export default class GlobalStore implements IStore {
     private static instance: GlobalStore;
     private cookies: string;
 
     public static get Instance() {
-        if (!GlobalStore.instance) {
-            GlobalStore.instance = new GlobalStore("");
-            if (!IS_NODE) {
-                GlobalStore.instance.init();
-            }
-        }
-        return GlobalStore.instance;
+        return GlobalStore.getInstance({} as any);
     }
 
     /**
-     * @param param0 match when under ssr env
+     * @param arg SSR环境下组件生命周期之前实例化store, 见ssr/render.ts
      */
-    public static getInstance({ cookies }) {
+    public static getInstance(arg: IStoreArgument = {} as IStoreArgument) {
         if (!GlobalStore.instance) {
-            GlobalStore.instance = new GlobalStore(cookies);
+            GlobalStore.instance = new GlobalStore(arg.cookies);
             if (!IS_NODE) {
                 GlobalStore.instance.init();
             }
         } else {
-            GlobalStore.instance.setCookies(cookies);
+            arg.cookies && GlobalStore.instance.setCookies(arg.cookies);
         }
         return GlobalStore.instance;
     }

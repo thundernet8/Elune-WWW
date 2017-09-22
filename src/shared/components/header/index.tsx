@@ -5,6 +5,7 @@ import AuthModal, { AuthType } from "components/authModal";
 import Dropdown from "common/dropdown";
 import GlobalStore from "store/GlobalStore";
 import { Link } from "react-router-dom";
+import { withRouter } from "react-router";
 import Headroom from "react-headroom";
 // import * as PropTypes from "prop-types";
 
@@ -19,8 +20,10 @@ interface HeaderState {
 }
 
 @inject("stores")
+@inject("location")
+@inject("match")
 @observer
-export default class Header extends React.Component<HeaderProps, HeaderState> {
+class Header extends React.Component<HeaderProps, HeaderState> {
     // static contextTypes = {
     //     router: PropTypes.shape({
     //         staticContext: PropTypes.object
@@ -51,6 +54,15 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
         } else {
             console.log("globalStore inject failed");
         }
+
+        const match = this.props["match"];
+        console.log(JSON.stringify(match));
+        const location = this.props["location"];
+        console.log(JSON.stringify(location));
+        const _match = this.props["_match"];
+        console.log(JSON.stringify(_match));
+        const _location = this.props["_location"];
+        console.log(JSON.stringify(_location));
     }
 
     closeAuthPannel = () => {
@@ -214,3 +226,6 @@ export default class Header extends React.Component<HeaderProps, HeaderState> {
         );
     }
 }
+
+const HeaderWithRouter = withRouter(Header);
+export default HeaderWithRouter;

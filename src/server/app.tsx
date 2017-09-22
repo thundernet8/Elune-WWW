@@ -5,9 +5,9 @@ import routes from "./routes";
 
 export const Routes = routes;
 
-export default function Server(location, context, stores) {
+export default function Server(location, match, context, stores) {
     return (
-        <Provider stores={stores}>
+        <Provider stores={stores} _location={location} _match={match}>
             <Router location={location} context={context}>
                 <Switch>
                     {routes.map((route, index) => (

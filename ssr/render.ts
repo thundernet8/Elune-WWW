@@ -4,7 +4,9 @@ import * as DocumentMeta from "react-document-meta";
 import * as Promise from "bluebird";
 import * as ReactDOMServer from "react-dom/server";
 import * as ejs from "ejs";
+import { URL } from "url";
 import { lowerCaseFirst } from "../src/shared/utils/TextKit";
+import IStoreArgument from "../src/shared/interface/IStoreArgument";
 const App = require("../dist/assets/js/server").default;
 const routes = require("../dist/assets/js/server").Routes;
 
@@ -22,21 +24,36 @@ const routes = require("../dist/assets/js/server").Routes;
 // };
 
 export default (req, res) => {
+    const fullUrl = req.protocol + "://" + req.headers.host + req.originalUrl;
+    const urlObj = new URL(fullUrl);
+    const location = {
+        hash: urlObj.hash,
+        pathname: urlObj.pathname,
+        search: urlObj.search
+    };
     const promises: any[] = [];
     const stores: any = {};
-    routes.forEach(route => {
-        const match = matchPath(req.originalUrl, route);
+    let match;
+    const storeArg: IStoreArgument = {
+        match: {} as any,
+        location,
+        cookies: req.headers.cookie
+    };
+    // routes必须包含一个404通配路由
+    routes.some(route => {
+        match = matchPath(req.originalUrl, route);
         if (match) {
-            match.cookies = req.headers.cookie;
+            storeArg.match = match;
             const storeClasses = route.component["STORE_CLASSES"];
             storeClasses &&
                 storeClasses.forEach((clazz: any) => {
                     clazz.getInstance &&
                         (stores[lowerCaseFirst(clazz.name)] = clazz.getInstance(
-                            match
+                            storeArg
                         ));
                 });
         }
+        return match;
     });
     Object.keys(stores).forEach((key: string) => {
         promises.push(stores[key].fetchData());
@@ -47,7 +64,7 @@ export default (req, res) => {
             const context: any = {};
             // const result = await getReduxPromise(nextState, store, history);
             const markup = ReactDOMServer.renderToString(
-                App(req.originalUrl, context, stores)
+                App(location, match, context, stores)
             );
             if (context.url) {
                 // Somewhere a `<Redirect>` was rendered

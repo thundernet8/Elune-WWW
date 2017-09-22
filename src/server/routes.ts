@@ -1,5 +1,5 @@
 /**
- * Generated on Thu, 21 Sep 2017 14:37:58 GMT 
+ * Generated on Fri, 22 Sep 2017 11:01:30 GMT
  * 本文件由routes.yaml模板生成, 请不要直接修改
  */
 
@@ -13,14 +13,14 @@ import Uc from "entries/uc";
 import NotFound from "entries/notFound";
 
 const routes = [
-    { path: "/", exact: true, component: Home },
+    { path: "/", exact: false, component: Home },
     { path: "/blog", exact: true, component: Blog },
     { path: "/channels", exact: true, component: Channels },
     { path: "/channel/:id", exact: false, component: Channel },
     { path: "/topic/:id", exact: false, component: Topic },
     { path: "/article/:id", exact: false, component: Article },
     { path: "/u/:username", exact: false, component: Uc },
-    { path: "null", exact: false, component: NotFound }
+    { path: "", exact: false, component: NotFound }
 ];
 
 export default routes;
