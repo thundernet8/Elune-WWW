@@ -3,3 +3,4 @@ dist/
 *.log
 env.js
 ssr/*.js
+ssr/*.ejs

@@ -41,7 +41,8 @@ const getPlugins = function(morePlugins) {
             vendersName: vendersConfig.venders.js,
             meta: "<%- meta %>",
             htmlDom: "<%- markup %>",
-            state: "<%- initialState %>"
+            state:
+                "<script>window.__INITIAL_STATE__ = <%- initialState %></script>"
         })
     ];
 

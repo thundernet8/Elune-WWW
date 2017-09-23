@@ -17,9 +17,7 @@
 <body>
     <div id="app" class="App affix" style="min-height: 100vh"><%= htmlWebpackPlugin.options.htmlDom %></div>
     <script src="<%= htmlWebpackPlugin.options.vendersName %>"></script>
-    <script>
-        window.__INITIAL_STATE__ = <%= htmlWebpackPlugin.options.state %>
-    </script>
+    <%= htmlWebpackPlugin.options.state %>
 </body>
 
 </html>
