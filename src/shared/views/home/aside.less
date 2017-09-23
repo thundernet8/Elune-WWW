@@ -1,0 +1,103 @@
+@import "../../../assets/styles/vars";
+
+.sideNav {
+    position: relative;
+}
+
+@media (min-width: 992px) {
+    .sideNav {
+        width: 160px;
+        // float: left;
+        & > ul {
+            width: 100%;
+            margin-top: 30px;
+            & > li {
+                margin-bottom: 10px;
+            }
+        }
+    }
+}
+
+.newTopic {
+    margin-bottom: 20px;
+    & > button {
+        display: block;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        & > i {
+            margin-right: 8px;
+        }
+    }
+}
+
+.itemNav {
+    position: relative;
+}
+
+.dropdown {
+    position: relative;
+    display: block;
+    & > .menu {
+        display: block;
+        border: 0;
+        width: auto;
+        margin: 0;
+        padding: 0;
+        min-width: 0;
+        float: none;
+        position: static;
+        background: none;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        & > li {
+            & > a {
+                display: block;
+                padding: 8px 0 8px 30px;
+                color: @mainColor;
+                &:hover {
+                    text-decoration: none;
+                }
+                & > i,
+                & > .btn-icon {
+                    float: left;
+                    margin-left: -30px;
+                    margin-top: 1px;
+                    margin-right: 5px;
+                    font-size: 1.5rem;
+                }
+            }
+            &.active {
+                & > a {
+                    background: none;
+                    color: @primaryColor;
+                    font-weight: bold;
+                }
+            }
+            &.divider {
+                margin: 8px 0;
+                height: 1px;
+                background-color: @grayLight;
+            }
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .menu > li.divider {
+        background: none;
+    }
+}
+
+.channelIcon {
+    border-radius: 4px;
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    vertical-align: -3px;
+    background: @grayLight;
+    float: left;
+    margin-left: -30px;
+    margin-top: 1px;
+    font-size: 1.5rem;
+}

@@ -1,0 +1,36 @@
+@import "../../../assets/styles/vars";
+
+.selectWrapper {
+    display: inline-block;
+    vertical-align: middle;
+
+    select {
+        display: inline-block;
+        width: auto;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        padding-right: 30px;
+        cursor: pointer;
+    }
+
+    &.large {
+        select {
+            font-size: 1.6rem;
+            height: 40px;
+            padding: 8px 20px;
+        }
+    }
+
+    &.small {
+        select {
+            font-size: 1.2rem;
+            height: 34px;
+        }
+    }
+}
+
+.caret {
+    margin-left: -30px;
+    pointer-events: none;
+    color: @mainColor;
+}

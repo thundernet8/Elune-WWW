@@ -4,12 +4,15 @@
         "moduleResolution": "node",
         "allowSyntheticDefaultImports": true,
         "experimentalDecorators": true,
-        "jsx": "preserve",
+        "jsx": "react",
         "noUnusedParameters": true,
         "noUnusedLocals": true,
-        "target": "es6",
-        "lib": ["dom", "es7"],
-        "typeRoots": ["node_modules/@types", "typings"]
+        "target": "es2015",
+        "lib": ["dom", "es7", "es2015"],
+        // "outDir": "./ssr",
+        "typeRoots": ["node_modules/@types", "typings"],
+        "baseUrl": "./src/shared",
+        "allowJs": true
     },
     "exclude": ["node_modules", "dist"]
 }

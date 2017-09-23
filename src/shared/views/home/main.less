@@ -1,0 +1,42 @@
+.main {
+    flex: 1;
+}
+
+@media (min-width: 992px) {
+    .main {
+        margin-top: 30px;
+        margin-left: 15px;
+        margin-right: 15px;
+        padding: 0 10px;
+    }
+}
+
+.toolbar {
+    margin-bottom: 15px;
+    .actions {
+        display: inline-block;
+        margin: 0;
+        padding: 0;
+        float: right;
+        & > li {
+            display: inline-block;
+            margin-left: 5px;
+        }
+    }
+}
+
+.topicListWrapper {
+    position: relative;
+}
+
+.topicList {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    position: relative;
+}
+
+.loadMore {
+    text-align: center;
+    margin-top: 20px;
+}
