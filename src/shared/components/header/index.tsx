@@ -49,6 +49,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
         const { globalStore } = this.props.stores;
         if (globalStore) {
             console.log("cookies: " + globalStore.Cookies);
+            console.log(GlobalStore.Instance.Cookies);
         } else {
             console.log("globalStore inject failed");
         }

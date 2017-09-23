@@ -4,9 +4,10 @@ import CommonResp from "model/Resp";
 import * as ApiPath from "api/ApiPath";
 import WebApi from "api/WebApi";
 import IStoreArgument from "interface/IStoreArgument";
-// import IStore from "interface/IStore";
 import AbstractStore from "./AbstractStore";
 import { IS_NODE } from "../../../env";
+
+declare var window;
 
 /**
  * 全局Store(单例)
@@ -33,6 +34,14 @@ export default class GlobalStore extends AbstractStore {
 
     private constructor(arg: IStoreArgument) {
         super(arg);
+
+        if (!IS_NODE) {
+            // 浏览器端从全局InitialState中初始化Store
+            const initialState = window.__INITIAL_STATE__ || {};
+            if (initialState && initialState.globalStore) {
+                this.fromJSON(initialState.globalStore);
+            }
+        }
     }
 
     /**
@@ -122,10 +131,10 @@ export default class GlobalStore extends AbstractStore {
         });
     }
 
-    public fromJSON(json: string) {
+    public fromJSON(json: any) {
         super.fromJSON(json);
-        const obj = JSON.parse(json);
-        const { user } = obj;
+        if (!json) return this;
+        const { user } = json;
         if (typeof user !== "undefined") {
             this.setUser(user);
         }

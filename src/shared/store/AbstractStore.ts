@@ -43,9 +43,9 @@ export default abstract class AbstractStore {
     }
 
     // 反序列化(先创建一个空实例，并使用此方法从json中获取信息填充)
-    public fromJSON(json: string): AbstractStore {
-        const obj = JSON.parse(json);
-        const { match, location, cookies } = obj;
+    public fromJSON(json: any): AbstractStore {
+        if (!json) return this;
+        const { match, location, cookies } = json;
         if (typeof match !== "undefined") {
             this.match = match;
         }
