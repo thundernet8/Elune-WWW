@@ -41,16 +41,17 @@ export default (req, res) => {
     };
     // routes必须包含一个404通配路由
     routes.some(route => {
-        match = matchPath(req.originalUrl, route);
+        // route isExact为true, originalUrl包含location.search信息将不能匹配, 用pathname替代
+        match = matchPath(location.pathname, route);
         if (match) {
             storeArg.match = match;
             const storeClasses = route.component["STORE_CLASSES"];
             storeClasses &&
                 storeClasses.forEach((clazz: any) => {
-                    clazz.getInstance &&
-                        (stores[lowerCaseFirst(clazz.name)] = clazz.getInstance(
-                            storeArg
-                        ));
+                    if (clazz.getInstance) {
+                        const key = lowerCaseFirst(clazz.name);
+                        stores[key] = clazz.getInstance(storeArg);
+                    }
                 });
         }
         return match;
@@ -61,8 +62,11 @@ export default (req, res) => {
 
     Promise.all(promises)
         .then(() => {
+            const initialState = {};
+            Object.keys(stores).forEach((key: string) => {
+                initialState[key] = stores[key].toJSON();
+            });
             const context: any = {};
-            // const result = await getReduxPromise(nextState, store, history);
             const markup = ReactDOMServer.renderToString(
                 App(location, context, stores)
             );
@@ -78,7 +82,8 @@ export default (req, res) => {
                 path.resolve(__dirname, "./index.ejs"),
                 {
                     meta,
-                    markup
+                    markup,
+                    initialState: JSON.stringify(initialState)
                 },
                 {},
                 function(err, html) {

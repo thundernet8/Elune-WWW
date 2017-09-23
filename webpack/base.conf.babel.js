@@ -31,7 +31,8 @@ const getPlugins = function(morePlugins) {
             inject: true,
             vendersName: vendersConfig.venders.js,
             meta: "",
-            htmlDom: ""
+            htmlDom: "",
+            state: ""
         }),
         new HtmlWebpackPlugin({
             filename: path.resolve(__dirname, "../ssr/index.ejs"),
@@ -39,7 +40,8 @@ const getPlugins = function(morePlugins) {
             inject: true,
             vendersName: vendersConfig.venders.js,
             meta: "<%- meta %>",
-            htmlDom: "<%- markup %>"
+            htmlDom: "<%- markup %>",
+            state: "<%- initialState %>"
         })
     ];
 

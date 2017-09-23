@@ -3,7 +3,6 @@ import webpack from "webpack";
 import ExtractTextPlugin from "extract-text-webpack-plugin";
 import OptimizeCssAssetsPlugin from "optimize-css-assets-webpack-plugin";
 import SimpleProgressWebpackPlugin from "customized-progress-webpack-plugin";
-import HtmlWebpackPlugin from "html-webpack-plugin";
 
 const vendersConfig = require("../venders-config.json");
 

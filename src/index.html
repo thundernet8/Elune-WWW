@@ -19,6 +19,9 @@
         <%= htmlWebpackPlugin.options.htmlDom %>
     </div>
     <script src="<%= htmlWebpackPlugin.options.vendersName %>"></script>
+    <script>
+        window.__INITIAL_STATE__ = <%= htmlWebpackPlugin.options.state %>
+    </script>
 </body>
 
 </html>

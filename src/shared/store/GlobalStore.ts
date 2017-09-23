@@ -4,15 +4,15 @@ import CommonResp from "model/Resp";
 import * as ApiPath from "api/ApiPath";
 import WebApi from "api/WebApi";
 import IStoreArgument from "interface/IStoreArgument";
-import IStore from "interface/IStore";
+// import IStore from "interface/IStore";
+import AbstractStore from "./AbstractStore";
 import { IS_NODE } from "../../../env";
 
 /**
  * 全局Store(单例)
  */
-export default class GlobalStore implements IStore {
+export default class GlobalStore extends AbstractStore {
     private static instance: GlobalStore;
-    private cookies: string;
 
     public static get Instance() {
         return GlobalStore.getInstance({} as any);
@@ -23,31 +23,17 @@ export default class GlobalStore implements IStore {
      */
     public static getInstance(arg: IStoreArgument = {} as IStoreArgument) {
         if (!GlobalStore.instance) {
-            GlobalStore.instance = new GlobalStore(arg.cookies);
+            GlobalStore.instance = new GlobalStore(arg);
             if (!IS_NODE) {
                 GlobalStore.instance.init();
             }
-        } else {
-            arg.cookies && GlobalStore.instance.setCookies(arg.cookies);
         }
         return GlobalStore.instance;
     }
 
-    private constructor(cookies: string) {
-        this.cookies = cookies;
-        // this.init(); // may cause cycle call
+    private constructor(arg: IStoreArgument) {
+        super(arg);
     }
-
-    public get Cookies() {
-        return this.cookies || "";
-    }
-
-    /**
-     * SSR时需要转发cookies(包含sessionId)
-     */
-    setCookies = (cookies: string) => {
-        this.cookies = cookies;
-    };
 
     /**
      * 当前用户
@@ -125,7 +111,24 @@ export default class GlobalStore implements IStore {
     /**
      * SSR数据初始化(必须返回promise)
      */
-    fetchData = () => {
+    fetchData() {
         return this.checkMe();
-    };
+    }
+
+    public toJSON() {
+        const obj = super.toJSON();
+        return Object.assign(obj, {
+            user: this.user
+        });
+    }
+
+    public fromJSON(json: string) {
+        super.fromJSON(json);
+        const obj = JSON.parse(json);
+        const { user } = obj;
+        if (typeof user !== "undefined") {
+            this.setUser(user);
+        }
+        return this;
+    }
 }
