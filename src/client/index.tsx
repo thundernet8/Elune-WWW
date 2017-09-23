@@ -1,5 +1,6 @@
 import * as React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { matchPath } from "react-router-dom";
 import { Provider } from "mobx-react";
 import routes from "./routes";
 
@@ -10,6 +11,7 @@ interface LazyComponentWrapperProps {
     history: any;
     location: any;
     match: any;
+    component: any;
     getComponent: (component: any) => void;
 }
 
@@ -42,15 +44,38 @@ class LazyComponentWrapper extends React.Component<
     }
 
     render() {
+        const { component } = this.props;
         const { LazyComponent } = this.state;
-        if (!LazyComponent) {
+        if (!component && !LazyComponent) {
             return <div>Loading</div>; // TODO a common loading component
         }
-        return React.createElement(LazyComponent, this.props);
+        return React.createElement(component || LazyComponent, this.props);
     }
 }
 
-export default function Client() {
+export default async function Client() {
+    const { pathname } = window.location;
+    let match;
+    let matchRoute;
+    routes.some(route => {
+        match = matchPath(pathname, route);
+        if (match) {
+            matchRoute = route;
+        }
+        return match;
+    });
+
+    let syncComponent;
+    if (match && matchRoute) {
+        syncComponent = await new Promise((resolve, reject) => {
+            try {
+                matchRoute.getComponent(component => resolve(component));
+            } catch (err) {
+                reject(err);
+            }
+        });
+    }
+
     return (
         <Provider stores={{}}>
             <Router>
@@ -63,6 +88,13 @@ export default function Client() {
                             component={props => (
                                 <LazyComponentWrapper
                                     {...props}
+                                    component={
+                                        matchRoute &&
+                                        matchRoute.path === route.path &&
+                                        syncComponent
+                                            ? syncComponent
+                                            : null
+                                    }
                                     getComponent={route.getComponent}
                                 />
                             )}

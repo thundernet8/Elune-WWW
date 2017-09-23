@@ -1,4 +1,10 @@
 import * as ReactDOM from "react-dom";
 import App from "./client";
 
-ReactDOM.render(App(), document.getElementById("app"));
+App().then(root => {
+    console.log(root);
+    ReactDOM.render(
+        root as React.ReactElement<any>,
+        document.getElementById("app")
+    );
+});

@@ -90,7 +90,7 @@
             "npm run build:dev && webpack-dev-server --config webpack/dev.conf.babel.js",
         "ssr": "npm run build && npm run build:ssr && node ssr",
         "ssr:dev":
-            "rimraf ssr/*.js && npm run build:dev && webpack --progress --hide-modules --config webpack/ssr.conf.babel.js && nodemon --watch ssr/**/*.ts --exec ts-node ssr/index.ts",
+            "rimraf ssr/*.js && rimraf env.js && rimraf src/**/*.js && npm run build:dev && webpack --progress --hide-modules --config webpack/ssr.conf.babel.js && nodemon --watch ssr/**/*.ts --exec ts-node ssr/index.ts",
         "start":
             "npm run build && npm run build:ssr && forever start ssr/index.js",
         "start:o": "forever start ssr/index.js",

@@ -7,7 +7,7 @@
         "jsx": "react",
         "noUnusedParameters": true,
         "noUnusedLocals": true,
-        "target": "es6",
+        "target": "es2015",
         "lib": ["dom", "es7", "es2015"],
         // "outDir": "./ssr",
         "typeRoots": ["node_modules/@types", "typings"],
