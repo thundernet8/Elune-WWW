@@ -17,6 +17,10 @@ build:
 
 clean:
 	rm -rf dist
+	rm -rf ssr/*.js
+	rm -rf ssr/*.ejs
+	rm -rf src/shared/**/*.js
+	rm -rf env.js
 
 start:
 #Makefile中，当 ifeq, else 和 endif 没有缩进时，make会正确识别它们，将其作为分支选择的标识
