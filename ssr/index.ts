@@ -16,7 +16,10 @@ app.use(responseTimer());
 
 app.use(
     express.static(path.resolve(__dirname, "../dist"), {
-        index: ""
+        index: "",
+        maxAge: 31536000000, // milliseconds
+        etag: false,
+        lastModified: false
     })
 );
 app.get(/^[^.]+$/, ssrRouter);

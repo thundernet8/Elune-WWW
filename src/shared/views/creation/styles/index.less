@@ -1,0 +1,70 @@
+@import "../../../../assets/styles/vars";
+
+.creationview {
+    position: relative;
+    padding: 10px 20px;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    font-size: 2rem;
+    z-index: 1999;
+}
+
+.header {
+    position: relative;
+    & > h2 {
+        color: @mainColor;
+    }
+    & > ul {
+        display: flex;
+        margin-bottom: 10px;
+        & > li {
+            display: inline-block;
+            &.channels {
+                margin-right: 5px;
+                line-height: 36px;
+                .choose {
+                    color: @mainColor;
+                    border: 1px dotted @mainColor;
+                    padding: 2px;
+                    border-radius: 2px;
+                }
+            }
+            &.title {
+                flex: 1;
+                h3 {
+                    margin: 0;
+                }
+                input {
+                    background: transparent;
+                    color: @mainColor;
+                    font-size: 1.6rem;
+                    &:focus {
+                        border-color: transparent;
+                    }
+                    &::-webkit-input-placeholder {
+                        color: @mainColor;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.contentEditor {
+    position: relative;
+}
+
+.footer {
+    margin-top: 10px;
+    padding: 10px 0;
+    border-top: 1px solid @grayLight;
+    .publishBtn {
+        position: relative;
+        width: 100px;
+    }
+}

@@ -56,7 +56,10 @@ config.devServer = {
     host: "localhost",
     port: 9001,
     hot: true,
-    open: true
+    open: true,
+    historyApiFallback: {
+        index: "index.html"
+    }
     // openPage: "layout.htm"
     // publicPath: "http://localhost:9001/"
 };

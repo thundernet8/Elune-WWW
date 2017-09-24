@@ -7,6 +7,7 @@
     "author": "wuxueqian <wuxueqian2010@hotmail.com>",
     "license": "MIT",
     "devDependencies": {
+        "@types/draft-js": "^0.10.13",
         "@types/node": "^8.0.28",
         "@types/prop-types": "^15.5.1",
         "@types/react": "^16.0.5",
@@ -60,15 +61,19 @@
         "classnames": "^2.2.5",
         "compression": "^1.7.0",
         "cookie-parser": "^1.4.3",
+        "draft-js": "^0.10.2",
+        "draftjs-to-html": "^0.7.5",
         "ejs": "^2.5.7",
         "express": "^4.15.4",
         "forever": "^0.15.3",
+        "immutable": "^3.8.1",
         "mobx": "^3.2.2",
         "mobx-react": "^4.2.2",
         "prop-types": "^15.5.10",
         "react": "^15.6.1",
         "react-document-meta": "^2.1.2",
         "react-dom": "^15.6.1",
+        "react-draft-wysiwyg": "^1.10.12",
         "react-headroom": "^2.1.6",
         "react-router-dom": "^4.2.2",
         "response-time": "^2.3.2"
@@ -84,6 +89,7 @@
             "rimraf dist && mkdirp dist && cross-env ANALYZE_ENV=true npm run build",
         "build:ssr":
             "webpack --progress --hide-modules --config webpack/ssr.conf.babel.js && tsc ssr/index.ts",
+        "tsc:ssr": "tsc ssr/index.ts",
         "build:dev":
             "rimraf dist && mkdirp dist && cross-env NODE_ENV=development npm run dll:dev && webpack --progress --hide-modules --config webpack/dev.conf.babel.js",
         "dev":
