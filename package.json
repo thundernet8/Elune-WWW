@@ -3,10 +3,15 @@
     "version": "0.0.1",
     "main": "ssr/index.js",
     "repository": "git@github.com:thundernet8/Elune-WWW.git",
-    "keywords": ["elune", "razor-mvc", "react"],
+    "keywords": [
+        "elune",
+        "razor-mvc",
+        "react"
+    ],
     "author": "wuxueqian <wuxueqian2010@hotmail.com>",
     "license": "MIT",
     "devDependencies": {
+        "@types/draft-js": "^0.10.13",
         "@types/node": "^8.0.28",
         "@types/prop-types": "^15.5.1",
         "@types/react": "^16.0.5",
@@ -60,54 +65,52 @@
         "classnames": "^2.2.5",
         "compression": "^1.7.0",
         "cookie-parser": "^1.4.3",
+        "draft-js": "^0.10.2",
+        "draftjs-to-html": "^0.7.5",
         "ejs": "^2.5.7",
         "express": "^4.15.4",
         "forever": "^0.15.3",
+        "immutable": "^3.8.1",
         "mobx": "^3.2.2",
         "mobx-react": "^4.2.2",
         "prop-types": "^15.5.10",
         "react": "^15.6.1",
         "react-document-meta": "^2.1.2",
         "react-dom": "^15.6.1",
+        "react-draft-wysiwyg": "^1.10.12",
         "react-headroom": "^2.1.6",
         "react-router-dom": "^4.2.2",
         "response-time": "^2.3.2"
     },
     "scripts": {
-        "dll":
-            "cross-env NODE_ENV=production webpack -p --hide-modules --config webpack/dll.conf.babel.js",
-        "dll:dev":
-            "cross-env NODE_ENV=development webpack --hide-modules --config webpack/dll.conf.babel.js",
-        "build":
-            "rimraf dist && mkdirp dist && cross-env NODE_ENV=production npm run dll && webpack -p --progress --hide-modules --config webpack/prod.conf.babel.js",
-        "analyze":
-            "rimraf dist && mkdirp dist && cross-env ANALYZE_ENV=true npm run build",
-        "build:ssr":
-            "webpack --progress --hide-modules --config webpack/ssr.conf.babel.js && tsc ssr/index.ts",
-        "build:dev":
-            "rimraf dist && mkdirp dist && cross-env NODE_ENV=development npm run dll:dev && webpack --progress --hide-modules --config webpack/dev.conf.babel.js",
-        "dev":
-            "npm run build:dev && webpack-dev-server --config webpack/dev.conf.babel.js",
+        "dll": "cross-env NODE_ENV=production webpack -p --hide-modules --config webpack/dll.conf.babel.js",
+        "dll:dev": "cross-env NODE_ENV=development webpack --hide-modules --config webpack/dll.conf.babel.js",
+        "build": "rimraf dist && mkdirp dist && cross-env NODE_ENV=production npm run dll && webpack -p --progress --hide-modules --config webpack/prod.conf.babel.js",
+        "analyze": "rimraf dist && mkdirp dist && cross-env ANALYZE_ENV=true npm run build",
+        "build:ssr": "webpack --progress --hide-modules --config webpack/ssr.conf.babel.js && tsc ssr/index.ts",
+        "build:dev": "rimraf dist && mkdirp dist && cross-env NODE_ENV=development npm run dll:dev && webpack --progress --hide-modules --config webpack/dev.conf.babel.js",
+        "dev": "npm run build:dev && webpack-dev-server --config webpack/dev.conf.babel.js",
         "ssr": "npm run build && npm run build:ssr && node ssr",
-        "ssr:dev":
-            "rimraf ssr/*.js && rimraf env.js && rimraf src/**/*.js && npm run build:dev && webpack --progress --hide-modules --config webpack/ssr.conf.babel.js && nodemon --watch ssr/**/*.ts --exec ts-node ssr/index.ts",
-        "start":
-            "npm run build && npm run build:ssr && forever start ssr/index.js",
+        "ssr:dev": "rimraf ssr/*.js && rimraf env.js && rimraf src/**/*.js && npm run build:dev && webpack --progress --hide-modules --config webpack/ssr.conf.babel.js && nodemon --watch ssr/**/*.ts --exec ts-node ssr/index.ts",
+        "start": "npm run build && npm run build:ssr && forever start ssr/index.js",
         "start:o": "forever start ssr/index.js",
         "tasklist": "forever list",
         "restart": "forever restart ssr/index.js",
         "stop": "forever stop ssr/index.js",
         "lint": "npm run lint:ts && npm run lint:style",
-        "lint:ts":
-            "tslint -e node_modules typings -c .tslintrc.json src/**/*.tsx",
+        "lint:ts": "tslint -e node_modules typings -c .tslintrc.json src/**/*.tsx",
         "lint:style": "stylelint \"src/**/*.less\" --syntax less",
         "lint-staged": "lint-staged",
         "lint-staged:ts": "tslint --fix -c .tslintrc.json",
         "lint-staged:style": "stylelint --syntax less"
     },
     "lint-staged": {
-        "src/**/*.{ts,tsx}": ["lint-staged:ts"],
-        "src/**/*.less": ["lint-staged:style"]
+        "src/**/*.{ts,tsx}": [
+            "lint-staged:ts"
+        ],
+        "src/**/*.less": [
+            "lint-staged:style"
+        ]
     },
     "pre-commit": "lint-staged"
 }

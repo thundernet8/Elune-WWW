@@ -23,7 +23,9 @@ export default class HomeAside extends React.Component<
                     <li className={styles.newTopic}>
                         <Link to="/creation">
                             <button
-                                className="btn btn--primary"
+                                className={ClassNames("btn btn--primary", [
+                                    styles.newTopicBtn
+                                ])}
                                 type="button"
                                 title="新的话题"
                             >
