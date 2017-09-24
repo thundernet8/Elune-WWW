@@ -28,10 +28,7 @@ publish:
 	yarn build:ssr
 	rm -rf ../Elune-WWW-Dist/assets/*
 	cp -R dist/ ../Elune-WWW-Dist/
-	cd ../Elune-WWW-Dist
-	git add -A
-	# git commit -am "☘️ Auto distribute resources"
-	# git push
+	cd ../Elune-WWW-Dist && ls && git add -A && git commit -am "☘️ Auto distribute resources" && git push
 
 start:
 #Makefile中，当 ifeq, else 和 endif 没有缩进时，make会正确识别它们，将其作为分支选择的标识
