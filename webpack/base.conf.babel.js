@@ -35,7 +35,7 @@ const getPlugins = function(morePlugins) {
             state: ""
         }),
         new HtmlWebpackPlugin({
-            filename: path.resolve(__dirname, "../ssr/index.ejs"),
+            filename: path.resolve(__dirname, "../dist/index.ejs"),
             template: "src/index.html",
             inject: true,
             vendersName: vendersConfig.venders.js,

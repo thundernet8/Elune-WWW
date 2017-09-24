@@ -79,7 +79,7 @@ export default (req, res) => {
             }
 
             ejs.renderFile(
-                path.resolve(__dirname, "./index.ejs"),
+                path.resolve(__dirname, "../dist/index.ejs"),
                 {
                     meta,
                     markup,
