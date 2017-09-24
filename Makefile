@@ -1,7 +1,7 @@
 export PATH := $(shell pwd)/node_modules/.bin:$(PATH)
 .PHONY: init aly dev build clean publish start stop genRoutes
 
-TASKCOUNT = $(shell yarn tasklist | grep -ci "No forever processes running")
+TASKCOUNT = $(shell yarn tasklist | grep -ci "ssr/index.js")
 
 init:
 	yarn
@@ -34,9 +34,9 @@ start:
 #Makefile中，当 ifeq, else 和 endif 没有缩进时，make会正确识别它们，将其作为分支选择的标识
 #当 ifeq, else 和 endif 有缩进时，make将它们当做普通的shell script
 ifeq ($(TASKCOUNT), 0)
-	yarn restart
-else
 	yarn start:o
+else
+	yarn restart
 endif
 
 stop:
