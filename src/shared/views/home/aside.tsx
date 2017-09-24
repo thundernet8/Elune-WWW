@@ -2,7 +2,7 @@ import * as React from "react";
 import ClassNames from "classnames";
 import { Link } from "react-router-dom";
 
-const styles = require("./aside.less");
+const styles = require("./styles/aside.less");
 
 interface HomeAsideProps {}
 
@@ -21,14 +21,16 @@ export default class HomeAside extends React.Component<
             <nav className={styles.sideNav}>
                 <ul>
                     <li className={styles.newTopic}>
-                        <button
-                            className="btn btn--primary"
-                            type="button"
-                            title="新的话题"
-                        >
-                            <i className="icon fa fa-fw fa-edit btn-icon" />
-                            <span className="btn-label">新的话题</span>
-                        </button>
+                        <Link to="/creation">
+                            <button
+                                className="btn btn--primary"
+                                type="button"
+                                title="新的话题"
+                            >
+                                <i className="icon fa fa-fw fa-edit btn-icon" />
+                                <span className="btn-label">新的话题</span>
+                            </button>
+                        </Link>
                     </li>
                     <li className={styles.itemNav}>
                         <div className={styles.dropdown}>

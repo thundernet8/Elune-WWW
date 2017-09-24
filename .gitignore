@@ -4,3 +4,5 @@ dist/
 env.js
 ssr/*.js
 ssr/*.ejs
+src/shared/**/*.js
+envrc

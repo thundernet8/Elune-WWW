@@ -2,7 +2,7 @@ import * as React from "react";
 import TopicItem from "components/topicItem";
 import Select from "common/select";
 
-const styles = require("./main.less");
+const styles = require("./styles/main.less");
 
 interface HomeMainProps {}
 
@@ -22,7 +22,6 @@ export default class HomeMain extends React.Component<
     }
 
     selectSort = (value: string) => {
-        console.log(value);
         this.setState({
             sort: value
         });

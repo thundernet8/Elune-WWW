@@ -6,7 +6,7 @@ import HomeMain from "./main";
 import Sidebar from "components/sidebar";
 import DocumentMeta from "react-document-meta";
 
-const styles = require("./index.less");
+const styles = require("./styles/index.less");
 
 interface HomeViewProps {}
 
