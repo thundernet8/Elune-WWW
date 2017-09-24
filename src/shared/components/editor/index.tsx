@@ -53,6 +53,7 @@ export default class LocalEditor extends React.Component<
                     wrapperClassName={styles.editorWrapper}
                     editorClassName={styles.editor}
                     onEditorStateChange={this.onEditorStateChange}
+                    toolbar={{ image: { uploadEnabled: true } }}
                 />
             </div>
         );
