@@ -13,6 +13,8 @@ const styles = require("./index.less");
 
 interface HeaderProps {
     stores?: any;
+    match: any;
+    location: any;
 }
 
 interface HeaderState {
@@ -37,7 +39,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 
     componentWillMount() {
         // if is ssr, set the sessionid from cookie to the global store
-        console.log("componentWillMount");
+        console.dir("componentWillMount");
         // if (this.context.router.staticContext) {
         //     console.log(
         //         `SESSIONID: ${this.context.router.staticContext.SESSIONID}`
@@ -48,16 +50,16 @@ class Header extends React.Component<HeaderProps, HeaderState> {
         // }
         const { globalStore } = this.props.stores;
         if (globalStore) {
-            console.log("cookies: " + globalStore.Cookies);
-            console.log(GlobalStore.Instance.Cookies);
+            console.dir("cookies: " + globalStore.Cookies);
+            console.dir(GlobalStore.Instance.Cookies);
         } else {
-            console.log("globalStore inject failed");
+            console.dir("globalStore inject failed");
         }
 
-        const match = this.props["match"];
-        console.log(JSON.stringify(match));
-        const location = this.props["location"];
-        console.log(JSON.stringify(location));
+        const match = this.props.match;
+        console.dir(JSON.stringify(match));
+        const location = this.props.location;
+        console.dir(JSON.stringify(location));
     }
 
     closeAuthPannel = () => {
@@ -102,8 +104,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
                 <Dropdown
                     className={styles.sessionDropdown}
                     anchorNode={
-                        <span className="btn-label">{user.username}</span>
-                    }
+                        <span className="btn-label">{user.username}</span>}
                 >
                     <Dropdown.Item hasIcon>
                         <Link to={`/u/${user.username}`}>
