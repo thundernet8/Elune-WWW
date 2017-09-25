@@ -3,45 +3,31 @@ import * as ApiPath from "api/ApiPath";
 import WebApi from "api/WebApi";
 import UserInfo from "model/User";
 
-export function Login(username: string, password: string) {
-    return WebApi.Post<CommonResp<UserInfo>>(ApiPath.login, {
-        username,
-        password
-    }).then((resp: CommonResp<UserInfo>) => {
-        this.setUser(resp.result);
-        return resp;
-    });
+export interface LoginReq {
+    username: string;
+    password: string;
 }
 
-export function Register(username: string, email: string, password: string) {
-    return WebApi.Post<CommonResp<UserInfo>>(ApiPath.register, {
-        username,
-        email,
-        password
-    }).then((resp: CommonResp<UserInfo>) => {
-        this.setUser(resp.result);
-        return resp;
-    });
+export interface RegisterReq {
+    username: string;
+    email: string;
+    password: string;
+}
+
+export function Login(payload: LoginReq) {
+    return WebApi.Post<CommonResp<UserInfo>>(ApiPath.login, payload);
+}
+
+export function Register(payload: RegisterReq) {
+    return WebApi.Post<CommonResp<UserInfo>>(ApiPath.register, payload);
 }
 
 export function Logout() {
-    return WebApi.Post<CommonResp<{}>>(
-        ApiPath.logout,
-        {}
-    ).then((resp: CommonResp<{}>) => {
-        this.setUser({} as UserInfo);
-        return resp;
-    });
+    return WebApi.Post<CommonResp<{}>>(ApiPath.logout, {});
 }
 
 export function WhoAmI() {
-    return WebApi.Post<CommonResp<UserInfo>>(
-        ApiPath.checkMe,
-        {}
-    ).then((resp: CommonResp<UserInfo>) => {
-        this.setUser(resp.result);
-        return resp;
-    });
+    return WebApi.Post<CommonResp<UserInfo>>(ApiPath.checkMe, {});
 }
 
 export default {

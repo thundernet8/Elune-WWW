@@ -1,5 +1,6 @@
 import { observable, action } from "mobx";
 import UserInfo from "model/User";
+import CommonResp from "model/Resp";
 import { Login, Register, Logout, WhoAmI } from "api/Auth";
 import IStoreArgument from "interface/IStoreArgument";
 import AbstractStore from "./AbstractStore";
@@ -57,7 +58,13 @@ export default class GlobalStore extends AbstractStore {
      */
     @action
     requestLogin = (username: string, password: string) => {
-        return Login(username, password);
+        return Login({
+            username,
+            password
+        }).then((resp: CommonResp<UserInfo>) => {
+            this.setUser(resp.result);
+            return resp;
+        });
     };
 
     /**
@@ -65,7 +72,14 @@ export default class GlobalStore extends AbstractStore {
      */
     @action
     requestRegister = (username: string, email: string, password: string) => {
-        return Register(username, email, password);
+        return Register({
+            username,
+            email,
+            password
+        }).then((resp: CommonResp<UserInfo>) => {
+            this.setUser(resp.result);
+            return resp;
+        });
     };
 
     /**
@@ -73,7 +87,10 @@ export default class GlobalStore extends AbstractStore {
      */
     @action
     requestLogout = () => {
-        return Logout();
+        return Logout().then((resp: CommonResp<{}>) => {
+            this.setUser({} as UserInfo);
+            return resp;
+        });
     };
 
     /**
@@ -87,7 +104,10 @@ export default class GlobalStore extends AbstractStore {
      * 初始化 - 根据会话获取当前用户信息
      */
     checkMe = () => {
-        return WhoAmI();
+        return WhoAmI().then((resp: CommonResp<UserInfo>) => {
+            this.setUser(resp.result);
+            return resp;
+        });
     };
 
     /**
