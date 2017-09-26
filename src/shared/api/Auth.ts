@@ -1,5 +1,4 @@
 import CommonResp from "model/Resp";
-import * as ApiPath from "api/ApiPath";
 import WebApi from "api/WebApi";
 import UserInfo from "model/User";
 
@@ -15,19 +14,19 @@ export interface RegisterReq {
 }
 
 export function Login(payload: LoginReq) {
-    return WebApi.Post<CommonResp<UserInfo>>(ApiPath.login, payload);
+    return WebApi.Post<CommonResp<UserInfo>>("signin", payload);
 }
 
 export function Register(payload: RegisterReq) {
-    return WebApi.Post<CommonResp<UserInfo>>(ApiPath.register, payload);
+    return WebApi.Post<CommonResp<UserInfo>>("signup", payload);
 }
 
 export function Logout() {
-    return WebApi.Post<CommonResp<{}>>(ApiPath.logout, {});
+    return WebApi.Post<CommonResp<{}>>("signout", {});
 }
 
 export function WhoAmI() {
-    return WebApi.Post<CommonResp<UserInfo>>(ApiPath.checkMe, {});
+    return WebApi.Post<CommonResp<UserInfo>>("user/me", {});
 }
 
 export default {

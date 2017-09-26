@@ -4,8 +4,8 @@ export const IS_NODE =
     typeof global !== "undefined" && typeof window === "undefined";
 export const API_BASE =
     IS_PROD && !IS_NODE
-        ? "https://elune.fuli.news/api/"
-        : "http://127.0.0.1:9000/api/";
+        ? "https://elune.fuli.news/api/v1/"
+        : "http://127.0.0.1:9000/api/v1/";
 
 // SSR Server
 export const SSR_SERVER_HOST = IS_PROD ? "127.0.0.1" : "127.0.0.1";
