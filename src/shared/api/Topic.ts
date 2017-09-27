@@ -13,15 +13,15 @@ export interface UpdateTopicReq extends CreateTopicReq {
     id: number;
 }
 
-export function Create(payload: CreateTopicReq) {
+export function CreateTopic(payload: CreateTopicReq) {
     return WebApi.Post<CommonResp<string>>("topics", payload);
 }
 
-export function Update(payload: UpdateTopicReq) {
+export function UpdateTopic(payload: UpdateTopicReq) {
     return WebApi.Put<CommonResp<string>>(`topics/${payload.id}`, payload);
 }
 
 export default {
-    Create,
-    Update
+    CreateTopic,
+    UpdateTopic
 };
