@@ -1,5 +1,6 @@
 import * as React from "react";
 import GlobalStore from "store/GlobalStore";
+import CreateTopicStore from "store/CreateTopicStore";
 import CreationView from "views/creation";
 import { IS_NODE } from "../../../env";
 
@@ -12,7 +13,7 @@ export default class CreationEntry extends React.Component<
     CreationEntryState
 > {
     // SSR 在入口组件中获知Store类并初始化用于实例注入
-    static STORE_CLASSES = [GlobalStore];
+    static STORE_CLASSES = [GlobalStore, CreateTopicStore];
 
     constructor(props) {
         super(props);

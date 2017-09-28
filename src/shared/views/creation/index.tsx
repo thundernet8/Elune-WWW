@@ -1,7 +1,9 @@
 import * as React from "react";
+import { observer } from "mobx-react";
 import ClassNames from "classnames";
 import { withRouter } from "react-router";
 import LocalEditor from "components/editor";
+import CreateTopicStore from "store/CreateTopicStore";
 
 const styles = require("./styles/index.less");
 
@@ -16,11 +18,14 @@ interface CreationViewState {
     text: string;
 }
 
+@observer
 class CreationView extends React.Component<
     CreationViewProps,
     CreationViewState
 > {
     private editor: LocalEditor;
+    private store: CreateTopicStore;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -29,6 +34,7 @@ class CreationView extends React.Component<
             html: "",
             text: ""
         };
+        this.store = CreateTopicStore.getInstance();
     }
 
     refEditor = (editor: LocalEditor) => {
@@ -49,9 +55,9 @@ class CreationView extends React.Component<
     };
 
     contentChange = (raw: string, html: string, plainText: string) => {
-        console.log(raw);
-        console.log(html);
-        console.log(plainText);
+        // console.log(raw);
+        // console.log(html);
+        // console.log(plainText);
         this.setState({
             raw,
             html,
