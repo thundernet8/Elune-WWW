@@ -17,7 +17,7 @@ function webApi<T>(httpMethod: string, path: string, params: any): Promise<T> {
     const headers: any = {
         Accept: "application/json",
         "Content-type":
-            params instanceof FormData
+            typeof FormData !== "undefined" && params instanceof FormData
                 ? "multipart/form-data"
                 : "application/json"
     };
