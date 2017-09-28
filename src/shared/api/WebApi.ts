@@ -34,7 +34,7 @@ function webApi<T>(httpMethod: string, path: string, params: any): Promise<T> {
 
     const ax = axios.create({
         baseURL: API_BASE,
-        timeout: 10000,
+        timeout: 60000,
         withCredentials: true,
         headers
     });
