@@ -2,6 +2,7 @@ import * as React from "react";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
+import { UploadImage } from "api/upload";
 
 const styles = require("./index.less");
 
@@ -43,6 +44,19 @@ export default class LocalEditor extends React.Component<
         });
     };
 
+    uploadCallback = (file: File) => {
+        const data = new FormData();
+        // data.append('foo', 'bar');
+        data.append("file", file);
+        return UploadImage(data).then(resp => {
+            return {
+                data: {
+                    link: resp.result
+                }
+            };
+        });
+    };
+
     render() {
         const { editorState } = this.state;
         return (
@@ -53,7 +67,18 @@ export default class LocalEditor extends React.Component<
                     wrapperClassName={styles.editorWrapper}
                     editorClassName={styles.editor}
                     onEditorStateChange={this.onEditorStateChange}
-                    toolbar={{ image: { uploadEnabled: true } }}
+                    toolbar={{
+                        fontSize: {
+                            options: [10, 12, 14, 16, 18, 24, 30]
+                        },
+                        image: {
+                            uploadEnabled: true,
+                            uploadCallback: this.uploadCallback
+                        }
+                    }}
+                    localization={{
+                        locale: "zh"
+                    }}
                 />
             </div>
         );

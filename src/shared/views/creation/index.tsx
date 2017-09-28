@@ -78,11 +78,11 @@ class CreationView extends React.Component<
     };
 
     renderChannelsModal = () => {
-        // const { showChannels, channel, pendingChannel } = this.state;
-        // if (!showChannels) {
-        //     return null;
-        // }
-        const { channel, pendingChannel } = this.state;
+        const { showChannels, channel, pendingChannel } = this.state;
+        if (!showChannels) {
+            return null;
+        }
+        // const { channel, pendingChannel } = this.state;
 
         const selectChannel = channel || pendingChannel;
 

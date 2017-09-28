@@ -1,6 +1,6 @@
 import { API_BASE, IS_PROD } from "../../../env";
 import axios from "axios";
-import GlobalStore from "store/GlobalStore";
+// import GlobalStore from "store/GlobalStore";
 // import { SESSION_COOKIE_NAME } from "../../../env";
 
 // axios.defaults.withCredentials = true;
@@ -16,18 +16,21 @@ function webApi<T>(httpMethod: string, path: string, params: any): Promise<T> {
 
     const headers: any = {
         Accept: "application/json",
-        "Content-type": "application/json"
+        "Content-type":
+            params instanceof FormData
+                ? "multipart/form-data"
+                : "application/json"
     };
 
     if (csrfToken) {
         headers["X-CSRF-Token"] = csrfToken;
     }
 
-    if (GlobalStore.Instance.Cookies) {
-        headers.Cookie = GlobalStore.Instance.Cookies;
-    }
+    // if (GlobalStore.Instance.Cookies) {
+    //     headers.Cookie = GlobalStore.Instance.Cookies;
+    // }
 
-    console.log(`HEADERS for axios: ${JSON.stringify(headers)}`);
+    // console.log(`HEADERS for axios: ${JSON.stringify(headers)}`);
 
     const ax = axios.create({
         baseURL: API_BASE,
