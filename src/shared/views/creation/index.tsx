@@ -3,12 +3,9 @@ import { observer } from "mobx-react";
 import ClassNames from "classnames";
 import { withRouter } from "react-router";
 import LocalEditor from "components/editor";
-<<<<<<< HEAD
-import CreateTopicStore from "store/CreateTopicStore";
-=======
 import Modal from "common/modal";
 import Channel from "model/Channel";
->>>>>>> 0fb85e7ac6db8bcad1f9a624cdda60b79c74c202
+import CreateTopicStore from "store/CreateTopicStore";
 
 const styles = require("./styles/index.less");
 
