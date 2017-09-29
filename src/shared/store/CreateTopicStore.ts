@@ -124,6 +124,8 @@ export default class CreateTopicStore extends AbstractStore {
         this.contentRaw = raw;
     };
 
+    @observable requesting: boolean = false;
+
     /**
      * 发布话题
      */
@@ -135,11 +137,14 @@ export default class CreateTopicStore extends AbstractStore {
             contentPlain,
             contentHtml,
             contentRaw,
-            selectedChannel
+            selectedChannel,
+            requesting
         } = this;
-        if (publishBtnDisabled) {
-            return;
+        if (publishBtnDisabled || requesting) {
+            Promise.reject(false);
         }
+
+        this.requesting = true;
         return CreateTopic({
             title,
             channelId: selectedChannel.id,
@@ -150,9 +155,11 @@ export default class CreateTopicStore extends AbstractStore {
             .then(resp => {
                 alert(resp.msg);
                 this.clearData();
+                this.setField("requesting", false);
             })
             .catch(err => {
                 alert(err.message || err.toString());
+                this.setField("requesting", false);
             });
     };
 

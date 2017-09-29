@@ -57,6 +57,12 @@ export default class LocalEditor extends React.Component<
         });
     };
 
+    clean = () => {
+        this.setState({
+            editorState: EditorState.createEmpty()
+        });
+    };
+
     render() {
         const { editorState } = this.state;
         return (

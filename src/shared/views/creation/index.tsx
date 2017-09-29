@@ -43,6 +43,18 @@ class CreationView extends React.Component<
         e.stopPropagation();
     };
 
+    publishTopic = () => {
+        const { publishTopic, requesting } = this.store;
+        if (requesting) {
+            return;
+        }
+        publishTopic()
+            .then(() => {
+                this.editor.clean();
+            })
+            .catch(() => {});
+    };
+
     renderChannelsModal = () => {
         const {
             showChannels,
@@ -163,7 +175,7 @@ class CreationView extends React.Component<
             title,
             onInputTitle,
             contentChange,
-            publishTopic
+            requesting
         } = this.store;
         return (
             <div className={styles.creationview}>
@@ -229,9 +241,14 @@ class CreationView extends React.Component<
                         ])}
                         type="button"
                         disabled={publishBtnDisabled}
-                        onClick={publishTopic}
+                        onClick={this.publishTopic}
                     >
-                        发布话题
+                        <span className="btn-label">
+                            发布话题
+                            {requesting && (
+                                <i className="fa fa-spin fa-spinner" />
+                            )}
+                        </span>
                     </button>
                 </section>
                 {this.renderChannelsModal()}
