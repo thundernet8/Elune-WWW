@@ -1,8 +1,7 @@
 import { observable, action } from "mobx";
 import UserInfo from "model/User";
 import CommonResp from "model/Resp";
-import * as ApiPath from "api/ApiPath";
-import WebApi from "api/WebApi";
+import { Login, Register, Logout, WhoAmI } from "api/Auth";
 import IStoreArgument from "interface/IStoreArgument";
 import AbstractStore from "./AbstractStore";
 import { IS_NODE } from "../../../env";
@@ -59,7 +58,7 @@ export default class GlobalStore extends AbstractStore {
      */
     @action
     requestLogin = (username: string, password: string) => {
-        return WebApi.Post<CommonResp<UserInfo>>(ApiPath.login, {
+        return Login({
             username,
             password
         }).then((resp: CommonResp<UserInfo>) => {
@@ -73,7 +72,7 @@ export default class GlobalStore extends AbstractStore {
      */
     @action
     requestRegister = (username: string, email: string, password: string) => {
-        return WebApi.Post<CommonResp<UserInfo>>(ApiPath.register, {
+        return Register({
             username,
             email,
             password
@@ -88,10 +87,7 @@ export default class GlobalStore extends AbstractStore {
      */
     @action
     requestLogout = () => {
-        return WebApi.Post<CommonResp<{}>>(
-            ApiPath.logout,
-            {}
-        ).then((resp: CommonResp<{}>) => {
+        return Logout().then((resp: CommonResp<{}>) => {
             this.setUser({} as UserInfo);
             return resp;
         });
@@ -108,10 +104,7 @@ export default class GlobalStore extends AbstractStore {
      * 初始化 - 根据会话获取当前用户信息
      */
     checkMe = () => {
-        return WebApi.Post<CommonResp<UserInfo>>(
-            ApiPath.checkMe,
-            {}
-        ).then((resp: CommonResp<UserInfo>) => {
+        return WhoAmI().then((resp: CommonResp<UserInfo>) => {
             this.setUser(resp.result);
             return resp;
         });
@@ -133,7 +126,9 @@ export default class GlobalStore extends AbstractStore {
 
     public fromJSON(json: any) {
         super.fromJSON(json);
-        if (!json) return this;
+        if (!json) {
+            return this;
+        }
         const { user } = json;
         if (typeof user !== "undefined") {
             this.setUser(user);

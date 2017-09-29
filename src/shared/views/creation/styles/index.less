@@ -11,7 +11,7 @@
     right: 10px;
     background: transparent;
     font-size: 2rem;
-    z-index: 1999;
+    z-index: 99;
 }
 
 .header {
@@ -66,5 +66,96 @@
     .publishBtn {
         position: relative;
         width: 100px;
+    }
+}
+
+.channelsModal {
+    position: relative;
+    max-width: 500px;
+    width: 500px;
+    & > div {
+        padding: 0;
+    }
+
+    .header {
+        color: @mainColor;
+        background: @grayLightPair;
+        font-size: 1.6rem;
+        h3 {
+            margin: 0;
+            font-weight: normal;
+        }
+        padding: 15px;
+    }
+
+    .body {
+        position: relative;
+        padding: 1px 0 0;
+    }
+
+    .footer {
+        position: relative;
+        button {
+            margin: 5px auto;
+            max-width: 100px;
+            cursor: pointer;
+        }
+    }
+
+    .channelList {
+        overflow-y: auto;
+        max-height: 50vh;
+        & > li {
+            padding: 7px 20px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+            &.active,
+            &:hover {
+                background: @grayLightPair;
+            }
+        }
+
+        .channelIcon {
+            border-radius: 4px;
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            vertical-align: -3px;
+            margin-left: 1px;
+            background: @grayLightPair;
+        }
+
+        .channelName {
+            display: inline-block;
+            width: 150px;
+            margin-right: 10px;
+            margin-left: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            vertical-align: top;
+            font-size: 1.4rem;
+        }
+
+        .channelDesc {
+            color: @mainColor;
+            font-size: 1.2rem;
+            width: 370px;
+            display: inline-block;
+            vertical-align: top;
+            margin-top: 2px;
+        }
+
+        & > li.pinned {
+            padding: 10px 20px;
+            .channelName {
+                font-size: 1.6rem;
+            }
+
+            & + li:not(.pinned) {
+                border-top: 1px solid @grayLightPair;
+            }
+        }
     }
 }

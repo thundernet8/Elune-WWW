@@ -24,6 +24,7 @@ clean:
 
 #CI 服务器太垃圾, 本地webpack打包后一并上传dist文件夹内容
 publish:
+	cd ../Elune-WWW-Dist && git pull
 	yarn build
 	yarn build:ssr
 	rm -rf ../Elune-WWW-Dist/assets/*
