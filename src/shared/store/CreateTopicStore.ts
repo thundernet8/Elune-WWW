@@ -1,5 +1,5 @@
 import { observable, action } from "mobx";
-import Channel from "model/channel";
+import Channel from "model/Channel";
 // import CommonResp from "model/Resp";
 import { GetAllChannels } from "api/Channel";
 // import { CreateTopic } from "api/Topic";

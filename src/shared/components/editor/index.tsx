@@ -2,7 +2,7 @@ import * as React from "react";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
-import { UploadImage } from "api/upload";
+import { UploadImage } from "api/Upload";
 
 const styles = require("./index.less");
 
@@ -51,7 +51,7 @@ export default class LocalEditor extends React.Component<
         return UploadImage(data).then(resp => {
             return {
                 data: {
-                    link: resp.result
+                    link: resp.result[0]
                 }
             };
         });
