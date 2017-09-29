@@ -1,6 +1,6 @@
 import CommonResp from "model/Resp";
 import WebApi from "api/WebApi";
-import Channel from "model/channel";
+import Channel from "model/Channel";
 
 export interface CreateChannelReq {
     parentid: number;
