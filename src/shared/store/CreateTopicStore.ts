@@ -148,13 +148,20 @@ export default class CreateTopicStore extends AbstractStore {
             contentRaw
         })
             .then(resp => {
-                // console.log(resp.result);
                 alert(resp.msg);
+                this.clearData();
             })
             .catch(err => {
-                // console.dir(err);
                 alert(err.message || err.toString());
             });
+    };
+
+    @action
+    clearData = () => {
+        this.title = "";
+        this.contentPlain = "";
+        this.contentHtml = "";
+        this.contentRaw = "";
     };
 
     /**
