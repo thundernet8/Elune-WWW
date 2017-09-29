@@ -68,6 +68,21 @@ export default class LocalEditor extends React.Component<
                     editorClassName={styles.editor}
                     onEditorStateChange={this.onEditorStateChange}
                     toolbar={{
+                        options: [
+                            "inline",
+                            "blockType",
+                            "fontSize",
+                            "fontFamily",
+                            "colorPicker",
+                            "link",
+                            /* "embedded", */
+                            "emoji",
+                            "image",
+                            "list",
+                            "textAlign",
+                            "remove",
+                            "history"
+                        ],
                         fontSize: {
                             options: [10, 12, 14, 16, 18, 24, 30]
                         },

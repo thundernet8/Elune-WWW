@@ -1,8 +1,8 @@
-import { observable, action } from "mobx";
+import { observable, action, computed } from "mobx";
 import Channel from "model/Channel";
 // import CommonResp from "model/Resp";
 import { GetAllChannels } from "api/Channel";
-// import { CreateTopic } from "api/Topic";
+import { CreateTopic } from "api/Topic";
 import IStoreArgument from "interface/IStoreArgument";
 import AbstractStore from "./AbstractStore";
 import { IS_NODE } from "../../../env";
@@ -43,6 +43,11 @@ export default class CreateTopicStore extends AbstractStore {
         }
     }
 
+    @action
+    setField = (field: string, value: any) => {
+        this[field] = value;
+    };
+
     /**
      * 所有频道列表 // TODO 频道层级
      */
@@ -52,6 +57,120 @@ export default class CreateTopicStore extends AbstractStore {
     setChannels = (channels: Channel[]) => {
         this.channels = channels;
     };
+
+    @computed
+    get topChannels() {
+        return this.channels.filter(x => x.pid === 0);
+    }
+
+    @computed
+    get subChannels() {
+        return this.channels.filter(x => x.pid !== 0);
+    }
+
+    /**
+     * 是否显示频道选择Modal
+     */
+    @observable showChannels: boolean = false;
+
+    @action
+    toggleChannelsModal = () => {
+        this.showChannels = !this.showChannels;
+    };
+
+    /**
+     * 已选择的频道
+     */
+    @observable selectedChannel: Channel = null as any;
+
+    @observable pendingSelectChannel: Channel = null as any;
+
+    @action
+    preSelectChannel = (id: number) => {
+        const channel = this.channels.find(x => x.id === id);
+        this.pendingSelectChannel = channel as Channel;
+    };
+
+    @action
+    confirmSelectChannel = () => {
+        this.selectedChannel = this.pendingSelectChannel;
+        this.showChannels = false;
+    };
+
+    @observable title: string = "";
+
+    /**
+     * 输入文章标题
+     */
+    @action
+    onInputTitle = (e: any) => {
+        this.title = e.target.value;
+    };
+
+    @observable contentPlain: string = "";
+    @observable contentHtml: string = "";
+    @observable contentRaw: string = "";
+
+    /**
+     * 输入文章内容
+     */
+    @action
+    contentChange = (raw: string, html: string, plainText: string) => {
+        // console.log(raw);
+        // console.log(html);
+        // console.log(plainText);
+        this.contentPlain = plainText;
+        this.contentHtml = html;
+        this.contentRaw = raw;
+    };
+
+    /**
+     * 发布话题
+     */
+    @action
+    publishTopic = () => {
+        const {
+            publishBtnDisabled,
+            title,
+            contentPlain,
+            contentHtml,
+            contentRaw,
+            selectedChannel
+        } = this;
+        if (publishBtnDisabled) {
+            return;
+        }
+        return CreateTopic({
+            title,
+            channelId: selectedChannel.id,
+            content: contentPlain,
+            contentHtml,
+            contentRaw
+        })
+            .then(resp => {
+                // console.log(resp.result);
+                alert(resp.msg);
+            })
+            .catch(err => {
+                // console.dir(err);
+                alert(err.message || err.toString());
+            });
+    };
+
+    /**
+     * 发布按钮禁用状态
+     */
+    @computed
+    get publishBtnDisabled() {
+        const { title, contentPlain, selectedChannel } = this;
+        return (
+            !selectedChannel ||
+            !title ||
+            !contentPlain ||
+            title.length < 10 ||
+            contentPlain.length < 50
+        );
+    }
 
     /**
      * SSR数据初始化(必须返回promise)

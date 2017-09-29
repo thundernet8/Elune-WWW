@@ -96,6 +96,13 @@ input:focus {
             margin-left: 5px;
         }
     }
+    &[disabled] {
+        background: @grayLightPair;
+        cursor: not-allowed;
+        &:hover {
+            background: @grayLightPair;
+        }
+    }
 }
 
 .btn--link {
