@@ -44,7 +44,8 @@ export default {
             "classnames",
             "react-headroom",
             "react-document-meta",
-            "element-react"
+            // "element-react",
+            "element-react/next"
         ]
     },
     output: {
