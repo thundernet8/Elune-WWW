@@ -5,6 +5,7 @@ import { withRouter } from "react-router";
 import LocalEditor from "components/editor";
 import Modal from "common/modal";
 import CreateTopicStore from "store/CreateTopicStore";
+import { Button } from "element-react/next";
 
 const styles = require("./styles/index.less");
 
@@ -172,7 +173,7 @@ class CreationView extends React.Component<
                         className={ClassNames("btn btn--icon", [styles.close])}
                         onClick={this.fallback}
                     >
-                        <i className="icon fa fa-fw fa-close btn-icon" />
+                        <i className="el-icon-close" />
                     </button>
                 )}
                 <section className={styles.header}>
@@ -223,16 +224,15 @@ class CreationView extends React.Component<
                     />
                 </section>
                 <section className={styles.footer}>
-                    <button
-                        className={ClassNames("btn btn--primary", [
-                            styles.publishBtn
-                        ])}
-                        type="button"
+                    <Button
+                        className={ClassNames([styles.publishBtn])}
+                        type="primary"
+                        size="large"
                         disabled={publishBtnDisabled}
                         onClick={publishTopic}
                     >
                         发布话题
-                    </button>
+                    </Button>
                 </section>
                 {this.renderChannelsModal()}
             </div>

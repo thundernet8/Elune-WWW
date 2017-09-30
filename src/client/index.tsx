@@ -5,6 +5,7 @@ import { Provider } from "mobx-react";
 import routes from "./routes";
 
 require("STYLES/global/index.less");
+require("STYLES/global/element/index.css");
 require("STYLES/app.less");
 
 interface LazyComponentWrapperProps {
