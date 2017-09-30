@@ -54,5 +54,8 @@ export default {
         filename: "[name].[chunkhash:8].js",
         library: "[name]_[chunkhash:8]"
     },
+    resolve: {
+        modules: ["node_modules", path.resolve(__dirname, "../src/shared")]
+    },
     plugins: getPlugins()
 };

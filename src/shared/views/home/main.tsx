@@ -98,10 +98,7 @@ export default class HomeMain extends React.Component<
                     {!topicsLoading &&
                         hasMoreTopic && (
                             <div className={styles.loadMore}>
-                                <Button
-                                    title="载入更多"
-                                    onClick={getNextPageTopics}
-                                >
+                                <Button onClick={getNextPageTopics}>
                                     载入更多
                                 </Button>
                             </div>
