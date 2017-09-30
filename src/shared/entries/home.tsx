@@ -3,6 +3,7 @@ import { observer, inject } from "mobx-react";
 import Header from "components/header";
 import HomeView from "views/home";
 import GlobalStore from "store/GlobalStore";
+import HomeStore from "store/HomeStore";
 import { IS_NODE } from "../../../env";
 
 interface HomeEntryProps {
@@ -15,7 +16,7 @@ interface HomeEntryProps {
 @observer
 export default class HomeEntry extends React.Component<HomeEntryProps, any> {
     // SSR 在入口组件中获知Store类并初始化用于实例注入
-    static STORE_CLASSES = [GlobalStore];
+    static STORE_CLASSES = [GlobalStore, HomeStore];
 
     constructor(props) {
         super(props);

@@ -1,6 +1,8 @@
 import * as React from "react";
+import { observer } from "mobx-react";
 import ClassNames from "classnames";
 import { Link } from "react-router-dom";
+import HomeStore from "store/HomeStore";
 
 const styles = require("./styles/aside.less");
 
@@ -8,15 +10,20 @@ interface HomeAsideProps {}
 
 interface HomeAsideState {}
 
+@observer
 export default class HomeAside extends React.Component<
     HomeAsideProps,
     HomeAsideState
 > {
+    private store: HomeStore;
+
     constructor(props) {
         super(props);
+        this.store = HomeStore.getInstance();
     }
 
     render() {
+        const { topChannels, subChannels } = this.store;
         return (
             <nav className={styles.sideNav}>
                 <ul>
@@ -64,48 +71,48 @@ export default class HomeAside extends React.Component<
                                 <li
                                     className={ClassNames([styles.channelItem])}
                                 >
-                                    <Link
-                                        to="/channel/1"
-                                        title="获取支持，包括使用、安装、开发插件等"
-                                    >
-                                        <span
-                                            className={ClassNames(
-                                                "icon btn-icon",
-                                                [styles.channelIcon]
-                                            )}
-                                            style={{
-                                                background: "rgb(254, 181, 77)"
-                                            }}
-                                        />求助
-                                    </Link>
-                                    <Link
-                                        to="/channel/2"
-                                        title="获取支持，包括使用、安装、开发插件等"
-                                    >
-                                        <span
-                                            className={ClassNames(
-                                                "icon btn-icon",
-                                                [styles.channelIcon]
-                                            )}
-                                            style={{
-                                                background: "rgb(103, 204, 234)"
-                                            }}
-                                        />开发
-                                    </Link>
-                                    <Link
-                                        to="/channel/3"
-                                        title="获取支持，包括使用、安装、开发插件等"
-                                    >
-                                        <span
-                                            className={ClassNames(
-                                                "icon btn-icon",
-                                                [styles.channelIcon]
-                                            )}
-                                            style={{
-                                                background: "rgb(146, 230, 217)"
-                                            }}
-                                        />开发
-                                    </Link>
+                                    {topChannels.map((channel, index) => {
+                                        return (
+                                            <Link
+                                                key={index}
+                                                to={`/channel/${channel.slug}`}
+                                                title={channel.description}
+                                            >
+                                                <span
+                                                    className={ClassNames(
+                                                        "icon btn-icon",
+                                                        [styles.channelIcon]
+                                                    )}
+                                                    style={{
+                                                        background:
+                                                            channel.color
+                                                    }}
+                                                />
+                                                {channel.title}
+                                            </Link>
+                                        );
+                                    })}
+                                    {subChannels.map((channel, index) => {
+                                        return (
+                                            <Link
+                                                key={index}
+                                                to={`/channel/${channel.slug}`}
+                                                title={channel.description}
+                                            >
+                                                <span
+                                                    className={ClassNames(
+                                                        "icon btn-icon",
+                                                        [styles.channelIcon]
+                                                    )}
+                                                    style={{
+                                                        background:
+                                                            channel.color
+                                                    }}
+                                                />
+                                                {channel.title}
+                                            </Link>
+                                        );
+                                    })}
                                     <Link to="/channels" title="更多...">
                                         <span
                                             className={ClassNames(

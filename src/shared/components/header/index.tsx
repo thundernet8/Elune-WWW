@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { withRouter } from "react-router";
 import Headroom from "react-headroom";
 // import * as PropTypes from "prop-types";
+import { Button } from "element-react/next";
 
 const styles = require("./index.less");
 
@@ -120,10 +121,10 @@ class Header extends React.Component<HeaderProps, HeaderState> {
                     </Dropdown.Item>
                     <Dropdown.Divider />
                     <Dropdown.Item hasIcon>
-                        <button onClick={this.logout}>
+                        <Button type="primary" onClick={this.logout}>
                             <i className="fa fa-fw fa-sign-out" />
                             <span className="btn-label">登出</span>
-                        </button>
+                        </Button>
                     </Dropdown.Item>
                 </Dropdown>
             </li>
@@ -174,12 +175,12 @@ class Header extends React.Component<HeaderProps, HeaderState> {
                         <li className={styles.itemSession}></li> */}
                                 {!logged && (
                                     <li className={styles.itemSignup}>
-                                        <button
+                                        <Button
                                             className={ClassNames(
                                                 "btn btn--link",
                                                 [styles.btnLink]
                                             )}
-                                            type="button"
+                                            type="primary"
                                             title="注册"
                                             onClick={this.switchAuthType.bind(
                                                 this,
@@ -189,17 +190,17 @@ class Header extends React.Component<HeaderProps, HeaderState> {
                                             <span className={styles.btnLabel}>
                                                 注册
                                             </span>
-                                        </button>
+                                        </Button>
                                     </li>
                                 )}
                                 {!logged && (
                                     <li className={styles.itemSignin}>
-                                        <button
+                                        <Button
                                             className={ClassNames(
                                                 "btn btn--link",
                                                 [styles.btnLink]
                                             )}
-                                            type="button"
+                                            type="primary"
                                             title="登录"
                                             onClick={this.switchAuthType.bind(
                                                 this,
@@ -209,7 +210,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
                                             <span className={styles.btnLabel}>
                                                 登录
                                             </span>
-                                        </button>
+                                        </Button>
                                     </li>
                                 )}
                                 {this.renderSession()}

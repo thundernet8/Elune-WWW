@@ -43,7 +43,9 @@ export default {
             "axios",
             "classnames",
             "react-headroom",
-            "react-document-meta"
+            "react-document-meta",
+            // "element-react",
+            "element-react/next"
         ]
     },
     output: {
