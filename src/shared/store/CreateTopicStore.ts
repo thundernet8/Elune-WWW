@@ -49,7 +49,7 @@ export default class CreateTopicStore extends AbstractStore {
     };
 
     /**
-     * 所有频道列表 // TODO 频道层级
+     * 所有频道列表
      */
     @observable channels: Channel[] = [];
 

@@ -2,11 +2,14 @@ import * as React from "react";
 import Dropdown from "common/dropdown";
 import ClassNames from "classnames";
 import { Link } from "react-router-dom";
+import Topic from "model/Topic";
 
 const styles = require("./index.less");
 const defaultAvatar = require("IMG/avatar-default.png");
 
-interface TopicItemProps {}
+interface TopicItemProps {
+    topic: Topic;
+}
 
 interface TopicItemState {
     read: boolean;
@@ -53,10 +56,7 @@ export default class TopicItem extends React.Component<
                         title=""
                         data-original-title="justjavac 发布于 12月 '15"
                     >
-                        <img
-                            className={styles.avatar}
-                            src={defaultAvatar}
-                        />
+                        <img className={styles.avatar} src={defaultAvatar} />
                     </Link>
                     <ul className={styles.badges}>
                         <li className="item-sticky">

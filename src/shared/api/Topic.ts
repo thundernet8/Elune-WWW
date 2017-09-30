@@ -1,5 +1,8 @@
 import CommonResp from "model/Resp";
 import WebApi from "api/WebApi";
+import { SortOrder, SortOrderBy } from "enum/Sort";
+import Pagination from "model/Pagination";
+import Topic from "model/Topic";
 
 export interface CreateTopicReq {
     title: string;
@@ -7,6 +10,13 @@ export interface CreateTopicReq {
     content: string;
     contentHtml: string;
     contentRaw: string;
+}
+
+export interface FetchTopicsReq {
+    page: number;
+    pageSize: number;
+    order: SortOrder;
+    orderBy: SortOrderBy;
 }
 
 export interface UpdateTopicReq extends CreateTopicReq {
@@ -21,7 +31,12 @@ export function UpdateTopic(payload: UpdateTopicReq) {
     return WebApi.Put<CommonResp<string>>(`topics/${payload.id}`, payload);
 }
 
+export function FetchTopics(payload: FetchTopicsReq) {
+    return WebApi.Get<Pagination<Topic>>("topics", payload);
+}
+
 export default {
     CreateTopic,
-    UpdateTopic
+    UpdateTopic,
+    FetchTopics
 };

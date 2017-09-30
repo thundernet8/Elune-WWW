@@ -1,6 +1,9 @@
 import * as React from "react";
+import { observer } from "mobx-react";
 import TopicItem from "components/topicItem";
 import Select from "common/select";
+import HomeStore from "store/HomeStore";
+import { Button } from "element-react/next";
 
 const styles = require("./styles/main.less");
 
@@ -10,15 +13,19 @@ interface HomeMainState {
     sort: string;
 }
 
+@observer
 export default class HomeMain extends React.Component<
     HomeMainProps,
     HomeMainState
 > {
+    private store: HomeStore;
+
     constructor(props) {
         super(props);
         this.state = {
             sort: "latest"
         };
+        this.store = HomeStore.getInstance();
     }
 
     selectSort = (value: string) => {
@@ -27,8 +34,34 @@ export default class HomeMain extends React.Component<
         });
     };
 
+    renderTopicList = () => {
+        const { topics, topicsLoading } = this.store;
+        return (
+            <ul className={styles.topicList}>
+                {topics.map((topic, index) => {
+                    return (
+                        <li key={index}>
+                            <TopicItem key={index} topic={topic} />
+                        </li>
+                    );
+                })}
+                {topicsLoading && (
+                    <div className={styles.topicsLoading}>
+                        <i className="el-icon-loading" />
+                    </div>
+                )}
+            </ul>
+        );
+    };
+
     render() {
         const { sort } = this.state;
+        const {
+            hasMoreTopic,
+            topicsLoading,
+            getNextPageTopics,
+            refreshTopics
+        } = this.store;
         return (
             <div className={styles.main}>
                 <div className={styles.toolbar}>
@@ -44,6 +77,7 @@ export default class HomeMain extends React.Component<
                                 title="刷新"
                                 className="btn btn--icon hasIcon"
                                 type="button"
+                                onClick={refreshTopics}
                             >
                                 <i className="icon fa fa-fw fa-refresh btn-icon" />
                             </button>
@@ -60,16 +94,18 @@ export default class HomeMain extends React.Component<
                     </ul>
                 </div>
                 <div className={styles.topicListWrapper}>
-                    <ul className={styles.topicList}>
-                        <li>
-                            <TopicItem />
-                        </li>
-                    </ul>
-                    <div className={styles.loadMore}>
-                        <button className="btn" type="button" title="载入更多">
-                            <span className="btn-label">载入更多</span>
-                        </button>
-                    </div>
+                    {this.renderTopicList()}
+                    {!topicsLoading &&
+                        hasMoreTopic && (
+                            <div className={styles.loadMore}>
+                                <Button
+                                    title="载入更多"
+                                    onClick={getNextPageTopics}
+                                >
+                                    载入更多
+                                </Button>
+                            </div>
+                        )}
                 </div>
             </div>
         );
