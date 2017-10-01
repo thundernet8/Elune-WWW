@@ -100,13 +100,23 @@ export default class HomeStore extends AbstractStore {
 
     @observable topicsLoading: boolean = true;
 
+    @observable order: SortOrder = SortOrder.DESC;
+    @observable orderBy: SortOrderBy = SortOrderBy.LAST_POST_TIME;
+
+    @action
+    switchSort = (orderBy: SortOrderBy) => {
+        this.orderBy = orderBy;
+        this.refreshTopics();
+    };
+
+    @action
     getTopics = () => {
-        const { page, pageSize, topics } = this;
+        const { page, pageSize, topics, order, orderBy } = this;
         const params = {
             page,
             pageSize,
-            order: SortOrder.DESC,
-            orderBy: SortOrderBy.ID
+            order,
+            orderBy
         };
         this.setField("topicsLoading", true);
         return FetchTopics(params)
@@ -123,6 +133,7 @@ export default class HomeStore extends AbstractStore {
             });
     };
 
+    @action
     getNextPageTopics = () => {
         const { page, pageSize, total } = this;
         if ((page - 1) * pageSize >= total) {
@@ -132,6 +143,7 @@ export default class HomeStore extends AbstractStore {
         this.getTopics();
     };
 
+    @action
     refreshTopics = () => {
         this.setTopics([]);
         this.setField("page", 1);

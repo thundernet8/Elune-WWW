@@ -4,14 +4,13 @@ import TopicItem from "components/topicItem";
 import Select from "common/select";
 import HomeStore from "store/HomeStore";
 import { Button } from "element-react/next";
+import { SortOrderBy } from "enum/Sort";
 
 const styles = require("./styles/main.less");
 
 interface HomeMainProps {}
 
-interface HomeMainState {
-    sort: string;
-}
+interface HomeMainState {}
 
 @observer
 export default class HomeMain extends React.Component<
@@ -22,17 +21,8 @@ export default class HomeMain extends React.Component<
 
     constructor(props) {
         super(props);
-        this.state = {
-            sort: "latest"
-        };
         this.store = HomeStore.getInstance();
     }
-
-    selectSort = (value: string) => {
-        this.setState({
-            sort: value
-        });
-    };
 
     renderTopicList = () => {
         const { topics, topicsLoading } = this.store;
@@ -55,21 +45,27 @@ export default class HomeMain extends React.Component<
     };
 
     render() {
-        const { sort } = this.state;
         const {
             hasMoreTopic,
             topicsLoading,
             getNextPageTopics,
-            refreshTopics
+            refreshTopics,
+            switchSort,
+            orderBy
         } = this.store;
         return (
             <div className={styles.main}>
                 <div className={styles.toolbar}>
-                    <Select value={sort} onSelect={this.selectSort}>
-                        <Select.Option value="latest">最新回复</Select.Option>
-                        <Select.Option value="top">热门话题</Select.Option>
-                        <Select.Option value="newest">近期话题</Select.Option>
-                        <Select.Option value="oldest">历史话题</Select.Option>
+                    <Select value={orderBy} onSelect={switchSort}>
+                        <Select.Option value={SortOrderBy.LAST_POST_TIME}>
+                            最新回复
+                        </Select.Option>
+                        <Select.Option value={SortOrderBy.POSTS_COUNT}>
+                            热门话题
+                        </Select.Option>
+                        <Select.Option value={SortOrderBy.CREATE_TIME}>
+                            近期话题
+                        </Select.Option>
                     </Select>
                     <ul className={styles.actions}>
                         <li className="item-refresh">

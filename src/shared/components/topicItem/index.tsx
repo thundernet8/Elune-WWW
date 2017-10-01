@@ -28,6 +28,15 @@ export default class TopicItem extends React.Component<
 
     render() {
         const { read } = this.state;
+        const {
+            id,
+            title,
+            content,
+            channel,
+            author,
+            tags,
+            postsCount
+        } = this.props.topic;
         return (
             <div className={styles.topicItem}>
                 <Dropdown
@@ -51,7 +60,7 @@ export default class TopicItem extends React.Component<
                     })}
                 >
                     <Link
-                        to="/u/justjavac"
+                        to={`/u/${author.username}`}
                         className={styles.author}
                         title=""
                         data-original-title="justjavac 发布于 12月 '15"
@@ -72,8 +81,8 @@ export default class TopicItem extends React.Component<
                             </span>
                         </li>
                     </ul>
-                    <Link to="/topic/325" className={styles.main}>
-                        <h3 className={styles.title}>Flarum 新人必看，注意事项以及 FAQ</h3>
+                    <Link to={`/topic/${id}`} className={styles.main}>
+                        <h3 className={styles.title}>{title}</h3>
                         <ul className={styles.info}>
                             <li className={styles.channels}>
                                 <span className={styles.channelLabels}>
@@ -83,23 +92,41 @@ export default class TopicItem extends React.Component<
                                             styles.colored
                                         ])}
                                         style={{
-                                            color: "rgb(254, 181, 77)",
-                                            backgroundColor: "rgb(254, 181, 77)"
+                                            color: channel.color,
+                                            backgroundColor: channel.color
                                         }}
                                     >
                                         <span
                                             className={styles.channelLabelText}
                                         >
-                                            求助
+                                            {channel.title}
                                         </span>
                                     </span>
-                                    <span className={styles.channelLabel}>
-                                        <span
-                                            className={styles.channelLabelText}
-                                        >
-                                            Flarum
-                                        </span>
-                                    </span>
+                                    {tags.map((tag, index) => {
+                                        if (index > 1) {
+                                            return null;
+                                        }
+                                        return (
+                                            <span
+                                                key={index}
+                                                className={ClassNames(
+                                                    [styles.channelLabel],
+                                                    [styles.tagLabel]
+                                                )}
+                                            >
+                                                <span
+                                                    className={ClassNames(
+                                                        [
+                                                            styles.channelLabelText
+                                                        ],
+                                                        [styles.tagLabelText]
+                                                    )}
+                                                >
+                                                    {tag.title}
+                                                </span>
+                                            </span>
+                                        );
+                                    })}
                                 </span>
                             </li>
                             <li className={styles.reply}>
@@ -120,20 +147,13 @@ export default class TopicItem extends React.Component<
                                 </span>
                             </li>
                             <li className={styles.excerpt}>
-                                <span>
-                                    Flarum 新人必看，注意事项以及 FAQ 此帖不定期更新 本社区不是 Flarum
-                                    的 Demo
-                                    演示，所以不要发布无意义的内容，在你提问前，请务必要阅读《提问的智慧》。不仅仅是在
-                                    Flarum 社区，以后在任何社区提问，都要遵守提问的智慧。 FAQ
-                                    怎么实现的中文搜索？ 如何发图片 安装完成，无法发送邮件
-                                    帖子如何排版？如何发布图片？—— markdown 语法
-                                    能不能帮我开发一个xxx插件...
-                                </span>
+                                <span>{content.substr(0, 100)}</span>
                             </li>
                         </ul>
                     </Link>
                     <span className={styles.count} title="标记为已读">
-                        <i className="fa fa-fw fa-comment" />54
+                        <i className="fa fa-fw fa-comment" />
+                        {postsCount}
                     </span>
                 </div>
             </div>
