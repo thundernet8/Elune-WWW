@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 import ClassNames from "classnames";
 import { Link } from "react-router-dom";
 import HomeStore from "store/HomeStore";
+import GlobalStore from "store/GlobalStore";
 
 const styles = require("./styles/aside.less");
 
@@ -24,22 +25,41 @@ export default class HomeAside extends React.Component<
 
     render() {
         const { topChannels, subChannels } = this.store;
+        const globalStore = GlobalStore.Instance;
+        const { user, showLoginAuthModal } = globalStore;
+        const isLogged = user && user.id;
+
         return (
             <nav className={styles.sideNav}>
                 <ul>
                     <li className={styles.newTopic}>
-                        <Link to="/creation">
+                        {isLogged && (
+                            <Link to="/creation">
+                                <button
+                                    className={ClassNames("btn btn--primary", [
+                                        styles.newTopicBtn
+                                    ])}
+                                    type="button"
+                                    title="新的话题"
+                                >
+                                    <i className="icon fa fa-fw fa-edit btn-icon" />
+                                    <span className="btn-label">新的话题</span>
+                                </button>
+                            </Link>
+                        )}
+                        {!isLogged && (
                             <button
                                 className={ClassNames("btn btn--primary", [
                                     styles.newTopicBtn
                                 ])}
                                 type="button"
                                 title="新的话题"
+                                onClick={showLoginAuthModal}
                             >
                                 <i className="icon fa fa-fw fa-edit btn-icon" />
                                 <span className="btn-label">新的话题</span>
                             </button>
-                        </Link>
+                        )}
                     </li>
                     <li className={styles.itemNav}>
                         <div className={styles.dropdown}>
@@ -55,12 +75,20 @@ export default class HomeAside extends React.Component<
                                         <span className="btn-label">所有话题</span>
                                     </Link>
                                 </li>
-                                <li className={ClassNames([styles.following])}>
-                                    <Link to="/following" title="关注">
-                                        <i className="icon fa fa-fw fa-star btn-icon" />
-                                        <span className="btn-label">关注</span>
-                                    </Link>
-                                </li>
+                                {isLogged && (
+                                    <li
+                                        className={ClassNames([
+                                            styles.following
+                                        ])}
+                                    >
+                                        <Link to="/following" title="关注">
+                                            <i className="icon fa fa-fw fa-star btn-icon" />
+                                            <span className="btn-label">
+                                                关注
+                                            </span>
+                                        </Link>
+                                    </li>
+                                )}
                                 <li className={ClassNames([styles.channels])}>
                                     <Link to="/channels" title="频道">
                                         <i className="icon fa fa-fw fa-th-large btn-icon" />

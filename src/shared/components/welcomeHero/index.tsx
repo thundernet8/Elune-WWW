@@ -40,7 +40,7 @@ export default class WelcomeHero extends React.Component<
                         type="button"
                         onClick={this.closeHero}
                     >
-                        <i className="icon fa fa-fw fa-times btn-icon" />
+                        <i className="el-icon-close" />
                     </button>
                     <div className={styles.inner}>
                         <h2 className="Hero-title">欢迎访问 Elune Forum(Dev)</h2>

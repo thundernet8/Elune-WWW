@@ -3,6 +3,7 @@ import UserInfo from "model/User";
 import CommonResp from "model/Resp";
 import { Login, Register, Logout, WhoAmI } from "api/Auth";
 import IStoreArgument from "interface/IStoreArgument";
+import { AuthType } from "enum/Auth";
 import AbstractStore from "./AbstractStore";
 import { IS_NODE } from "../../../env";
 
@@ -91,6 +92,26 @@ export default class GlobalStore extends AbstractStore {
             this.setUser({} as UserInfo);
             return resp;
         });
+    };
+
+    /**
+     * 用于判断展示登录/注销框体
+     */
+    @observable authType: AuthType = AuthType.None;
+
+    @action
+    switchAuthModal = (authType: AuthType) => {
+        this.authType = authType;
+    };
+
+    @action
+    showLoginAuthModal = () => {
+        this.authType = AuthType.Login;
+    };
+
+    @action
+    closeAuthModal = () => {
+        this.authType = AuthType.None;
     };
 
     /**

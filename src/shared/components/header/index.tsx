@@ -1,7 +1,8 @@
 import * as React from "react";
 import { observer, inject } from "mobx-react";
 import ClassNames from "classnames";
-import AuthModal, { AuthType } from "components/authModal";
+import AuthModal from "components/authModal";
+import { AuthType } from "enum/Auth";
 import Dropdown from "common/dropdown";
 import GlobalStore from "store/GlobalStore";
 import { Link } from "react-router-dom";
@@ -18,9 +19,7 @@ interface HeaderProps {
     location: any;
 }
 
-interface HeaderState {
-    authType: AuthType;
-}
+interface HeaderState {}
 
 @inject("stores")
 @observer
@@ -33,9 +32,6 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 
     constructor(props) {
         super(props);
-        this.state = {
-            authType: AuthType.None
-        };
     }
 
     componentWillMount() {
@@ -64,33 +60,17 @@ class Header extends React.Component<HeaderProps, HeaderState> {
     }
 
     closeAuthPannel = () => {
-        this.setState({
-            authType: AuthType.None
-        });
+        GlobalStore.Instance.closeAuthModal();
     };
 
     switchAuthType = (authType: AuthType) => {
-        this.setState({
-            authType
-        });
+        GlobalStore.Instance.switchAuthModal(authType);
     };
 
     logout = () => {
         GlobalStore.Instance.requestLogout().then(() => {
             // TODO redirect according to url query
         });
-    };
-
-    renderAuthPanel = () => {
-        const { authType } = this.state;
-        return (
-            <AuthModal
-                open={authType !== AuthType.None}
-                onClose={this.closeAuthPannel}
-                authType={authType}
-                switchType={this.switchAuthType}
-            />
-        );
     };
 
     renderSession = () => {
@@ -217,7 +197,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
                             </ul>
                         </div>
                     </div>
-                    {this.renderAuthPanel()}
+                    <AuthModal />
                 </header>
             </Headroom>
         );

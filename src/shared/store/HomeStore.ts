@@ -83,12 +83,12 @@ export default class HomeStore extends AbstractStore {
 
     @observable page: number = 1;
     @observable pageSize: number = 20;
-    @observable total: number = 0;
+    @observable total: number = -1;
 
     @computed
     get hasMoreTopic() {
         const { page, pageSize, total } = this;
-        return total === 0 || (page - 1) * pageSize < total;
+        return total === -1 || page * pageSize < total;
     }
 
     getChannels = () => {
