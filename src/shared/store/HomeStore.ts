@@ -98,7 +98,7 @@ export default class HomeStore extends AbstractStore {
         });
     };
 
-    @observable topicsLoading: boolean = true;
+    @observable topicsLoading: boolean = false;
 
     @observable order: SortOrder = SortOrder.DESC;
     @observable orderBy: SortOrderBy = SortOrderBy.LAST_POST_TIME;
@@ -164,7 +164,9 @@ export default class HomeStore extends AbstractStore {
     public toJSON() {
         const obj = super.toJSON();
         return Object.assign(obj, {
-            channels: this.channels
+            channels: this.channels,
+            topics: this.topics,
+            total: this.total
         });
     }
 
@@ -173,10 +175,14 @@ export default class HomeStore extends AbstractStore {
         if (!json) {
             return this;
         }
-        const { channels } = json;
+        const { channels, topics, total } = json;
         if (typeof channels !== "undefined") {
             this.setChannels(channels);
         }
+        if (typeof topics !== "undefined") {
+            this.setTopics(topics);
+        }
+        this.setField("total", total);
         return this;
     }
 }
