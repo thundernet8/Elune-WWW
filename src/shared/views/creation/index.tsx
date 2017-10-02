@@ -249,7 +249,6 @@ class CreationView extends React.Component<
                     </Button>
                 </section>
                 {this.renderChannelsModal()}
-                <i />
             </div>
         );
     }
