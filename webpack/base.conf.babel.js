@@ -25,9 +25,9 @@ const getPlugins = function(morePlugins) {
             context: __dirname,
             manifest: require("../manifest.json")
         }),
-        // new webpack.optimize.CommonsChunkPlugin({
-        //     name: "common"
-        // }),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: "app"
+        }),
         new HtmlWebpackPlugin({
             filename: path.resolve(__dirname, "../dist/index.html"),
             template: "src/index.html",

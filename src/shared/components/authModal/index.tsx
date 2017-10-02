@@ -4,8 +4,8 @@ import ClassNames from "classnames";
 import Modal from "common/modal";
 import { isEmail } from "utils/TextKit";
 import GlobalStore from "store/GlobalStore";
-import UserInfo from "model/User";
-import CommonResp from "model/Resp";
+// import UserInfo from "model/User";
+// import CommonResp from "model/Resp";
 import { AuthType } from "enum/Auth";
 
 const styles = require("./index.less");
