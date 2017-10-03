@@ -29,6 +29,12 @@ export default abstract class AbstractStore {
         this.cookies = arg.cookies;
     }
 
+    protected reset(arg: IStoreArgument) {
+        this.match = arg.match;
+        this.location = arg.location;
+        this.cookies = arg.cookies;
+    }
+
     // SSR 预加载数据
     abstract fetchData(): Promise<any>;
 
@@ -44,7 +50,9 @@ export default abstract class AbstractStore {
 
     // 反序列化(先创建一个空实例，并使用此方法从json中获取信息填充)
     public fromJSON(json: any): AbstractStore {
-        if (!json) return this;
+        if (!json) {
+            return this;
+        }
         const { match, location, cookies } = json;
         if (typeof match !== "undefined") {
             this.match = match;

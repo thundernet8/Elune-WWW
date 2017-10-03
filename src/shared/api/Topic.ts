@@ -19,6 +19,10 @@ export interface FetchTopicsReq {
     orderBy: SortOrderBy;
 }
 
+export interface FetchChannelTopicsReq extends FetchTopicsReq {
+    channelId: number;
+}
+
 export interface UpdateTopicReq extends CreateTopicReq {
     id: number;
 }
@@ -32,6 +36,10 @@ export function UpdateTopic(payload: UpdateTopicReq) {
 }
 
 export function FetchTopics(payload: FetchTopicsReq) {
+    return WebApi.Get<Pagination<Topic>>("topics", payload);
+}
+
+export function FetchChannelTopics(payload: FetchChannelTopicsReq) {
     return WebApi.Get<Pagination<Topic>>("topics", payload);
 }
 

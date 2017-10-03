@@ -4,7 +4,7 @@ import Channel from "model/Channel";
 // import Pagination from "model/Pagination";
 import Topic from "model/Topic";
 import { GetChannelBySlug } from "api/Channel";
-import { FetchTopics } from "api/Topic";
+import { FetchChannelTopics } from "api/Topic";
 import IStoreArgument from "interface/IStoreArgument";
 import { SortOrder, SortOrderBy } from "enum/Sort";
 import AbstractStore from "./AbstractStore";
@@ -30,6 +30,17 @@ export default class ChannelStore extends AbstractStore {
             ChannelStore.instance = new ChannelStore(arg);
         }
         return ChannelStore.instance;
+    }
+
+    public static rebuild(arg: IStoreArgument = {} as IStoreArgument) {
+        const instance = ChannelStore.getInstance(arg);
+        instance.reset(arg);
+        instance.topicsLoading = true;
+        instance.topics = [];
+        instance.page = 1;
+        instance.total = -1;
+        instance.fetchData();
+        return instance;
     }
 
     private constructor(arg: IStoreArgument) {
@@ -107,16 +118,17 @@ export default class ChannelStore extends AbstractStore {
     };
 
     @action
-    getTopics = () => {
+    getChannelTopics = (channel: Channel) => {
         const { page, pageSize, topics, order, orderBy } = this;
         const params = {
             page,
             pageSize,
             order,
-            orderBy
+            orderBy,
+            channelId: channel.id
         };
         this.setField("topicsLoading", true);
-        return FetchTopics(params)
+        return FetchChannelTopics(params)
             .then(resp => {
                 this.setTopics(topics.concat(resp.items));
                 this.setField("topicsLoading", false);
@@ -137,7 +149,7 @@ export default class ChannelStore extends AbstractStore {
             return;
         }
         this.setField("page", page + 1);
-        this.getTopics();
+        this.getChannelTopics(this.channel);
     };
 
     @action
@@ -145,7 +157,7 @@ export default class ChannelStore extends AbstractStore {
         this.setTopics([]);
         this.setField("page", 1);
         this.setField("total", 0);
-        this.getTopics();
+        this.getChannelTopics(this.channel);
     };
 
     /**
@@ -153,8 +165,12 @@ export default class ChannelStore extends AbstractStore {
      */
     fetchData() {
         const promises: Promise<any>[] = [];
-        promises.push(this.getChannel());
-        promises.push(this.getTopics());
+        promises.push(
+            this.getChannel().then((channel: Channel) => {
+                return this.getChannelTopics(channel);
+            })
+        );
+        // promises.push(this.getTopics());
         return Promise.all(promises);
     }
 

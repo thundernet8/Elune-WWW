@@ -6,8 +6,8 @@ import ChannelHero from "components/channelHero";
 import ChannelStore from "store/ChannelStore";
 import Sidebar from "components/sidebar";
 import DocumentMeta from "react-document-meta";
-import HomeAside from "../home/aside";
-import HomeMain from "../home/main";
+import Aside from "../home/aside";
+import ChannelMain from "./main";
 
 const styles = require("./styles/index.less");
 
@@ -27,6 +27,15 @@ class ChannelView extends React.Component<ChannelViewProps, ChannelViewState> {
         super(props);
         const { location, match } = props;
         this.store = ChannelStore.getInstance({ location, match, cookies: "" });
+    }
+
+    componentDidUpdate(prevProps) {
+        const { location, match } = this.props;
+        const { slug } = match.params;
+        const prevSlug = prevProps.match.params.slug;
+        if (slug !== prevSlug) {
+            this.store = ChannelStore.rebuild({ location, match, cookies: "" });
+        }
     }
 
     render() {
@@ -49,8 +58,8 @@ class ChannelView extends React.Component<ChannelViewProps, ChannelViewState> {
                 <DocumentMeta {...meta} />
                 <ChannelHero channel={channel} />
                 <div className={ClassNames("container", [styles.container])}>
-                    <HomeAside color={channel ? channel.color : ""} />
-                    <HomeMain />
+                    <Aside color={channel ? channel.color : ""} />
+                    <ChannelMain />
                     <Sidebar where="channel" />
                 </div>
             </div>
