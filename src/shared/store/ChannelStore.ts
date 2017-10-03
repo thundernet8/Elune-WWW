@@ -3,7 +3,7 @@ import Channel from "model/Channel";
 // import CommonResp from "model/Resp";
 // import Pagination from "model/Pagination";
 import Topic from "model/Topic";
-import { GetAllChannels } from "api/Channel";
+import { GetChannelBySlug } from "api/Channel";
 import { FetchTopics } from "api/Topic";
 import IStoreArgument from "interface/IStoreArgument";
 import { SortOrder, SortOrderBy } from "enum/Sort";
@@ -13,23 +13,23 @@ import { IS_NODE } from "../../../env";
 declare var window;
 
 /**
- * 首页Store(单例)
+ * Channel页Store(单例)
  */
-export default class HomeStore extends AbstractStore {
-    private static instance: HomeStore;
+export default class ChannelStore extends AbstractStore {
+    private static instance: ChannelStore;
 
     public static get Instance() {
-        return HomeStore.getInstance({} as any);
+        return ChannelStore.getInstance({} as any);
     }
 
     /**
      * @param arg SSR环境下组件生命周期之前实例化store, 见ssr/render.ts
      */
     public static getInstance(arg: IStoreArgument = {} as IStoreArgument) {
-        if (!HomeStore.instance) {
-            HomeStore.instance = new HomeStore(arg);
+        if (!ChannelStore.instance) {
+            ChannelStore.instance = new ChannelStore(arg);
         }
-        return HomeStore.instance;
+        return ChannelStore.instance;
     }
 
     private constructor(arg: IStoreArgument) {
@@ -38,8 +38,8 @@ export default class HomeStore extends AbstractStore {
         if (!IS_NODE) {
             // 浏览器端从全局InitialState中初始化Store
             const initialState = window.__INITIAL_STATE__ || {};
-            if (initialState && initialState.homeStore) {
-                this.fromJSON(initialState.homeStore);
+            if (initialState && initialState.channelStore) {
+                this.fromJSON(initialState.channelStore);
             } else {
                 this.fetchData();
             }
@@ -52,24 +52,14 @@ export default class HomeStore extends AbstractStore {
     };
 
     /**
-     * 所有频道列表
+     * 当前频道
      */
-    @observable channels: Channel[] = [];
+    @observable channel: Channel;
 
     @action
-    setChannels = (channels: Channel[]) => {
-        this.channels = channels;
+    setChannel = (channel: Channel) => {
+        this.channel = channel;
     };
-
-    @computed
-    get topChannels() {
-        return this.channels.filter(x => x.pid === 0);
-    }
-
-    @computed
-    get subChannels() {
-        return this.channels.filter(x => x.pid !== 0);
-    }
 
     /**
      * 当前页的Topic列表
@@ -91,9 +81,16 @@ export default class HomeStore extends AbstractStore {
         return total === -1 || page * pageSize < total;
     }
 
-    getChannels = () => {
-        return GetAllChannels().then(resp => {
-            this.setChannels(resp);
+    getChannel = () => {
+        const { Match } = this;
+        if (!Match || !Match.params.slug) {
+            return Promise.reject(false);
+        }
+
+        const { slug } = Match.params;
+
+        return GetChannelBySlug(slug).then(resp => {
+            this.setChannel(resp);
             return resp;
         });
     };
@@ -156,7 +153,7 @@ export default class HomeStore extends AbstractStore {
      */
     fetchData() {
         const promises: Promise<any>[] = [];
-        promises.push(this.getChannels());
+        promises.push(this.getChannel());
         promises.push(this.getTopics());
         return Promise.all(promises);
     }
@@ -164,7 +161,7 @@ export default class HomeStore extends AbstractStore {
     public toJSON() {
         const obj = super.toJSON();
         return Object.assign(obj, {
-            channels: this.channels,
+            channel: this.channel,
             topics: this.topics,
             total: this.total
         });
@@ -175,9 +172,9 @@ export default class HomeStore extends AbstractStore {
         if (!json) {
             return this;
         }
-        const { channels, topics, total } = json;
-        if (typeof channels !== "undefined") {
-            this.setChannels(channels);
+        const { channel, topics, total } = json;
+        if (typeof channel !== "undefined") {
+            this.setChannel(channel);
         }
         if (typeof topics !== "undefined") {
             this.setTopics(topics);

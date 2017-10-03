@@ -16,7 +16,7 @@
   module: entries/channels
   chunk: channels
   exact: true
-- path: /channel/:id
+- path: /channel/:slug
   module: entries/channel
   chunk: channel
   exact: false

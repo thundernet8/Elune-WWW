@@ -1,5 +1,5 @@
 /**
- * Generated on Sun, 24 Sep 2017 05:46:36 GMT
+ * Generated on Tue, 03 Oct 2017 06:25:22 GMT 
  * 本文件由routes.yaml模板生成, 请不要直接修改
  */
 
@@ -53,7 +53,7 @@ const routes = [
         }
     },
     {
-        path: "/channel/:id",
+        path: "/channel/:slug",
         module: "entries/channel",
         exact: false,
         getComponent(cb) {

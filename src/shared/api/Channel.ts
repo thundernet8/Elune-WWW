@@ -27,6 +27,10 @@ export function GetChannel(id: number) {
     return WebApi.Get<Channel>(`channels/${id}`, {});
 }
 
+export function GetChannelBySlug(slug: string) {
+    return WebApi.Get<Channel>(`channels/${slug}`, {});
+}
+
 export function GetAllChannels() {
     return WebApi.Get<Channel[]>(`channels`, {});
 }
@@ -35,5 +39,6 @@ export default {
     CreateChannel,
     UpdateChannel,
     GetChannel,
+    GetChannelBySlug,
     GetAllChannels
 };

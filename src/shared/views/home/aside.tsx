@@ -7,7 +7,9 @@ import GlobalStore from "store/GlobalStore";
 
 const styles = require("./styles/aside.less");
 
-interface HomeAsideProps {}
+interface HomeAsideProps {
+    color?: string;
+}
 
 interface HomeAsideState {}
 
@@ -25,6 +27,7 @@ export default class HomeAside extends React.Component<
 
     render() {
         const { topChannels, subChannels } = this.store;
+        const { color } = this.props;
         const globalStore = GlobalStore.Instance;
         const { user, showLoginAuthModal } = globalStore;
         const isLogged = user && user.id;
@@ -41,6 +44,9 @@ export default class HomeAside extends React.Component<
                                     ])}
                                     type="button"
                                     title="新的话题"
+                                    style={
+                                        color ? { backgroundColor: color } : {}
+                                    }
                                 >
                                     <i className="icon fa fa-fw fa-edit btn-icon" />
                                     <span className="btn-label">新的话题</span>

@@ -1,10 +1,24 @@
 import * as React from "react";
+import Header from "components/header";
+import ChannelView from "views/channel";
 import GlobalStore from "store/GlobalStore";
+import ChannelStore from "store/HomeStore";
 import { IS_NODE } from "../../../env";
 
-export default class ChannelEntry extends React.Component<any, any> {
+interface ChannelEntryProps {
+    stores?: any;
+    location: any;
+    match: any;
+}
+
+interface ChannelEntryState {}
+
+export default class ChannelEntry extends React.Component<
+    ChannelEntryProps,
+    ChannelEntryState
+> {
     // SSR 在入口组件中获知Store类并初始化用于实例注入
-    static STORE_CLASSES = [GlobalStore];
+    static STORE_CLASSES = [GlobalStore, ChannelStore];
 
     constructor(props) {
         super(props);
@@ -15,6 +29,13 @@ export default class ChannelEntry extends React.Component<any, any> {
     }
 
     render() {
-        return <div>Channel</div>;
+        return (
+            <div>
+                <Header />
+                <main className="app-content">
+                    <ChannelView />
+                </main>
+            </div>
+        );
     }
 }
