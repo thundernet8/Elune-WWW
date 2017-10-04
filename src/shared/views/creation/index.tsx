@@ -6,6 +6,7 @@ import LocalEditor from "components/editor";
 import Modal from "common/modal";
 import CreateTopicStore from "store/CreateTopicStore";
 import { Button } from "element-react/next";
+import DocumentMeta from "react-document-meta";
 
 const styles = require("./styles/index.less");
 
@@ -167,6 +168,17 @@ class CreationView extends React.Component<
     };
 
     render() {
+        const meta = {
+            title:
+                "创建话题-Eleun Forum-Web development community,WordPress,PHP,Java,JavaScript",
+            description: "",
+            meta: {
+                charset: "utf-8",
+                name: {
+                    keywords: "Eleun,forum,wordpress,php,java,javascript,react"
+                }
+            }
+        };
         const canGoBack = this.props.history.length > 0;
         const {
             selectedChannel,
@@ -179,6 +191,7 @@ class CreationView extends React.Component<
         } = this.store;
         return (
             <div className={styles.creationview}>
+                <DocumentMeta {...meta} />
                 {canGoBack && (
                     <button
                         className={ClassNames("btn btn--icon", [styles.close])}

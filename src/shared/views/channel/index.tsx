@@ -41,10 +41,10 @@ class ChannelView extends React.Component<ChannelViewProps, ChannelViewState> {
     render() {
         const { channel } = this.store;
         const meta = {
-            title:
-                "Eleun Forum-Web development community,WordPress,PHP,Java,JavaScript",
-            description: "I am a description, and I can create multiple tags",
-            canonical: "https://elune.fuli.news",
+            title: `${channel
+                ? channel.title + "-"
+                : ""}Eleun Forum-Web development community,WordPress,PHP,Java,JavaScript`,
+            description: channel ? channel.description : "",
             meta: {
                 charset: "utf-8",
                 name: {
