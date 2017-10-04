@@ -2,6 +2,7 @@ import * as React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { matchPath } from "react-router-dom";
 import { Provider } from "mobx-react";
+import PageLoader from "common/pageLoader";
 import routes from "./routes";
 
 require("STYLES/global/index.less");
@@ -48,7 +49,7 @@ class LazyComponentWrapper extends React.Component<
         const { component } = this.props;
         const { LazyComponent } = this.state;
         if (!component && !LazyComponent) {
-            return <div>Loading</div>; // TODO a common loading component
+            return <PageLoader />;
         }
         return React.createElement(component || LazyComponent, this.props);
     }
