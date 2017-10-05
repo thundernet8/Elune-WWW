@@ -3,10 +3,12 @@
 .creationview {
     position: relative;
     padding: 10px 20px;
+    max-width: 960px;
+    margin: 0 auto;
 }
 
 .close {
-    position: absolute;
+    position: fixed;
     top: 10px;
     right: 10px;
     background: transparent;
@@ -51,12 +53,13 @@
                 input {
                     background: transparent;
                     color: @mainColor;
-                    font-size: 1.6rem;
+                    font-size: 1.8rem;
+                    font-weight: normal;
                     &:focus {
                         border-color: transparent;
                     }
                     &::-webkit-input-placeholder {
-                        color: @mainColor;
+                        color: fade(@mainColor, 30%);
                     }
                 }
             }
@@ -71,7 +74,7 @@
 .footer {
     margin-top: 10px;
     padding: 10px 0;
-    border-top: 1px solid @grayLight;
+    // border-top: 1px solid @grayLight;
     .publishBtn {
         position: relative;
         width: 100px;

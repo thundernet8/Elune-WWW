@@ -73,6 +73,7 @@ export default class LocalEditor extends React.Component<
                     wrapperClassName={styles.editorWrapper}
                     editorClassName={styles.editor}
                     onEditorStateChange={this.onEditorStateChange}
+                    placeholder="输入正文..."
                     toolbar={{
                         options: [
                             "inline",
