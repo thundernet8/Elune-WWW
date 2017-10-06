@@ -19,6 +19,10 @@ export default class HomeMain extends React.Component<
         this.store = HomeStore.getInstance();
     }
 
+    componentWillUnmount() {
+        this.store.destroy();
+    }
+
     render() {
         return <TopicList store={this.store} />;
     }

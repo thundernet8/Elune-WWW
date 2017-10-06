@@ -1,5 +1,6 @@
 import * as React from "react";
 import Header from "components/header";
+import Footer from "components/footer";
 import ChannelView from "views/channel";
 import GlobalStore from "store/GlobalStore";
 import ChannelStore from "store/HomeStore";
@@ -35,6 +36,7 @@ export default class ChannelEntry extends React.Component<
                 <main className="app-content">
                     <ChannelView />
                 </main>
+                <Footer />
             </div>
         );
     }

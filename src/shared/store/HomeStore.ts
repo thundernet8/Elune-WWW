@@ -46,6 +46,10 @@ export default class HomeStore extends AbstractStore {
         }
     }
 
+    public destroy() {
+        HomeStore.instance = null as any;
+    }
+
     @action
     setField = (field: string, value: any) => {
         this[field] = value;

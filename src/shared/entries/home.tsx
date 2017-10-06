@@ -1,6 +1,7 @@
 import * as React from "react";
 import { inject } from "mobx-react";
 import Header from "components/header";
+import Footer from "components/footer";
 import HomeView from "views/home";
 import GlobalStore from "store/GlobalStore";
 import HomeStore from "store/HomeStore";
@@ -32,6 +33,7 @@ export default class HomeEntry extends React.Component<HomeEntryProps, any> {
                 <main className="app-content">
                     <HomeView />
                 </main>
+                <Footer />
             </div>
         );
     }

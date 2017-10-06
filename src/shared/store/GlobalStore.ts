@@ -44,6 +44,10 @@ export default class GlobalStore extends AbstractStore {
         }
     }
 
+    public destroy() {
+        GlobalStore.instance = null as any;
+    }
+
     /**
      * 当前用户
      */

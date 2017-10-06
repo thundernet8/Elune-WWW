@@ -43,6 +43,10 @@ export default class ChannelStore extends AbstractStore {
         return instance;
     }
 
+    public destroy() {
+        ChannelStore.instance = null as any;
+    }
+
     private constructor(arg: IStoreArgument) {
         super(arg);
 

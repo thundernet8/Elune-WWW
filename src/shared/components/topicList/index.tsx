@@ -6,6 +6,8 @@ import HomeStore from "store/HomeStore";
 import ChannelStore from "store/ChannelStore";
 import { Button } from "element-react/next";
 import { SortOrderBy } from "enum/Sort";
+import ClassNames from "classnames";
+import { Link } from "react-router-dom";
 
 const styles = require("./index.less");
 
@@ -26,7 +28,20 @@ export default class TopicList extends React.Component<
 
     renderTopicList = () => {
         const { store } = this.props;
-        const { topics, topicsLoading } = store;
+        const { topics, topicsLoading, hasMoreTopic } = store;
+
+        if (!hasMoreTopic && !topicsLoading) {
+            return (
+                <div
+                    className={ClassNames(
+                        [styles.topicList],
+                        [styles.emptyList]
+                    )}
+                >
+                    空空如也，何不<Link to="/creation">创作</Link>一个？
+                </div>
+            );
+        }
         return (
             <ul className={styles.topicList}>
                 {topics.map((topic, index) => {
@@ -80,7 +95,7 @@ export default class TopicList extends React.Component<
                                 <i className="icon fa fa-fw fa-refresh btn-icon" />
                             </button>
                         </li>
-                        <li className="item-markAllAsRead">
+                        {/* <li className="item-markAllAsRead">
                             <button
                                 title="标记所有为已读"
                                 className="btn btn--icon hasIcon"
@@ -88,7 +103,7 @@ export default class TopicList extends React.Component<
                             >
                                 <i className="icon fa fa-fw fa-check btn-icon" />
                             </button>
-                        </li>
+                        </li> */}
                     </ul>
                 </div>
                 <div className={styles.topicListWrapper}>

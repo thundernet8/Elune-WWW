@@ -29,6 +29,10 @@ class CreationView extends React.Component<
         this.store = CreateTopicStore.getInstance();
     }
 
+    componentWillUnmount() {
+        this.store.destroy();
+    }
+
     refEditor = (editor: LocalEditor) => {
         this.editor = editor;
     };

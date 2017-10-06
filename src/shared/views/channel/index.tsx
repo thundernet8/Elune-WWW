@@ -38,6 +38,10 @@ class ChannelView extends React.Component<ChannelViewProps, ChannelViewState> {
         }
     }
 
+    componentWillUnmount() {
+        this.store.destroy();
+    }
+
     render() {
         const { channel } = this.store;
         const meta = {
@@ -58,7 +62,7 @@ class ChannelView extends React.Component<ChannelViewProps, ChannelViewState> {
                 <DocumentMeta {...meta} />
                 <ChannelHero channel={channel} />
                 <div className={ClassNames("container", [styles.container])}>
-                    <Aside color={channel ? channel.color : ""} />
+                    <Aside channel={channel ? channel : null as any} />
                     <ChannelMain />
                     <Sidebar where="channel" />
                 </div>

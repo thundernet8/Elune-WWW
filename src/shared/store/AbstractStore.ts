@@ -35,6 +35,8 @@ export default abstract class AbstractStore {
         this.cookies = arg.cookies;
     }
 
+    public abstract destroy();
+
     // SSR 预加载数据
     abstract fetchData(): Promise<any>;
 

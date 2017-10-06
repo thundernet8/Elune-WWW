@@ -4,20 +4,20 @@ import ClassNames from "classnames";
 import { Link } from "react-router-dom";
 import HomeStore from "store/HomeStore";
 import GlobalStore from "store/GlobalStore";
+import Channel from "model/Channel";
+import { withRouter } from "react-router";
 
 const styles = require("./styles/aside.less");
 
 interface HomeAsideProps {
-    color?: string;
+    channel?: Channel;
+    match: any;
 }
 
 interface HomeAsideState {}
 
 @observer
-export default class HomeAside extends React.Component<
-    HomeAsideProps,
-    HomeAsideState
-> {
+class HomeAside extends React.Component<HomeAsideProps, HomeAsideState> {
     private store: HomeStore;
 
     constructor(props) {
@@ -26,8 +26,9 @@ export default class HomeAside extends React.Component<
     }
 
     render() {
+        const { path } = this.props.match;
         const { topChannels, subChannels } = this.store;
-        const { color } = this.props;
+        const currentChannel = this.props.channel;
         const globalStore = GlobalStore.Instance;
         const { user, showLoginAuthModal } = globalStore;
         const isLogged = user && user.id;
@@ -45,7 +46,12 @@ export default class HomeAside extends React.Component<
                                     type="button"
                                     title="新的话题"
                                     style={
-                                        color ? { backgroundColor: color } : {}
+                                        currentChannel
+                                            ? {
+                                                  backgroundColor:
+                                                      currentChannel.color
+                                              }
+                                            : {}
                                     }
                                 >
                                     <i className="icon fa fa-fw fa-edit btn-icon" />
@@ -71,10 +77,9 @@ export default class HomeAside extends React.Component<
                         <div className={styles.dropdown}>
                             <ul className={styles.menu}>
                                 <li
-                                    className={ClassNames(
-                                        [styles.allTopics],
-                                        [styles.active]
-                                    )}
+                                    className={ClassNames([styles.allTopics], {
+                                        [styles.active]: path === "/"
+                                    })}
                                 >
                                     <Link to="/" title="所有话题">
                                         <i className="icon fa fa-fw fa-comments-o btn-icon" />
@@ -83,9 +88,13 @@ export default class HomeAside extends React.Component<
                                 </li>
                                 {isLogged && (
                                     <li
-                                        className={ClassNames([
-                                            styles.following
-                                        ])}
+                                        className={ClassNames(
+                                            [styles.following],
+                                            {
+                                                [styles.active]:
+                                                    path === "/following"
+                                            }
+                                        )}
                                     >
                                         <Link to="/following" title="关注">
                                             <i className="icon fa fa-fw fa-star btn-icon" />
@@ -111,6 +120,12 @@ export default class HomeAside extends React.Component<
                                                 key={index}
                                                 to={`/channel/${channel.slug}`}
                                                 title={channel.description}
+                                                className={ClassNames({
+                                                    [styles.active]:
+                                                        currentChannel &&
+                                                        currentChannel.id ===
+                                                            channel.id
+                                                })}
                                             >
                                                 <span
                                                     className={ClassNames(
@@ -165,3 +180,7 @@ export default class HomeAside extends React.Component<
         );
     }
 }
+
+const HomeAsideWithRouter = withRouter(HomeAside);
+
+export default HomeAsideWithRouter;

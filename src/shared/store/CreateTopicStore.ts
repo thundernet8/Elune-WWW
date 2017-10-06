@@ -43,6 +43,10 @@ export default class CreateTopicStore extends AbstractStore {
         }
     }
 
+    public destroy() {
+        CreateTopicStore.instance = null as any;
+    }
+
     @action
     setField = (field: string, value: any) => {
         this[field] = value;
