@@ -23,6 +23,10 @@ export interface FetchChannelTopicsReq extends FetchTopicsReq {
     channelId: number;
 }
 
+export interface FetchTopicReq {
+    id: number;
+}
+
 export interface UpdateTopicReq extends CreateTopicReq {
     id: number;
 }
@@ -33,6 +37,10 @@ export function CreateTopic(payload: CreateTopicReq) {
 
 export function UpdateTopic(payload: UpdateTopicReq) {
     return WebApi.Put<CommonResp<string>>(`topics/${payload.id}`, payload);
+}
+
+export function FetchTopic(payload: FetchTopicReq) {
+    return WebApi.Get<Topic>(`topics/${payload.id}`, {});
 }
 
 export function FetchTopics(payload: FetchTopicsReq) {
@@ -46,5 +54,6 @@ export function FetchChannelTopics(payload: FetchChannelTopicsReq) {
 export default {
     CreateTopic,
     UpdateTopic,
+    FetchTopic,
     FetchTopics
 };

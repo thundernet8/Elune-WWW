@@ -3,6 +3,7 @@ import Dropdown from "common/dropdown";
 import ClassNames from "classnames";
 import { Link } from "react-router-dom";
 import Topic from "model/Topic";
+import { Tooltip } from "element-react/next";
 
 const styles = require("./index.less");
 const defaultAvatar = require("IMG/avatar-default.png");
@@ -69,16 +70,16 @@ export default class TopicItem extends React.Component<
                     </Link>
                     <ul className={styles.badges}>
                         <li className="item-sticky">
-                            <span
-                                className={ClassNames(
-                                    [styles.badge],
-                                    [styles.sticky]
-                                )}
-                                title=""
-                                data-original-title="置顶"
-                            >
-                                <i className="icon fa fa-fw fa-thumb-tack badge-icon" />
-                            </span>
+                            <Tooltip effect="dark" content="置顶">
+                                <span
+                                    className={ClassNames(
+                                        [styles.badge],
+                                        [styles.sticky]
+                                    )}
+                                >
+                                    <i className="icon fa fa-fw fa-thumb-tack badge-icon" />
+                                </span>
+                            </Tooltip>
                         </li>
                     </ul>
                     <Link to={`/topic/${id}`} className={styles.main}>
