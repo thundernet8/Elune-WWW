@@ -4,6 +4,7 @@ import ClassNames from "classnames";
 import { Link } from "react-router-dom";
 import Topic from "model/Topic";
 import { Tooltip } from "element-react/next";
+import { getTimeDiff } from "utils/DateTimeKit";
 
 const styles = require("./index.less");
 const defaultAvatar = require("IMG/avatar-default.png");
@@ -36,8 +37,13 @@ export default class TopicItem extends React.Component<
             channel,
             author,
             tags,
-            postsCount
+            postsCount,
+            isPinned,
+            createTime,
+            postTime,
+            poster
         } = this.props.topic;
+        const latestPostTime = postTime ? new Date(postTime) : null;
         return (
             <div className={styles.topicItem}>
                 <Dropdown
@@ -63,24 +69,39 @@ export default class TopicItem extends React.Component<
                     <Link
                         to={`/u/${author.username}`}
                         className={styles.author}
-                        title=""
-                        data-original-title="justjavac 发布于 12月 '15"
                     >
-                        <img className={styles.avatar} src={defaultAvatar} />
+                        <Tooltip
+                            effect="dark"
+                            placement="bottom"
+                            content={`${author.nickname} 发布于 ${new Date(
+                                createTime * 1000
+                            ).toLocaleString()}`}
+                        >
+                            <img
+                                className={styles.avatar}
+                                src={defaultAvatar}
+                            />
+                        </Tooltip>
                     </Link>
                     <ul className={styles.badges}>
-                        <li className="item-sticky">
-                            <Tooltip effect="dark" content="置顶">
-                                <span
-                                    className={ClassNames(
-                                        [styles.badge],
-                                        [styles.sticky]
-                                    )}
+                        {!!isPinned && (
+                            <li className="item-sticky">
+                                <Tooltip
+                                    effect="dark"
+                                    placement="top"
+                                    content="置顶"
                                 >
-                                    <i className="icon fa fa-fw fa-thumb-tack badge-icon" />
-                                </span>
-                            </Tooltip>
-                        </li>
+                                    <span
+                                        className={ClassNames(
+                                            [styles.badge],
+                                            [styles.sticky]
+                                        )}
+                                    >
+                                        <i className="icon fa fa-fw fa-thumb-tack badge-icon" />
+                                    </span>
+                                </Tooltip>
+                            </li>
+                        )}
                     </ul>
                     <Link to={`/topic/${id}`} className={styles.main}>
                         <h3 className={styles.title}>{title}</h3>
@@ -130,29 +151,33 @@ export default class TopicItem extends React.Component<
                                     })}
                                 </span>
                             </li>
-                            <li className={styles.reply}>
-                                <span>
-                                    <i className="icon fa fa-fw fa-reply " />
-                                    <span className={styles.username}>
-                                        TestTest
-                                    </span>{" "}
-                                    回复于{" "}
-                                    <time
-                                        data-pubdate="true"
-                                        data-datetime="2017-09-15T15:53:30+08:00"
-                                        title="2017年9月15日 周五 15:53:30"
-                                        data-humantime="true"
-                                    >
-                                        2 天前
-                                    </time>
-                                </span>
-                            </li>
+                            {latestPostTime && (
+                                <li className={styles.reply}>
+                                    <span>
+                                        <i className="icon fa fa-fw fa-reply " />
+                                        <span className={styles.username}>
+                                            <Link to={poster}>{poster}</Link>
+                                        </span>{" "}
+                                        回复于{" "}
+                                        <time
+                                            data-pubdate="true"
+                                            data-datetime={latestPostTime.toISOString()}
+                                            title={latestPostTime.toLocaleString()}
+                                        >
+                                            {getTimeDiff(latestPostTime)}
+                                        </time>
+                                    </span>
+                                </li>
+                            )}
                             <li className={styles.excerpt}>
-                                <span>{content.substr(0, 100)}</span>
+                                <span>
+                                    {content.substr(0, 100)}
+                                    {content.length > 100 ? "..." : ""}
+                                </span>
                             </li>
                         </ul>
                     </Link>
-                    <span className={styles.count} title="标记为已读">
+                    <span className={styles.count} title="">
                         <i className="fa fa-fw fa-comment" />
                         {postsCount}
                     </span>

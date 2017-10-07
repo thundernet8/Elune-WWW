@@ -24,6 +24,8 @@ export default class Topic {
     public createTime: number;
     public updateTime: number;
     public postTime: number;
+    public poster: string;
+    public posterId: number;
     public factor: number;
     public content: string;
     public contentHtml: string;

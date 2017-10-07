@@ -35,7 +35,11 @@ export default class TopicHero extends React.Component<
                     <div className={styles.inner}>
                         <div className={styles.topicMeta}>
                             {topic.isPinned && (
-                                <Tooltip effect="dark" content="置顶">
+                                <Tooltip
+                                    effect="dark"
+                                    placement="top"
+                                    content="置顶"
+                                >
                                     <span className={styles.sticky}>
                                         <i className="icon fa fa-fw fa-thumb-tack badge-icon" />
                                     </span>

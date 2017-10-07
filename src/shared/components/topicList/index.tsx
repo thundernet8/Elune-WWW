@@ -28,9 +28,9 @@ export default class TopicList extends React.Component<
 
     renderTopicList = () => {
         const { store } = this.props;
-        const { topics, topicsLoading, hasMoreTopic } = store;
+        const { topics, topicsLoading, total } = store;
 
-        if (!hasMoreTopic && !topicsLoading) {
+        if (total === 0 && !topicsLoading) {
             return (
                 <div
                     className={ClassNames(

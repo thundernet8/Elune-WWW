@@ -164,6 +164,7 @@ export default class CreateTopicStore extends AbstractStore {
             .catch(err => {
                 alert(err.message || err.toString());
                 this.setField("requesting", false);
+                throw new Error(err);
             });
     };
 
