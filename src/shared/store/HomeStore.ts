@@ -114,7 +114,7 @@ export default class HomeStore extends AbstractStore {
     };
 
     @action
-    getTopics = () => {
+    getTopics = (keepExist: boolean = false) => {
         const { page, pageSize, topics, order, orderBy } = this;
         const params = {
             page,
@@ -125,7 +125,9 @@ export default class HomeStore extends AbstractStore {
         this.setField("topicsLoading", true);
         return FetchTopics(params)
             .then(resp => {
-                this.setTopics(topics.concat(resp.items));
+                this.setTopics(
+                    keepExist ? topics.concat(resp.items) : resp.items
+                );
                 this.setField("topicsLoading", false);
                 if (page === 1) {
                     this.setField("total", resp.total);
@@ -144,7 +146,7 @@ export default class HomeStore extends AbstractStore {
             return;
         }
         this.setField("page", page + 1);
-        this.getTopics();
+        this.getTopics(true);
     };
 
     @action
