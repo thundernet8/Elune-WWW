@@ -1,3 +1,5 @@
+import { EntityStatus } from "enum/EntityStatus";
+
 export default class UserInfo {
     public id: number;
     public username: string;
@@ -6,4 +8,5 @@ export default class UserInfo {
     public unreadCount: number;
     public joinTime: number;
     public avatar: string;
+    public status: EntityStatus;
 }

@@ -1,6 +1,7 @@
 import Channel from "./Channel";
 import Tag from "./Tag";
 import User from "./User";
+import { EntityStatus } from "enum/EntityStatus";
 
 export default class Topic {
     public channel: Channel;
@@ -19,7 +20,7 @@ export default class Topic {
     public downvotesCount: number;
     public favoritesCount: number;
     public postsCount: number;
-    public status: number;
+    public status: EntityStatus;
     public commentStatus: number;
     public createTime: number;
     public updateTime: number;

@@ -47,7 +47,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
                         {showClose && (
                             <div className={styles.modalClose}>
                                 <button type="button">
-                                    <i className="icon fa fa-fw fa-times" />
+                                    <i className="el-icon-close" />
                                 </button>
                             </div>
                         )}
