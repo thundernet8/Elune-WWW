@@ -16,7 +16,7 @@ export interface UpdateChannelReq extends CreateChannelReq {
 }
 
 export function CreateChannel(payload: CreateChannelReq) {
-    return WebApi.Post<CommonResp<boolean>>("channels", payload);
+    return WebApi.Post<CommonResp<number>>("channels", payload);
 }
 
 export function UpdateChannel(payload: UpdateChannelReq) {

@@ -1,7 +1,10 @@
-import { observable, action } from "mobx";
+import { observable, action, computed } from "mobx";
 import { FetchTopic } from "api/Topic";
+import { FetchTopicPosts } from "api/Post";
 import Topic from "model/Topic";
+import Post from "model/Post";
 import IStoreArgument from "interface/IStoreArgument";
+import { SortOrder, SortOrderBy } from "enum/Sort";
 import AbstractStore from "./AbstractStore";
 import { IS_NODE } from "../../../env";
 
@@ -84,17 +87,89 @@ export default class TopicStore extends AbstractStore {
         });
     };
 
+    @observable postsLoading: boolean = false;
+    @observable postPage: number = 1;
+    @observable postPageSize: number = 20;
+    @observable order: SortOrder = SortOrder.DESC;
+    @observable orderBy: SortOrderBy = SortOrderBy.ID;
+
+    @observable posts: Post[] = [];
+
+    @observable postTotal: number = -1;
+
+    @computed
+    get hasMorePosts() {
+        const { postPage, postPageSize, postTotal } = this;
+        return postTotal === -1 || postPage * postPageSize < postTotal;
+    }
+
+    @action
+    setPosts = (posts: Post[]) => {
+        this.posts = posts;
+    };
+
+    @action
+    getPosts = (keepExist: boolean = false) => {
+        const { postPage, postPageSize, posts, order, orderBy } = this;
+        const { id } = this.Match.params;
+        const params = {
+            page: postPage,
+            pageSize: postPageSize,
+            order,
+            orderBy,
+            topicId: Number(id)
+        };
+        this.setField("postsLoading", true);
+        return FetchTopicPosts(params)
+            .then(resp => {
+                this.setPosts(
+                    keepExist ? posts.concat(resp.items) : resp.items
+                );
+                this.setField("postsLoading", false);
+                if (postPage === 1) {
+                    this.setField("total", resp.total);
+                }
+                return resp;
+            })
+            .catch(() => {
+                this.setField("topicsLoading", false);
+            });
+    };
+
+    @action
+    getNextPageTopics = () => {
+        const { postPage, postPageSize, postTotal } = this;
+        if ((postPage - 1) * postPageSize >= postTotal) {
+            return;
+        }
+        this.setField("postPage", postPage + 1);
+        this.getPosts(true);
+    };
+
+    @action
+    refreshPosts = () => {
+        this.setPosts([]);
+        this.setField("postPage", 1);
+        this.setField("postTotal", 0);
+        this.getPosts();
+    };
+
     /**
      * SSR数据初始化(必须返回promise)
      */
     fetchData() {
-        return this.getTopic();
+        const promises: Promise<any>[] = [];
+        promises.push(this.getTopic());
+        promises.push(this.getPosts());
+        return Promise.all(promises);
     }
 
     public toJSON() {
         const obj = super.toJSON();
         return Object.assign(obj, {
-            topic: this.topic
+            topic: this.topic,
+            posts: this.posts,
+            postTotal: this.postTotal
         });
     }
 
@@ -103,10 +178,14 @@ export default class TopicStore extends AbstractStore {
         if (!json) {
             return this;
         }
-        const { topic } = json;
+        const { topic, posts, postTotal } = json;
         if (typeof topic !== "undefined") {
             this.setTopic(topic);
         }
+        if (typeof posts !== "undefined") {
+            this.setPosts(posts);
+        }
+        this.setField("postTotal", postTotal);
         return this;
     }
 }

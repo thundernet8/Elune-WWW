@@ -1,9 +1,14 @@
 import * as React from "react";
+import { observer } from "mobx-react";
 import DocumentMeta from "react-document-meta";
 // import Topic from "model/Topic";
+import PostItem from "components/PostItem";
 import TopicStore from "store/TopicStore";
+import GlobalStore from "store/GlobalStore";
 
 const styles = require("./styles/main.less");
+
+const defaultAvatar = require("IMG/avatar-default.png");
 
 interface TopicMainProps {
     store: TopicStore;
@@ -11,20 +16,83 @@ interface TopicMainProps {
 
 interface TopicMainState {}
 
+@observer
 export default class TopicMain extends React.Component<
     TopicMainProps,
     TopicMainState
 > {
     renderMainThread = () => {
-        return null;
+        const { store } = this.props;
+        const { topic } = store;
+        return <PostItem post={topic} store={store} />;
     };
 
     renderPostList = () => {
-        return null;
+        const { store } = this.props;
+        const { loading, postsLoading, posts } = store;
+        if (!loading && postsLoading) {
+            return (
+                <div className={styles.postsLoading}>
+                    <i className="el-icon-loading" />
+                </div>
+            );
+        }
+        return (
+            <div className={styles.postListWrapper}>
+                <ul className={styles.postList}>
+                    {posts.map((post, index) => {
+                        return (
+                            <PostItem key={index} post={post} store={store} />
+                        );
+                    })}
+                </ul>
+            </div>
+        );
     };
 
     renderPostBox = () => {
-        return null;
+        const { store } = this.props;
+        const { loading, postsLoading } = store;
+        const globalStore = GlobalStore.Instance;
+        const { user, showLoginAuthModal } = globalStore;
+        if (loading || postsLoading) {
+            return null;
+        }
+
+        return (
+            <div className={styles.commentPlaceholder}>
+                {(function() {
+                    if (user && user.id) {
+                        return (
+                            <div className={styles.inner}>
+                                <header>
+                                    <span className={styles.avatar}>
+                                        <img
+                                            src={user.avatar || defaultAvatar}
+                                        />
+                                    </span>
+                                    说点什么...
+                                </header>
+                            </div>
+                        );
+                    } else {
+                        return (
+                            <div
+                                className={styles.inner}
+                                onClick={showLoginAuthModal}
+                            >
+                                <header>
+                                    <span className={styles.avatar}>
+                                        <img src={defaultAvatar} />
+                                    </span>
+                                    登录以发表评论
+                                </header>
+                            </div>
+                        );
+                    }
+                })()}
+            </div>
+        );
     };
 
     render() {
