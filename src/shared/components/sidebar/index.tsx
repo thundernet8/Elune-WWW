@@ -1,4 +1,5 @@
 import * as React from "react";
+import ClassNames from "classnames";
 
 const styles = require("./index.less");
 
@@ -24,13 +25,28 @@ export default class Sidebar extends React.Component<
     render() {
         return (
             <aside className={styles.sidebar}>
-                <div className="widget-content">
-                    <a href="https://webapproach.net/go/do" target="_blank">
-                        <img
-                            src="https://webapproach.net/wp-content/uploads/2017/08/DigitalOcean-free-35d.png"
-                            style={{ maxWidth: "100%" }}
-                        />
-                    </a>
+                <div className={ClassNames("widget", [styles.widget])}>
+                    <div className="widget-content">
+                        <a href="https://webapproach.net/go/do" target="_blank">
+                            <img
+                                src="https://webapproach.net/wp-content/uploads/2017/08/DigitalOcean-free-35d.png"
+                                style={{ maxWidth: "100%" }}
+                            />
+                        </a>
+                    </div>
+                </div>
+                <div className="widget">
+                    <div className="widget-content">
+                        <a
+                            href="https://my.cloudleft.com/aff.php?aff=137"
+                            target="_blank"
+                        >
+                            <img
+                                src="https://webapproach.net/wp-content/uploads/2017/01/cloudleft300x250.jpg"
+                                style={{ maxWidth: "100%" }}
+                            />
+                        </a>
+                    </div>
                 </div>
             </aside>
         );

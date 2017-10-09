@@ -1,8 +1,10 @@
 export const getTimeDiff = (targetTime: Date, sourceTime?: Date) => {
     sourceTime = sourceTime || new Date();
     const tail = targetTime < sourceTime ? "前" : "后";
-    const seconds = Number(
-        ((targetTime.getTime() - sourceTime.getTime()) / 1000).toFixed(0)
+    const seconds = Math.abs(
+        Number(
+            ((targetTime.getTime() - sourceTime.getTime()) / 1000).toFixed(0)
+        )
     );
 
     if (seconds < 60) {
@@ -14,11 +16,11 @@ export const getTimeDiff = (targetTime: Date, sourceTime?: Date) => {
     }
 
     if (seconds < 3600 * 24) {
-        return Math.floor(seconds / (3600 * 24)).toString() + "小时" + tail;
+        return Math.floor(seconds / 3600).toString() + "小时" + tail;
     }
 
     if (seconds < 3600 * 24 * 7) {
-        return Math.floor(seconds / (3600 * 24 * 7)).toString() + "天" + tail;
+        return Math.floor(seconds / (3600 * 24)).toString() + "天" + tail;
     }
 
     return `${targetTime.getFullYear()}年${(targetTime.getMonth() + 101)

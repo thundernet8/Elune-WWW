@@ -1,6 +1,5 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import Topic from "model/Topic";
 import Post from "model/Post";
 import TopicStore from "store/TopicStore";
 import { Link } from "react-router-dom";
@@ -12,7 +11,7 @@ const styles = require("./index.less");
 const defaultAvatar = require("IMG/avatar-default.png");
 
 interface PostItemProps {
-    post: Post | Topic;
+    post: Post;
     store: TopicStore;
 }
 
@@ -31,8 +30,7 @@ export default class PostItem extends React.Component<
         // const parent = posts.find(x => x.id === post.pid);
         const { post, store } = this.props;
         const { posts } = store;
-        const item = post as any;
-        const replies = item.pid ? posts.filter(x => x.id === item.pid) : null;
+        const replies = posts.filter(x => x.id === post.pid);
         return (
             <div className={styles.postItem} id={`post-${post.id}`}>
                 <div className={styles.inner}>

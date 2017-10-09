@@ -1,5 +1,8 @@
+@import "../../../../assets/styles/vars";
+
 .mainView {
     position: relative;
+    padding: 20px 30px 30px 0;
 }
 
 .topicLoading,
@@ -7,4 +10,115 @@
     text-align: center;
     font-size: 3rem;
     margin: 30px auto;
+}
+
+.topicWrapper {
+    padding-left: 80px;
+    border-bottom: 1px solid @grayLight;
+    .inner {
+        padding: 20px;
+    }
+
+    header {
+        color: @mainColor;
+        margin-bottom: 15px;
+
+        ul {
+            li {
+                display: inline-block;
+                margin-right: 10px;
+            }
+        }
+
+        .author {
+            position: relative;
+            h3 {
+                color: #111;
+                font-weight: bold;
+                font-size: 1.4rem;
+            }
+        }
+
+        .avatar {
+            position: absolute;
+            left: -85px;
+            line-height: 64px;
+            img {
+                width: 64px;
+                height: 64px;
+                border-radius: 50%;
+            }
+        }
+    }
+
+    .topicBody {
+        img {
+            display: block;
+            max-width: 100%;
+            padding: 20px;
+        }
+        p {
+            line-height: 1.6;
+        }
+    }
+
+    footer {
+        margin: 20px auto;
+        padding: 10px;
+        background: @grayLighter;
+        border-radius: 4px;
+        ul {
+            text-align: right;
+            li {
+                display: inline-block;
+                font-size: 1.5rem;
+                margin-right: 10px;
+                cursor: pointer;
+                color: @mainColor;
+                i {
+                    margin-right: 5px;
+                }
+                .count {
+                    margin-right: 2px;
+                }
+
+                &.views {
+                    float: left;
+                }
+            }
+        }
+    }
+}
+
+.commentPlaceholder {
+    position: relative;
+    margin-top: 50px;
+    transition: border-color 0.2s;
+    cursor: text;
+    font-size: 1.5rem;
+    border: 2px dashed transparent;
+    color: @mainColor;
+    border-radius: 10px;
+    padding-left: 100px;
+    min-height: 100px;
+
+    &:hover {
+        border-color: @grayLight;
+    }
+
+    header {
+        position: relative;
+        line-height: 100px;
+        .avatar {
+            position: absolute;
+            left: -85px;
+            top: 18px;
+            line-height: 64px;
+            img {
+                width: 64px;
+                height: 64px;
+                border-radius: 50%;
+            }
+        }
+    }
 }

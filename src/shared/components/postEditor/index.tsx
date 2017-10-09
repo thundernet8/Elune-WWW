@@ -7,19 +7,19 @@ import ClassNames from "classnames";
 
 const styles = require("./index.less");
 
-interface LocalEditorProps {
+interface PostEditorProps {
     rawContent: string;
     onChange?: (raw: string, html: string, plainText: string) => void;
     readOnly?: boolean;
 }
 
-interface LocalEditorState {
+interface PostEditorState {
     editorState: EditorState;
 }
 
-export default class LocalEditor extends React.Component<
-    LocalEditorProps,
-    LocalEditorState
+export default class PostEditor extends React.Component<
+    PostEditorProps,
+    PostEditorState
 > {
     static defaultProps = {
         readOnly: false
@@ -76,7 +76,7 @@ export default class LocalEditor extends React.Component<
         const { readOnly } = this.props;
         return (
             <div
-                className={ClassNames([styles.localEditor], {
+                className={ClassNames([styles.PostEditor], {
                     [styles.readOnly]: readOnly
                 })}
             >
@@ -106,14 +106,6 @@ export default class LocalEditor extends React.Component<
                         ],
                         fontSize: {
                             options: [10, 12, 14, 16, 18, 24, 30]
-                        },
-                        fontFamily: {
-                            options: [
-                                "Arial",
-                                "Georgia",
-                                "Microsoft Yahei",
-                                "Times New Roman"
-                            ]
                         },
                         image: {
                             uploadEnabled: true,

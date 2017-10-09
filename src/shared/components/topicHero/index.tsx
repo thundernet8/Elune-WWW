@@ -34,7 +34,7 @@ export default class TopicHero extends React.Component<
                 <div className={ClassNames("container", [styles.container])}>
                     <div className={styles.inner}>
                         <div className={styles.topicMeta}>
-                            {topic.isPinned && (
+                            {!!topic.isPinned && (
                                 <Tooltip
                                     effect="dark"
                                     placement="top"
