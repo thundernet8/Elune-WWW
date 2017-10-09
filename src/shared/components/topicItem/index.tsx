@@ -4,7 +4,7 @@ import ClassNames from "classnames";
 import { Link } from "react-router-dom";
 import Topic from "model/Topic";
 import { Tooltip } from "element-react/next";
-import { getTimeDiff } from "utils/DateTimeKit";
+import { getTimeDiff, getLocalDate } from "utils/DateTimeKit";
 
 const styles = require("./index.less");
 const defaultAvatar = require("IMG/avatar-default.png");
@@ -73,8 +73,8 @@ export default class TopicItem extends React.Component<
                         <Tooltip
                             effect="dark"
                             placement="bottom"
-                            content={`${author.nickname} 发布于 ${new Date(
-                                createTime * 1000
+                            content={`${author.nickname} 发布于 ${getLocalDate(
+                                new Date(createTime * 1000)
                             ).toLocaleString()}`}
                         >
                             <img

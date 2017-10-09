@@ -3,7 +3,11 @@ export const getTimeDiff = (targetTime: Date, sourceTime?: Date) => {
     const tail = targetTime < sourceTime ? "前" : "后";
     const seconds = Math.abs(
         Number(
-            ((targetTime.getTime() - sourceTime.getTime()) / 1000).toFixed(0)
+            ((targetTime.getTime() -
+                (sourceTime.getTime() +
+                    sourceTime.getTimezoneOffset() * 60000)) /
+                1000
+            ).toFixed(0)
         )
     );
 
@@ -28,4 +32,10 @@ export const getTimeDiff = (targetTime: Date, sourceTime?: Date) => {
         .substring(1)}月${(targetTime.getDate() + 100)
         .toString()
         .substring(1)}日`;
+};
+
+export const getLocalDate = (gmtDate: Date) => {
+    const now = new Date();
+    const offset = now.getTimezoneOffset() * 60000;
+    return new Date(gmtDate.getTime() - offset);
 };

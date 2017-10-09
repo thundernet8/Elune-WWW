@@ -9,7 +9,7 @@ import GlobalStore from "store/GlobalStore";
 // import ReactDOMServer from "react-dom/server";
 import { Parser as HtmlToReactParser } from "html-to-react";
 import { Tooltip } from "element-react/next";
-import { getTimeDiff } from "utils/DateTimeKit";
+import { getTimeDiff, getLocalDate } from "utils/DateTimeKit";
 import { Link } from "react-router-dom";
 
 const styles = require("./styles/main.less");
@@ -57,8 +57,8 @@ export default class TopicMain extends React.Component<
                                 <Tooltip
                                     effect="dark"
                                     placement="top"
-                                    content={new Date(
-                                        topic.createTime * 1000
+                                    content={getLocalDate(
+                                        new Date(topic.createTime * 1000)
                                     ).toLocaleString()}
                                 >
                                     <span>
