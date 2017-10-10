@@ -32,6 +32,10 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
         }
     }
 
+    componentWillUnmount() {
+        document.body.style.overflow = "";
+    }
+
     render() {
         const { visible, showClose, onClose, children, className } = this.props;
         if (!visible) {
