@@ -157,12 +157,12 @@ export default class CreateTopicStore extends AbstractStore {
             contentRaw
         })
             .then(resp => {
-                alert(resp.msg);
                 this.clearData();
                 this.setField("requesting", false);
+                return resp;
             })
             .catch(err => {
-                alert(err.message || err.toString());
+                // alert(err.message || err.toString());
                 this.setField("requesting", false);
                 throw new Error(err);
             });

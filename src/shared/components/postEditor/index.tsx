@@ -100,10 +100,21 @@ export default class PostEditor extends React.Component<
                             "emoji",
                             "image",
                             "list",
-                            "textAlign",
-                            "remove",
                             "history"
                         ],
+                        fontFamily: {
+                            options: [
+                                "宋体",
+                                "微软雅黑",
+                                "黑体",
+                                "楷体_GB2312",
+                                "幼圆",
+                                "Arial",
+                                "Arial Black",
+                                "Comic Sans MS",
+                                "Times New Roman"
+                            ]
+                        },
                         fontSize: {
                             options: [10, 12, 14, 16, 18, 24, 30]
                         },
