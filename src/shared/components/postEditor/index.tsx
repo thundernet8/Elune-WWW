@@ -112,6 +112,7 @@ export default class PostEditor extends React.Component<
                                 "Arial",
                                 "Arial Black",
                                 "Comic Sans MS",
+                                "Georgia",
                                 "Times New Roman"
                             ]
                         },

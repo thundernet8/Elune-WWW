@@ -117,6 +117,7 @@ export default class LocalEditor extends React.Component<
                                 "Arial",
                                 "Arial Black",
                                 "Comic Sans MS",
+                                "Georgia",
                                 "Times New Roman"
                             ]
                         },
