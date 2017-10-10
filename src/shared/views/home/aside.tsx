@@ -66,6 +66,14 @@ class HomeAside extends React.Component<HomeAsideProps, HomeAsideState> {
                                 ])}
                                 type="button"
                                 title="新的话题"
+                                style={
+                                    currentChannel
+                                        ? {
+                                              backgroundColor:
+                                                  currentChannel.color
+                                          }
+                                        : {}
+                                }
                                 onClick={showLoginAuthModal}
                             >
                                 <i className="icon fa fa-fw fa-edit btn-icon" />
