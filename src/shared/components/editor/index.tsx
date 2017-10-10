@@ -109,9 +109,14 @@ export default class LocalEditor extends React.Component<
                         },
                         fontFamily: {
                             options: [
+                                "宋体",
+                                "微软雅黑",
+                                "黑体",
+                                "楷体_GB2312",
+                                "幼圆",
                                 "Arial",
-                                "Georgia",
-                                "Microsoft Yahei",
+                                "Arial Black",
+                                "Comic Sans MS",
                                 "Times New Roman"
                             ]
                         },
