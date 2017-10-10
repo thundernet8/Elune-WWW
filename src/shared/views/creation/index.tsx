@@ -5,7 +5,7 @@ import { withRouter } from "react-router";
 import LocalEditor from "components/editor";
 import Modal from "common/modal";
 import CreateTopicStore from "store/CreateTopicStore";
-import { Button } from "element-react/next";
+import { Button, Message } from "element-react/next";
 import DocumentMeta from "react-document-meta";
 
 const styles = require("./styles/index.less");
@@ -57,8 +57,17 @@ class CreationView extends React.Component<
         publishTopic()
             .then(() => {
                 this.editor.clean();
+                Message({
+                    message: "创建话题成功",
+                    type: "success"
+                });
             })
-            .catch(() => {});
+            .catch(err => {
+                Message({
+                    message: err.message || err.toString(),
+                    type: "error"
+                });
+            });
     };
 
     renderChannelsModal = () => {
