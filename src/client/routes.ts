@@ -1,5 +1,5 @@
 /**
- * Generated on Tue, 03 Oct 2017 06:25:22 GMT 
+ * Generated on Fri, 13 Oct 2017 16:33:59 GMT
  * 本文件由routes.yaml模板生成, 请不要直接修改
  */
 
@@ -129,6 +129,22 @@ const routes = [
                     /* tslint:enable */
                 },
                 "creation"
+            );
+        }
+    },
+    {
+        path: "/activation",
+        module: "entries/activation",
+        exact: false,
+        getComponent(cb) {
+            require.ensure(
+                ["entries/activation"],
+                require => {
+                    /* tslint:disable */
+                    cb && cb(require("entries/activation")["default"]);
+                    /* tslint:enable */
+                },
+                "activation"
             );
         }
     },

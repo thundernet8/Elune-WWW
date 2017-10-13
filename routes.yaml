@@ -35,6 +35,10 @@
 - path: /creation
   module: entries/creation
   chunk: creation
+- path: /activation
+  module: entries/activation
+  chunk: activation
+  exact: false
 - path:
   module: entries/notFound
   chunk: notFound

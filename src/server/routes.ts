@@ -1,5 +1,5 @@
 /**
- * Generated on Tue, 03 Oct 2017 06:25:22 GMT 
+ * Generated on Fri, 13 Oct 2017 16:33:59 GMT
  * 本文件由routes.yaml模板生成, 请不要直接修改
  */
 
@@ -11,6 +11,7 @@ import Topic from "entries/topic";
 import Article from "entries/article";
 import Uc from "entries/uc";
 import Creation from "entries/creation";
+import Activation from "entries/activation";
 import NotFound from "entries/notFound";
 
 const routes = [
@@ -22,6 +23,7 @@ const routes = [
     { path: "/article/:id", exact: false, component: Article },
     { path: "/u/:username", exact: false, component: Uc },
     { path: "/creation", exact: false, component: Creation },
+    { path: "/activation", exact: false, component: Activation },
     { path: "", exact: false, component: NotFound }
 ];
 
