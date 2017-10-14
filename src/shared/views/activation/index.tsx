@@ -146,11 +146,13 @@ class ActivationView extends React.Component<
         }
         return (
             <div className={styles.content}>
-                <p className={styles.activated}>
-                    您的账户已激活成功，将在<span className={styles.timing}>
-                        {timing}
-                    </span>秒内跳转至首页.
-                </p>
+                <div className={styles.activated}>
+                    <p>
+                        您的账户已激活成功，将在<span className={styles.timing}>
+                            {timing}
+                        </span>秒内跳转至首页.
+                    </p>
+                </div>
             </div>
         );
     };
