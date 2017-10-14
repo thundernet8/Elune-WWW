@@ -2,7 +2,7 @@ import * as React from "react";
 import ClassNames from "classnames";
 import DocumentMeta from "react-document-meta";
 import { withRouter } from "react-router";
-import { Activate, ReActivae } from "api/Auth";
+import { Activate, ReActivate } from "api/Auth";
 import { Message, Input, Button } from "element-react/next";
 import { isEmail } from "utils/TextKit";
 
@@ -66,7 +66,7 @@ class ActivationView extends React.Component<
             });
             return false;
         }
-        ReActivae({ email })
+        ReActivate({ email })
             .then(resp => {
                 if (resp) {
                     Message({
@@ -146,7 +146,7 @@ class ActivationView extends React.Component<
         }
         return (
             <div className={styles.content}>
-                <p className={styles.success}>
+                <p className={styles.activated}>
                     您的账户已激活成功，将在<span className={styles.timing}>
                         {timing}
                     </span>秒内跳转至首页.
@@ -190,8 +190,13 @@ class ActivationView extends React.Component<
                         placeholder="输入账户邮箱"
                         value={email}
                         onChange={this.onInputEmail}
+                        className={styles.emailInput}
                     />
-                    <Button type="primary" onClick={this.reSendMail}>
+                    <Button
+                        type="primary"
+                        onClick={this.reSendMail}
+                        disabled={!isEmail(email)}
+                    >
                         重新发送
                     </Button>
                 </div>

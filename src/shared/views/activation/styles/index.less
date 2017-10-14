@@ -1,3 +1,5 @@
+@import "../../../../assets/styles/vars";
+
 .activationView {
     position: relative;
 }
@@ -5,4 +7,61 @@
 .container {
     padding: 20px;
     margin: 0 auto;
+
+    & > h1 {
+        color: @darkColor;
+        font-weight: normal;
+        text-align: center;
+        margin: 50px auto 20px;
+    }
+
+    & > .content {
+        margin: 0 auto;
+        & > div {
+            text-align: center;
+            min-height: 200px;
+            padding: 50px 0;
+        }
+    }
+}
+
+.activating {
+    i {
+        font-size: 24px;
+        line-height: 2;
+    }
+    p {
+        font-size: 14px;
+    }
+}
+
+.activated {
+    p {
+        font-size: 14px;
+        color: @successColor;
+    }
+    .timing {
+        padding: 0 5px;
+        font-size: 16px;
+        color: @dangerColor;
+    }
+}
+
+.activateFailed {
+    p {
+        color: @dangerColor;
+    }
+}
+
+.reActivate {
+    display: flex;
+    max-width: 320px;
+    margin: 0 auto;
+    .emailInput {
+        flex: 1;
+    }
+    button {
+        height: 36px;
+        margin-left: 10px;
+    }
 }

@@ -41,7 +41,7 @@ export function Activate(payload: ActivateReq) {
     return WebApi.Post<boolean>(`activate${payload.tokenSearch}`, {});
 }
 
-export function ReActivae(payload: ReActivateReq) {
+export function ReActivate(payload: ReActivateReq) {
     return WebApi.Post<boolean>("reactivate", payload);
 }
 
