@@ -4,13 +4,23 @@ import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import { UploadImage } from "api/Upload";
 import ClassNames from "classnames";
+import { EditorSuggestion } from "interface/EditorSuggestion";
 
 const styles = require("./index.less");
 
 interface PostEditorProps {
     rawContent: string;
-    onChange?: (raw: string, html: string, plainText: string) => void;
+    onChange?: (
+        raw: string,
+        html: string,
+        plainText: string,
+        mentions: EditorSuggestion[]
+    ) => void;
     readOnly?: boolean;
+    placeholder?: string;
+    className?: string;
+    toolBarClassName?: string;
+    mentions?: EditorSuggestion[];
 }
 
 interface PostEditorState {
@@ -22,7 +32,8 @@ export default class PostEditor extends React.Component<
     PostEditorState
 > {
     static defaultProps = {
-        readOnly: false
+        readOnly: false,
+        mentions: []
     };
 
     constructor(props) {
@@ -44,8 +55,15 @@ export default class PostEditor extends React.Component<
         const json = JSON.stringify(raw);
         const html = draftToHtml(raw);
         const plainText = editorState.getCurrentContent().getPlainText();
+
+        const entities = Object.keys(raw.entityMap).map(
+            key => raw.entityMap[key]
+        );
+        const mentions: EditorSuggestion[] = entities
+            .filter((value: any) => value.type === "MENTION")
+            .map((m: any) => m.data);
         if (onChange) {
-            onChange(json, html, plainText);
+            onChange(json, html, plainText, mentions);
         }
         this.setState({
             editorState
@@ -73,27 +91,39 @@ export default class PostEditor extends React.Component<
 
     render() {
         const { editorState } = this.state;
-        const { readOnly } = this.props;
+        const {
+            readOnly,
+            placeholder,
+            className,
+            toolBarClassName,
+            mentions
+        } = this.props;
+
         return (
             <div
-                className={ClassNames([styles.PostEditor], {
-                    [styles.readOnly]: readOnly
-                })}
+                className={ClassNames(
+                    [styles.postEditor],
+                    {
+                        [styles.readOnly]: readOnly
+                    },
+                    [className]
+                )}
+                suppressContentEditableWarning
             >
                 <Editor
                     readOnly={readOnly}
                     editorState={editorState}
-                    toolbarClassName={styles.editorToolbar}
+                    toolbarClassName={ClassNames(
+                        [styles.editorToolbar],
+                        [toolBarClassName]
+                    )}
                     wrapperClassName={styles.editorWrapper}
                     editorClassName={styles.editor}
                     onEditorStateChange={this.onEditorStateChange}
-                    placeholder="输入正文..."
+                    placeholder={placeholder}
                     toolbar={{
                         options: [
-                            "inline",
                             "blockType",
-                            "fontSize",
-                            "fontFamily",
                             "colorPicker",
                             "link",
                             /* "embedded", */
@@ -127,6 +157,12 @@ export default class PostEditor extends React.Component<
                     localization={{
                         locale: "zh"
                     }}
+                    mention={{
+                        separator: " ",
+                        trigger: "@",
+                        suggestions: mentions
+                    }}
+                    autoFocus
                 />
             </div>
         );

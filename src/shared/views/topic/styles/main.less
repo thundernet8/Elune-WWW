@@ -52,6 +52,7 @@
     }
 
     .topicBody {
+        font-size: 1.6rem;
         img {
             display: block;
             max-width: 100%;
@@ -61,10 +62,64 @@
         p {
             line-height: 1.6;
         }
+
+        ul,
+        ol {
+            padding-left: 30px;
+            margin: 1rem;
+            li {
+                display: list-item;
+                list-style: inherit;
+                line-height: 1.6;
+            }
+        }
+
+        ul {
+            list-style-type: disc;
+        }
+
+        ol {
+            list-style-type: decimal;
+        }
+
+        blockquote {
+            font-size: inherit;
+            border: 0;
+            background: @grayLight;
+            color: @mainColor;
+            border-radius: 4px;
+            padding: 8px 15px;
+            border-top: 2px dotted #fff;
+            border-bottom: 2px dotted #fff;
+            margin: 1em 0;
+        }
+    }
+
+    .asideActions {
+        position: relative;
+        margin-top: -5px;
+        text-align: right;
+        transition: opacity 0.2s;
+        opacity: 0;
+        padding-right: 5px;
+        ul {
+            li {
+                margin-right: 0;
+                margin-left: -5px;
+                display: inline-block;
+                vertical-align: top;
+            }
+        }
+    }
+
+    &:hover {
+        .asideActions {
+            opacity: 1;
+        }
     }
 
     footer {
-        margin: 20px auto;
+        margin: 10px auto 20px;
         padding: 10px;
         background: @grayLighter;
         border-radius: 4px;
@@ -121,5 +176,57 @@
                 border-radius: 50%;
             }
         }
+    }
+}
+
+.commentEditorWrapper {
+    border: 1px solid @grayLight;
+    border-radius: 0;
+    padding-left: 0;
+    &:hover {
+        border-style: solid;
+    }
+    header .avatar {
+        left: 10px;
+        top: 10px;
+        line-height: 32px;
+        z-index: 999;
+        img {
+            width: 32px;
+            height: 32px;
+        }
+    }
+    .commentEditBody {
+        position: relative;
+        h3 {
+            margin: 0 auto;
+            font-size: 1.4rem;
+            line-height: 1.5;
+            padding: 15px 10px 15px 50px;
+        }
+        .close {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            line-height: 20px;
+            cursor: pointer;
+            opacity: 0.5;
+            &:hover {
+                opacity: 1;
+            }
+        }
+        .commentEditor {
+            line-height: 1.5;
+        }
+        .commentEditorToolbar {
+            border-left-color: transparent;
+            border-right-color: transparent;
+        }
+    }
+
+    footer {
+        text-align: right;
+        padding: 10px 15px;
+        border-top: 1px solid @grayLight;
     }
 }

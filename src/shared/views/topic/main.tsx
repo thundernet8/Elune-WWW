@@ -1,14 +1,15 @@
 import * as React from "react";
 import { observer } from "mobx-react";
+import ClassNames from "classnames";
 import DocumentMeta from "react-document-meta";
 // import Topic from "model/Topic";
 import PostItem from "components/PostItem";
 import TopicStore from "store/TopicStore";
 import GlobalStore from "store/GlobalStore";
-// import LocalEditor from "components/editor";
+import PostEditor from "components/postEditor";
 // import ReactDOMServer from "react-dom/server";
 import { Parser as HtmlToReactParser } from "html-to-react";
-import { Tooltip } from "element-react/next";
+import { Tooltip, Button } from "element-react/next";
 import { getTimeDiff, getLocalDate } from "utils/DateTimeKit";
 import { Link } from "react-router-dom";
 
@@ -20,19 +21,46 @@ interface TopicMainProps {
     store: TopicStore;
 }
 
-interface TopicMainState {}
+interface TopicMainState {
+    commentting: boolean;
+}
 
 @observer
 export default class TopicMain extends React.Component<
     TopicMainProps,
     TopicMainState
 > {
+    private postBox: HTMLDivElement;
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            commentting: false
+        };
+    }
+
+    refPostBox = box => {
+        this.postBox = box;
+    };
+
+    goComment = () => {
+        this.props.store.goComment();
+        this.postBox.scrollIntoView();
+        this.toggleCommentting(true);
+    };
+
+    toggleCommentting = (status: boolean) => {
+        this.setState({
+            commentting: status
+        });
+    };
+
     renderMainThread = () => {
         const { store } = this.props;
         const { topic } = store;
         const htmlToReactParser = new HtmlToReactParser();
         return (
-            <div className={styles.topicWrapper}>
+            <div className={styles.topicWrapper} id="thread">
                 <div className={styles.inner}>
                     <header>
                         <ul>
@@ -73,6 +101,15 @@ export default class TopicMain extends React.Component<
                     <div className={styles.topicBody}>
                         {htmlToReactParser.parse(topic.contentHtml)}
                     </div>
+                    <aside className={styles.asideActions}>
+                        <ul>
+                            <li className={styles.replyBtn}>
+                                <Button type="text" onClick={this.goComment}>
+                                    回复
+                                </Button>
+                            </li>
+                        </ul>
+                    </aside>
                     <footer>
                         <div className={styles.actions}>
                             <ul>
@@ -133,20 +170,92 @@ export default class TopicMain extends React.Component<
 
     renderPostBox = () => {
         const { store } = this.props;
-        const { loading, postsLoading } = store;
+        const {
+            loading,
+            postsLoading,
+            topic,
+            mentions,
+            postBtnDisabled,
+            editingPostRaw
+        } = store;
+        const { commentting } = this.state;
         const globalStore = GlobalStore.Instance;
         const { user, showLoginAuthModal } = globalStore;
         if (loading || postsLoading) {
             return null;
         }
 
+        if (user && commentting) {
+            return (
+                <div
+                    ref={this.refPostBox}
+                    className={ClassNames(
+                        [styles.commentPlaceholder],
+                        [styles.commentEditorWrapper]
+                    )}
+                    suppressContentEditableWarning
+                >
+                    <div className={styles.inner}>
+                        <header>
+                            <span className={styles.avatar}>
+                                <Tooltip
+                                    effect="dark"
+                                    placement="top"
+                                    content={user.nickname}
+                                >
+                                    <img src={user.avatar || defaultAvatar} />
+                                </Tooltip>
+                            </span>
+                        </header>
+                        <div className={styles.commentEditBody}>
+                            <ul>
+                                <li>
+                                    <h3>
+                                        <i className="icon fa fa-fw fa-reply" />{" "}
+                                        <span>{topic.title}</span>
+                                    </h3>
+                                </li>
+                                <span
+                                    className={styles.close}
+                                    onClick={this.toggleCommentting.bind(
+                                        this,
+                                        false
+                                    )}
+                                >
+                                    <i className="el-icon-close" />
+                                </span>
+                            </ul>
+                            <PostEditor
+                                className={styles.commentEditor}
+                                toolBarClassName={styles.commentEditorToolbar}
+                                rawContent={editingPostRaw}
+                                placeholder="输入评论"
+                                mentions={mentions}
+                                onChange={store.editPost}
+                            />
+                        </div>
+                        <footer>
+                            <Button type="primary" disabled={postBtnDisabled}>
+                                发表评论
+                            </Button>
+                        </footer>
+                    </div>
+                </div>
+            );
+        }
+
         return (
-            <div className={styles.commentPlaceholder}>
-                {(function() {
+            <div ref={this.refPostBox} className={styles.commentPlaceholder}>
+                {(function(that) {
                     if (user && user.id) {
                         return (
                             <div className={styles.inner}>
-                                <header>
+                                <header
+                                    onClick={that.toggleCommentting.bind(
+                                        that,
+                                        true
+                                    )}
+                                >
                                     <span className={styles.avatar}>
                                         <img
                                             src={user.avatar || defaultAvatar}
@@ -171,7 +280,7 @@ export default class TopicMain extends React.Component<
                             </div>
                         );
                     }
-                })()}
+                })(this)}
             </div>
         );
     };
