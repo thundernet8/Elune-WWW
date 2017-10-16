@@ -344,6 +344,11 @@ export default class TopicStore extends AbstractStore {
         this.postEditorState = state;
     };
 
+    @action
+    cleanPostEditor = () => {
+        this.postEditorState = EditorState.createEmpty();
+    };
+
     /**
      * SSR数据初始化(必须返回promise)
      */
