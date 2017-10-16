@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Editor } from "react-draft-wysiwyg";
-import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
-import draftToHtml from "draftjs-to-html";
+import { EditorState } from "draft-js";
 import { UploadImage } from "api/Upload";
 import ClassNames from "classnames";
 import { EditorSuggestion } from "interface/EditorSuggestion";
@@ -9,13 +8,8 @@ import { EditorSuggestion } from "interface/EditorSuggestion";
 const styles = require("./index.less");
 
 interface PostEditorProps {
-    rawContent: string;
-    onChange?: (
-        raw: string,
-        html: string,
-        plainText: string,
-        mentions: EditorSuggestion[]
-    ) => void;
+    editorState: EditorState;
+    onChange?: (state: EditorState) => void;
     readOnly?: boolean;
     placeholder?: string;
     className?: string;
@@ -23,9 +17,7 @@ interface PostEditorProps {
     mentions?: EditorSuggestion[];
 }
 
-interface PostEditorState {
-    editorState: EditorState;
-}
+interface PostEditorState {}
 
 export default class PostEditor extends React.Component<
     PostEditorProps,
@@ -38,37 +30,7 @@ export default class PostEditor extends React.Component<
 
     constructor(props) {
         super(props);
-        const editorState = props.rawContent
-            ? EditorState.createWithContent(
-                  convertFromRaw(JSON.parse(props.rawContent))
-              )
-            : EditorState.createEmpty();
-
-        this.state = {
-            editorState: editorState
-        };
     }
-
-    onEditorStateChange = (editorState: EditorState) => {
-        const { onChange } = this.props;
-        const raw = convertToRaw(editorState.getCurrentContent());
-        const json = JSON.stringify(raw);
-        const html = draftToHtml(raw);
-        const plainText = editorState.getCurrentContent().getPlainText();
-
-        const entities = Object.keys(raw.entityMap).map(
-            key => raw.entityMap[key]
-        );
-        const mentions: EditorSuggestion[] = entities
-            .filter((value: any) => value.type === "MENTION")
-            .map((m: any) => m.data);
-        if (onChange) {
-            onChange(json, html, plainText, mentions);
-        }
-        this.setState({
-            editorState
-        });
-    };
 
     uploadCallback = (file: File) => {
         const data = new FormData();
@@ -83,20 +45,15 @@ export default class PostEditor extends React.Component<
         });
     };
 
-    clean = () => {
-        this.setState({
-            editorState: EditorState.createEmpty()
-        });
-    };
-
     render() {
-        const { editorState } = this.state;
         const {
             readOnly,
             placeholder,
             className,
             toolBarClassName,
-            mentions
+            mentions,
+            editorState,
+            onChange
         } = this.props;
 
         return (
@@ -119,7 +76,7 @@ export default class PostEditor extends React.Component<
                     )}
                     wrapperClassName={styles.editorWrapper}
                     editorClassName={styles.editor}
-                    onEditorStateChange={this.onEditorStateChange}
+                    onEditorStateChange={onChange}
                     placeholder={placeholder}
                     toolbar={{
                         options: [

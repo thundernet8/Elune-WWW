@@ -7,6 +7,8 @@ import CommonResp from "model/Resp";
 import IStoreArgument from "interface/IStoreArgument";
 import { SortOrder, SortOrderBy } from "enum/Sort";
 import { EditorSuggestion } from "interface/EditorSuggestion";
+import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
+import draftToHtml from "draftjs-to-html";
 import AbstractStore from "./AbstractStore";
 import { IS_NODE } from "../../../env";
 
@@ -105,18 +107,21 @@ export default class TopicStore extends AbstractStore {
         let mentions: EditorSuggestion[] = [];
         const mentionValues = editingPostMentions.map(x => x.value);
         const includeReply = mentionValues.some(x => /(.+)(#[0-9]+)$/.test(x));
-        !includeReply &&
+        if (!includeReply) {
             mentions.push({
                 text: `${topic.author.nickname} 回复#0 - ${topic.content}`,
                 value: `${topic.authorName}#0`,
                 url: "#thread"
             });
-        mentionValues.indexOf(topic.authorName) < 0 &&
+        }
+
+        if (mentionValues.indexOf(topic.authorName) < 0) {
             mentions.push({
                 text: topic.author.nickname,
                 value: `${topic.authorName}`,
                 url: "javascript:;"
             });
+        }
 
         const postsMap = {};
         posts.forEach(post => {
@@ -129,7 +134,7 @@ export default class TopicStore extends AbstractStore {
 
         Object.keys(postsMap).forEach(authorId => {
             postsMap[authorId].forEach(post => {
-                !includeReply &&
+                if (!includeReply) {
                     mentions.push({
                         text: `${post.author
                             .nickname} 回复#${post.id} - ${post.content.substr(
@@ -139,13 +144,18 @@ export default class TopicStore extends AbstractStore {
                         value: `${post.authorName}#${post.id}`,
                         url: `#post-${post.id}`
                     });
+                }
             });
-            mentionValues.indexOf(postsMap[authorId][0].authorName) < 0 &&
+            if (
+                postsMap[authorId][0].authorId !== topic.authorId &&
+                mentionValues.indexOf(postsMap[authorId][0].authorName) < 0
+            ) {
                 mentions.push({
                     text: postsMap[authorId][0].author.nickname,
                     value: `${postsMap[authorId][0].authorName}`,
                     url: "javascript:;"
                 });
+            }
         });
 
         return mentions;
@@ -159,7 +169,7 @@ export default class TopicStore extends AbstractStore {
 
     @action
     setPosts = (posts: Post[]) => {
-        this.posts = posts;
+        this.posts = posts.reverse();
     };
 
     @action
@@ -209,10 +219,37 @@ export default class TopicStore extends AbstractStore {
     };
 
     // 正在编辑的评论/回复
-    @observable editingPostRaw: string = "";
-    @observable editingPostHtml: string = "";
-    @observable editingPostText: string = "";
-    @observable editingPostMentions: EditorSuggestion[] = [];
+    @computed
+    get editingPostRaw() {
+        const { postEditorState } = this;
+        return JSON.stringify(
+            convertToRaw(postEditorState.getCurrentContent())
+        );
+    }
+    @computed
+    get editingPostHtml() {
+        const { postEditorState } = this;
+        const raw = convertToRaw(postEditorState.getCurrentContent());
+        return draftToHtml(raw);
+    }
+    @computed
+    get editingPostText() {
+        const { postEditorState } = this;
+        return postEditorState.getCurrentContent().getPlainText();
+    }
+    @computed
+    get editingPostMentions() {
+        const { postEditorState } = this;
+        const raw = convertToRaw(postEditorState.getCurrentContent());
+        const entities = Object.keys(raw.entityMap).map(
+            key => raw.entityMap[key]
+        );
+        const mentions: EditorSuggestion[] = entities
+            .filter((value: any) => value.type === "MENTION")
+            .map((m: any) => m.data);
+
+        return mentions;
+    }
     @computed
     get postBtnDisabled() {
         return this.editingPostText.length < 1;
@@ -226,22 +263,21 @@ export default class TopicStore extends AbstractStore {
         const value = `${topic.authorName}#0`;
         const raw = `{"entityMap":{"0":{"type":"MENTION","mutability":"IMMUTABLE","data":{"text":"@${value}","value":"${value}","url":"#thread"}}},"blocks":[{"key":"ob2h","text":"@${value} ","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[{"offset":0,"length":${value.length +
             1},"key":0}],"data":{}}]}`;
-        const html = `<p><a href="#thread" class="wysiwyg-mention" data-mention data-value="${value}">@${value}</a>&nbsp;</p>`;
-        this.editingPostRaw = raw;
-        this.editingPostHtml = html;
-        this.editingPostText = `@${value}`;
-        this.editingPostMentions = [
-            {
-                text: `@${value}`,
-                value,
-                url: "#thread"
-            }
-        ];
+
+        this.postEditorState = EditorState.createWithContent(
+            convertFromRaw(JSON.parse(raw))
+        );
     };
 
     @action
-    goPost = () => {
-        // TODO
+    goReply = (post: Post) => {
+        const value = `${post.authorName}#${post.id}`;
+        const raw = `{"entityMap":{"0":{"type":"MENTION","mutability":"IMMUTABLE","data":{"text":"@${value}","value":"${value}","url":"#thread"}}},"blocks":[{"key":"ob2h","text":"@${value} ","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[{"offset":0,"length":${value.length +
+            1},"key":0}],"data":{}}]}`;
+
+        this.postEditorState = EditorState.createWithContent(
+            convertFromRaw(JSON.parse(raw))
+        );
     };
 
     @action
@@ -291,10 +327,7 @@ export default class TopicStore extends AbstractStore {
         })
             .then((resp: CommonResp<number>) => {
                 this.setField("submittingPost", false);
-                this.setField("editingPostRaw", "");
-                this.setField("editingPostHtml", "");
-                this.setField("editingPostText", "");
-                this.setField("editingPostMentions", []);
+                this.setField("postEditorState", EditorState.createEmpty());
                 this.getPosts();
                 return resp;
             })
@@ -304,17 +337,11 @@ export default class TopicStore extends AbstractStore {
             });
     };
 
+    @observable postEditorState: EditorState = EditorState.createEmpty();
+
     @action
-    editPost = (
-        raw: string,
-        html: string,
-        text: string,
-        mentions: EditorSuggestion[]
-    ) => {
-        this.editingPostRaw = raw;
-        this.editingPostHtml = html;
-        this.editingPostText = text;
-        this.editingPostMentions = mentions;
+    postEditorStateChange = (state: EditorState) => {
+        this.postEditorState = state;
     };
 
     /**

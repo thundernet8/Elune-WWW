@@ -3,8 +3,9 @@ import { observer } from "mobx-react";
 import Post from "model/Post";
 import TopicStore from "store/TopicStore";
 import { Link } from "react-router-dom";
-import { Tooltip } from "element-react/next";
-import { getTimeDiff } from "utils/DateTimeKit";
+import { Tooltip, Button } from "element-react/next";
+import { getTimeDiff, getLocalDate } from "utils/DateTimeKit";
+import { Parser as HtmlToReactParser } from "html-to-react";
 
 const styles = require("./index.less");
 
@@ -13,6 +14,7 @@ const defaultAvatar = require("IMG/avatar-default.png");
 interface PostItemProps {
     post: Post;
     store: TopicStore;
+    goReply: (post: Post) => void;
 }
 
 interface PostItemState {}
@@ -26,10 +28,19 @@ export default class PostItem extends React.Component<
         super(props);
     }
 
+    goReply = () => {
+        const { goReply, post } = this.props;
+        goReply(post);
+    };
+
     render() {
         // const parent = posts.find(x => x.id === post.pid);
+        const htmlToReactParser = new HtmlToReactParser();
+
         const { post, store } = this.props;
+        const { topic } = store;
         const { posts } = store;
+
         const replies = posts.filter(x => x.id === post.pid);
         return (
             <div className={styles.postItem} id={`post-${post.id}`}>
@@ -57,8 +68,8 @@ export default class PostItem extends React.Component<
                                 <Tooltip
                                     effect="dark"
                                     placement="top"
-                                    content={new Date(
-                                        post.createTime * 1000
+                                    content={getLocalDate(
+                                        new Date(post.createTime * 1000)
                                     ).toLocaleString()}
                                 >
                                     <span>
@@ -68,14 +79,23 @@ export default class PostItem extends React.Component<
                                     </span>
                                 </Tooltip>
                             </li>
+                            {topic.authorId === post.authorId && (
+                                <li className={styles.idBadge}>
+                                    <span>楼主</span>
+                                </li>
+                            )}
                         </ul>
                     </header>
                     <div className={styles.postBody}>
-                        <p>{post.content}</p>
+                        {htmlToReactParser.parse(post.contentHtml)}
                     </div>
                     <aside className={styles.postActions}>
                         <ul>
-                            <li className={styles.replyBtn}>回复</li>
+                            <li className={styles.replyBtn}>
+                                <Button type="text" onClick={this.goReply}>
+                                    回复
+                                </Button>
+                            </li>
                         </ul>
                     </aside>
                     <footer>

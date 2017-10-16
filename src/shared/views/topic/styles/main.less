@@ -27,6 +27,14 @@
             li {
                 display: inline-block;
                 margin-right: 10px;
+                &.idBadge {
+                    background: @warningColor;
+                    border-radius: 3px;
+                    padding: 3px 6px;
+                    line-height: 1;
+                    cursor: pointer;
+                    color: #fff;
+                }
             }
         }
 
@@ -228,5 +236,11 @@
         text-align: right;
         padding: 10px 15px;
         border-top: 1px solid @grayLight;
+
+        button {
+            i {
+                margin-left: 5px;
+            }
+        }
     }
 }

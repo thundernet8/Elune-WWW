@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import ClassNames from "classnames";
 import DocumentMeta from "react-document-meta";
 // import Topic from "model/Topic";
-import PostItem from "components/PostItem";
+import PostItem from "components/postItem";
 import TopicStore from "store/TopicStore";
 import GlobalStore from "store/GlobalStore";
 import PostEditor from "components/postEditor";
@@ -12,6 +12,7 @@ import { Parser as HtmlToReactParser } from "html-to-react";
 import { Tooltip, Button, Message } from "element-react/next";
 import { getTimeDiff, getLocalDate } from "utils/DateTimeKit";
 import { Link } from "react-router-dom";
+import Post from "model/Post";
 
 const styles = require("./styles/main.less");
 
@@ -49,6 +50,12 @@ export default class TopicMain extends React.Component<
         this.toggleCommentting(true);
     };
 
+    goReply = (post: Post) => {
+        this.props.store.goReply(post);
+        this.postBox.scrollIntoView();
+        this.toggleCommentting(true);
+    };
+
     toggleCommentting = (status: boolean) => {
         this.setState({
             commentting: status
@@ -64,6 +71,7 @@ export default class TopicMain extends React.Component<
                     message: "发布评论成功",
                     type: "success"
                 });
+                this.toggleCommentting(false);
             })
             .catch(() => {
                 Message({
@@ -113,6 +121,9 @@ export default class TopicMain extends React.Component<
                                         )}
                                     </span>
                                 </Tooltip>
+                            </li>
+                            <li className={styles.idBadge}>
+                                <span>楼主</span>
                             </li>
                         </ul>
                     </header>
@@ -178,7 +189,12 @@ export default class TopicMain extends React.Component<
                 <ul className={styles.postList}>
                     {posts.map((post, index) => {
                         return (
-                            <PostItem key={index} post={post} store={store} />
+                            <PostItem
+                                key={index}
+                                post={post}
+                                store={store}
+                                goReply={this.goReply}
+                            />
                         );
                     })}
                 </ul>
@@ -194,8 +210,8 @@ export default class TopicMain extends React.Component<
             topic,
             mentions,
             postBtnDisabled,
-            editingPostRaw,
-            submittingPost
+            submittingPost,
+            postEditorState
         } = store;
         const { commentting } = this.state;
         const globalStore = GlobalStore.Instance;
@@ -247,10 +263,10 @@ export default class TopicMain extends React.Component<
                             <PostEditor
                                 className={styles.commentEditor}
                                 toolBarClassName={styles.commentEditorToolbar}
-                                rawContent={editingPostRaw}
+                                editorState={postEditorState}
                                 placeholder="输入评论"
                                 mentions={mentions}
-                                onChange={store.editPost}
+                                onChange={store.postEditorStateChange}
                             />
                         </div>
                         <footer>
