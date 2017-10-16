@@ -9,7 +9,7 @@ import GlobalStore from "store/GlobalStore";
 import PostEditor from "components/postEditor";
 // import ReactDOMServer from "react-dom/server";
 import { Parser as HtmlToReactParser } from "html-to-react";
-import { Tooltip, Button } from "element-react/next";
+import { Tooltip, Button, Message } from "element-react/next";
 import { getTimeDiff, getLocalDate } from "utils/DateTimeKit";
 import { Link } from "react-router-dom";
 
@@ -53,6 +53,24 @@ export default class TopicMain extends React.Component<
         this.setState({
             commentting: status
         });
+    };
+
+    submitPost = () => {
+        const { store } = this.props;
+        store
+            .createPost()
+            .then(() => {
+                Message({
+                    message: "发布评论成功",
+                    type: "success"
+                });
+            })
+            .catch(() => {
+                Message({
+                    message: "创建话题失败",
+                    type: "error"
+                });
+            });
     };
 
     renderMainThread = () => {
@@ -176,7 +194,8 @@ export default class TopicMain extends React.Component<
             topic,
             mentions,
             postBtnDisabled,
-            editingPostRaw
+            editingPostRaw,
+            submittingPost
         } = store;
         const { commentting } = this.state;
         const globalStore = GlobalStore.Instance;
@@ -235,8 +254,15 @@ export default class TopicMain extends React.Component<
                             />
                         </div>
                         <footer>
-                            <Button type="primary" disabled={postBtnDisabled}>
+                            <Button
+                                type="primary"
+                                disabled={postBtnDisabled}
+                                onClick={this.submitPost}
+                            >
                                 发表评论
+                                {submittingPost && (
+                                    <i className="el-icon-loading el-icon-right" />
+                                )}
                             </Button>
                         </footer>
                     </div>

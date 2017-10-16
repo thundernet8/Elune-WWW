@@ -1,8 +1,9 @@
 import { observable, action, computed } from "mobx";
 import { FetchTopic } from "api/Topic";
-import { FetchTopicPosts } from "api/Post";
+import { FetchTopicPosts, CreatePost } from "api/Post";
 import Topic from "model/Topic";
 import Post from "model/Post";
+import CommonResp from "model/Resp";
 import IStoreArgument from "interface/IStoreArgument";
 import { SortOrder, SortOrderBy } from "enum/Sort";
 import { EditorSuggestion } from "interface/EditorSuggestion";
@@ -217,6 +218,8 @@ export default class TopicStore extends AbstractStore {
         return this.editingPostText.length < 1;
     }
 
+    @observable submittingPost: boolean = false;
+
     @action
     goComment = () => {
         const { topic } = this;
@@ -234,6 +237,71 @@ export default class TopicStore extends AbstractStore {
                 url: "#thread"
             }
         ];
+    };
+
+    @action
+    goPost = () => {
+        // TODO
+    };
+
+    @action
+    createPost = () => {
+        const {
+            editingPostRaw,
+            editingPostHtml,
+            editingPostText,
+            editingPostMentions,
+            topic
+        } = this;
+
+        if (!editingPostRaw || !editingPostHtml || !editingPostText) {
+            return Promise.reject(false);
+        }
+
+        let parentId = 0;
+        let mentions: string[] = [];
+        editingPostMentions.forEach(mention => {
+            const match1 = mention.value.match(/@([^#]+)$/);
+            if (match1 && match1.length > 1) {
+                mentions.push(match1[1]);
+                return;
+            }
+            const match2 = mention.value.match(/@(.+)#([0-9]+)$/);
+            if (match2 && match2.length > 2) {
+                if (!parentId) {
+                    parentId = Number(match2[2]);
+                }
+                mentions.push(match2[1]);
+            }
+        });
+
+        mentions = Array.from(new Set(mentions));
+
+        this.submittingPost = true;
+
+        return CreatePost({
+            topicId: topic.id,
+            parentId: parentId,
+            content: editingPostText,
+            contentHtml: editingPostHtml,
+            contentRaw: editingPostRaw,
+            topicOwner: topic.authorName,
+            topicOwnerId: topic.authorId,
+            mentions
+        })
+            .then((resp: CommonResp<number>) => {
+                this.setField("submittingPost", false);
+                this.setField("editingPostRaw", "");
+                this.setField("editingPostHtml", "");
+                this.setField("editingPostText", "");
+                this.setField("editingPostMentions", []);
+                this.getPosts();
+                return resp;
+            })
+            .catch(err => {
+                this.setField("submittingPost", false);
+                throw new Error(err);
+            });
     };
 
     @action

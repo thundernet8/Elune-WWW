@@ -5,7 +5,6 @@ import Pagination from "model/Pagination";
 import { SortOrder, SortOrderBy } from "enum/Sort";
 
 export interface CreatePostReq {
-    title: string;
     topicId: number;
     parentId: number;
     content: string;
@@ -13,6 +12,7 @@ export interface CreatePostReq {
     contentRaw: string;
     topicOwner: string;
     topicOwnerId: number;
+    mentions: string[];
 }
 
 export interface UpdatePostReq extends CreatePostReq {
