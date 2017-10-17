@@ -87,7 +87,7 @@ export default class TopicStore extends AbstractStore {
         this.loading = true;
         return FetchTopic({ id: Number(id) }).then(resp => {
             this.setTopic(resp);
-            this.loading = false;
+            this.setField("loading", false);
         });
     };
 

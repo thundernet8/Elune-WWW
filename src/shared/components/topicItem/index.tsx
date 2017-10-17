@@ -43,7 +43,7 @@ export default class TopicItem extends React.Component<
             postTime,
             poster
         } = this.props.topic;
-        const latestPostTime = postTime ? new Date(postTime) : null;
+        const latestPostTime = postTime ? new Date(postTime * 1000) : null;
         return (
             <div className={styles.topicItem}>
                 <Dropdown
@@ -156,7 +156,7 @@ export default class TopicItem extends React.Component<
                                     <span>
                                         <i className="icon fa fa-fw fa-reply " />
                                         <span className={styles.username}>
-                                            <Link to={poster}>{poster}</Link>
+                                            {poster}
                                         </span>{" "}
                                         回复于{" "}
                                         <time
