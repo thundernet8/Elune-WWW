@@ -49,8 +49,8 @@ export default class TopicStore extends AbstractStore {
         if (!IS_NODE) {
             // 浏览器端从全局InitialState中初始化Store
             const initialState = window.__INITIAL_STATE__ || {};
-            if (initialState && initialState.TopicStore) {
-                this.fromJSON(initialState.TopicStore);
+            if (initialState && initialState.topicStore) {
+                this.fromJSON(initialState.topicStore);
             } else {
                 this.fetchData();
             }

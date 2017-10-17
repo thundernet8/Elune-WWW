@@ -43,9 +43,7 @@ export default class TopicItem extends React.Component<
             postTime,
             poster
         } = this.props.topic;
-        const latestPostTime = postTime
-            ? getLocalDate(new Date(postTime * 1000))
-            : null;
+        const latestPostTime = postTime ? new Date(postTime * 1000) : null;
         return (
             <div className={styles.topicItem}>
                 <Dropdown
@@ -163,8 +161,13 @@ export default class TopicItem extends React.Component<
                                         回复于{" "}
                                         <time
                                             data-pubdate="true"
-                                            data-datetime={latestPostTime.toISOString()}
-                                            title={latestPostTime.toLocaleString()}
+                                            title={
+                                                latestPostTime
+                                                    ? getLocalDate(
+                                                          latestPostTime
+                                                      ).toLocaleString()
+                                                    : ""
+                                            }
                                         >
                                             {getTimeDiff(latestPostTime)}
                                         </time>

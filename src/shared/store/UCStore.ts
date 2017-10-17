@@ -42,8 +42,8 @@ export default class UCStore extends AbstractStore {
         if (!IS_NODE) {
             // 浏览器端从全局InitialState中初始化Store
             const initialState = window.__INITIAL_STATE__ || {};
-            if (initialState && initialState.UCStore) {
-                this.fromJSON(initialState.UCStore);
+            if (initialState && initialState.uCStore) {
+                this.fromJSON(initialState.uCStore);
             } else {
                 this.fetchData();
             }
