@@ -43,7 +43,9 @@ export default class TopicItem extends React.Component<
             postTime,
             poster
         } = this.props.topic;
-        const latestPostTime = postTime ? new Date(postTime) : null;
+        const latestPostTime = postTime
+            ? getLocalDate(new Date(postTime * 1000))
+            : null;
         return (
             <div className={styles.topicItem}>
                 <Dropdown
