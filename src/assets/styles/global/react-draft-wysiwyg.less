@@ -218,7 +218,7 @@
     display: flex;
     flex-direction: column;
     width: 175px;
-    height: 175px;
+    height: 220px;
     border: 1px solid #f1f1f1;
     padding: 15px;
     border-radius: 2px;
@@ -247,7 +247,7 @@
     width: 100%;
     height: 100%;
     flex-wrap: wrap;
-    overflow: scroll;
+    // overflow: scroll;
 }
 .rdw-colorpicker-cube {
     width: 22px;
@@ -297,7 +297,7 @@
     display: flex;
     flex-direction: column;
     width: 235px;
-    height: 205px;
+    height: 220px;
     border: 1px solid #f1f1f1;
     padding: 15px;
     border-radius: 2px;
@@ -320,7 +320,7 @@
     outline: none;
 }
 .rdw-link-modal-buttonsection {
-    margin: 0 auto;
+    margin: 5px auto;
 }
 .rdw-link-modal-target-option {
     margin-bottom: 20;
@@ -329,7 +329,7 @@
     margin-left: 5px;
 }
 .rdw-link-modal-btn {
-    margin-left: 10;
+    margin-left: 10px;
     width: 75px;
     height: 30px;
     border: 1px solid #f1f1f1;
@@ -609,6 +609,10 @@
     justify-content: center;
     align-items: center;
     padding: 15px;
+    word-break: break-all;
+    overflow: hidden;
+    font-size: 10px;
+    line-height: 1;
 }
 .rdw-image-modal-upload-option-label span {
     padding: 0 20;
@@ -746,18 +750,32 @@
 }
 .rdw-suggestion-dropdown {
     position: absolute;
-    display: flex;
-    flex-direction: column;
+    padding: 5px 0;
     border: 1px solid #f1f1f1;
+    border-radius: 4px;
     min-width: 100px;
     max-height: 150px;
     overflow: auto;
     background: white;
     z-index: 100;
+    overflow-x: hidden;
 }
 .rdw-suggestion-option {
-    padding: 7px 5px;
+    padding: 7px 10px;
     border-bottom: 1px solid #f1f1f1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 1.4rem;
+    max-width: 300px;
+    overflow: hidden;
+    display: block;
+    &:hover {
+        background: #e8ecf3;
+    }
+    &:last-child {
+        border-bottom: none;
+    }
 }
 .rdw-suggestion-option-active {
     background-color: #f1f1f1;
@@ -826,7 +844,7 @@
     user-select: none;
 }
 .public-DraftStyleDefault-block {
-    margin: 1em 0;
+    margin: 1px 0;
 }
 .rdw-editor-wrapper:focus {
     outline: none;

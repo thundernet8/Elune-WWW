@@ -1,8 +1,9 @@
 node_modules/
-dist/
+/dist/
 *.log
 env.js
 ssr/*.js
 ssr/*.ejs
-src/shared/**/*.js
+src/shared/interface/**/*.js
+src/shared/utils/**/*.js
 envrc

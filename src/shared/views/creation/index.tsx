@@ -4,8 +4,9 @@ import ClassNames from "classnames";
 import { withRouter } from "react-router";
 import LocalEditor from "components/editor";
 import Modal from "common/modal";
-import Channel from "model/Channel";
 import CreateTopicStore from "store/CreateTopicStore";
+import { Button, Message } from "element-react/next";
+import DocumentMeta from "react-document-meta";
 
 const styles = require("./styles/index.less");
 
@@ -13,15 +14,7 @@ interface CreationViewProps {
     history: any;
 }
 
-interface CreationViewState {
-    title: string;
-    raw: string;
-    html: string;
-    text: string;
-    showChannels: boolean;
-    channel?: Channel;
-    pendingChannel?: Channel;
-}
+interface CreationViewState {}
 
 @observer
 class CreationView extends React.Component<
@@ -33,14 +26,11 @@ class CreationView extends React.Component<
 
     constructor(props) {
         super(props);
-        this.state = {
-            title: "",
-            raw: "",
-            html: "",
-            text: "",
-            showChannels: false
-        };
         this.store = CreateTopicStore.getInstance();
+    }
+
+    componentWillUnmount() {
+        this.store.destroy();
     }
 
     refEditor = (editor: LocalEditor) => {
@@ -54,37 +44,48 @@ class CreationView extends React.Component<
         }
     };
 
-    onInputTitle = (e: any) => {
-        this.setState({
-            title: e.target.value
-        });
+    formClick = (e: any) => {
+        e.preventDefault();
+        e.stopPropagation();
     };
 
-    contentChange = (raw: string, html: string, plainText: string) => {
-        // console.log(raw);
-        // console.log(html);
-        // console.log(plainText);
-        this.setState({
-            raw,
-            html,
-            text: plainText
-        });
-    };
-
-    toggleChannelsModal = () => {
-        this.setState({
-            showChannels: !this.state.showChannels
-        });
+    publishTopic = () => {
+        const { publishTopic, requesting } = this.store;
+        if (requesting) {
+            return;
+        }
+        publishTopic()
+            .then(() => {
+                this.editor.clean();
+                Message({
+                    message: "创建话题成功",
+                    type: "success"
+                });
+            })
+            .catch(err => {
+                Message({
+                    message: err.message || err.toString(),
+                    type: "error"
+                });
+            });
     };
 
     renderChannelsModal = () => {
-        const { showChannels, channel, pendingChannel } = this.state;
+        const {
+            showChannels,
+            selectedChannel,
+            pendingSelectChannel,
+            topChannels,
+            subChannels,
+            toggleChannelsModal,
+            preSelectChannel,
+            confirmSelectChannel
+        } = this.store;
         if (!showChannels) {
             return null;
         }
-        // const { channel, pendingChannel } = this.state;
 
-        const selectChannel = channel || pendingChannel;
+        const channel = selectedChannel || pendingSelectChannel;
 
         return (
             <Modal
@@ -93,72 +94,73 @@ class CreationView extends React.Component<
                 ])}
                 visible
                 showClose
-                onClose={this.toggleChannelsModal}
+                onClose={toggleChannelsModal}
             >
-                <form>
+                <form onClick={this.formClick}>
                     <div className={styles.header}>
                         <h3 className={styles.title}>为新话题选择一个频道</h3>
                     </div>
                     <div className={styles.body}>
                         <ul className={styles.channelList}>
-                            <li className={styles.pinned}>
-                                <span
-                                    className={styles.channelIcon}
-                                    style={{
-                                        backgroundColor: "rgb(72, 191, 131)"
-                                    }}
-                                />
-                                <span
-                                    className={styles.channelName}
-                                    style={{ color: "rgb(72, 191, 131)" }}
-                                >
-                                    开发
-                                </span>
-                                <span className={styles.channelDesc}>
-                                    Elune开发相关
-                                </span>
-                            </li>
-                            <li className={styles.pinned}>
-                                <span
-                                    className={styles.channelIcon}
-                                    style={{
-                                        backgroundColor: "rgb(75, 147, 209)"
-                                    }}
-                                />
-                                <span
-                                    className={styles.channelName}
-                                    style={{ color: "rgb(75, 147, 209)" }}
-                                >
-                                    支持
-                                </span>
-                                <span className={styles.channelDesc}>
-                                    使用问题反馈支持
-                                </span>
-                            </li>
-                            <li className={styles.pinned}>
-                                <span
-                                    className={styles.channelIcon}
-                                    style={{
-                                        backgroundColor: "rgb(181, 158, 140)"
-                                    }}
-                                />
-                                <span
-                                    className={styles.channelName}
-                                    style={{ color: "rgb(181, 158, 140)" }}
-                                >
-                                    测试
-                                </span>
-                                <span className={styles.channelDesc}>
-                                    测试发布话题专用频道
-                                </span>
-                            </li>
-                            <li>
-                                <span className={styles.channelIcon} />
-                                <span className={styles.channelName}>灌水</span>
-                                <span className={styles.channelDesc}>
-                                    灌水闲聊休闲区
-                                </span>
-                            </li>
+                            {topChannels.map((topChannel, index) => {
+                                return (
+                                    <li
+                                        key={index}
+                                        className={ClassNames([styles.pinned], {
+                                            [styles.active]:
+                                                pendingSelectChannel &&
+                                                pendingSelectChannel.id ===
+                                                    topChannel.id
+                                        })}
+                                        onClick={preSelectChannel.bind(
+                                            this.store,
+                                            topChannel.id
+                                        )}
+                                    >
+                                        <span
+                                            className={styles.channelIcon}
+                                            style={{
+                                                backgroundColor:
+                                                    topChannel.color
+                                            }}
+                                        />
+                                        <span
+                                            className={styles.channelName}
+                                            style={{ color: topChannel.color }}
+                                        >
+                                            {topChannel.title}
+                                        </span>
+                                        <span className={styles.channelDesc}>
+                                            {topChannel.description}
+                                        </span>
+                                    </li>
+                                );
+                            })}
+                            {subChannels.map((subChannel, index) => {
+                                return (
+                                    <li
+                                        key={index}
+                                        className={ClassNames({
+                                            [styles.active]:
+                                                pendingSelectChannel &&
+                                                pendingSelectChannel.id ===
+                                                    subChannel.id
+                                        })}
+                                        onClick={preSelectChannel.bind(
+                                            this.store,
+                                            subChannel.id
+                                        )}
+                                    >
+                                        <span className={styles.channelIcon} />
+                                        <span className={styles.channelName}>
+                                            {subChannel.title}
+                                        </span>
+                                        <span className={styles.channelDesc}>
+                                            {subChannel.description}
+                                        </span>
+                                    </li>
+                                );
+                            })}
                         </ul>
                     </div>
                     <div className={styles.footer}>
@@ -166,8 +168,8 @@ class CreationView extends React.Component<
                             <button
                                 className="btn btn--primary btn--block"
                                 type="submit"
-                                onClick={this.toggleChannelsModal}
-                                disabled={!selectChannel}
+                                onClick={confirmSelectChannel}
+                                disabled={!channel}
                             >
                                 <span className="btn-label">确定</span>
                             </button>
@@ -179,23 +181,62 @@ class CreationView extends React.Component<
     };
 
     render() {
+        const meta = {
+            title:
+                "创建话题-Eleun Forum-Web development community,WordPress,PHP,Java,JavaScript",
+            description: "",
+            meta: {
+                charset: "utf-8",
+                name: {
+                    keywords: "Eleun,forum,wordpress,php,java,javascript,react"
+                }
+            }
+        };
         const canGoBack = this.props.history.length > 0;
-        const { title } = this.state;
+        const {
+            selectedChannel,
+            toggleChannelsModal,
+            publishBtnDisabled,
+            title,
+            onInputTitle,
+            contentChange,
+            requesting
+        } = this.store;
         return (
             <div className={styles.creationview}>
+                <DocumentMeta {...meta} />
                 {canGoBack && (
                     <button
                         className={ClassNames("btn btn--icon", [styles.close])}
                         onClick={this.fallback}
                     >
-                        <i className="icon fa fa-fw fa-close btn-icon" />
+                        <i className="el-icon-close" />
                     </button>
                 )}
                 <section className={styles.header}>
                     <h2>新的话题</h2>
                     <ul>
                         <li className={styles.channels}>
-                            <span className={styles.choose}>选择频道</span>
+                            {selectedChannel && (
+                                <span
+                                    className={styles.channel}
+                                    onClick={toggleChannelsModal}
+                                    style={{
+                                        backgroundColor: selectedChannel.color
+                                    }}
+                                    title={selectedChannel.description}
+                                >
+                                    {selectedChannel.title}
+                                </span>
+                            )}
+                            {!selectedChannel && (
+                                <span
+                                    className={styles.choose}
+                                    onClick={toggleChannelsModal}
+                                >
+                                    选择频道
+                                </span>
+                            )}
                         </li>
                         <li className={styles.title}>
                             <h3>
@@ -205,7 +246,7 @@ class CreationView extends React.Component<
                                         styles.titleInput
                                     )}
                                     value={title}
-                                    onChange={this.onInputTitle}
+                                    onChange={onInputTitle}
                                     placeholder="话题标题"
                                 />
                             </h3>
@@ -216,18 +257,22 @@ class CreationView extends React.Component<
                     <LocalEditor
                         ref={this.refEditor}
                         rawContent={""}
-                        onChange={this.contentChange}
+                        onChange={contentChange}
                     />
                 </section>
                 <section className={styles.footer}>
-                    <button
-                        className={ClassNames("btn btn--primary", [
-                            styles.publishBtn
-                        ])}
-                        type="button"
+                    <Button
+                        className={ClassNames([styles.publishBtn])}
+                        type="primary"
+                        size="large"
+                        disabled={publishBtnDisabled}
+                        onClick={this.publishTopic}
                     >
                         发布话题
-                    </button>
+                        {requesting && (
+                            <i className="el-icon-loading el-icon-right" />
+                        )}
+                    </Button>
                 </section>
                 {this.renderChannelsModal()}
             </div>

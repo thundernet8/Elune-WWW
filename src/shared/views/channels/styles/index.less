@@ -1,0 +1,112 @@
+@import "../../../../assets/styles/vars";
+
+.channelsView {
+    position: relative;
+}
+
+.nav {
+    padding: 15px 0;
+    overflow: auto;
+    float: none;
+    width: auto;
+    padding-top: 0;
+    & > ul {
+        margin-top: 30px;
+    }
+    ul {
+        display: flex;
+        li {
+            line-height: 36px;
+            margin-right: 20px;
+            i {
+                margin-right: 5px;
+            }
+            &.channels {
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+.channelsLoading {
+    text-align: center;
+    font-size: 3rem;
+    margin: 30px auto;
+}
+
+.channelList {
+    position: relative;
+    margin: 15px auto;
+    & > ul {
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+        & > li {
+            position: relative;
+            color: #fff;
+            width: calc(~"100% / 3");
+            float: left;
+            height: 200px;
+            overflow: hidden;
+            &:first-child {
+                border-top-left-radius: 4px;
+            }
+            &:nth-child(3),
+            &:nth-child(2):last-child,
+            &:first-child:last-child {
+                border-top-right-radius: 4px;
+            }
+        }
+    }
+
+    .channelInfo {
+        padding: 20px;
+        text-decoration: none;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 42px;
+        transition: background 0.2s;
+        overflow: auto;
+        &:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        & > h3 {
+            font-size: 1.8rem;
+            margin: 0 0 10px;
+            font-weight: bold;
+            color: #fff;
+        }
+        & > p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.4rem;
+            margin: 0 0 10px;
+        }
+    }
+
+    .subChannels {
+        position: absolute;
+        bottom: 0;
+        height: 42px;
+        width: calc(~"100% - 20px");
+        padding: 8px 0;
+        margin: 0 10px;
+        line-height: 21px;
+        font-size: 1.3rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+        & > ul {
+            & > li {
+                display: inline-block;
+                margin: 0 3px;
+                a {
+                    background: #fff;
+                    color: @mainColor;
+                    border-radius: 4px;
+                    text-transform: none;
+                    padding: 5px 8px;
+                }
+            }
+        }
+    }
+}

@@ -1,4 +1,5 @@
 import * as React from "react";
+import Footer from "components/footer";
 import GlobalStore from "store/GlobalStore";
 import CreateTopicStore from "store/CreateTopicStore";
 import CreationView from "views/creation";
@@ -29,6 +30,7 @@ export default class CreationEntry extends React.Component<
                 <main className="app-content">
                     <CreationView />
                 </main>
+                <Footer />
             </div>
         );
     }

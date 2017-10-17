@@ -18,6 +18,16 @@
     <div id="app" class="App affix" style="min-height: 100vh"><%= htmlWebpackPlugin.options.htmlDom %></div>
     <script src="<%= htmlWebpackPlugin.options.vendersName %>"></script>
     <%= htmlWebpackPlugin.options.state %>
+    <script>
+        var _hmt = window._hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src =
+                "https://hm.baidu.com/hm.js?57d9ef9856b19baba81f2103c213b11f";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode !== null && s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
 </body>
 
 </html>

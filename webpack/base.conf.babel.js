@@ -13,7 +13,7 @@ const vendersConfig = require("../venders-config.json");
 const getPlugins = function(morePlugins) {
     let plugins = [
         new webpack.BannerPlugin(
-            `Generated on ${new Date().toString()}\n\nCopyright 2017-present, WuXueqian. All rights reserved.\n\n@package   ${pkg.name}\n@version   v${pkg.version}\n@author    ${pkg.author}\n@site      Elune <elune.fuli.news>\n@license   https://opensource.org/licenses/gpl-3.0.html GPL v3\n`
+            `Generated on ${new Date().toString()}\n\nCopyright 2017-present, WuXueqian. All rights reserved.\n\n@package   ${pkg.name}\n@version   v${pkg.version}\n@author    ${pkg.author}\n@site      Elune <elune.me>\n@license   https://opensource.org/licenses/gpl-3.0.html GPL v3\n`
         ),
         new webpack.HashedModuleIdsPlugin(),
         new SimpleProgressWebpackPlugin({ format: "compact" }),
@@ -24,6 +24,9 @@ const getPlugins = function(morePlugins) {
         new webpack.DllReferencePlugin({
             context: __dirname,
             manifest: require("../manifest.json")
+        }),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: "app"
         }),
         new HtmlWebpackPlugin({
             filename: path.resolve(__dirname, "../dist/index.html"),

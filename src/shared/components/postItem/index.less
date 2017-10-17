@@ -1,0 +1,128 @@
+@import "../../../assets/styles/vars";
+
+.postItem {
+    position: relative;
+    border-bottom: 1px solid @grayLight;
+    padding-left: 80px;
+    .inner {
+        padding: 20px;
+    }
+
+    header {
+        position: relative;
+        color: @mainColor;
+        margin-bottom: 15px;
+
+        ul {
+            li {
+                display: inline-block;
+                margin-right: 10px;
+                &.idBadge {
+                    background: @warningColor;
+                    border-radius: 3px;
+                    padding: 3px 6px;
+                    line-height: 1;
+                    cursor: pointer;
+                    color: #fff;
+                }
+            }
+        }
+
+        .author {
+            position: relative;
+            h3 {
+                color: #111;
+                font-weight: bold;
+                font-size: 1.4rem;
+            }
+        }
+
+        .avatar {
+            position: absolute;
+            left: -85px;
+            line-height: 64px;
+            img {
+                width: 64px;
+                height: 64px;
+                border-radius: 50%;
+            }
+        }
+    }
+
+    .postBody {
+        position: relative;
+        font-size: 1.6rem;
+        img {
+            display: block;
+            max-width: 100%;
+            padding: 20px;
+            margin: 0 auto 10px;
+        }
+        p {
+            line-height: 1.6;
+        }
+
+        ul,
+        ol {
+            padding-left: 30px;
+            margin: 1rem;
+            li {
+                display: list-item;
+                list-style: inherit;
+                line-height: 1.6;
+            }
+        }
+
+        ul {
+            list-style-type: disc;
+        }
+
+        ol {
+            list-style-type: decimal;
+        }
+
+        blockquote {
+            font-size: inherit;
+            border: 0;
+            background: @grayLight;
+            color: @mainColor;
+            border-radius: 4px;
+            padding: 8px 15px;
+            border-top: 2px dotted #fff;
+            border-bottom: 2px dotted #fff;
+            margin: 1em 0;
+        }
+    }
+
+    .postActions {
+        position: relative;
+        margin-top: -5px;
+        text-align: right;
+        transition: opacity 0.2s;
+        opacity: 0;
+        padding-right: 5px;
+        ul {
+            li {
+                margin-right: 0;
+                margin-left: -5px;
+                display: inline-block;
+                vertical-align: top;
+            }
+        }
+    }
+
+    &:hover {
+        .postActions {
+            opacity: 1;
+        }
+    }
+
+    footer {
+        position: relative;
+        ul {
+            li {
+                line-height: 2;
+            }
+        }
+    }
+}

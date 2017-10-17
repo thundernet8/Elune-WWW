@@ -1,3 +1,5 @@
+import { EntityStatus } from "enum/EntityStatus";
+
 export default class Channel {
     public id: number;
     public pid: number;
@@ -9,7 +11,7 @@ export default class Channel {
     public mainColor: number;
     public color: string;
     public topicsCount: number;
-    public status: number;
+    public status: EntityStatus;
     public createTime: number;
     public updateTime: number;
     public hosts: string;

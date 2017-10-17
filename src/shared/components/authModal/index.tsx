@@ -1,25 +1,16 @@
 import * as React from "react";
+import { observer } from "mobx-react";
 import ClassNames from "classnames";
 import Modal from "common/modal";
 import { isEmail } from "utils/TextKit";
 import GlobalStore from "store/GlobalStore";
-import UserInfo from "model/User";
-import CommonResp from "model/Resp";
+// import UserInfo from "model/User";
+// import CommonResp from "model/Resp";
+import { AuthType } from "enum/Auth";
 
 const styles = require("./index.less");
 
-export enum AuthType {
-    None,
-    Login,
-    Register
-}
-
-interface AuthModalProps {
-    open: boolean;
-    onClose: () => void;
-    authType: AuthType;
-    switchType: (authType: AuthType) => void;
-}
+interface AuthModalProps {}
 
 interface AuthModalState {
     username: string;
@@ -30,6 +21,7 @@ interface AuthModalState {
     [field: string]: string | boolean;
 }
 
+@observer
 export default class AuthModal extends React.Component<
     AuthModalProps,
     AuthModalState
@@ -60,7 +52,7 @@ export default class AuthModal extends React.Component<
         e.preventDefault();
 
         const { username, email, password, requesting } = this.state;
-        const { authType } = this.props;
+        const { authType } = GlobalStore.Instance;
 
         if (requesting) {
             return false;
@@ -101,17 +93,18 @@ export default class AuthModal extends React.Component<
     };
 
     requestLogin = (username: string, password: string) => {
+        const { switchAuthModal } = GlobalStore.Instance;
         this.setState({
             requesting: true
         });
         return GlobalStore.Instance
             .requestLogin(username, password)
-            .then((resp: CommonResp<UserInfo>) => {
-                console.log(resp);
+            .then(() => {
+                // console.log(resp);
                 this.setState({
                     requesting: false
                 });
-                this.props.switchType(AuthType.None);
+                switchAuthModal(AuthType.None);
             })
             .catch(err => {
                 console.dir(err);
@@ -123,17 +116,18 @@ export default class AuthModal extends React.Component<
     };
 
     requestRegister = (username: string, email: string, password: string) => {
+        const { switchAuthModal } = GlobalStore.Instance;
         this.setState({
             requesting: true
         });
         return GlobalStore.Instance
             .requestRegister(username, email, password)
-            .then((resp: CommonResp<UserInfo>) => {
-                console.log(resp);
+            .then(() => {
+                // console.log(resp);
                 this.setState({
                     requesting: false
                 });
-                this.props.switchType(AuthType.None);
+                switchAuthModal(AuthType.None);
             })
             .catch(err => {
                 console.dir(err);
@@ -145,15 +139,23 @@ export default class AuthModal extends React.Component<
     };
 
     render() {
-        const { open, authType, switchType } = this.props;
+        const {
+            authType,
+            switchAuthModal,
+            closeAuthModal
+        } = GlobalStore.Instance;
         const { username, email, password, alert, requesting } = this.state;
         const title = authType === AuthType.Login ? "登入" : "注册";
+
+        if (authType !== AuthType.Login && authType !== AuthType.Register) {
+            return null;
+        }
         return (
             <Modal
                 className={ClassNames("animated zoomIn", [styles.authModal])}
-                visible={open}
+                visible
                 showClose
-                onClose={this.props.onClose}
+                onClose={closeAuthModal}
             >
                 <form onClick={this.formClick}>
                     <div className={styles.header}>
@@ -265,7 +267,7 @@ export default class AuthModal extends React.Component<
                                                 onClick={
                                                     requesting
                                                         ? () => {}
-                                                        : switchType.bind(
+                                                        : switchAuthModal.bind(
                                                               this,
                                                               AuthType.Register
                                                           )
@@ -285,7 +287,7 @@ export default class AuthModal extends React.Component<
                                                 onClick={
                                                     requesting
                                                         ? () => {}
-                                                        : switchType.bind(
+                                                        : switchAuthModal.bind(
                                                               this,
                                                               AuthType.Login
                                                           )

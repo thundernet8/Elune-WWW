@@ -1,5 +1,5 @@
 /**
- * Generated on Sun, 24 Sep 2017 05:46:36 GMT
+ * Generated on Fri, 13 Oct 2017 16:33:59 GMT
  * 本文件由routes.yaml模板生成, 请不要直接修改
  */
 
@@ -53,7 +53,7 @@ const routes = [
         }
     },
     {
-        path: "/channel/:id",
+        path: "/channel/:slug",
         module: "entries/channel",
         exact: false,
         getComponent(cb) {
@@ -129,6 +129,22 @@ const routes = [
                     /* tslint:enable */
                 },
                 "creation"
+            );
+        }
+    },
+    {
+        path: "/activation",
+        module: "entries/activation",
+        exact: false,
+        getComponent(cb) {
+            require.ensure(
+                ["entries/activation"],
+                require => {
+                    /* tslint:disable */
+                    cb && cb(require("entries/activation")["default"]);
+                    /* tslint:enable */
+                },
+                "activation"
             );
         }
     },

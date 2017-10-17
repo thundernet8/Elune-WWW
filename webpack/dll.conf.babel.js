@@ -43,7 +43,9 @@ export default {
             "axios",
             "classnames",
             "react-headroom",
-            "react-document-meta"
+            "react-document-meta",
+            // "element-react",
+            "element-react/next"
         ]
     },
     output: {
@@ -51,6 +53,9 @@ export default {
         publicPath: "/assets/js/",
         filename: "[name].[chunkhash:8].js",
         library: "[name]_[chunkhash:8]"
+    },
+    resolve: {
+        modules: ["node_modules", path.resolve(__dirname, "../src/shared")]
     },
     plugins: getPlugins()
 };

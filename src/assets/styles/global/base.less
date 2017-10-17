@@ -22,7 +22,7 @@ body {
     font-family: Helvetica, Arial, Simsun, sans-serif;
     font-size: 1.3rem;
     line-height: 1.5;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 a {
@@ -31,6 +31,7 @@ a {
     text-decoration: none;
 
     &:hover {
+        color: @linkHoverColor;
         text-decoration: none;
     }
 }
@@ -94,6 +95,13 @@ input:focus {
         transition: margin-right 0.1s;
         & > i {
             margin-left: 5px;
+        }
+    }
+    &[disabled] {
+        background: @grayLightPair;
+        cursor: not-allowed;
+        &:hover {
+            background: @grayLightPair;
         }
     }
 }
@@ -205,6 +213,7 @@ input:focus {
 }
 
 .headroom {
+    z-index: 999 !important;
     &.headroom--pinned {
         header {
             -webkit-box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);

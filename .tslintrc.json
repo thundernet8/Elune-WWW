@@ -11,7 +11,7 @@
         "indent": [true, "spaces"],
         "jsdoc-format": false,
         "label-position": true,
-        "max-line-length": [true, 120],
+        "max-line-length": [false, 120],
         // "member-ordering": [
         //     true,
         //     {
