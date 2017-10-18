@@ -1,5 +1,5 @@
 /**
- * Generated on Fri, 13 Oct 2017 16:33:59 GMT
+ * Generated on Wed, 18 Oct 2017 16:35:58 GMT 
  * 本文件由routes.yaml模板生成, 请不要直接修改
  */
 
@@ -102,6 +102,22 @@ const routes = [
     },
     {
         path: "/u/:username",
+        module: "entries/uc",
+        exact: true,
+        getComponent(cb) {
+            require.ensure(
+                ["entries/uc"],
+                require => {
+                    /* tslint:disable */
+                    cb && cb(require("entries/uc")["default"]);
+                    /* tslint:enable */
+                },
+                "uc"
+            );
+        }
+    },
+    {
+        path: "/u/:username/:tab",
         module: "entries/uc",
         exact: false,
         getComponent(cb) {

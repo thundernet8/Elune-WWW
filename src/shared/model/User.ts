@@ -20,4 +20,6 @@ export class PublicUserInfo {
     public avatar: string;
     public bio: string;
     public lastSeen: number;
+    public postsCount: number;
+    public topicCount: number;
 }

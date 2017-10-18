@@ -38,8 +38,14 @@ const header = `/**\r\n * Generated on ${new Date().toGMTString()} \r\n * 本文
 const genNodeEnvRoutes = () => {
     let codes = [header];
     const routes = readRoutes();
+    const componentNames = [];
     routes.forEach(route => {
-        codes.push(`import ${route.componentName} from "${route.moduleName}";`);
+        if (componentNames.indexOf(route.componentName) < 0) {
+            componentNames.push(route.componentName);
+            codes.push(
+                `import ${route.componentName} from "${route.moduleName}";`
+            );
+        }
     });
 
     codes.push(`\r\n\r\nconst routes = [`);

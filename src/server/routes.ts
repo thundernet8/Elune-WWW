@@ -1,5 +1,5 @@
 /**
- * Generated on Fri, 13 Oct 2017 16:33:59 GMT
+ * Generated on Wed, 18 Oct 2017 16:35:58 GMT 
  * 本文件由routes.yaml模板生成, 请不要直接修改
  */
 
@@ -21,7 +21,8 @@ const routes = [
     { path: "/channel/:slug", exact: false, component: Channel },
     { path: "/topic/:id", exact: false, component: Topic },
     { path: "/article/:id", exact: false, component: Article },
-    { path: "/u/:username", exact: false, component: Uc },
+    { path: "/u/:username", exact: true, component: Uc },
+    { path: "/u/:username/:tab", exact: false, component: Uc },
     { path: "/creation", exact: false, component: Creation },
     { path: "/activation", exact: false, component: Activation },
     { path: "", exact: false, component: NotFound }

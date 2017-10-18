@@ -31,6 +31,10 @@
 - path: /u/:username
   module: entries/uc
   chunk: uc
+  exact: true
+- path: /u/:username/:tab
+  module: entries/uc
+  chunk: uc
   exact: false
 - path: /creation
   module: entries/creation
