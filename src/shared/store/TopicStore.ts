@@ -297,12 +297,12 @@ export default class TopicStore extends AbstractStore {
         let parentId = 0;
         let mentions: string[] = [];
         editingPostMentions.forEach(mention => {
-            const match1 = mention.value.match(/@([^#]+)$/);
+            const match1 = mention.text.match(/@([^#]+)$/);
             if (match1 && match1.length > 1) {
                 mentions.push(match1[1]);
                 return;
             }
-            const match2 = mention.value.match(/@(.+)#([0-9]+)$/);
+            const match2 = mention.text.match(/@(.+)#([0-9]+)$/);
             if (match2 && match2.length > 2) {
                 if (!parentId) {
                     parentId = Number(match2[2]);

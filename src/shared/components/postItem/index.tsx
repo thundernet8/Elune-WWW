@@ -6,10 +6,9 @@ import { Link } from "react-router-dom";
 import { Tooltip, Button } from "element-react/next";
 import { getTimeDiff, getLocalDate } from "utils/DateTimeKit";
 import { Parser as HtmlToReactParser } from "html-to-react";
+import CharAvatar from "components/charAvatar";
 
 const styles = require("./index.less");
-
-const defaultAvatar = require("IMG/avatar-default.png");
 
 interface PostItemProps {
     post: Post;
@@ -50,14 +49,10 @@ export default class PostItem extends React.Component<
                             <li className={styles.author}>
                                 <h3>
                                     <Link to={`/u/${post.authorName}`}>
-                                        <span className={styles.avatar}>
-                                            <img
-                                                src={
-                                                    post.author.avatar ||
-                                                    defaultAvatar
-                                                }
-                                            />
-                                        </span>
+                                        <CharAvatar
+                                            className={styles.avatar}
+                                            text={post.authorName[0]}
+                                        />
                                         <span className={styles.username}>
                                             {post.authorName}
                                         </span>

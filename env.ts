@@ -1,7 +1,8 @@
 export const IS_PROD = process.env.NODE_ENV === "production";
 
 export const IS_NODE =
-    typeof global !== "undefined" && typeof window === "undefined";
+    typeof global !== "undefined" &&
+    new Object().toString.call(global) === "[object global]";
 export const API_BASE =
     IS_PROD && !IS_NODE
         ? "https://elune.fuli.news/api/v1/"

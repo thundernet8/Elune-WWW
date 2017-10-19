@@ -10,19 +10,6 @@ import IStoreArgument from "../src/shared/interface/IStoreArgument";
 const App = require("../dist/assets/js/server").default;
 const routes = require("../dist/assets/js/server").Routes;
 
-// const getReduxPromise = async (renderProps, store, history) => {
-//     let { query, params } = renderProps;
-//     let comp =
-//         renderProps.components[renderProps.components.length - 1]
-//             .WrappedComponent;
-//     if (comp.fetchData) {
-//         // 组件拥有static方法fetchData用于服务器端渲染时决定如何预加载数据
-//         return await comp.fetchData({ query, params, store, history });
-//     } else {
-//         return;
-//     }
-// };
-
 export default (req, res) => {
     const fullUrl = req.protocol + "://" + req.headers.host + req.originalUrl;
     const urlObj = new URL(fullUrl);

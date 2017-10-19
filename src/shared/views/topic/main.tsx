@@ -13,6 +13,7 @@ import { Tooltip, Button, Message } from "element-react/next";
 import { getTimeDiff, getLocalDate } from "utils/DateTimeKit";
 import { Link } from "react-router-dom";
 import Post from "model/Post";
+import CharAvatar from "components/charAvatar";
 
 const styles = require("./styles/main.less");
 
@@ -93,14 +94,10 @@ export default class TopicMain extends React.Component<
                             <li className={styles.author}>
                                 <h3>
                                     <Link to={`/u/${topic.authorName}`}>
-                                        <span className={styles.avatar}>
-                                            <img
-                                                src={
-                                                    topic.author.avatar ||
-                                                    defaultAvatar
-                                                }
-                                            />
-                                        </span>
+                                        <CharAvatar
+                                            className={styles.avatar}
+                                            text={topic.authorName[0]}
+                                        />
                                         <span className={styles.username}>
                                             {topic.authorName}
                                         </span>
