@@ -29,7 +29,7 @@ export default class Sidebar extends React.Component<
                     <div className="widget-content">
                         <a href="https://webapproach.net/go/do" target="_blank">
                             <img
-                                src="https://webapproach.net/wp-content/uploads/2017/08/DigitalOcean-free-35d.png"
+                                src="https://elune.fuli.news/content/images/2017/10/19/a127058b1f84e24760e7da360978a746.png"
                                 style={{ maxWidth: "100%" }}
                             />
                         </a>
@@ -37,12 +37,9 @@ export default class Sidebar extends React.Component<
                 </div>
                 <div className="widget">
                     <div className="widget-content">
-                        <a
-                            href="https://my.cloudleft.com/aff.php?aff=137"
-                            target="_blank"
-                        >
+                        <a href="https://webapproach.net/go/cl" target="_blank">
                             <img
-                                src="https://webapproach.net/wp-content/uploads/2017/01/cloudleft300x250.jpg"
+                                src="https://elune.fuli.news/content/images/2017/10/19/b1f7279c640a51c2d4bf5983a328ad64.jpg"
                                 style={{ maxWidth: "100%" }}
                             />
                         </a>
