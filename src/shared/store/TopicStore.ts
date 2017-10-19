@@ -8,7 +8,7 @@ import IStoreArgument from "interface/IStoreArgument";
 import { SortOrder, SortOrderBy } from "enum/Sort";
 import { EditorSuggestion } from "interface/EditorSuggestion";
 import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
-import draftToHtml from "utils/draftjs-to-html";
+import draftToHtml from "draftjs-to-html-fork";
 import AbstractStore from "./AbstractStore";
 import { IS_NODE } from "../../../env";
 

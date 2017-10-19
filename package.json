@@ -72,6 +72,7 @@
         "dom-helpers": "^3.2.1",
         "draft-js": "^0.10.2",
         "draftjs-to-html": "^0.7.5",
+        "draftjs-to-html-fork": "^0.0.1",
         "ejs": "^2.5.7",
         "element-theme-default": "^1.4.6",
         "express": "^4.15.4",
