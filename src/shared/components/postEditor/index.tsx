@@ -1,9 +1,10 @@
 import * as React from "react";
 import { Editor } from "react-draft-wysiwyg";
-import { EditorState } from "draft-js";
+import { EditorState, convertToRaw } from "draft-js";
 import { UploadImage } from "api/Upload";
 import ClassNames from "classnames";
 import { EditorSuggestion } from "interface/EditorSuggestion";
+import decorator from "common/draftCodeDecorator";
 
 const styles = require("./index.less");
 
@@ -119,6 +120,7 @@ export default class PostEditor extends React.Component<
                         trigger: "@",
                         suggestions: mentions
                     }}
+                    customDecorators={[decorator]}
                     autoFocus
                 />
             </div>
