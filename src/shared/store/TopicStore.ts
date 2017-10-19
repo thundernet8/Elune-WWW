@@ -169,7 +169,7 @@ export default class TopicStore extends AbstractStore {
 
     @action
     setPosts = (posts: Post[]) => {
-        this.posts = posts.reverse();
+        this.posts = posts;
     };
 
     @action

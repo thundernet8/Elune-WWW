@@ -184,7 +184,7 @@ export default class TopicMain extends React.Component<
         return (
             <div className={styles.postListWrapper}>
                 <ul className={styles.postList}>
-                    {posts.map((post, index) => {
+                    {posts.reverse().map((post, index) => {
                         return (
                             <PostItem
                                 key={index}
