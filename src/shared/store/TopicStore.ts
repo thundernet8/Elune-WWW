@@ -272,7 +272,7 @@ export default class TopicStore extends AbstractStore {
     @action
     goReply = (post: Post) => {
         const value = `${post.authorName}#${post.id}`;
-        const raw = `{"entityMap":{"0":{"type":"MENTION","mutability":"IMMUTABLE","data":{"text":"@${value}","value":"${value}","url":"#thread"}}},"blocks":[{"key":"ob2h","text":"@${value} ","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[{"offset":0,"length":${value.length +
+        const raw = `{"entityMap":{"0":{"type":"MENTION","mutability":"IMMUTABLE","data":{"text":"@${value}","value":"${value}","url":"#post-${post.id}"}}},"blocks":[{"key":"ob2h","text":"@${value} ","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[{"offset":0,"length":${value.length +
             1},"key":0}],"data":{}}]}`;
 
         this.postEditorState = EditorState.createWithContent(
@@ -312,6 +312,13 @@ export default class TopicStore extends AbstractStore {
         });
 
         mentions = Array.from(new Set(mentions));
+
+        if (mentions) {
+            console.dir(this.mentions);
+            console.dir(editingPostRaw);
+            console.dir(mentions);
+            return Promise.reject(false);
+        }
 
         this.submittingPost = true;
 

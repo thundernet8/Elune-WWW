@@ -40,7 +40,7 @@ export default class PostItem extends React.Component<
         const { topic } = store;
         const { posts } = store;
 
-        const replies = posts.filter(x => x.id === post.pid);
+        const replies = posts.filter(x => x.pid === post.id);
         return (
             <div className={styles.postItem} id={`post-${post.id}`}>
                 <div className={styles.inner}>
@@ -107,8 +107,25 @@ export default class PostItem extends React.Component<
                                             className={styles.reply}
                                         >
                                             <a href={`#post-${reply.id}`}>
-                                                <i className="icon fa fa-fw fa-reply" />
-                                                {reply.authorName} 回复了它
+                                                <Tooltip
+                                                    effect="dark"
+                                                    placement="top"
+                                                    content={
+                                                        <div
+                                                            className={
+                                                                styles.replyTooltipContent
+                                                            }
+                                                        >
+                                                            {reply.content.trim()}
+                                                        </div>
+                                                    }
+                                                    className={
+                                                        styles.replyTooltip
+                                                    }
+                                                >
+                                                    <i className="icon fa fa-fw fa-reply" />
+                                                    {reply.authorName} 回复了它
+                                                </Tooltip>
                                             </a>
                                         </li>
                                     );
