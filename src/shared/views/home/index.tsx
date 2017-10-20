@@ -25,7 +25,7 @@ export default class HomeView extends React.Component<
         const meta = {
             title:
                 "Eleun Forum-Web development community,WordPress,PHP,Java,JavaScript",
-            description: "I am a description, and I can create multiple tags",
+            description: "Eleun Forum",
             // canonical: "https://elune.me",
             meta: {
                 charset: "utf-8",

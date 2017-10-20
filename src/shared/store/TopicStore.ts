@@ -313,13 +313,6 @@ export default class TopicStore extends AbstractStore {
 
         mentions = Array.from(new Set(mentions));
 
-        if (mentions) {
-            console.dir(this.mentions);
-            console.dir(editingPostRaw);
-            console.dir(mentions);
-            return Promise.reject(false);
-        }
-
         this.submittingPost = true;
 
         return CreatePost({

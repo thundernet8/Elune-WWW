@@ -21,5 +21,6 @@ export class PublicUserInfo {
     public bio: string;
     public lastSeen: number;
     public postsCount: number;
-    public topicCount: number;
+    public topicsCount: number;
+    public favoritesCount?: number;
 }
