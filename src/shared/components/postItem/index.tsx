@@ -5,8 +5,8 @@ import TopicStore from "store/TopicStore";
 import { Link } from "react-router-dom";
 import { Tooltip, Button } from "element-react/next";
 import { getTimeDiff, getLocalDate } from "utils/DateTimeKit";
-import { Parser as HtmlToReactParser } from "html-to-react";
 import CharAvatar from "components/charAvatar";
+import { sanitize } from "utils/HtmlKit";
 
 const styles = require("./index.less");
 
@@ -34,7 +34,7 @@ export default class PostItem extends React.Component<
 
     render() {
         // const parent = posts.find(x => x.id === post.pid);
-        const htmlToReactParser = new HtmlToReactParser();
+        // const htmlToReactParser = new HtmlToReactParser();
 
         const { post, store } = this.props;
         const { topic } = store;
@@ -81,9 +81,12 @@ export default class PostItem extends React.Component<
                             )}
                         </ul>
                     </header>
-                    <div className={styles.postBody}>
-                        {htmlToReactParser.parse(post.contentHtml)}
-                    </div>
+                    <div
+                        className={styles.postBody}
+                        dangerouslySetInnerHTML={{
+                            __html: sanitize(post.contentHtml)
+                        }}
+                    />
                     <aside className={styles.postActions}>
                         <ul>
                             <li className={styles.replyBtn}>
@@ -105,12 +108,7 @@ export default class PostItem extends React.Component<
                                         >
                                             <a href={`#post-${reply.id}`}>
                                                 <i className="icon fa fa-fw fa-reply" />
-                                                <Link
-                                                    to={`/u/${reply.authorName}`}
-                                                >
-                                                    {reply.authorName}
-                                                </Link>{" "}
-                                                回复了它
+                                                {reply.authorName} 回复了它
                                             </a>
                                         </li>
                                     );
