@@ -24,39 +24,8 @@ interface HeaderState {}
 @inject("stores")
 @observer
 class Header extends React.Component<HeaderProps, HeaderState> {
-    // static contextTypes = {
-    //     router: PropTypes.shape({
-    //         staticContext: PropTypes.object
-    //     })
-    // };
-
     constructor(props) {
         super(props);
-    }
-
-    componentWillMount() {
-        // if is ssr, set the sessionid from cookie to the global store
-        console.dir("componentWillMount");
-        // if (this.context.router.staticContext) {
-        //     console.log(
-        //         `SESSIONID: ${this.context.router.staticContext.SESSIONID}`
-        //     );
-        //     GlobalStore.getInstance(
-        //         this.context.router.staticContext.SESSIONID
-        //     );
-        // }
-        const { globalStore } = this.props.stores;
-        if (globalStore) {
-            console.dir("cookies: " + globalStore.Cookies);
-            console.dir(GlobalStore.Instance.Cookies);
-        } else {
-            console.dir("globalStore inject failed");
-        }
-
-        const match = this.props.match;
-        console.dir(JSON.stringify(match));
-        const location = this.props.location;
-        console.dir(JSON.stringify(location));
     }
 
     closeAuthPannel = () => {

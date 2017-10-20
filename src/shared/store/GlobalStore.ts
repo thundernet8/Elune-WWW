@@ -1,9 +1,11 @@
-import { observable, action } from "mobx";
+import { observable, action, autorun } from "mobx";
 import UserInfo from "model/User";
 import CommonResp from "model/Resp";
 import { Login, Register, Logout, WhoAmI } from "api/Auth";
 import IStoreArgument from "interface/IStoreArgument";
+import BannerMsg from "interface/BannerMsg";
 import { AuthType } from "enum/Auth";
+import { EntityStatus } from "enum/EntityStatus";
 import AbstractStore from "./AbstractStore";
 import { IS_NODE } from "../../../env";
 
@@ -42,6 +44,16 @@ export default class GlobalStore extends AbstractStore {
                 this.fromJSON(initialState.globalStore);
             }
         }
+
+        // 如果当前登录用户未激活则展示全局banner消息提醒
+        autorun(() => {
+            const { user } = this;
+            if (user && user.status === EntityStatus.DELETEDORUNACTIVE) {
+                this.setBulletion({
+                    text: "您的账户尚未激活，请立即查收激活邮件进行激活"
+                });
+            }
+        });
     }
 
     public destroy() {
@@ -119,6 +131,16 @@ export default class GlobalStore extends AbstractStore {
     };
 
     /**
+     * 全局公告消息
+     */
+    @observable bannerMsg: BannerMsg;
+
+    @action
+    setBulletion = (msg: BannerMsg) => {
+        this.bannerMsg = msg;
+    };
+
+    /**
      * 初始化
      */
     init = () => {
@@ -154,9 +176,12 @@ export default class GlobalStore extends AbstractStore {
         if (!json) {
             return this;
         }
-        const { user } = json;
+        const { user, bannerMsg } = json;
         if (typeof user !== "undefined") {
             this.setUser(user);
+        }
+        if (typeof bannerMsg !== "undefined") {
+            this.setBulletion(bannerMsg);
         }
         return this;
     }

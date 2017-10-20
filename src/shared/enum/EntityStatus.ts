@@ -1,5 +1,5 @@
 export enum EntityStatus {
-    DELETED,
+    DELETEDORUNACTIVE,
     NORMAL,
     BANNED = 9
 }

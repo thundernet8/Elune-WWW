@@ -1,6 +1,7 @@
 import * as React from "react";
 import ClassNames from "classnames";
 import WelcomeHero from "components/welcomeHero";
+import BannerMsg from "components/bannerMsg";
 import HomeAside from "./aside";
 import HomeMain from "./main";
 import Sidebar from "components/sidebar";
@@ -39,6 +40,7 @@ export default class HomeView extends React.Component<
         return (
             <div className={styles.homeview}>
                 <DocumentMeta {...meta} />
+                <BannerMsg />
                 <WelcomeHero />
                 <div className={ClassNames("container", [styles.container])}>
                     <HomeAside />
