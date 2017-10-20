@@ -9,7 +9,7 @@ import GlobalStore from "store/GlobalStore";
 import PostEditor from "components/postEditor";
 // import ReactDOMServer from "react-dom/server";
 import { Tooltip, Button, Message } from "element-react/next";
-import { getTimeDiff, getLocalDate } from "utils/DateTimeKit";
+import { getTimeDiff, getGMT8DateStr } from "utils/DateTimeKit";
 import { Link } from "react-router-dom";
 import Post from "model/Post";
 import CharAvatar from "components/charAvatar";
@@ -108,9 +108,9 @@ export default class TopicMain extends React.Component<
                                 <Tooltip
                                     effect="dark"
                                     placement="top"
-                                    content={getLocalDate(
+                                    content={getGMT8DateStr(
                                         new Date(topic.createTime * 1000)
-                                    ).toLocaleString()}
+                                    )}
                                 >
                                     <span>
                                         {getTimeDiff(

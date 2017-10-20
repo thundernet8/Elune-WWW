@@ -4,7 +4,7 @@ import ClassNames from "classnames";
 import { Link } from "react-router-dom";
 import Topic from "model/Topic";
 import { Tooltip } from "element-react/next";
-import { getTimeDiff, getLocalDate } from "utils/DateTimeKit";
+import { getTimeDiff, getGMT8DateStr } from "utils/DateTimeKit";
 import CharAvatar from "components/charAvatar";
 
 const styles = require("./index.less");
@@ -74,9 +74,9 @@ export default class TopicItem extends React.Component<
                         <Tooltip
                             effect="dark"
                             placement="bottom"
-                            content={`${author.nickname} 发布于 ${getLocalDate(
+                            content={`${author.nickname} 发布于 ${getGMT8DateStr(
                                 new Date(createTime * 1000)
-                            ).toLocaleString()}`}
+                            )}`}
                         >
                             <CharAvatar
                                 className={styles.avatar}
@@ -164,9 +164,9 @@ export default class TopicItem extends React.Component<
                                             data-pubdate="true"
                                             title={
                                                 latestPostTime
-                                                    ? getLocalDate(
+                                                    ? getGMT8DateStr(
                                                           latestPostTime
-                                                      ).toLocaleString()
+                                                      )
                                                     : ""
                                             }
                                         >

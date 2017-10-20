@@ -29,8 +29,7 @@ const getPlugins = function() {
     return plugins;
 };
 
-export default {
-    devtool: "#source-map", // '#eval-source-map'
+const config = {
     entry: {
         venders: [
             "react",
@@ -59,3 +58,9 @@ export default {
     },
     plugins: getPlugins()
 };
+
+if (isDev) {
+    config.devtool = "#source-map"; // '#eval-source-map'
+}
+
+export default config;

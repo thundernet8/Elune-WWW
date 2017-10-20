@@ -48,6 +48,7 @@ const output = {
 };
 
 let config = baseConf(plugins, loaders);
+config.devtool = "#source-map"; // '#eval-source-map'
 config.entry = entry;
 config.output = output;
 config.devServer = {

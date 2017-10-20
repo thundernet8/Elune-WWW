@@ -3,9 +3,7 @@ export const getTimeDiff = (targetTime: Date, sourceTime?: Date) => {
     const tail = targetTime < sourceTime ? "前" : "后";
     const seconds = Math.abs(
         Number(
-            ((targetTime.getTime() -
-                (sourceTime.getTime() +
-                    sourceTime.getTimezoneOffset() * 60000)) /
+            ((targetTime.getTime() - sourceTime.getTime() + 8 * 3600000) /
                 1000
             ).toFixed(0)
         )
@@ -38,4 +36,17 @@ export const getLocalDate = (gmtDate: Date) => {
     const now = new Date();
     const offset = now.getTimezoneOffset() * 60000;
     return new Date(gmtDate.getTime() - offset);
+};
+
+export const getGMT8DateStr = (date: Date) => {
+    const newDate = new Date(date.getTime() + 8 * 3600000);
+    return `${newDate.getUTCFullYear()}/${(newDate.getUTCMonth() + 101)
+        .toString()
+        .substr(1)}/${(newDate.getUTCDate() + 100)
+        .toString()
+        .substr(1)} ${(newDate.getUTCHours() + 100)
+        .toString()
+        .substr(1)}:${(newDate.getUTCMinutes() + 100)
+        .toString()
+        .substr(1)}:${(newDate.getUTCSeconds() + 100).toString().substr(1)}`;
 };

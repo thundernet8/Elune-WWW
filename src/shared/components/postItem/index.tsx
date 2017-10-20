@@ -4,7 +4,7 @@ import Post from "model/Post";
 import TopicStore from "store/TopicStore";
 import { Link } from "react-router-dom";
 import { Tooltip, Button } from "element-react/next";
-import { getTimeDiff, getLocalDate } from "utils/DateTimeKit";
+import { getTimeDiff, getGMT8DateStr } from "utils/DateTimeKit";
 import CharAvatar from "components/charAvatar";
 import { sanitize } from "utils/HtmlKit";
 
@@ -63,9 +63,9 @@ export default class PostItem extends React.Component<
                                 <Tooltip
                                     effect="dark"
                                     placement="top"
-                                    content={getLocalDate(
+                                    content={getGMT8DateStr(
                                         new Date(post.createTime * 1000)
-                                    ).toLocaleString()}
+                                    )}
                                 >
                                     <span>
                                         {getTimeDiff(
