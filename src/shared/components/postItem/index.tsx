@@ -1,16 +1,20 @@
 import * as React from "react";
+import ClassNames from "classnames";
 import { observer } from "mobx-react";
 import Post from "model/Post";
+import GlobalStore from "store/GlobalStore";
 import TopicStore from "store/TopicStore";
 import { Link } from "react-router-dom";
-import { Tooltip, Button } from "element-react/next";
+import { Tooltip, Button, Message } from "element-react/next";
 import { getTimeDiff, getGMT8DateStr } from "utils/DateTimeKit";
 import CharAvatar from "components/charAvatar";
 import PureHtmlContent from "components/pureHtmlContent";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const styles = require("./index.less");
 
 interface PostItemProps {
+    index: number;
     post: Post;
     store: TopicStore;
     goReply: (post: Post) => void;
@@ -32,6 +36,13 @@ export default class PostItem extends React.Component<
         goReply(post);
     };
 
+    refReply = () => {
+        Message({
+            message: "已成功复制帖子链接",
+            type: "success"
+        });
+    };
+
     render() {
         // const parent = posts.find(x => x.id === post.pid);
         // const htmlToReactParser = new HtmlToReactParser();
@@ -39,6 +50,7 @@ export default class PostItem extends React.Component<
         const { post, store } = this.props;
         const { topic } = store;
         const { posts } = store;
+        const replyIndex = this.props.index + 1;
 
         const replies = posts.filter(x => x.pid === post.id);
         return (
@@ -79,6 +91,36 @@ export default class PostItem extends React.Component<
                                     <span>楼主</span>
                                 </li>
                             )}
+                            {replyIndex === 1 && (
+                                <li
+                                    className={ClassNames(
+                                        [styles.orderBadge],
+                                        [styles.orderBadge1]
+                                    )}
+                                >
+                                    <span>沙发</span>
+                                </li>
+                            )}
+                            {replyIndex === 2 && (
+                                <li
+                                    className={ClassNames(
+                                        [styles.orderBadge],
+                                        [styles.orderBadge2]
+                                    )}
+                                >
+                                    <span>板凳</span>
+                                </li>
+                            )}
+                            {replyIndex === 3 && (
+                                <li
+                                    className={ClassNames(
+                                        [styles.orderBadge],
+                                        [styles.orderBadge3]
+                                    )}
+                                >
+                                    <span>地板</span>
+                                </li>
+                            )}
                         </ul>
                     </header>
                     <div className={styles.postBody}>
@@ -90,6 +132,18 @@ export default class PostItem extends React.Component<
                                 <Button type="text" onClick={this.goReply}>
                                     回复
                                 </Button>
+                                <CopyToClipboard
+                                    text={`${GlobalStore.Instance
+                                        .URL}#reply${replyIndex}`}
+                                    onCopy={this.refReply}
+                                >
+                                    <Button type="text">
+                                        <i
+                                            title="引用"
+                                            className="fa fa-fw fa-link"
+                                        />
+                                    </Button>
+                                </CopyToClipboard>
                             </li>
                         </ul>
                     </aside>

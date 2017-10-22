@@ -189,12 +189,14 @@ export default class TopicMain extends React.Component<
                 <ul className={styles.postList}>
                     {posts.reverse().map((post, index) => {
                         return (
-                            <PostItem
-                                key={index}
-                                post={post}
-                                store={store}
-                                goReply={this.goReply}
-                            />
+                            <li key={index} id={`reply${index + 1}`}>
+                                <PostItem
+                                    index={index}
+                                    post={post}
+                                    store={store}
+                                    goReply={this.goReply}
+                                />
+                            </li>
                         );
                     })}
                 </ul>

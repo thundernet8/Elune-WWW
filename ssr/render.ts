@@ -14,6 +14,7 @@ export default (req, res) => {
     const fullUrl = req.protocol + "://" + req.headers.host + req.originalUrl;
     const urlObj = new URL(fullUrl);
     const location = {
+        url: fullUrl,
         hash: urlObj.hash,
         pathname: urlObj.pathname,
         search: urlObj.search

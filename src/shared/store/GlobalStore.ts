@@ -1,4 +1,4 @@
-import { observable, action, autorun } from "mobx";
+import { observable, action, autorun, computed } from "mobx";
 import UserInfo from "model/User";
 import CommonResp from "model/Resp";
 import { Login, Register, Logout, WhoAmI } from "api/Auth";
@@ -58,6 +58,14 @@ export default class GlobalStore extends AbstractStore {
 
     public destroy() {
         GlobalStore.instance = null as any;
+    }
+
+    @computed
+    get URL() {
+        if (IS_NODE) {
+            return this.Location.url;
+        }
+        return `${location.protocol}//${location.host}${location.pathname}`;
     }
 
     /**

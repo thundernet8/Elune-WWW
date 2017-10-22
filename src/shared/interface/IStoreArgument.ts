@@ -6,6 +6,7 @@ export interface IMatch {
 }
 
 export interface ILocation {
+    url?: string;
     hash: string;
     pathname: string;
     search: string;
@@ -15,4 +16,4 @@ export default interface IStoreArgument {
     match: IMatch;
     location: ILocation;
     cookies: string; // SSR use
-}
+};
