@@ -12,6 +12,7 @@
     color: #fff;
     font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier,
         monospace;
+    border-radius: 5px;
 }
 
 code[class*="_lang-"],
@@ -38,20 +39,20 @@ pre[class*="_lang-"] {
 }
 
 /* Code blocks */
-pre[class*="_lang-"] {
+pre[class*="_lang_"] {
     padding: 1em;
     margin: 0.5em 0;
     overflow: auto;
     border-radius: 0.3em;
 }
 
-:not(pre) > code[class*="_lang-"],
-pre[class*="_lang-"] {
+:not(pre) > code[class*="_lang_"],
+pre[class*="_lang_"] {
     background: #272822;
 }
 
 /* Inline code */
-:not(pre) > code[class*="_lang-"] {
+:not(pre) > code[class*="_lang_"] {
     padding: 0.1em;
     border-radius: 0.3em;
     white-space: normal;

@@ -44,7 +44,7 @@ export const getGMT8DateStr = (date: Date) => {
         .toString()
         .substr(1)}/${(newDate.getUTCDate() + 100)
         .toString()
-        .substr(1)} ${(newDate.getUTCHours() + 100)
+        .substr(1)} ${(newDate.getUTCHours() + 108)
         .toString()
         .substr(1)}:${(newDate.getUTCMinutes() + 100)
         .toString()
