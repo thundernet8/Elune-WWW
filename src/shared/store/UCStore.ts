@@ -1,5 +1,5 @@
 import { observable, action } from "mobx";
-import { FetchUser } from "api/User";
+import { FetchNamedUser } from "api/User";
 import { PublicUserInfo } from "model/User";
 import IStoreArgument from "interface/IStoreArgument";
 import AbstractStore from "./AbstractStore";
@@ -73,7 +73,7 @@ export default class UCStore extends AbstractStore {
         }
         const { username } = this.Match.params;
         this.loading = true;
-        return FetchUser({ username }).then(resp => {
+        return FetchNamedUser({ username }).then(resp => {
             this.setField("user", resp || {});
             this.setField("loading", false);
         });
