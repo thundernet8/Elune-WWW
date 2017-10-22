@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { Tooltip, Button } from "element-react/next";
 import { getTimeDiff, getGMT8DateStr } from "utils/DateTimeKit";
 import CharAvatar from "components/charAvatar";
-import { sanitize } from "utils/HtmlKit";
+import PureHtmlContent from "components/pureHtmlContent";
 
 const styles = require("./index.less");
 
@@ -81,12 +81,9 @@ export default class PostItem extends React.Component<
                             )}
                         </ul>
                     </header>
-                    <div
-                        className={styles.postBody}
-                        dangerouslySetInnerHTML={{
-                            __html: sanitize(post.contentHtml)
-                        }}
-                    />
+                    <div className={styles.postBody}>
+                        <PureHtmlContent html={post.contentHtml} />
+                    </div>
                     <aside className={styles.postActions}>
                         <ul>
                             <li className={styles.replyBtn}>

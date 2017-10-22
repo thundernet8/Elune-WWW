@@ -29,7 +29,7 @@ export default class RenderInBody extends React.Component<
     }
 
     renderLayer = () => {
-        ReactDOM.render(
+        ReactDOM.hydrate(
             <div {...this.props}>{this.props.children}</div>,
             this.popup
         );

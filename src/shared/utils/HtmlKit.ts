@@ -37,7 +37,7 @@ export const sanitize = (dirty: string) => {
             a: ["href", "name", "target", "data-*"],
             // We don't currently allow img itself by default, but this
             // would make sense if we did
-            img: ["src", "title"],
+            img: ["src", "title", "alt", "style"],
             span: ["class"],
             pre: ["class"],
             code: ["class"],

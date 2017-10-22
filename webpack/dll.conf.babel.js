@@ -44,7 +44,9 @@ const config = {
             "react-headroom",
             "react-document-meta",
             // "element-react",
-            "element-react/next"
+            "element-react/next",
+            "draft-js",
+            "react-draft-wysiwyg"
         ]
     },
     output: {
