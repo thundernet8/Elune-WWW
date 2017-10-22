@@ -36,7 +36,7 @@ export default class PostItem extends React.Component<
         goReply(post);
     };
 
-    refReply = () => {
+    refReplyLink = () => {
         Message({
             message: "已成功复制帖子链接",
             type: "success"
@@ -135,7 +135,7 @@ export default class PostItem extends React.Component<
                                 <CopyToClipboard
                                     text={`${GlobalStore.Instance
                                         .URL}#reply${replyIndex}`}
-                                    onCopy={this.refReply}
+                                    onCopy={this.refReplyLink}
                                 >
                                     <Button type="text">
                                         <i

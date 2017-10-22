@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import Post from "model/Post";
 import CharAvatar from "components/charAvatar";
 import { sanitize } from "utils/HtmlKit";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const styles = require("./styles/main.less");
 
@@ -55,6 +56,13 @@ export default class TopicMain extends React.Component<
         this.props.store.goReply(post);
         this.postBox.scrollIntoView();
         this.toggleCommentting(true);
+    };
+
+    refTopicLink = () => {
+        Message({
+            message: "已成功复制帖子链接",
+            type: "success"
+        });
     };
 
     toggleCommentting = (status: boolean) => {
@@ -136,6 +144,17 @@ export default class TopicMain extends React.Component<
                                 <Button type="text" onClick={this.goComment}>
                                     回复
                                 </Button>
+                                <CopyToClipboard
+                                    text={`${GlobalStore.Instance.URL}#thread`}
+                                    onCopy={this.refTopicLink}
+                                >
+                                    <Button type="text">
+                                        <i
+                                            title="引用"
+                                            className="fa fa-fw fa-link"
+                                        />
+                                    </Button>
+                                </CopyToClipboard>
                             </li>
                         </ul>
                     </aside>

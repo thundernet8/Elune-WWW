@@ -31,7 +31,8 @@ export const sanitize = (dirty: string) => {
             "th",
             "td",
             "pre",
-            "span"
+            "span",
+            "img"
         ],
         allowedAttributes: {
             a: ["href", "name", "target", "data-*"],
