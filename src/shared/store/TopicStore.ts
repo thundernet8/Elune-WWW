@@ -220,19 +220,6 @@ export default class TopicStore extends AbstractStore {
 
     // 正在编辑的评论/回复
     @computed
-    get editingPostRaw() {
-        const { postEditorState } = this;
-        return JSON.stringify(
-            convertToRaw(postEditorState.getCurrentContent())
-        );
-    }
-    @computed
-    get editingPostHtml() {
-        const { postEditorState } = this;
-        const raw = convertToRaw(postEditorState.getCurrentContent());
-        return draftToHtml(raw);
-    }
-    @computed
     get editingPostText() {
         const { postEditorState } = this;
         return postEditorState.getCurrentContent().getPlainText();
@@ -283,12 +270,16 @@ export default class TopicStore extends AbstractStore {
     @action
     createPost = () => {
         const {
-            editingPostRaw,
-            editingPostHtml,
+            postEditorState,
             editingPostText,
             editingPostMentions,
             topic
         } = this;
+
+        const contentRaw = convertToRaw(postEditorState.getCurrentContent());
+
+        const editingPostRaw = JSON.stringify(contentRaw);
+        const editingPostHtml = draftToHtml(contentRaw);
 
         if (!editingPostRaw || !editingPostHtml || !editingPostText) {
             return Promise.reject(false);
