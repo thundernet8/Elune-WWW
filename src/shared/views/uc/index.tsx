@@ -44,10 +44,6 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
         }
     }
 
-    componentWillUnmount() {
-        this.store.destroy();
-    }
-
     renderBrand = () => {
         const { match } = this.props;
         const { username } = match.params;
@@ -78,7 +74,7 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
                                 <li className={styles.bio}>
                                     <p>{user.bio}</p>
                                 </li>
-                                {user.lastSeen && (
+                                {!!user.lastSeen && (
                                     <li className={styles.lastSeen}>
                                         <span>
                                             <i className="fa fa-fw fa-clock-o" />
