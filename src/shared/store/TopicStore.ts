@@ -94,7 +94,7 @@ export default class TopicStore extends AbstractStore {
     @observable postsLoading: boolean = false;
     @observable postPage: number = 1;
     @observable postPageSize: number = 20;
-    @observable order: SortOrder = SortOrder.DESC;
+    @observable order: SortOrder = SortOrder.ASC;
     @observable orderBy: SortOrderBy = SortOrderBy.ID;
 
     @observable posts: Post[] = [];

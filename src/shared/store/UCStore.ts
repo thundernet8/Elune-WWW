@@ -21,7 +21,12 @@ export default class UCStore extends AbstractStore {
      * @param arg SSR环境下组件生命周期之前实例化store, 见ssr/render.ts
      */
     public static getInstance(arg: IStoreArgument = {} as IStoreArgument) {
-        if (!UCStore.instance) {
+        if (
+            !UCStore.instance ||
+            (arg.match &&
+                UCStore.instance.Match.params.username !==
+                    arg.match.params.username)
+        ) {
             UCStore.instance = new UCStore(arg);
         }
         return UCStore.instance;
