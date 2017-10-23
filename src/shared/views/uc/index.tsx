@@ -2,6 +2,7 @@ import * as React from "react";
 import { observer } from "mobx-react";
 import ClassNames from "classnames";
 import { withRouter } from "react-router";
+import DocumentMeta from "react-document-meta";
 import UCStore from "store/UCStore";
 import GlobalStore from "store/GlobalStore";
 import { getCharColor } from "utils/ColorKit";
@@ -103,11 +104,12 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
     };
 
     renderTab = (tab: string) => {
+        const { store } = this;
         switch (tab) {
             case "posts":
                 return <PostsTab />;
             case "topics":
-                return <TopicsTab />;
+                return <TopicsTab store={store} />;
             case "mentions":
                 return <MentionsTab />;
             case "settings":
@@ -121,15 +123,29 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
         const { user } = this.store;
         const globalStore = GlobalStore.Instance;
         const me = globalStore.user;
-        let { tab } = this.props.match.params;
+        let { tab, username } = this.props.match.params;
         tab = (tab || "posts").toLowerCase();
 
         if (["mentions", "topics", "posts", "settings"].indexOf(tab) < 0) {
             // TODO 404 redirect
             return null;
         }
+
+        const meta = {
+            title: `${username}的个人主页-Eleun Forum-Web development community,WordPress,PHP,Java,JavaScript`,
+            description: "",
+            // canonical: "https://elune.me",
+            meta: {
+                charset: "utf-8",
+                name: {
+                    keywords: "Eleun,forum,wordpress,php,java,javascript,react"
+                }
+            }
+        };
+
         return (
             <div className={styles.ucView}>
+                <DocumentMeta {...meta} />
                 {this.renderBrand()}
                 <div className={ClassNames("container", [styles.container])}>
                     <UCAsideView user={user} me={me} tab={tab} />
