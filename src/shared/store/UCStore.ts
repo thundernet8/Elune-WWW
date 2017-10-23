@@ -81,11 +81,20 @@ export default class UCStore extends AbstractStore {
         if (this.loading) {
             return Promise.reject(false);
         }
-        const { username } = this.Match.params;
+        const { username, tab } = this.Match.params;
         this.loading = true;
         return FetchNamedUser({ username }).then(resp => {
             this.setField("user", resp || {});
             this.setField("loading", false);
+            switch (tab) {
+                case undefined:
+                case "posts":
+                    return this.getUserPosts() as Promise<any>;
+                case "topics":
+                    return this.getUserTopics();
+                default:
+                    return Promise.resolve(true);
+            }
         });
     };
 
@@ -276,8 +285,13 @@ export default class UCStore extends AbstractStore {
 
     public toJSON() {
         const obj = super.toJSON();
+        const { user, topics, posts, topicsTotal, postsTotal } = this;
         return Object.assign(obj, {
-            user: this.user
+            user,
+            topics,
+            posts,
+            topicsTotal,
+            postsTotal
         });
     }
 
@@ -286,9 +300,21 @@ export default class UCStore extends AbstractStore {
         if (!json) {
             return this;
         }
-        const { user } = json;
+        const { user, topics, posts, topicsTotal, postsTotal } = json;
         if (typeof user !== "undefined") {
             this.setField("user", user);
+        }
+        if (typeof topics !== "undefined") {
+            this.setField("topics", topics);
+        }
+        if (typeof posts !== "undefined") {
+            this.setField("posts", posts);
+        }
+        if (typeof topicsTotal !== "undefined") {
+            this.setField("topicsTotal", topicsTotal);
+        }
+        if (typeof postsTotal !== "undefined") {
+            this.setField("postsTotal", postsTotal);
         }
         return this;
     }
