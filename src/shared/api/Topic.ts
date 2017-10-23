@@ -23,6 +23,10 @@ export interface FetchChannelTopicsReq extends FetchTopicsReq {
     channelId: number;
 }
 
+export interface FetchUserTopicsReq extends FetchTopicsReq {
+    authorId: number;
+}
+
 export interface FetchTopicReq {
     id: number;
 }
@@ -51,9 +55,15 @@ export function FetchChannelTopics(payload: FetchChannelTopicsReq) {
     return WebApi.Get<Pagination<Topic>>("topics", payload);
 }
 
+export function FetchUserTopics(payload: FetchUserTopicsReq) {
+    return WebApi.Get<Pagination<Topic>>("topics", payload);
+}
+
 export default {
     CreateTopic,
     UpdateTopic,
     FetchTopic,
-    FetchTopics
+    FetchTopics,
+    FetchChannelTopics,
+    FetchUserTopics
 };
