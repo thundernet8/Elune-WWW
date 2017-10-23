@@ -6,7 +6,7 @@ export interface FetchUserReq {
 }
 
 export function FetchNamedUser(payload: FetchUserReq) {
-    return WebApi.Post<PublicUserInfo>(`users/name/${payload.username}`, {});
+    return WebApi.Post<PublicUserInfo>("users/name", payload);
 }
 
 export default {
