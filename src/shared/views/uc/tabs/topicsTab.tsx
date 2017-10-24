@@ -3,7 +3,6 @@ import { observer } from "mobx-react";
 import ClassNames from "classnames";
 import UCStore from "store/UCStore";
 import { Button } from "element-react/next";
-import { Link } from "react-router-dom";
 import TopicItem from "components/topicItem";
 
 const styles = require("../styles/topicsTab.less");
@@ -23,6 +22,14 @@ export default class TopicsTab extends React.Component<
         super(props);
     }
 
+    componentDidMount() {
+        const { store } = this.props;
+        const { topicsTotal } = store;
+        if (topicsTotal === -1) {
+            store.getUserTopics();
+        }
+    }
+
     renderTopicList = () => {
         const { store } = this.props;
         const { topicsTotal, topics, topicsLoading } = store;
@@ -34,7 +41,7 @@ export default class TopicsTab extends React.Component<
                         [styles.emptyList]
                     )}
                 >
-                    空空如也，何不<Link to="/creation">创作</Link>一个？
+                    空空如也~
                 </div>
             );
         }
@@ -43,7 +50,11 @@ export default class TopicsTab extends React.Component<
                 {topics.map((topic, index) => {
                     return (
                         <li key={index}>
-                            <TopicItem key={index} topic={topic} />
+                            <TopicItem
+                                key={index}
+                                topic={topic}
+                                className={styles.simpleTopicItem}
+                            />
                         </li>
                     );
                 })}

@@ -1,0 +1,50 @@
+.topicsTab {
+    padding: 30px 0;
+}
+
+.topicList {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    position: relative;
+}
+
+.emptyList {
+    font-size: 1.4em;
+    color: #aaa;
+    text-align: center;
+    margin-top: 40px;
+}
+
+.topicsLoading {
+    text-align: center;
+    font-size: 3rem;
+    margin: 30px auto;
+}
+
+.loadMore {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.simpleTopicItem {
+    padding: 0;
+    &:hover {
+        background: none;
+    }
+
+    :global {
+        .dropdown {
+            display: none;
+        }
+        .author {
+            margin-left: -80px;
+        }
+        .avatar {
+            width: 64px;
+            height: 64px;
+            font-size: 2.4rem;
+            line-height: 64px;
+        }
+    }
+}

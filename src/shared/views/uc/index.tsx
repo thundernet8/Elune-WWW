@@ -103,7 +103,7 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
         const { store } = this;
         switch (tab) {
             case "posts":
-                return <PostsTab />;
+                return <PostsTab store={store} />;
             case "topics":
                 return <TopicsTab store={store} />;
             case "mentions":

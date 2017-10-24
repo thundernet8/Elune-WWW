@@ -12,6 +12,7 @@ const styles = require("./index.less");
 
 interface TopicItemProps {
     topic: Topic;
+    className?: string;
 }
 
 interface TopicItemState {
@@ -31,6 +32,7 @@ export default class TopicItem extends React.Component<
 
     render() {
         const { read } = this.state;
+        const { topic, className } = this.props;
         const {
             id,
             title,
@@ -43,12 +45,14 @@ export default class TopicItem extends React.Component<
             createTime,
             postTime,
             poster
-        } = this.props.topic;
+        } = topic;
         const latestPostTime = postTime ? new Date(postTime * 1000) : null;
         return (
-            <div className={styles.topicItem}>
+            <div className={ClassNames([styles.topicItem], [className])}>
                 <Dropdown
-                    className={ClassNames("btn-flat", [styles.actionDropdown])}
+                    className={ClassNames("dropdown btn-flat", [
+                        styles.actionDropdown
+                    ])}
                     anchorNode={
                         <span className="btn-label">
                             <i className="fa fa-fw fa-ellipsis-v" />
@@ -69,7 +73,7 @@ export default class TopicItem extends React.Component<
                 >
                     <Link
                         to={`/u/${author.username}`}
-                        className={styles.author}
+                        className={ClassNames("author", [styles.author])}
                     >
                         <Tooltip
                             effect="dark"
@@ -79,7 +83,9 @@ export default class TopicItem extends React.Component<
                             )}`}
                         >
                             <CharAvatar
-                                className={styles.avatar}
+                                className={ClassNames("avatar", [
+                                    styles.avatar
+                                ])}
                                 text={author.username[0]}
                             />
                         </Tooltip>
