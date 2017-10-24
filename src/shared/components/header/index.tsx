@@ -148,6 +148,28 @@ class Header extends React.Component<HeaderProps, HeaderState> {
                                         <i className="fa fa-home" />首页
                                     </a>
                                 </li>
+                                <li>
+                                    <a
+                                        href="https://webapproach.net"
+                                        className={ClassNames("btn btn--link", [
+                                            styles.btnLink
+                                        ])}
+                                        target="_blank"
+                                    >
+                                        <i className="fa fa-wordpress" />WebApproach
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href="https://github.com/thundernet8/Elune-WWW"
+                                        className={ClassNames("btn btn--link", [
+                                            styles.btnLink
+                                        ])}
+                                        target="_blank"
+                                    >
+                                        <i className="fa fa-github" />Github
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                         <div className={styles.headerSecondary}>
