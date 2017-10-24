@@ -10,6 +10,7 @@ import { withRouter } from "react-router";
 import Headroom from "react-headroom";
 // import * as PropTypes from "prop-types";
 import { Button } from "element-react/next";
+import CharAvatar from "components/charAvatar";
 
 const styles = require("./index.less");
 
@@ -54,7 +55,20 @@ class Header extends React.Component<HeaderProps, HeaderState> {
                 <Dropdown
                     className={styles.sessionDropdown}
                     anchorNode={
-                        <span className="btn-label">{user.username}</span>}
+                        <span className="btn-label">
+                            {user.avatar ? (
+                                <span className={styles.avatar}>
+                                    <img src={user.avatar} />
+                                </span>
+                            ) : (
+                                <CharAvatar
+                                    className={styles.avatar}
+                                    text={user.username[0]}
+                                />
+                            )}
+                            {user.username}
+                        </span>
+                    }
                 >
                     <Dropdown.Item hasIcon>
                         <Link to={`/u/${user.username}`}>
@@ -63,14 +77,18 @@ class Header extends React.Component<HeaderProps, HeaderState> {
                         </Link>
                     </Dropdown.Item>
                     <Dropdown.Item hasIcon>
-                        <Link to={"/settings"}>
+                        <Link to={`/u/${user.username}/settings`}>
                             <i className="fa fa-fw fa-cog" />
                             <span className="btn-label">个人设置</span>
                         </Link>
                     </Dropdown.Item>
                     <Dropdown.Divider />
                     <Dropdown.Item hasIcon>
-                        <Button type="primary" onClick={this.logout}>
+                        <Button
+                            type="primary"
+                            onClick={this.logout}
+                            className={styles.logoutBtn}
+                        >
                             <i className="fa fa-fw fa-sign-out" />
                             <span className="btn-label">登出</span>
                         </Button>
@@ -113,6 +131,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
                                     <div className={styles.search}>
                                         <div className={styles.searchInput}>
                                             <input
+                                                id="bdcsMain"
                                                 className="form-control"
                                                 placeholder="搜索其实很简单"
                                             />
