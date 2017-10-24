@@ -20,13 +20,18 @@ interface HeaderProps {
     location: any;
 }
 
-interface HeaderState {}
+interface HeaderState {
+    search: string;
+}
 
 @inject("stores")
 @observer
 class Header extends React.Component<HeaderProps, HeaderState> {
     constructor(props) {
         super(props);
+        this.state = {
+            search: ""
+        };
     }
 
     closeAuthPannel = () => {
@@ -41,6 +46,26 @@ class Header extends React.Component<HeaderProps, HeaderState> {
         GlobalStore.Instance.requestLogout().then(() => {
             // TODO redirect according to url query
         });
+    };
+
+    inputSearch = (e: any) => {
+        this.setState({
+            search: e.target.value
+        });
+    };
+
+    onSearchInputEnter = (e: any) => {
+        const { search } = this.state;
+        if (!search || e.key !== "Enter") {
+            return;
+        }
+        window.open(
+            `http://zhannei.baidu.com/cse/search?s=5364907993723678649&entry=1&plate_url=${encodeURIComponent(
+                window.location.href
+            )}&t=${Math.ceil(
+                new Date().getTime() / 3600000
+            ).toString()}&q=${search}`
+        );
     };
 
     renderSession = () => {
@@ -134,6 +159,10 @@ class Header extends React.Component<HeaderProps, HeaderState> {
                                                 id="bdcsMain"
                                                 className="form-control"
                                                 placeholder="搜索其实很简单"
+                                                onKeyPress={
+                                                    this.onSearchInputEnter
+                                                }
+                                                onChange={this.inputSearch}
                                             />
                                         </div>
                                         <ul className={styles.searchResults} />
