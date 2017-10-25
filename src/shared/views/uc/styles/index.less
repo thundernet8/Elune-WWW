@@ -52,6 +52,28 @@
         }
     }
 
+    .avatarUploader {
+        position: relative;
+        height: 0;
+        i {
+            position: absolute;
+            left: -126px;
+            top: 4px;
+            width: 96px;
+            height: 96px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            z-index: 9000;
+            line-height: 96px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            &:hover {
+                opacity: 1;
+            }
+        }
+    }
+
     .avatar {
         display: inline-block;
         box-sizing: content-box;

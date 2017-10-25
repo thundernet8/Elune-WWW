@@ -98,6 +98,13 @@ export default class UCStore extends AbstractStore {
         });
     };
 
+    @action
+    updateLocalUserField = (field: string, value: any) => {
+        const { user } = this;
+        user[field] = value;
+        this.setField("user", Object.assign({}, user));
+    };
+
     /**
      * 用户话题相关
      */

@@ -82,12 +82,22 @@ export default class TopicItem extends React.Component<
                                 new Date(createTime * 1000)
                             )}`}
                         >
-                            <CharAvatar
-                                className={ClassNames("avatar", [
-                                    styles.avatar
-                                ])}
-                                text={author.username[0]}
-                            />
+                            {author.avatar ? (
+                                <span
+                                    className={ClassNames("avatar", [
+                                        styles.avatar
+                                    ])}
+                                >
+                                    <img src={author.avatar} />
+                                </span>
+                            ) : (
+                                <CharAvatar
+                                    className={ClassNames("avatar", [
+                                        styles.avatar
+                                    ])}
+                                    text={author.username[0]}
+                                />
+                            )}
                         </Tooltip>
                     </Link>
                     <ul className={styles.badges}>
@@ -158,29 +168,30 @@ export default class TopicItem extends React.Component<
                                     })}
                                 </span>
                             </li>
-                            {latestPostTime && (
-                                <li className={styles.reply}>
-                                    <span>
-                                        <i className="icon fa fa-fw fa-reply " />
-                                        <span className={styles.username}>
-                                            {poster}
-                                        </span>{" "}
-                                        回复于{" "}
-                                        <time
-                                            data-pubdate="true"
-                                            title={
-                                                latestPostTime
-                                                    ? getGMT8DateStr(
-                                                          latestPostTime
-                                                      )
-                                                    : ""
-                                            }
-                                        >
-                                            {getTimeDiff(latestPostTime)}
-                                        </time>
-                                    </span>
-                                </li>
-                            )}
+                            {latestPostTime &&
+                                poster && (
+                                    <li className={styles.reply}>
+                                        <span>
+                                            <i className="icon fa fa-fw fa-reply " />
+                                            <span className={styles.username}>
+                                                {poster}
+                                            </span>{" "}
+                                            回复于{" "}
+                                            <time
+                                                data-pubdate="true"
+                                                title={
+                                                    latestPostTime
+                                                        ? getGMT8DateStr(
+                                                              latestPostTime
+                                                          )
+                                                        : ""
+                                                }
+                                            >
+                                                {getTimeDiff(latestPostTime)}
+                                            </time>
+                                        </span>
+                                    </li>
+                                )}
                             <li className={styles.excerpt}>
                                 <span>
                                     {content.substr(0, 100)}

@@ -45,10 +45,16 @@ export default class PostItemSimple extends React.Component<
                             <li className={styles.author}>
                                 <h3>
                                     <Link to={`/u/${post.authorName}`}>
-                                        <CharAvatar
-                                            className={styles.avatar}
-                                            text={post.authorName[0]}
-                                        />
+                                        {post.author.avatar ? (
+                                            <span className={styles.avatar}>
+                                                <img src={post.author.avatar} />
+                                            </span>
+                                        ) : (
+                                            <CharAvatar
+                                                className={styles.avatar}
+                                                text={post.authorName[0]}
+                                            />
+                                        )}
                                         <span className={styles.username}>
                                             {post.authorName}
                                         </span>

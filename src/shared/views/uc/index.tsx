@@ -7,13 +7,16 @@ import UCStore from "store/UCStore";
 import GlobalStore from "store/GlobalStore";
 import { getCharColor } from "utils/ColorKit";
 import { getTimeDiff } from "utils/DateTimeKit";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import CharAvatar from "components/charAvatar";
+import { Upload } from "element-react/next";
 import UCAsideView from "./aside";
 import PostsTab from "./tabs/postsTab";
 import TopicsTab from "./tabs/topicsTab";
 import MentionsTab from "./tabs/mentionsTab";
 import SettingsTab from "./tabs/settingsTab";
+import FavoritesTab from "./tabs/favoritesTab";
+import { API_BASE } from "../../../../env";
 
 const styles = require("./styles/index.less");
 // const defaultAvatar = require("IMG/avatar-default.png");
@@ -35,6 +38,10 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
         this.store = UCStore.getInstance({ match, location, cookies: "" });
     }
 
+    successUploadAvatar = response => {
+        this.store.updateLocalUserField("avatar", response.result);
+    };
+
     componentDidUpdate(prevProps) {
         const { location, match } = this.props;
         const { username } = match.params;
@@ -48,6 +55,18 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
         const { match } = this.props;
         const { username } = match.params;
         const { user } = this.store;
+        const globalStore = GlobalStore.Instance;
+        const me = globalStore.user;
+        const isSelf = me && user && me.id === user.id;
+
+        const avatarNode =
+            user && user.avatar ? (
+                <span className={styles.avatar}>
+                    <img src={user.avatar} />
+                </span>
+            ) : (
+                <CharAvatar className={styles.avatar} text={username[0]} />
+            );
 
         return (
             <div
@@ -60,15 +79,26 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
                     >
                         <div className={styles.profile}>
                             <h2 className={styles.identity}>
-                                <Link to={`/u/${username}`}>
-                                    <CharAvatar
-                                        className={styles.avatar}
-                                        text={username[0]}
-                                    />
-                                    <span className={styles.username}>
-                                        {user.nickname || username}
-                                    </span>
-                                </Link>
+                                {isSelf ? (
+                                    <Upload
+                                        className={styles.avatarUploader}
+                                        action={`${API_BASE}upload/avatars`}
+                                        multiple={false}
+                                        withCredentials
+                                        showFileList={false}
+                                        accept="image/*"
+                                        trigger={<i className="el-icon-plus" />}
+                                        onSuccess={this.successUploadAvatar}
+                                    >
+                                        {avatarNode}
+                                    </Upload>
+                                ) : (
+                                    avatarNode
+                                )}
+
+                                <span className={styles.username}>
+                                    {user.nickname || username}
+                                </span>
                             </h2>
                             <ul className={styles.info}>
                                 <li className={styles.bio}>
@@ -108,6 +138,8 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
                 return <TopicsTab store={store} />;
             case "mentions":
                 return <MentionsTab />;
+            case "favorites":
+                return <FavoritesTab />;
             case "settings":
                 return <SettingsTab />;
             default:
