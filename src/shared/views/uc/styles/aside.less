@@ -1,0 +1,42 @@
+@import "../../../../assets/styles/vars";
+
+.ucAsideView {
+    width: 190px;
+}
+
+.menuList {
+    margin-top: 30px;
+
+    li {
+        a {
+            display: block;
+            width: 100%;
+            color: @mainColor;
+            padding: 8px 0 8px 30px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 1.3rem;
+            text-decoration: none;
+            i {
+                float: left;
+                margin-left: -30px;
+                margin-top: 1px;
+                font-size: 1.5rem;
+            }
+
+            .count {
+                font-weight: bold;
+                margin-left: 10px;
+            }
+        }
+
+        &.active {
+            font-weight: bold;
+        }
+
+        &.itemSettings {
+            margin-top: 30px;
+        }
+    }
+}

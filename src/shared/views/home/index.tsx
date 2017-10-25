@@ -1,6 +1,7 @@
 import * as React from "react";
 import ClassNames from "classnames";
 import WelcomeHero from "components/welcomeHero";
+import BannerMsg from "components/bannerMsg";
 import HomeAside from "./aside";
 import HomeMain from "./main";
 import Sidebar from "components/sidebar";
@@ -24,7 +25,7 @@ export default class HomeView extends React.Component<
         const meta = {
             title:
                 "Eleun Forum-Web development community,WordPress,PHP,Java,JavaScript",
-            description: "I am a description, and I can create multiple tags",
+            description: "Eleun Forum",
             // canonical: "https://elune.me",
             meta: {
                 charset: "utf-8",
@@ -39,6 +40,7 @@ export default class HomeView extends React.Component<
         return (
             <div className={styles.homeview}>
                 <DocumentMeta {...meta} />
+                <BannerMsg />
                 <WelcomeHero />
                 <div className={ClassNames("container", [styles.container])}>
                     <HomeAside />

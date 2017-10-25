@@ -5,10 +5,10 @@ export interface FetchUserReq {
     username: string;
 }
 
-export function FetchUser(payload: FetchUserReq) {
-    return WebApi.Get<PublicUserInfo>(`users/name/${payload.username}`, {});
+export function FetchNamedUser(payload: FetchUserReq) {
+    return WebApi.Post<PublicUserInfo>("users/name", payload);
 }
 
 export default {
-    FetchUser
+    FetchNamedUser
 };

@@ -1,5 +1,6 @@
 import { API_BASE, IS_PROD } from "../../../env";
 import axios from "axios";
+import https from "https";
 // import GlobalStore from "store/GlobalStore";
 // import { SESSION_COOKIE_NAME } from "../../../env";
 
@@ -36,6 +37,9 @@ function webApi<T>(httpMethod: string, path: string, params: any): Promise<T> {
         baseURL: API_BASE,
         timeout: 60000,
         withCredentials: true,
+        httpsAgent: new https.Agent({
+            rejectUnauthorized: false
+        }),
         headers
     });
     return ax

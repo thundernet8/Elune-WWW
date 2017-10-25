@@ -10,6 +10,7 @@ import { withRouter } from "react-router";
 import Headroom from "react-headroom";
 // import * as PropTypes from "prop-types";
 import { Button } from "element-react/next";
+import CharAvatar from "components/charAvatar";
 
 const styles = require("./index.less");
 
@@ -19,44 +20,18 @@ interface HeaderProps {
     location: any;
 }
 
-interface HeaderState {}
+interface HeaderState {
+    search: string;
+}
 
 @inject("stores")
 @observer
 class Header extends React.Component<HeaderProps, HeaderState> {
-    // static contextTypes = {
-    //     router: PropTypes.shape({
-    //         staticContext: PropTypes.object
-    //     })
-    // };
-
     constructor(props) {
         super(props);
-    }
-
-    componentWillMount() {
-        // if is ssr, set the sessionid from cookie to the global store
-        console.dir("componentWillMount");
-        // if (this.context.router.staticContext) {
-        //     console.log(
-        //         `SESSIONID: ${this.context.router.staticContext.SESSIONID}`
-        //     );
-        //     GlobalStore.getInstance(
-        //         this.context.router.staticContext.SESSIONID
-        //     );
-        // }
-        const { globalStore } = this.props.stores;
-        if (globalStore) {
-            console.dir("cookies: " + globalStore.Cookies);
-            console.dir(GlobalStore.Instance.Cookies);
-        } else {
-            console.dir("globalStore inject failed");
-        }
-
-        const match = this.props.match;
-        console.dir(JSON.stringify(match));
-        const location = this.props.location;
-        console.dir(JSON.stringify(location));
+        this.state = {
+            search: ""
+        };
     }
 
     closeAuthPannel = () => {
@@ -73,6 +48,26 @@ class Header extends React.Component<HeaderProps, HeaderState> {
         });
     };
 
+    inputSearch = (e: any) => {
+        this.setState({
+            search: e.target.value
+        });
+    };
+
+    onSearchInputEnter = (e: any) => {
+        const { search } = this.state;
+        if (!search || e.key !== "Enter") {
+            return;
+        }
+        window.open(
+            `http://zhannei.baidu.com/cse/search?s=5364907993723678649&entry=1&plate_url=${encodeURIComponent(
+                window.location.href
+            )}&t=${Math.ceil(
+                new Date().getTime() / 3600000
+            ).toString()}&q=${search}`
+        );
+    };
+
     renderSession = () => {
         const globalStore = GlobalStore.Instance;
         const user = globalStore.user;
@@ -85,7 +80,20 @@ class Header extends React.Component<HeaderProps, HeaderState> {
                 <Dropdown
                     className={styles.sessionDropdown}
                     anchorNode={
-                        <span className="btn-label">{user.username}</span>}
+                        <span className="btn-label">
+                            {user.avatar ? (
+                                <span className={styles.avatar}>
+                                    <img src={user.avatar} />
+                                </span>
+                            ) : (
+                                <CharAvatar
+                                    className={styles.avatar}
+                                    text={user.username[0]}
+                                />
+                            )}
+                            {user.username}
+                        </span>
+                    }
                 >
                     <Dropdown.Item hasIcon>
                         <Link to={`/u/${user.username}`}>
@@ -94,14 +102,18 @@ class Header extends React.Component<HeaderProps, HeaderState> {
                         </Link>
                     </Dropdown.Item>
                     <Dropdown.Item hasIcon>
-                        <Link to={"/settings"}>
+                        <Link to={`/u/${user.username}/settings`}>
                             <i className="fa fa-fw fa-cog" />
                             <span className="btn-label">个人设置</span>
                         </Link>
                     </Dropdown.Item>
                     <Dropdown.Divider />
                     <Dropdown.Item hasIcon>
-                        <Button type="primary" onClick={this.logout}>
+                        <Button
+                            type="primary"
+                            onClick={this.logout}
+                            className={styles.logoutBtn}
+                        >
                             <i className="fa fa-fw fa-sign-out" />
                             <span className="btn-label">登出</span>
                         </Button>
@@ -136,6 +148,28 @@ class Header extends React.Component<HeaderProps, HeaderState> {
                                         <i className="fa fa-home" />首页
                                     </a>
                                 </li>
+                                <li>
+                                    <a
+                                        href="https://webapproach.net"
+                                        className={ClassNames("btn btn--link", [
+                                            styles.btnLink
+                                        ])}
+                                        target="_blank"
+                                    >
+                                        <i className="fa fa-wordpress" />WebApproach
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href="https://github.com/thundernet8/Elune-WWW"
+                                        className={ClassNames("btn btn--link", [
+                                            styles.btnLink
+                                        ])}
+                                        target="_blank"
+                                    >
+                                        <i className="fa fa-github" />Github
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                         <div className={styles.headerSecondary}>
@@ -144,8 +178,13 @@ class Header extends React.Component<HeaderProps, HeaderState> {
                                     <div className={styles.search}>
                                         <div className={styles.searchInput}>
                                             <input
+                                                id="bdcsMain"
                                                 className="form-control"
                                                 placeholder="搜索其实很简单"
+                                                onKeyPress={
+                                                    this.onSearchInputEnter
+                                                }
+                                                onChange={this.inputSearch}
                                             />
                                         </div>
                                         <ul className={styles.searchResults} />

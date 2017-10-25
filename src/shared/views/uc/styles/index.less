@@ -2,6 +2,14 @@
 
 .ucView {
     position: relative;
+
+    & > .container {
+        display: flex;
+    }
+}
+
+.container {
+    max-width: 960px;
 }
 
 .userHero {
@@ -91,4 +99,10 @@
             margin-right: 5px;
         }
     }
+}
+
+.tabContainer {
+    flex: 1;
+    max-width: 100%;
+    width: calc(~"100% - 200px");
 }

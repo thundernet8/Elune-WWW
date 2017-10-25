@@ -182,8 +182,8 @@ export default class ChannelsView extends React.Component<
     render() {
         const meta = {
             title:
-                "All Channels-Eleun Forum-Web development community,WordPress,PHP,Java,JavaScript",
-            description: "I am a description, and I can create multiple tags",
+                "所有频道-Eleun Forum-Web development community,WordPress,PHP,Java,JavaScript",
+            description: "Eleun Forum所有频道",
             // canonical: "https://elune.me",
             meta: {
                 charset: "utf-8",

@@ -8,7 +8,7 @@ import IStoreArgument from "interface/IStoreArgument";
 import { SortOrder, SortOrderBy } from "enum/Sort";
 import { EditorSuggestion } from "interface/EditorSuggestion";
 import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
-import draftToHtml from "draftjs-to-html";
+import draftToHtml from "draftjs-to-html-fork";
 import AbstractStore from "./AbstractStore";
 import { IS_NODE } from "../../../env";
 
@@ -94,7 +94,7 @@ export default class TopicStore extends AbstractStore {
     @observable postsLoading: boolean = false;
     @observable postPage: number = 1;
     @observable postPageSize: number = 20;
-    @observable order: SortOrder = SortOrder.DESC;
+    @observable order: SortOrder = SortOrder.ASC;
     @observable orderBy: SortOrderBy = SortOrderBy.ID;
 
     @observable posts: Post[] = [];
@@ -169,7 +169,7 @@ export default class TopicStore extends AbstractStore {
 
     @action
     setPosts = (posts: Post[]) => {
-        this.posts = posts.reverse();
+        this.posts = posts;
     };
 
     @action
@@ -220,19 +220,6 @@ export default class TopicStore extends AbstractStore {
 
     // 正在编辑的评论/回复
     @computed
-    get editingPostRaw() {
-        const { postEditorState } = this;
-        return JSON.stringify(
-            convertToRaw(postEditorState.getCurrentContent())
-        );
-    }
-    @computed
-    get editingPostHtml() {
-        const { postEditorState } = this;
-        const raw = convertToRaw(postEditorState.getCurrentContent());
-        return draftToHtml(raw);
-    }
-    @computed
     get editingPostText() {
         const { postEditorState } = this;
         return postEditorState.getCurrentContent().getPlainText();
@@ -272,7 +259,7 @@ export default class TopicStore extends AbstractStore {
     @action
     goReply = (post: Post) => {
         const value = `${post.authorName}#${post.id}`;
-        const raw = `{"entityMap":{"0":{"type":"MENTION","mutability":"IMMUTABLE","data":{"text":"@${value}","value":"${value}","url":"#thread"}}},"blocks":[{"key":"ob2h","text":"@${value} ","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[{"offset":0,"length":${value.length +
+        const raw = `{"entityMap":{"0":{"type":"MENTION","mutability":"IMMUTABLE","data":{"text":"@${value}","value":"${value}","url":"#post-${post.id}"}}},"blocks":[{"key":"ob2h","text":"@${value} ","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[{"offset":0,"length":${value.length +
             1},"key":0}],"data":{}}]}`;
 
         this.postEditorState = EditorState.createWithContent(
@@ -283,12 +270,16 @@ export default class TopicStore extends AbstractStore {
     @action
     createPost = () => {
         const {
-            editingPostRaw,
-            editingPostHtml,
+            postEditorState,
             editingPostText,
             editingPostMentions,
             topic
         } = this;
+
+        const contentRaw = convertToRaw(postEditorState.getCurrentContent());
+
+        const editingPostRaw = JSON.stringify(contentRaw);
+        const editingPostHtml = draftToHtml(contentRaw);
 
         if (!editingPostRaw || !editingPostHtml || !editingPostText) {
             return Promise.reject(false);
@@ -297,12 +288,12 @@ export default class TopicStore extends AbstractStore {
         let parentId = 0;
         let mentions: string[] = [];
         editingPostMentions.forEach(mention => {
-            const match1 = mention.value.match(/@([^#]+)$/);
+            const match1 = mention.text.match(/@([^#]+)$/);
             if (match1 && match1.length > 1) {
                 mentions.push(match1[1]);
                 return;
             }
-            const match2 = mention.value.match(/@(.+)#([0-9]+)$/);
+            const match2 = mention.text.match(/@(.+)#([0-9]+)$/);
             if (match2 && match2.length > 2) {
                 if (!parentId) {
                     parentId = Number(match2[2]);

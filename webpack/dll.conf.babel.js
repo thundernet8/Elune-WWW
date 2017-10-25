@@ -29,8 +29,7 @@ const getPlugins = function() {
     return plugins;
 };
 
-export default {
-    devtool: "#source-map", // '#eval-source-map'
+const config = {
     entry: {
         venders: [
             "react",
@@ -45,7 +44,9 @@ export default {
             "react-headroom",
             "react-document-meta",
             // "element-react",
-            "element-react/next"
+            "element-react/next",
+            "draft-js",
+            "react-draft-wysiwyg"
         ]
     },
     output: {
@@ -59,3 +60,9 @@ export default {
     },
     plugins: getPlugins()
 };
+
+if (isDev) {
+    config.devtool = "#source-map"; // '#eval-source-map'
+}
+
+export default config;

@@ -4,13 +4,15 @@ import ClassNames from "classnames";
 import { Link } from "react-router-dom";
 import Topic from "model/Topic";
 import { Tooltip } from "element-react/next";
-import { getTimeDiff, getLocalDate } from "utils/DateTimeKit";
+import { getTimeDiff, getGMT8DateStr } from "utils/DateTimeKit";
+import CharAvatar from "components/charAvatar";
 
 const styles = require("./index.less");
-const defaultAvatar = require("IMG/avatar-default.png");
+// const defaultAvatar = require("IMG/avatar-default.png");
 
 interface TopicItemProps {
     topic: Topic;
+    className?: string;
 }
 
 interface TopicItemState {
@@ -30,6 +32,7 @@ export default class TopicItem extends React.Component<
 
     render() {
         const { read } = this.state;
+        const { topic, className } = this.props;
         const {
             id,
             title,
@@ -42,12 +45,14 @@ export default class TopicItem extends React.Component<
             createTime,
             postTime,
             poster
-        } = this.props.topic;
+        } = topic;
         const latestPostTime = postTime ? new Date(postTime * 1000) : null;
         return (
-            <div className={styles.topicItem}>
+            <div className={ClassNames([styles.topicItem], [className])}>
                 <Dropdown
-                    className={ClassNames("btn-flat", [styles.actionDropdown])}
+                    className={ClassNames("dropdown btn-flat", [
+                        styles.actionDropdown
+                    ])}
                     anchorNode={
                         <span className="btn-label">
                             <i className="fa fa-fw fa-ellipsis-v" />
@@ -68,18 +73,20 @@ export default class TopicItem extends React.Component<
                 >
                     <Link
                         to={`/u/${author.username}`}
-                        className={styles.author}
+                        className={ClassNames("author", [styles.author])}
                     >
                         <Tooltip
                             effect="dark"
                             placement="bottom"
-                            content={`${author.nickname} 发布于 ${getLocalDate(
+                            content={`${author.nickname} 发布于 ${getGMT8DateStr(
                                 new Date(createTime * 1000)
-                            ).toLocaleString()}`}
+                            )}`}
                         >
-                            <img
-                                className={styles.avatar}
-                                src={defaultAvatar}
+                            <CharAvatar
+                                className={ClassNames("avatar", [
+                                    styles.avatar
+                                ])}
+                                text={author.username[0]}
                             />
                         </Tooltip>
                     </Link>
@@ -163,9 +170,9 @@ export default class TopicItem extends React.Component<
                                             data-pubdate="true"
                                             title={
                                                 latestPostTime
-                                                    ? getLocalDate(
+                                                    ? getGMT8DateStr(
                                                           latestPostTime
-                                                      ).toLocaleString()
+                                                      )
                                                     : ""
                                             }
                                         >

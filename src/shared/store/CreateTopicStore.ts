@@ -120,9 +120,6 @@ export default class CreateTopicStore extends AbstractStore {
      */
     @action
     contentChange = (raw: string, html: string, plainText: string) => {
-        // console.log(raw);
-        // console.log(html);
-        // console.log(plainText);
         this.contentPlain = plainText;
         this.contentHtml = html;
         this.contentRaw = raw;
@@ -162,7 +159,6 @@ export default class CreateTopicStore extends AbstractStore {
                 return resp;
             })
             .catch(err => {
-                // alert(err.message || err.toString());
                 this.setField("requesting", false);
                 throw new Error(err);
             });
@@ -186,8 +182,8 @@ export default class CreateTopicStore extends AbstractStore {
             !selectedChannel ||
             !title ||
             !contentPlain ||
-            title.length < 10 ||
-            contentPlain.length < 50
+            title.length < 5 ||
+            contentPlain.length < 20
         );
     }
 

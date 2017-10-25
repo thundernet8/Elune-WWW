@@ -106,7 +106,6 @@ const getRules = function(moreRules) {
 
 export default function(morePlugins, moreRules) {
     let config = {
-        devtool: "#source-map", // '#eval-source-map'
         node: {
             __filename: false,
             __dirname: false

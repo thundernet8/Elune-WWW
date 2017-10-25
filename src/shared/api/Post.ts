@@ -27,6 +27,14 @@ export interface FetchTopicPostsReq {
     orderBy: SortOrderBy;
 }
 
+export interface FetchUserPostsReq {
+    authorId: number;
+    page: number;
+    pageSize: number;
+    order: SortOrder;
+    orderBy: SortOrderBy;
+}
+
 export function CreatePost(payload: CreatePostReq) {
     return WebApi.Post<CommonResp<number>>("posts", payload);
 }
@@ -39,8 +47,13 @@ export function FetchTopicPosts(payload: FetchTopicPostsReq) {
     return WebApi.Get<Pagination<Post>>(`posts`, payload);
 }
 
+export function FetchUserPosts(payload: FetchUserPostsReq) {
+    return WebApi.Get<Pagination<Post>>(`posts`, payload);
+}
+
 export default {
     CreatePost,
     UpdatePost,
-    FetchTopicPosts
+    FetchTopicPosts,
+    FetchUserPosts
 };

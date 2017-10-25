@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
-import draftToHtml from "draftjs-to-html";
+import draftToHtml from "draftjs-to-html-fork";
 import { UploadImage } from "api/Upload";
 import ClassNames from "classnames";
 

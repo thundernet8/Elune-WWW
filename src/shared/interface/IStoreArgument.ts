@@ -6,6 +6,7 @@ export interface IMatch {
 }
 
 export interface ILocation {
+    url?: string;
     hash: string;
     pathname: string;
     search: string;

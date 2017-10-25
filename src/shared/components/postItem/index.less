@@ -25,6 +25,20 @@
                     cursor: pointer;
                     color: #fff;
                 }
+                &.orderBadge {
+                    background: @successColor;
+                    border-radius: 3px;
+                    padding: 3px 6px;
+                    line-height: 1;
+                    cursor: pointer;
+                    color: #fff;
+                }
+                &.orderBadge2 {
+                    background: @secondaryColor;
+                }
+                &.orderBadge3 {
+                    background: @infoColor;
+                }
             }
         }
 
@@ -41,6 +55,8 @@
             position: absolute;
             left: -85px;
             line-height: 64px;
+            width: 64px;
+            height: 64px;
             img {
                 width: 64px;
                 height: 64px;
@@ -51,7 +67,7 @@
 
     .postBody {
         position: relative;
-        font-size: 1.6rem;
+        font-size: 1.4rem;
         img {
             display: block;
             max-width: 100%;
@@ -124,5 +140,23 @@
                 line-height: 2;
             }
         }
+    }
+}
+
+.replyTooltip {
+    display: inline-block;
+}
+
+.replyTooltipContent {
+    white-space: pre-wrap;
+    line-height: 1.5;
+}
+
+.simplePostItem {
+    padding-left: 25px;
+
+    & > .inner {
+        padding: 0 0 10px;
+        margin-bottom: 10px;
     }
 }

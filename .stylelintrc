@@ -23,6 +23,7 @@
         "unit-no-unknown": null,
         "value-list-max-empty-lines": null,
         "no-empty-source": null,
-        "selector-combinator-space-before": null
+        "selector-combinator-space-before": null,
+        "selector-pseudo-class-no-unknown": null
     }
 }

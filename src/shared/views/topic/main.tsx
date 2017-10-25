@@ -8,11 +8,13 @@ import TopicStore from "store/TopicStore";
 import GlobalStore from "store/GlobalStore";
 import PostEditor from "components/postEditor";
 // import ReactDOMServer from "react-dom/server";
-import { Parser as HtmlToReactParser } from "html-to-react";
 import { Tooltip, Button, Message } from "element-react/next";
-import { getTimeDiff, getLocalDate } from "utils/DateTimeKit";
+import { getTimeDiff, getGMT8DateStr } from "utils/DateTimeKit";
 import { Link } from "react-router-dom";
 import Post from "model/Post";
+import CharAvatar from "components/charAvatar";
+import { sanitize } from "utils/HtmlKit";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const styles = require("./styles/main.less");
 
@@ -56,6 +58,13 @@ export default class TopicMain extends React.Component<
         this.toggleCommentting(true);
     };
 
+    refTopicLink = () => {
+        Message({
+            message: "已成功复制帖子链接",
+            type: "success"
+        });
+    };
+
     toggleCommentting = (status: boolean) => {
         this.setState({
             commentting: status
@@ -84,7 +93,7 @@ export default class TopicMain extends React.Component<
     renderMainThread = () => {
         const { store } = this.props;
         const { topic } = store;
-        const htmlToReactParser = new HtmlToReactParser();
+
         return (
             <div className={styles.topicWrapper} id="thread">
                 <div className={styles.inner}>
@@ -93,14 +102,10 @@ export default class TopicMain extends React.Component<
                             <li className={styles.author}>
                                 <h3>
                                     <Link to={`/u/${topic.authorName}`}>
-                                        <span className={styles.avatar}>
-                                            <img
-                                                src={
-                                                    topic.author.avatar ||
-                                                    defaultAvatar
-                                                }
-                                            />
-                                        </span>
+                                        <CharAvatar
+                                            className={styles.avatar}
+                                            text={topic.authorName[0]}
+                                        />
                                         <span className={styles.username}>
                                             {topic.authorName}
                                         </span>
@@ -111,9 +116,9 @@ export default class TopicMain extends React.Component<
                                 <Tooltip
                                     effect="dark"
                                     placement="top"
-                                    content={getLocalDate(
+                                    content={getGMT8DateStr(
                                         new Date(topic.createTime * 1000)
-                                    ).toLocaleString()}
+                                    )}
                                 >
                                     <span>
                                         {getTimeDiff(
@@ -127,15 +132,29 @@ export default class TopicMain extends React.Component<
                             </li>
                         </ul>
                     </header>
-                    <div className={styles.topicBody}>
-                        {htmlToReactParser.parse(topic.contentHtml)}
-                    </div>
+                    <div
+                        className={styles.topicBody}
+                        dangerouslySetInnerHTML={{
+                            __html: sanitize(topic.contentHtml)
+                        }}
+                    />
                     <aside className={styles.asideActions}>
                         <ul>
                             <li className={styles.replyBtn}>
                                 <Button type="text" onClick={this.goComment}>
                                     回复
                                 </Button>
+                                <CopyToClipboard
+                                    text={`${GlobalStore.Instance.URL}#thread`}
+                                    onCopy={this.refTopicLink}
+                                >
+                                    <Button type="text">
+                                        <i
+                                            title="引用"
+                                            className="fa fa-fw fa-link"
+                                        />
+                                    </Button>
+                                </CopyToClipboard>
                             </li>
                         </ul>
                     </aside>
@@ -189,12 +208,14 @@ export default class TopicMain extends React.Component<
                 <ul className={styles.postList}>
                     {posts.map((post, index) => {
                         return (
-                            <PostItem
-                                key={index}
-                                post={post}
-                                store={store}
-                                goReply={this.goReply}
-                            />
+                            <li key={index} id={`reply${index + 1}`}>
+                                <PostItem
+                                    index={index}
+                                    post={post}
+                                    store={store}
+                                    goReply={this.goReply}
+                                />
+                            </li>
                         );
                     })}
                 </ul>

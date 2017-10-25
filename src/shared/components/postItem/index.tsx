@@ -1,17 +1,20 @@
 import * as React from "react";
+import ClassNames from "classnames";
 import { observer } from "mobx-react";
 import Post from "model/Post";
+import GlobalStore from "store/GlobalStore";
 import TopicStore from "store/TopicStore";
 import { Link } from "react-router-dom";
-import { Tooltip, Button } from "element-react/next";
-import { getTimeDiff, getLocalDate } from "utils/DateTimeKit";
-import { Parser as HtmlToReactParser } from "html-to-react";
+import { Tooltip, Button, Message } from "element-react/next";
+import { getTimeDiff, getGMT8DateStr } from "utils/DateTimeKit";
+import CharAvatar from "components/charAvatar";
+import PureHtmlContent from "components/pureHtmlContent";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const styles = require("./index.less");
 
-const defaultAvatar = require("IMG/avatar-default.png");
-
 interface PostItemProps {
+    index: number;
     post: Post;
     store: TopicStore;
     goReply: (post: Post) => void;
@@ -33,15 +36,23 @@ export default class PostItem extends React.Component<
         goReply(post);
     };
 
+    refReplyLink = () => {
+        Message({
+            message: "已成功复制帖子链接",
+            type: "success"
+        });
+    };
+
     render() {
         // const parent = posts.find(x => x.id === post.pid);
-        const htmlToReactParser = new HtmlToReactParser();
+        // const htmlToReactParser = new HtmlToReactParser();
 
         const { post, store } = this.props;
         const { topic } = store;
         const { posts } = store;
+        const replyIndex = this.props.index + 1;
 
-        const replies = posts.filter(x => x.id === post.pid);
+        const replies = posts.filter(x => x.pid === post.id);
         return (
             <div className={styles.postItem} id={`post-${post.id}`}>
                 <div className={styles.inner}>
@@ -50,14 +61,10 @@ export default class PostItem extends React.Component<
                             <li className={styles.author}>
                                 <h3>
                                     <Link to={`/u/${post.authorName}`}>
-                                        <span className={styles.avatar}>
-                                            <img
-                                                src={
-                                                    post.author.avatar ||
-                                                    defaultAvatar
-                                                }
-                                            />
-                                        </span>
+                                        <CharAvatar
+                                            className={styles.avatar}
+                                            text={post.authorName[0]}
+                                        />
                                         <span className={styles.username}>
                                             {post.authorName}
                                         </span>
@@ -68,9 +75,9 @@ export default class PostItem extends React.Component<
                                 <Tooltip
                                     effect="dark"
                                     placement="top"
-                                    content={getLocalDate(
+                                    content={getGMT8DateStr(
                                         new Date(post.createTime * 1000)
-                                    ).toLocaleString()}
+                                    )}
                                 >
                                     <span>
                                         {getTimeDiff(
@@ -84,10 +91,40 @@ export default class PostItem extends React.Component<
                                     <span>楼主</span>
                                 </li>
                             )}
+                            {replyIndex === 1 && (
+                                <li
+                                    className={ClassNames(
+                                        [styles.orderBadge],
+                                        [styles.orderBadge1]
+                                    )}
+                                >
+                                    <span>沙发</span>
+                                </li>
+                            )}
+                            {replyIndex === 2 && (
+                                <li
+                                    className={ClassNames(
+                                        [styles.orderBadge],
+                                        [styles.orderBadge2]
+                                    )}
+                                >
+                                    <span>板凳</span>
+                                </li>
+                            )}
+                            {replyIndex === 3 && (
+                                <li
+                                    className={ClassNames(
+                                        [styles.orderBadge],
+                                        [styles.orderBadge3]
+                                    )}
+                                >
+                                    <span>地板</span>
+                                </li>
+                            )}
                         </ul>
                     </header>
                     <div className={styles.postBody}>
-                        {htmlToReactParser.parse(post.contentHtml)}
+                        <PureHtmlContent html={post.contentHtml} />
                     </div>
                     <aside className={styles.postActions}>
                         <ul>
@@ -95,6 +132,18 @@ export default class PostItem extends React.Component<
                                 <Button type="text" onClick={this.goReply}>
                                     回复
                                 </Button>
+                                <CopyToClipboard
+                                    text={`${GlobalStore.Instance
+                                        .URL}#reply${replyIndex}`}
+                                    onCopy={this.refReplyLink}
+                                >
+                                    <Button type="text">
+                                        <i
+                                            title="引用"
+                                            className="fa fa-fw fa-link"
+                                        />
+                                    </Button>
+                                </CopyToClipboard>
                             </li>
                         </ul>
                     </aside>
@@ -109,13 +158,25 @@ export default class PostItem extends React.Component<
                                             className={styles.reply}
                                         >
                                             <a href={`#post-${reply.id}`}>
-                                                <i className="icon fa fa-fw fa-reply" />
-                                                <Link
-                                                    to={`/u/${reply.authorName}`}
+                                                <Tooltip
+                                                    effect="dark"
+                                                    placement="top"
+                                                    content={
+                                                        <div
+                                                            className={
+                                                                styles.replyTooltipContent
+                                                            }
+                                                        >
+                                                            {reply.content.trim()}
+                                                        </div>
+                                                    }
+                                                    className={
+                                                        styles.replyTooltip
+                                                    }
                                                 >
-                                                    {reply.authorName}
-                                                </Link>{" "}
-                                                回复了它
+                                                    <i className="icon fa fa-fw fa-reply" />
+                                                    {reply.authorName} 回复了它
+                                                </Tooltip>
                                             </a>
                                         </li>
                                     );
