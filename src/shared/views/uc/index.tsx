@@ -139,7 +139,7 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
             case "mentions":
                 return <MentionsTab />;
             case "favorites":
-                return <FavoritesTab />;
+                return <FavoritesTab store={store} />;
             case "settings":
                 return <SettingsTab />;
             default:

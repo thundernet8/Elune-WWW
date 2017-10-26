@@ -1,5 +1,5 @@
 import { observable, action, computed } from "mobx";
-import { FetchNamedUser } from "api/User";
+import { FetchNamedUser, FetchUserFavorites } from "api/User";
 import { FetchUserTopics } from "api/Topic";
 import { FetchUserPosts } from "api/Post";
 import { PublicUserInfo } from "model/User";
@@ -279,6 +279,78 @@ export default class UCStore extends AbstractStore {
         this.setField("postsPage", 1);
         this.setField("postsTotal", 0);
         this.getUserPosts();
+    };
+
+    /**
+     * 用户收藏相关
+     */
+
+    /**
+     * 当前页的收藏列表
+     */
+    @observable favorites: Topic[] = [];
+
+    @action
+    setFavorites = (favorites: Topic[]) => {
+        this.favorites = favorites;
+    };
+
+    @observable favoritesPage: number = 1;
+    @observable favoritesPageSize: number = 20;
+    @observable favoritesTotal: number = -1;
+
+    @computed
+    get hasMoreFavorites() {
+        const { favoritesPage, favoritesPageSize, favoritesTotal } = this;
+        return (
+            favoritesTotal === -1 ||
+            favoritesPage * favoritesPageSize < favoritesTotal
+        );
+    }
+
+    @observable favoritesLoading: boolean = false;
+
+    @action
+    getUserFavorites = () => {
+        const { favoritesPage, favoritesPageSize, favorites, user } = this;
+        if (!user || !user.id) {
+            return Promise.reject(false);
+        }
+        const params = {
+            page: favoritesPage,
+            pageSize: favoritesPageSize
+        };
+        this.setField("favoritesLoading", true);
+        return FetchUserFavorites(params)
+            .then(resp => {
+                this.setTopics(favorites.concat(resp.items));
+                this.setField("favoritesLoading", false);
+                if (favoritesPage === 1) {
+                    this.setField("favoritesTotal", resp.total);
+                }
+                return resp;
+            })
+            .catch(() => {
+                this.setField("favoritesLoading", false);
+            });
+    };
+
+    @action
+    getNextPageFavorites = () => {
+        const { favoritesPage, favoritesPageSize, favoritesTotal } = this;
+        if ((favoritesPage - 1) * favoritesPageSize >= favoritesTotal) {
+            return;
+        }
+        this.setField("favoritesPage", favoritesPage + 1);
+        this.getUserFavorites();
+    };
+
+    @action
+    refreshFavorites = () => {
+        this.setFavorites([]);
+        this.setField("favoritesPage", 1);
+        this.setField("favoritesTotal", 0);
+        this.getUserFavorites();
     };
 
     /**
