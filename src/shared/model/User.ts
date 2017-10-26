@@ -10,6 +10,7 @@ export default class UserInfo {
     public avatar: string;
     public status: EntityStatus;
     public bio: string;
+    public favoriteTopicIds: number[];
 }
 
 export class PublicUserInfo {

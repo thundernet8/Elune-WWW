@@ -65,12 +65,18 @@ export default class PostsTab extends React.Component<
 
     render() {
         const { store } = this.props;
-        const { postsLoading, hasMorePost, getNextPagePosts } = store;
+        const {
+            postsLoading,
+            hasMorePost,
+            getNextPagePosts,
+            postsTotal
+        } = store;
         return (
             <div className={styles.postsTab}>
                 {this.renderPostList()}
                 {!postsLoading &&
-                    hasMorePost && (
+                    hasMorePost &&
+                    postsTotal !== -1 && (
                         <div className={styles.loadMore}>
                             <Button onClick={getNextPagePosts}>载入更多</Button>
                         </div>

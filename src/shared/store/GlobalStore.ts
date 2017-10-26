@@ -158,11 +158,15 @@ export default class GlobalStore extends AbstractStore {
     /**
      * 初始化 - 根据会话获取当前用户信息
      */
+
+    @observable userPromise: Promise<UserInfo>;
+
     checkMe = () => {
-        return WhoAmI().then((resp: CommonResp<UserInfo>) => {
+        this.userPromise = WhoAmI().then((resp: CommonResp<UserInfo>) => {
             this.setUser(resp.result);
-            return resp;
+            return resp.result;
         });
+        return this.userPromise;
     };
 
     /**

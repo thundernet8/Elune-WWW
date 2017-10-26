@@ -72,13 +72,16 @@ export default class FavoritesTab extends React.Component<
         const {
             favoritesLoading,
             hasMoreFavorites,
-            getNextPageFavorites
+            getNextPageFavorites,
+            favoritesTotal
         } = store;
+
         return (
             <div className={styles.topicsTab}>
                 {this.renderFavoriteList()}
                 {!favoritesLoading &&
-                    hasMoreFavorites && (
+                    hasMoreFavorites &&
+                    favoritesTotal !== -1 && (
                         <div className={styles.loadMore}>
                             <Button onClick={getNextPageFavorites}>载入更多</Button>
                         </div>

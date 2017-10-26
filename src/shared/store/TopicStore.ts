@@ -355,6 +355,8 @@ export default class TopicStore extends AbstractStore {
     /**
      * 收藏
      */
+
+    @observable favoriteActing: boolean = false;
     @observable hasFavorited: boolean = false;
 
     @action
@@ -364,40 +366,56 @@ export default class TopicStore extends AbstractStore {
 
     @action
     favoriteTopic = () => {
-        const { topic } = this;
+        const { topic, favoriteActing } = this;
         const { id } = topic;
+        if (favoriteActing) {
+            return Promise.reject(false);
+        }
+        this.favoriteActing = true;
         return FavoriteTopic({
             id
-        }).then(result => {
-            if (result) {
-                this.setFavorite(true);
-            }
-            favoriteTopic(GlobalStore.Instance.user.id, id);
-            const newTopic = Object.assign({}, topic, {
-                favoritesCount: topic.favoritesCount + 1
+        })
+            .then(result => {
+                if (result) {
+                    this.setFavorite(true);
+                }
+                favoriteTopic(GlobalStore.Instance.user.id, id);
+                const newTopic = Object.assign({}, topic, {
+                    favoritesCount: topic.favoritesCount + 1
+                });
+                this.setTopic(newTopic);
+                return result;
+            })
+            .finally(() => {
+                this.favoriteActing = false;
             });
-            this.setTopic(newTopic);
-            return result;
-        });
     };
 
     @action
     unFavoriteTopic = () => {
-        const { topic } = this;
+        const { topic, favoriteActing } = this;
         const { id } = topic;
+        if (favoriteActing) {
+            return Promise.reject(false);
+        }
+        this.favoriteActing = true;
         return UnFavoriteTopic({
             id
-        }).then(result => {
-            if (result) {
-                this.setFavorite(false);
-            }
-            unFavoriteTopic(GlobalStore.Instance.user.id, id);
-            const newTopic = Object.assign({}, topic, {
-                favoritesCount: topic.favoritesCount - 1
+        })
+            .then(result => {
+                if (result) {
+                    this.setFavorite(false);
+                }
+                unFavoriteTopic(GlobalStore.Instance.user.id, id);
+                const newTopic = Object.assign({}, topic, {
+                    favoritesCount: topic.favoritesCount - 1
+                });
+                this.setTopic(newTopic);
+                return result;
+            })
+            .finally(() => {
+                this.favoriteActing = false;
             });
-            this.setTopic(newTopic);
-            return result;
-        });
     };
 
     @action
@@ -414,7 +432,12 @@ export default class TopicStore extends AbstractStore {
         const globalStore = GlobalStore.Instance;
         const { user } = globalStore;
         const { topic } = this;
-        if (!user || !user.id || !topic) {
+        if (
+            !user ||
+            !user.id ||
+            !topic ||
+            user.favoriteTopicIds.includes(topic.id)
+        ) {
             return;
         }
         if (hasFavoriteTopic(user.id, topic.id)) {

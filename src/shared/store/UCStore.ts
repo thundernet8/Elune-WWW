@@ -7,6 +7,7 @@ import Topic from "model/Topic";
 import Post from "model/Post";
 import IStoreArgument from "interface/IStoreArgument";
 import { SortOrder, SortOrderBy } from "enum/Sort";
+import GlobalStore from "store/GlobalStore";
 import AbstractStore from "./AbstractStore";
 import { IS_NODE } from "../../../env";
 
@@ -92,6 +93,14 @@ export default class UCStore extends AbstractStore {
                     return this.getUserPosts() as Promise<any>;
                 case "topics":
                     return this.getUserTopics();
+                case "favorites":
+                    if (!IS_NODE) {
+                        return GlobalStore.Instance.userPromise.then(me => {
+                            if (me.id === resp.id) {
+                                return this.getUserFavorites();
+                            }
+                        });
+                    }
                 default:
                     return Promise.resolve(true);
             }
@@ -323,7 +332,7 @@ export default class UCStore extends AbstractStore {
         this.setField("favoritesLoading", true);
         return FetchUserFavorites(params)
             .then(resp => {
-                this.setTopics(favorites.concat(resp.items));
+                this.setFavorites(favorites.concat(resp.items));
                 this.setField("favoritesLoading", false);
                 if (favoritesPage === 1) {
                     this.setField("favoritesTotal", resp.total);

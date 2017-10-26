@@ -35,7 +35,13 @@ export default class UCAsideView extends React.Component<
                             )}
                         >
                             <Link to={`/u/${user.username}`}>
-                                <i className="fa fa-fw fa-comment-o" />
+                                <i
+                                    className={
+                                        tab === "posts"
+                                            ? "fa fa-fw fa-comment"
+                                            : "fa fa-fw fa-comment-o"
+                                    }
+                                />
                                 <span className={styles.label}>
                                     回复<span className={styles.count}>
                                         {user.postsCount || 0}
@@ -82,7 +88,13 @@ export default class UCAsideView extends React.Component<
                                     )}
                                 >
                                     <Link to={`/u/${user.username}/favorites`}>
-                                        <i className="fa fa-fw fa-star-o" />
+                                        <i
+                                            className={
+                                                tab === "favorites"
+                                                    ? "fa fa-fw fa-star"
+                                                    : "fa fa-fw fa-star-o"
+                                            }
+                                        />
                                         <span className={styles.label}>
                                             收藏<span className={styles.count}>
                                                 {user.favoritesCount || 0}

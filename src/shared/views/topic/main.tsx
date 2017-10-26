@@ -97,7 +97,7 @@ export default class TopicMain extends React.Component<
 
     renderMainThread = () => {
         const { store } = this.props;
-        const { topic, hasFavorited } = store;
+        const { topic, hasFavorited, favoriteActing } = store;
 
         return (
             <div className={styles.topicWrapper} id="thread">
@@ -175,9 +175,11 @@ export default class TopicMain extends React.Component<
                                 <li className={styles.favorite}>
                                     <i
                                         className={
-                                            hasFavorited
-                                                ? "el-icon-star-on"
-                                                : "el-icon-star-off"
+                                            favoriteActing
+                                                ? "el-icon-loading"
+                                                : hasFavorited
+                                                  ? "el-icon-star-on"
+                                                  : "el-icon-star-off"
                                         }
                                     />
                                     <span
