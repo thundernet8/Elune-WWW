@@ -24,6 +24,7 @@ const styles = require("./styles/index.less");
 interface UCViewProps {
     match: any;
     location: any;
+    history: any;
 }
 
 interface UCViewState {}
@@ -48,6 +49,18 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
         const prevUsername = prevProps.match.params.username;
         if (username !== prevUsername) {
             this.store = UCStore.rebuild({ location, match, cookies: "" });
+        }
+    }
+
+    componentDidMount() {
+        const { match, history } = this.props;
+        let { tab } = match.params;
+        if (
+            ["mentions", "topics", "posts", "favorites1", "settings"].indexOf(
+                tab
+            ) < 0
+        ) {
+            history.push("/404");
         }
     }
 
@@ -151,11 +164,15 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
         const { user } = this.store;
         const globalStore = GlobalStore.Instance;
         const me = globalStore.user;
-        let { tab, username } = this.props.match.params;
+        const { match } = this.props;
+        let { tab, username } = match.params;
         tab = (tab || "posts").toLowerCase();
 
-        if (["mentions", "topics", "posts", "settings"].indexOf(tab) < 0) {
-            // TODO 404 redirect
+        if (
+            ["mentions", "topics", "posts", "favorites", "settings"].indexOf(
+                tab
+            ) < 0
+        ) {
             return null;
         }
 
