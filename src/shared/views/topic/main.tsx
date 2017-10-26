@@ -90,9 +90,14 @@ export default class TopicMain extends React.Component<
             });
     };
 
+    componentDidMount() {
+        const { store } = this.props;
+        store.checkFavoriteStatus();
+    }
+
     renderMainThread = () => {
         const { store } = this.props;
-        const { topic } = store;
+        const { topic, hasFavorited } = store;
 
         return (
             <div className={styles.topicWrapper} id="thread">
@@ -168,22 +173,25 @@ export default class TopicMain extends React.Component<
                                     </span>次浏览
                                 </li>
                                 <li className={styles.favorite}>
-                                    <i className="el-icon-star-off" />
-                                    <span className={styles.count}>
+                                    <i
+                                        className={
+                                            hasFavorited
+                                                ? "el-icon-star-on"
+                                                : "el-icon-star-off"
+                                        }
+                                    />
+                                    <span
+                                        className={styles.count}
+                                        onClick={store.handleFavorite}
+                                    >
                                         {topic.favoritesCount}
-                                    </span>人收藏
+                                    </span>收藏
                                 </li>
                                 <li className={styles.upvote}>
-                                    <i className="fa fa-thumbs-o-up" />
+                                    <i className="fa fa-heart-o" />
                                     <span className={styles.count}>
                                         {topic.upvotesCount}
-                                    </span>顶
-                                </li>
-                                <li className={styles.downvote}>
-                                    <i className="fa fa-thumbs-o-down" />
-                                    <span className={styles.count}>
-                                        {topic.downvotesCount}
-                                    </span>踩
+                                    </span>喜欢
                                 </li>
                             </ul>
                         </div>

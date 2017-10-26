@@ -35,6 +35,14 @@ export interface UpdateTopicReq extends CreateTopicReq {
     id: number;
 }
 
+export interface FavoriteTopicReq {
+    id: number;
+}
+
+export interface UnFavoriteTopicReq {
+    id: number;
+}
+
 export function CreateTopic(payload: CreateTopicReq) {
     return WebApi.Post<CommonResp<string>>("topics", payload);
 }
@@ -59,11 +67,21 @@ export function FetchUserTopics(payload: FetchUserTopicsReq) {
     return WebApi.Get<Pagination<Topic>>("topics", payload);
 }
 
+export function FavoriteTopic(payload: FavoriteTopicReq) {
+    return WebApi.Post<Boolean>(`topics/${payload.id}/favorites`, {});
+}
+
+export function UnFavoriteTopic(payload: UnFavoriteTopicReq) {
+    return WebApi.Delete<Boolean>(`topics/${payload.id}/favorites`, {});
+}
+
 export default {
     CreateTopic,
     UpdateTopic,
     FetchTopic,
     FetchTopics,
     FetchChannelTopics,
-    FetchUserTopics
+    FetchUserTopics,
+    FavoriteTopic,
+    UnFavoriteTopic
 };

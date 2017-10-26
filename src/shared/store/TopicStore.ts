@@ -1,5 +1,5 @@
 import { observable, action, computed } from "mobx";
-import { FetchTopic } from "api/Topic";
+import { FetchTopic, FavoriteTopic, UnFavoriteTopic } from "api/Topic";
 import { FetchTopicPosts, CreatePost } from "api/Post";
 import Topic from "model/Topic";
 import Post from "model/Post";
@@ -9,6 +9,12 @@ import { SortOrder, SortOrderBy } from "enum/Sort";
 import { EditorSuggestion } from "interface/EditorSuggestion";
 import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html-fork";
+import {
+    hasFavoriteTopic,
+    favoriteTopic,
+    unFavoriteTopic
+} from "utils/CacheKit";
+import GlobalStore from "store/GlobalStore";
 import AbstractStore from "./AbstractStore";
 import { IS_NODE } from "../../../env";
 
@@ -85,10 +91,16 @@ export default class TopicStore extends AbstractStore {
         }
         const { id } = this.Match.params;
         this.loading = true;
-        return FetchTopic({ id: Number(id) }).then(resp => {
-            this.setTopic(resp);
-            this.setField("loading", false);
-        });
+        return FetchTopic({ id: Number(id) })
+            .then(resp => {
+                this.setTopic(resp);
+                this.setField("loading", false);
+            })
+            .then(() => {
+                if (!IS_NODE) {
+                    this.checkFavoriteStatus();
+                }
+            });
     };
 
     @observable postsLoading: boolean = false;
@@ -338,6 +350,76 @@ export default class TopicStore extends AbstractStore {
     @action
     cleanPostEditor = () => {
         this.postEditorState = EditorState.createEmpty();
+    };
+
+    /**
+     * 收藏
+     */
+    @observable hasFavorited: boolean = false;
+
+    @action
+    setFavorite = (status: boolean = true) => {
+        this.hasFavorited = status;
+    };
+
+    @action
+    favoriteTopic = () => {
+        const { topic } = this;
+        const { id } = topic;
+        return FavoriteTopic({
+            id
+        }).then(result => {
+            if (result) {
+                this.setFavorite(true);
+            }
+            favoriteTopic(GlobalStore.Instance.user.id, id);
+            const newTopic = Object.assign({}, topic, {
+                favoritesCount: topic.favoritesCount + 1
+            });
+            this.setTopic(newTopic);
+            return result;
+        });
+    };
+
+    @action
+    unFavoriteTopic = () => {
+        const { topic } = this;
+        const { id } = topic;
+        return UnFavoriteTopic({
+            id
+        }).then(result => {
+            if (result) {
+                this.setFavorite(false);
+            }
+            unFavoriteTopic(GlobalStore.Instance.user.id, id);
+            const newTopic = Object.assign({}, topic, {
+                favoritesCount: topic.favoritesCount - 1
+            });
+            this.setTopic(newTopic);
+            return result;
+        });
+    };
+
+    @action
+    handleFavorite = () => {
+        if (this.hasFavorited) {
+            return this.unFavoriteTopic();
+        } else {
+            return this.favoriteTopic();
+        }
+    };
+
+    @action
+    checkFavoriteStatus = () => {
+        const globalStore = GlobalStore.Instance;
+        const { user } = globalStore;
+        const { topic } = this;
+        if (!user || !user.id || !topic) {
+            return;
+        }
+        if (hasFavoriteTopic(user.id, topic.id)) {
+            this.setFavorite(true);
+        }
     };
 
     /**
