@@ -1,6 +1,7 @@
 import * as React from "react";
 import { observer } from "mobx-react";
 import { Input, Button, Message } from "element-react/next";
+import GlobalStore from "store/GlobalStore";
 import UCStore from "store/UCStore";
 
 const styles = require("../styles/settingsTab.less");
@@ -41,7 +42,8 @@ export default class SettingsTab extends React.Component<
     componentDidMount() {
         const { store } = this.props;
         const { userProfileSettings, user } = store;
-        if (user && !userProfileSettings) {
+        const me = GlobalStore.Instance.user;
+        if (me && user && me.id === user.id && !userProfileSettings) {
             store.setProfileSettings(user);
         }
     }
