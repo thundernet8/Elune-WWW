@@ -2054,9 +2054,9 @@ draft-js@^0.10.2:
     immutable "~3.7.4"
     object-assign "^4.1.0"
 
-draftjs-to-html-fork@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/draftjs-to-html-fork/-/draftjs-to-html-fork-0.1.0.tgz#b5b48871efee7aa2f05407386d4fc60617a0302b"
+draftjs-to-html-fork@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/draftjs-to-html-fork/-/draftjs-to-html-fork-0.1.2.tgz#d60350794ff7690bdb20e712aacea749f05736a2"
   dependencies:
     prismjs "^1.8.1"
 
@@ -6400,8 +6400,8 @@ prettyjson@^1.1.2:
     minimist "^1.2.0"
 
 prismjs@^1.8.1:
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.8.1.tgz#bd0cdc32e9a561c1c8c3c9733765a7f1ec3b54ee"
+  version "1.8.3"
+  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.8.3.tgz#4a3d140be5f2614a8987ca2330733a40d8ad207b"
   optionalDependencies:
     clipboard "^1.5.5"
 

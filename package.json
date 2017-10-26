@@ -69,7 +69,7 @@
         "create-react-class": "^15.6.2",
         "dom-helpers": "^3.2.1",
         "draft-js": "^0.10.2",
-        "draftjs-to-html-fork": "^0.1.0",
+        "draftjs-to-html-fork": "^0.1.2",
         "ejs": "^2.5.7",
         "element-theme-default": "^1.4.6",
         "express": "^4.15.4",
