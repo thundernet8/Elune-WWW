@@ -417,13 +417,21 @@ export default class UCStore extends AbstractStore {
 
     public toJSON() {
         const obj = super.toJSON();
-        const { user, topics, posts, topicsTotal, postsTotal } = this;
+        const {
+            user,
+            topics,
+            posts,
+            topicsTotal,
+            postsTotal,
+            userProfileSettings
+        } = this;
         return Object.assign(obj, {
             user,
             topics,
             posts,
             topicsTotal,
-            postsTotal
+            postsTotal,
+            userProfileSettings
         });
     }
 
@@ -432,7 +440,14 @@ export default class UCStore extends AbstractStore {
         if (!json) {
             return this;
         }
-        const { user, topics, posts, topicsTotal, postsTotal } = json;
+        const {
+            user,
+            topics,
+            posts,
+            topicsTotal,
+            postsTotal,
+            userProfileSettings
+        } = json;
         if (typeof user !== "undefined") {
             this.setField("user", user);
         }
@@ -447,6 +462,9 @@ export default class UCStore extends AbstractStore {
         }
         if (typeof postsTotal !== "undefined") {
             this.setField("postsTotal", postsTotal);
+        }
+        if (typeof userProfileSettings !== "undefined") {
+            this.setField("userProfileSettings", userProfileSettings);
         }
         return this;
     }
