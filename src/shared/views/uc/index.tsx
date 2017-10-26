@@ -55,8 +55,11 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
     componentDidMount() {
         const { match, history } = this.props;
         let { tab } = match.params;
+        if (!tab) {
+            return;
+        }
         if (
-            ["mentions", "topics", "posts", "favorites1", "settings"].indexOf(
+            ["mentions", "topics", "posts", "favorites", "settings"].indexOf(
                 tab
             ) < 0
         ) {
