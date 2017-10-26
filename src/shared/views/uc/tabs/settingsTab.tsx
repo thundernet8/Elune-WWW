@@ -38,6 +38,14 @@ export default class SettingsTab extends React.Component<
             });
     };
 
+    componentDidMount() {
+        const { store } = this.props;
+        const { userProfileSettings, user } = store;
+        if (user && !userProfileSettings) {
+            store.setProfileSettings(user);
+        }
+    }
+
     render() {
         const { store } = this.props;
         const { userProfileSettings, profileSaving } = store;

@@ -107,11 +107,7 @@ export default class UCStore extends AbstractStore {
                         });
                     }
                 case "settings":
-                    this.setField("userProfileSettings", {
-                        nickname: resp.nickname,
-                        bio: resp.bio,
-                        url: resp.url
-                    });
+                    this.setProfileSettings(resp);
                     break;
                 default:
                     return Promise.resolve(true);
@@ -388,6 +384,15 @@ export default class UCStore extends AbstractStore {
         });
     };
 
+    @action
+    setProfileSettings = (user: PublicUserInfo) => {
+        this.userProfileSettings = {
+            nickname: user.nickname,
+            bio: user.bio,
+            url: user.url
+        };
+    };
+
     @observable profileSaving: boolean = false;
 
     @action
@@ -417,21 +422,13 @@ export default class UCStore extends AbstractStore {
 
     public toJSON() {
         const obj = super.toJSON();
-        const {
-            user,
-            topics,
-            posts,
-            topicsTotal,
-            postsTotal,
-            userProfileSettings
-        } = this;
+        const { user, topics, posts, topicsTotal, postsTotal } = this;
         return Object.assign(obj, {
             user,
             topics,
             posts,
             topicsTotal,
-            postsTotal,
-            userProfileSettings
+            postsTotal
         });
     }
 
@@ -440,14 +437,7 @@ export default class UCStore extends AbstractStore {
         if (!json) {
             return this;
         }
-        const {
-            user,
-            topics,
-            posts,
-            topicsTotal,
-            postsTotal,
-            userProfileSettings
-        } = json;
+        const { user, topics, posts, topicsTotal, postsTotal } = json;
         if (typeof user !== "undefined") {
             this.setField("user", user);
         }
@@ -462,9 +452,6 @@ export default class UCStore extends AbstractStore {
         }
         if (typeof postsTotal !== "undefined") {
             this.setField("postsTotal", postsTotal);
-        }
-        if (typeof userProfileSettings !== "undefined") {
-            this.setField("userProfileSettings", userProfileSettings);
         }
         return this;
     }
