@@ -1,6 +1,7 @@
 import WebApi from "api/WebApi";
 import { PublicUserInfo } from "model/User";
 import Pagination from "model/Pagination";
+import UserProfileSetting from "interface/UserProfileSetting";
 import Topic from "model/Topic";
 
 export interface FetchUserReq {
@@ -20,7 +21,12 @@ export function FetchUserFavorites(payload: FetchUserFavoritesReq) {
     return WebApi.Get<Pagination<Topic>>("usermetas/favorites", payload);
 }
 
+export function UpdateUserProfile(payload: UserProfileSetting) {
+    return WebApi.Post<Boolean>("users/profile", payload);
+}
+
 export default {
     FetchNamedUser,
-    FetchUserFavorites
+    FetchUserFavorites,
+    UpdateUserProfile
 };

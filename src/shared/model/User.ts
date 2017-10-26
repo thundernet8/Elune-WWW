@@ -10,6 +10,7 @@ export default class UserInfo {
     public avatar: string;
     public status: EntityStatus;
     public bio: string;
+    public url: string;
     public favoriteTopicIds: number[];
 }
 
@@ -20,6 +21,7 @@ export class PublicUserInfo {
     public joinTime: number;
     public avatar: string;
     public bio: string;
+    public url: string;
     public lastSeen: number;
     public postsCount: number;
     public topicsCount: number;

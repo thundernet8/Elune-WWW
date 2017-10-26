@@ -1,0 +1,40 @@
+@import "../../../../assets/styles/vars";
+
+.settingsTab {
+    position: relative;
+    padding: 30px 0;
+
+    fieldset {
+        border: none;
+    }
+
+    legend {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: @blackColor;
+    }
+
+    .profileSettings {
+        & > ul > li {
+            display: flex;
+            margin-bottom: 20px;
+            & > label {
+                width: 60px;
+                line-height: 36px;
+            }
+            & > .formGroup {
+                flex: 1;
+            }
+        }
+
+        .formAction {
+            width: 100%;
+            text-align: right;
+            button {
+                padding-left: 25px;
+                padding-right: 25px;
+            }
+        }
+    }
+}

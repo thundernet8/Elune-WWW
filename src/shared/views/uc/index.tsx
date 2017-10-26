@@ -74,6 +74,10 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
         const globalStore = GlobalStore.Instance;
         const me = globalStore.user;
         const isSelf = me && user && me.id === user.id;
+        const isOnline =
+            isSelf ||
+            (!!user.lastSeen &&
+                new Date().getTime() - user.lastSeen * 1000 < 20 * 60000);
 
         const avatarNode =
             user && user.avatar ? (
@@ -120,16 +124,32 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
                                 <li className={styles.bio}>
                                     <p>{user.bio}</p>
                                 </li>
-                                {!!user.lastSeen && (
-                                    <li className={styles.lastSeen}>
+                                {isOnline && (
+                                    <li
+                                        className={ClassNames(
+                                            [styles.lastSeen],
+                                            [styles.online]
+                                        )}
+                                    >
                                         <span>
-                                            <i className="fa fa-fw fa-clock-o" />
-                                            {getTimeDiff(
-                                                new Date(user.lastSeen * 1000)
-                                            )}
+                                            <i className="fa fa-fw fa-circle" />
+                                            在线
                                         </span>
                                     </li>
                                 )}
+                                {!isOnline &&
+                                    !!user.lastSeen && (
+                                        <li className={styles.lastSeen}>
+                                            <span>
+                                                <i className="fa fa-fw fa-clock-o" />
+                                                {getTimeDiff(
+                                                    new Date(
+                                                        user.lastSeen * 1000
+                                                    )
+                                                )}
+                                            </span>
+                                        </li>
+                                    )}
                                 {user.joinTime && (
                                     <li className={styles.joined}>
                                         <span>
@@ -157,7 +177,7 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
             case "favorites":
                 return <FavoritesTab store={store} />;
             case "settings":
-                return <SettingsTab />;
+                return <SettingsTab store={store} />;
             default:
                 return null;
         }

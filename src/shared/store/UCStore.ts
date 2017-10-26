@@ -1,11 +1,16 @@
 import { observable, action, computed } from "mobx";
-import { FetchNamedUser, FetchUserFavorites } from "api/User";
+import {
+    FetchNamedUser,
+    FetchUserFavorites,
+    UpdateUserProfile
+} from "api/User";
 import { FetchUserTopics } from "api/Topic";
 import { FetchUserPosts } from "api/Post";
 import { PublicUserInfo } from "model/User";
 import Topic from "model/Topic";
 import Post from "model/Post";
 import IStoreArgument from "interface/IStoreArgument";
+import UserProfileSetting from "interface/UserProfileSetting";
 import { SortOrder, SortOrderBy } from "enum/Sort";
 import GlobalStore from "store/GlobalStore";
 import AbstractStore from "./AbstractStore";
@@ -101,6 +106,13 @@ export default class UCStore extends AbstractStore {
                             }
                         });
                     }
+                case "settings":
+                    this.setField("userProfileSettings", {
+                        nickname: resp.nickname,
+                        bio: resp.bio,
+                        url: resp.url
+                    });
+                    break;
                 default:
                     return Promise.resolve(true);
             }
@@ -360,6 +372,38 @@ export default class UCStore extends AbstractStore {
         this.setField("favoritesPage", 1);
         this.setField("favoritesTotal", 0);
         this.getUserFavorites();
+    };
+
+    /**
+     * 个人设置相关
+     */
+
+    @observable userProfileSettings: UserProfileSetting;
+
+    @action
+    inputProfileSettings = (field: string, value: string) => {
+        const { userProfileSettings } = this;
+        this.userProfileSettings = Object.assign({}, userProfileSettings, {
+            [field]: value
+        });
+    };
+
+    @observable profileSaving: boolean = false;
+
+    @action
+    saveProfile = () => {
+        const { userProfileSettings, user } = this;
+        if (!userProfileSettings.nickname) {
+            return Promise.reject("昵称不能为空");
+        }
+        this.profileSaving = true;
+        return UpdateUserProfile(userProfileSettings)
+            .then(() => {
+                this.user = Object.assign({}, user, userProfileSettings);
+            })
+            .finally(() => {
+                this.profileSaving = false;
+            });
     };
 
     /**
