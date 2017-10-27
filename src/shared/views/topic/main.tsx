@@ -178,7 +178,10 @@ export default class TopicMain extends React.Component<
                                         {topic.viewsCount}
                                     </span>次浏览
                                 </li>
-                                <li className={styles.favorite}>
+                                <li
+                                    className={styles.favorite}
+                                    onClick={store.handleFavorite}
+                                >
                                     <i
                                         className={
                                             favoriteActing
@@ -188,14 +191,14 @@ export default class TopicMain extends React.Component<
                                                   : "el-icon-star-off"
                                         }
                                     />
-                                    <span
-                                        className={styles.count}
-                                        onClick={store.handleFavorite}
-                                    >
+                                    <span className={styles.count}>
                                         {topic.favoritesCount}
                                     </span>收藏
                                 </li>
-                                <li className={styles.upvote}>
+                                <li
+                                    className={styles.upvote}
+                                    onClick={store.handleLike}
+                                >
                                     <i
                                         className={
                                             likeActing
@@ -205,10 +208,7 @@ export default class TopicMain extends React.Component<
                                                   : "fa fa-heart-o"
                                         }
                                     />
-                                    <span
-                                        className={styles.count}
-                                        onClick={store.handleLike}
-                                    >
+                                    <span className={styles.count}>
                                         {topic.upvotesCount}
                                     </span>喜欢
                                 </li>
