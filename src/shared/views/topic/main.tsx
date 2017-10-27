@@ -92,7 +92,10 @@ export default class TopicMain extends React.Component<
 
     componentDidMount() {
         const { store } = this.props;
-        store.checkFavoriteStatus();
+        GlobalStore.Instance.userPromise.then(() => {
+            store.checkFavoriteStatus();
+            store.checkLikeStatus();
+        });
     }
 
     renderMainThread = () => {
