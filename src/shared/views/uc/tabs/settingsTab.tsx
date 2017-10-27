@@ -42,10 +42,12 @@ export default class SettingsTab extends React.Component<
     componentDidMount() {
         const { store } = this.props;
         const { userProfileSettings, user } = store;
-        const me = GlobalStore.Instance.user;
-        if (me && user && me.id === user.id && !userProfileSettings) {
-            store.setProfileSettings(user);
-        }
+
+        GlobalStore.Instance.userPromise.then(me => {
+            if (user && me.id === user.id && !userProfileSettings) {
+                store.setProfileSettings(user);
+            }
+        });
     }
 
     render() {
