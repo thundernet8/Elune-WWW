@@ -43,6 +43,14 @@ export interface UnFavoriteTopicReq {
     id: number;
 }
 
+export interface LikeTopicReq {
+    id: number;
+}
+
+export interface UnLikeTopicReq {
+    id: number;
+}
+
 export function CreateTopic(payload: CreateTopicReq) {
     return WebApi.Post<CommonResp<string>>("topics", payload);
 }
@@ -75,6 +83,14 @@ export function UnFavoriteTopic(payload: UnFavoriteTopicReq) {
     return WebApi.Delete<Boolean>(`topics/${payload.id}/favorites`, {});
 }
 
+export function LikeTopic(payload: LikeTopicReq) {
+    return WebApi.Post<Boolean>(`topics/${payload.id}/likes`, {});
+}
+
+export function UnLikeTopic(payload: UnLikeTopicReq) {
+    return WebApi.Delete<Boolean>(`topics/${payload.id}/likes`, {});
+}
+
 export default {
     CreateTopic,
     UpdateTopic,
@@ -83,5 +99,7 @@ export default {
     FetchChannelTopics,
     FetchUserTopics,
     FavoriteTopic,
-    UnFavoriteTopic
+    UnFavoriteTopic,
+    LikeTopic,
+    UnLikeTopic
 };

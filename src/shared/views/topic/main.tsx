@@ -97,7 +97,13 @@ export default class TopicMain extends React.Component<
 
     renderMainThread = () => {
         const { store } = this.props;
-        const { topic, hasFavorited, favoriteActing } = store;
+        const {
+            topic,
+            hasFavorited,
+            favoriteActing,
+            hasLiked,
+            likeActing
+        } = store;
 
         return (
             <div className={styles.topicWrapper} id="thread">
@@ -190,8 +196,19 @@ export default class TopicMain extends React.Component<
                                     </span>收藏
                                 </li>
                                 <li className={styles.upvote}>
-                                    <i className="fa fa-heart-o" />
-                                    <span className={styles.count}>
+                                    <i
+                                        className={
+                                            likeActing
+                                                ? "el-icon-loading"
+                                                : hasLiked
+                                                  ? "fa fa-heart"
+                                                  : "fa fa-heart-o"
+                                        }
+                                    />
+                                    <span
+                                        className={styles.count}
+                                        onClick={store.handleLike}
+                                    >
                                         {topic.upvotesCount}
                                     </span>喜欢
                                 </li>

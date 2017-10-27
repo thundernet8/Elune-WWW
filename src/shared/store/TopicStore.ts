@@ -1,5 +1,11 @@
 import { observable, action, computed } from "mobx";
-import { FetchTopic, FavoriteTopic, UnFavoriteTopic } from "api/Topic";
+import {
+    FetchTopic,
+    FavoriteTopic,
+    UnFavoriteTopic,
+    LikeTopic,
+    UnLikeTopic
+} from "api/Topic";
 import { FetchTopicPosts, CreatePost } from "api/Post";
 import Topic from "model/Topic";
 import Post from "model/Post";
@@ -12,7 +18,10 @@ import draftToHtml from "draftjs-to-html-fork";
 import {
     hasFavoriteTopic,
     favoriteTopic,
-    unFavoriteTopic
+    unFavoriteTopic,
+    hasLikeTopic,
+    likeTopic,
+    unLikeTopic
 } from "utils/CacheKit";
 import GlobalStore from "store/GlobalStore";
 import AbstractStore from "./AbstractStore";
@@ -99,6 +108,7 @@ export default class TopicStore extends AbstractStore {
             .then(() => {
                 if (!IS_NODE) {
                     this.checkFavoriteStatus();
+                    this.checkLikeStatus();
                 }
             });
     };
@@ -432,16 +442,105 @@ export default class TopicStore extends AbstractStore {
         const globalStore = GlobalStore.Instance;
         const { user } = globalStore;
         const { topic } = this;
-        if (
-            !user ||
-            !user.id ||
-            !topic ||
-            user.favoriteTopicIds.includes(topic.id)
-        ) {
+        if (!user || !user.id || !topic) {
+            return;
+        }
+        if (user.favoriteTopicIds.includes(topic.id)) {
+            favoriteTopic(user.id, topic.id);
+            this.setFavorite(true);
             return;
         }
         if (hasFavoriteTopic(user.id, topic.id)) {
             this.setFavorite(true);
+        }
+    };
+
+    /**
+     * 喜欢
+     */
+
+    @observable likeActing: boolean = false;
+    @observable hasLiked: boolean = false;
+
+    @action
+    setLike = (status: boolean = true) => {
+        this.hasLiked = status;
+    };
+
+    @action
+    likeTopic = () => {
+        const { topic, likeActing } = this;
+        const { id } = topic;
+        if (likeActing) {
+            return Promise.reject(false);
+        }
+        this.likeActing = true;
+        return LikeTopic({
+            id
+        })
+            .then(result => {
+                if (result) {
+                    this.setLike(true);
+                }
+                likeTopic(GlobalStore.Instance.user.id, id);
+                const newTopic = Object.assign({}, topic, {
+                    upvotesCount: topic.upvotesCount + 1
+                });
+                this.setTopic(newTopic);
+                return result;
+            })
+            .finally(() => {
+                this.likeActing = false;
+            });
+    };
+
+    @action
+    unLikeTopic = () => {
+        const { topic, likeActing } = this;
+        const { id } = topic;
+        if (likeActing) {
+            return Promise.reject(false);
+        }
+        this.likeActing = true;
+        return UnLikeTopic({
+            id
+        })
+            .then(result => {
+                if (result) {
+                    this.setLike(false);
+                }
+                unLikeTopic(GlobalStore.Instance.user.id, id);
+                const newTopic = Object.assign({}, topic, {
+                    upvotesCount: topic.upvotesCount - 1
+                });
+                this.setTopic(newTopic);
+                return result;
+            })
+            .finally(() => {
+                this.likeActing = false;
+            });
+    };
+
+    @action
+    handleLike = () => {
+        if (this.hasLiked) {
+            // return this.unLikeTopic();
+            return; // 暂时不允许取消赞
+        } else {
+            return this.likeTopic();
+        }
+    };
+
+    @action
+    checkLikeStatus = () => {
+        const globalStore = GlobalStore.Instance;
+        const { user } = globalStore;
+        const { topic } = this;
+        if (!user || !user.id || !topic) {
+            return;
+        }
+        if (hasLikeTopic(user.id, topic.id)) {
+            this.setLike(true);
         }
     };
 
