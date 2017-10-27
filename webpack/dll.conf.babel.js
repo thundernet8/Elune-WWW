@@ -13,7 +13,8 @@ const getPlugins = function() {
         new AssetsPlugin({
             filename: "venders-config.json",
             path: "./"
-        })
+        }),
+        new webpack.HashedModuleIdsPlugin()
     ];
 
     if (!isDev) {
