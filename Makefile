@@ -23,6 +23,7 @@ clean:
 	rm -rf src/shared/common/**/*.js
 	rm -rf src/shared/enum/**/*.js
 	rm -rf src/shared/interface/**/*.js
+	rm -rf src/shared/utils/*.js
 	rm -rf src/shared/utils/**/*.js
 	rm -rf env.js
 

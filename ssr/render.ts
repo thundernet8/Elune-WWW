@@ -87,17 +87,5 @@ export default (req, res) => {
         .catch(err => {
             console.log(err);
             res.sendFile(path.resolve(__dirname, "../dist/index.html"));
-            // ejs.renderFile(
-            //     path.resolve(__dirname, "../dist/index.html"),
-            //     {},
-            //     {},
-            //     function(err, html) {
-            //         if (!err) {
-            //             res.send(html);
-            //         } else {
-            //             res.status(500).send(err.toString());
-            //         }
-            //     }
-            // );
         });
 };
