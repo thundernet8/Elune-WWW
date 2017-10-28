@@ -35,6 +35,17 @@
                     cursor: pointer;
                     color: #fff;
                 }
+                &.editActions {
+                    float: right;
+                    line-height: 49px;
+                    button {
+                        margin-left: 10px;
+                        padding: 5px 10px;
+                    }
+                    .goEditTopic {
+                        opacity: 0;
+                    }
+                }
             }
         }
 
@@ -126,6 +137,9 @@
     &:hover {
         .asideActions {
             opacity: 1;
+        }
+        .goEditTopic {
+            opacity: 1 !important;
         }
     }
 
@@ -258,4 +272,8 @@
             }
         }
     }
+}
+
+.topicBodyEditing {
+    margin-bottom: 20px;
 }

@@ -6,6 +6,7 @@ import DocumentMeta from "react-document-meta";
 import PostItem from "components/postItem";
 import TopicStore from "store/TopicStore";
 import GlobalStore from "store/GlobalStore";
+import LocalEditor from "components/editor";
 import PostEditor from "components/postEditor";
 // import ReactDOMServer from "react-dom/server";
 import { Tooltip, Button, Message } from "element-react/next";
@@ -26,6 +27,7 @@ interface TopicMainProps {
 
 interface TopicMainState {
     commentting: boolean;
+    editingTopic: boolean;
 }
 
 @observer
@@ -38,7 +40,8 @@ export default class TopicMain extends React.Component<
     constructor(props) {
         super(props);
         this.state = {
-            commentting: false
+            commentting: false,
+            editingTopic: false
         };
     }
 
@@ -90,6 +93,33 @@ export default class TopicMain extends React.Component<
             });
     };
 
+    toggleTopicEditing = (status: boolean) => {
+        this.setState({
+            editingTopic: status
+        });
+    };
+
+    updateTopic = () => {
+        const { store } = this.props;
+        store
+            .submitEditTopic()
+            .then(() => {
+                Message({
+                    message: "更新话题成功",
+                    type: "success"
+                });
+                this.setState({
+                    editingTopic: false
+                });
+            })
+            .catch(err => {
+                Message({
+                    message: err.message || err.toString(),
+                    type: "error"
+                });
+            });
+    };
+
     componentDidMount() {
         const { store } = this.props;
         GlobalStore.Instance.userPromise.then(() => {
@@ -105,8 +135,11 @@ export default class TopicMain extends React.Component<
             hasFavorited,
             favoriteActing,
             hasLiked,
-            likeActing
+            likeActing,
+            canEditTopic,
+            submittingEditTopic
         } = store;
+        const { editingTopic } = this.state;
 
         return (
             <div className={styles.topicWrapper} id="thread">
@@ -144,14 +177,62 @@ export default class TopicMain extends React.Component<
                             <li className={styles.idBadge}>
                                 <span>楼主</span>
                             </li>
+                            {(function(that) {
+                                if (!canEditTopic) {
+                                    return null;
+                                }
+                                return editingTopic ? (
+                                    <li className={styles.editActions}>
+                                        <a
+                                            href="javascript:;"
+                                            onClick={that.toggleTopicEditing.bind(
+                                                that,
+                                                false
+                                            )}
+                                        >
+                                            取消
+                                        </a>
+                                        <Button
+                                            type="success"
+                                            size="small"
+                                            onClick={that.updateTopic}
+                                            loading={submittingEditTopic}
+                                        >
+                                            更新
+                                        </Button>
+                                    </li>
+                                ) : (
+                                    <li className={styles.editActions}>
+                                        <a
+                                            href="javascript:;"
+                                            onClick={that.toggleTopicEditing.bind(
+                                                that,
+                                                true
+                                            )}
+                                            className={styles.goEditTopic}
+                                        >
+                                            编辑
+                                        </a>
+                                    </li>
+                                );
+                            })(this)}
                         </ul>
                     </header>
-                    <div
-                        className={styles.topicBody}
-                        dangerouslySetInnerHTML={{
-                            __html: sanitize(topic.contentHtml)
-                        }}
-                    />
+                    {editingTopic ? (
+                        <div className={styles.topicBodyEditing}>
+                            <LocalEditor
+                                rawContent={topic.contentRaw}
+                                onChange={store.editTopic}
+                            />
+                        </div>
+                    ) : (
+                        <div
+                            className={styles.topicBody}
+                            dangerouslySetInnerHTML={{
+                                __html: sanitize(topic.contentHtml)
+                            }}
+                        />
+                    )}
                     <aside className={styles.asideActions}>
                         <ul>
                             <li className={styles.replyBtn}>

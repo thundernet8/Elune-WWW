@@ -1,6 +1,7 @@
 import { observable, action, computed } from "mobx";
 import {
     FetchTopic,
+    UpdateTopic,
     FavoriteTopic,
     UnFavoriteTopic,
     LikeTopic,
@@ -12,6 +13,7 @@ import Post from "model/Post";
 import CommonResp from "model/Resp";
 import IStoreArgument from "interface/IStoreArgument";
 import { SortOrder, SortOrderBy } from "enum/Sort";
+import Role from "enum/Role";
 import { EditorSuggestion } from "interface/EditorSuggestion";
 import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html-fork";
@@ -82,6 +84,74 @@ export default class TopicStore extends AbstractStore {
     };
 
     @observable loading: boolean = false;
+
+    /**
+     * 话题编辑
+     */
+    @computed
+    get canEditTopic() {
+        const me = GlobalStore.Instance.user;
+        const { topic } = this;
+        if (!me || !topic) {
+            return false;
+        }
+        // 普通用户话题发布3600秒后不可再编辑
+        return (
+            me.roleId <= Role.ADMIN ||
+            (me.roleId <= Role.NORMAL_USER &&
+                me.id === topic.authorId &&
+                new Date().getTime() / 1000 - topic.createTime < 3600)
+        );
+    }
+
+    @observable editTopicContent: string = "";
+    @observable editTopciContentHtml: string = "";
+    @observable editTopicContentRaw: string = "";
+
+    @action
+    editTopic = (raw: string, html: string, plainText: string) => {
+        this.editTopicContent = plainText;
+        this.editTopciContentHtml = html;
+        this.editTopicContentRaw = raw;
+    };
+
+    @observable submittingEditTopic: boolean = false;
+
+    @action
+    submitEditTopic = () => {
+        const {
+            editTopicContent,
+            editTopciContentHtml,
+            editTopicContentRaw,
+            topic
+        } = this;
+        if (!editTopicContent || editTopicContent.length < 50) {
+            return Promise.reject("话题不能少于50字");
+        }
+        this.submittingEditTopic = true;
+        return UpdateTopic({
+            id: topic.id,
+            content: editTopicContent,
+            contentHtml: editTopciContentHtml,
+            contentRaw: editTopicContentRaw
+        })
+            .then(resp => {
+                if (!resp.result) {
+                    throw new Error("更新话题失败");
+                } else {
+                    const newTopic = Object.assign({}, topic, {
+                        content: editTopicContent,
+                        contentHtml: editTopciContentHtml,
+                        contentRaw: editTopicContentRaw
+                    });
+                    this.topic = newTopic;
+                    return resp;
+                }
+            })
+            .finally(() => {
+                this.submittingEditTopic = false;
+            });
+    };
 
     /**
      * 所有频道列表

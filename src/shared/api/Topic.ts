@@ -31,8 +31,11 @@ export interface FetchTopicReq {
     id: number;
 }
 
-export interface UpdateTopicReq extends CreateTopicReq {
+export interface UpdateTopicReq {
     id: number;
+    content: string;
+    contentHtml: string;
+    contentRaw: string;
 }
 
 export interface FavoriteTopicReq {
@@ -56,7 +59,7 @@ export function CreateTopic(payload: CreateTopicReq) {
 }
 
 export function UpdateTopic(payload: UpdateTopicReq) {
-    return WebApi.Put<CommonResp<string>>(`topics/${payload.id}`, payload);
+    return WebApi.Post<CommonResp<string>>(`topics/${payload.id}`, payload);
 }
 
 export function FetchTopic(payload: FetchTopicReq) {
