@@ -139,6 +139,7 @@ export default class TopicMain extends React.Component<
             canEditTopic,
             submittingEditTopic
         } = store;
+        const me = GlobalStore.Instance.user;
         const { editingTopic } = this.state;
 
         return (
@@ -149,10 +150,16 @@ export default class TopicMain extends React.Component<
                             <li className={styles.author}>
                                 <h3>
                                     <Link to={`/u/${topic.authorName}`}>
-                                        <CharAvatar
-                                            className={styles.avatar}
-                                            text={topic.authorName[0]}
-                                        />
+                                        {me && me.avatar ? (
+                                            <span className={styles.avatar}>
+                                                <img src={me.avatar} />
+                                            </span>
+                                        ) : (
+                                            <CharAvatar
+                                                className={styles.avatar}
+                                                text={topic.authorName[0]}
+                                            />
+                                        )}
                                         <span className={styles.username}>
                                             {topic.authorName}
                                         </span>
