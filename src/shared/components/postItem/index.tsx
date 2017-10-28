@@ -51,6 +51,7 @@ export default class PostItem extends React.Component<
         const { topic } = store;
         const { posts } = store;
         const replyIndex = this.props.index + 1;
+        const me = GlobalStore.Instance.user;
 
         const replies = posts.filter(x => x.pid === post.id);
         return (
@@ -139,7 +140,9 @@ export default class PostItem extends React.Component<
                                     回复
                                 </Button>
                                 <CopyToClipboard
-                                    text={`${GlobalStore.Instance.getRefUrl()}#reply${replyIndex}`}
+                                    text={`${GlobalStore.Instance.getRefUrl(
+                                        me.id.toString()
+                                    )}#reply${replyIndex}`}
                                     onCopy={this.refReplyLink}
                                 >
                                     <Button type="text">

@@ -63,7 +63,7 @@ export default class TopicMain extends React.Component<
 
     refTopicLink = () => {
         Message({
-            message: "已成功复制帖子链接",
+            message: "已成功复制话题链接",
             type: "success"
         });
     };
@@ -202,9 +202,9 @@ export default class TopicMain extends React.Component<
                                     </Tooltip>
                                 </li>
                             )}
-                            <li className={styles.idBadge}>
+                            {/* <li className={styles.idBadge}>
                                 <span>楼主</span>
-                            </li>
+                            </li> */}
                             {(function(that) {
                                 if (!canEditTopic) {
                                     return null;

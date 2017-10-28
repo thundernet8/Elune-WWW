@@ -78,10 +78,10 @@ export default class GlobalStore extends AbstractStore {
     }
 
     @action
-    getRefUrl = () => {
+    getRefUrl = (id?: string) => {
         const { user, HREF } = this;
-        if (user && user.id) {
-            return addQuery(HREF || "", "ref", user.id.toString(), false);
+        if (id || (user && user.id)) {
+            return addQuery(HREF || "", "ref", id || user.id.toString(), false);
         }
         return HREF;
     };
