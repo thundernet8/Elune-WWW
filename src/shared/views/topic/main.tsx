@@ -181,6 +181,27 @@ export default class TopicMain extends React.Component<
                                     </span>
                                 </Tooltip>
                             </li>
+                            {!!topic.updateTime && (
+                                <li className={styles.meta}>
+                                    <Tooltip
+                                        effect="dark"
+                                        placement="top"
+                                        content={getGMT8DateStr(
+                                            new Date(topic.updateTime * 1000)
+                                        )}
+                                    >
+                                        <span>
+                                            <span className={styles.dot}>·</span>{" "}
+                                            更新于
+                                            {getTimeDiff(
+                                                new Date(
+                                                    topic.updateTime * 1000
+                                                )
+                                            )}
+                                        </span>
+                                    </Tooltip>
+                                </li>
+                            )}
                             <li className={styles.idBadge}>
                                 <span>楼主</span>
                             </li>
