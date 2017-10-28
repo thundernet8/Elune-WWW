@@ -65,3 +65,23 @@ export const likeTopic = (
 export const unLikeTopic = (uid: number, topicId: number) => {
     return likeTopic(uid, topicId, false);
 };
+
+export const bannerClosed = (bannerId: string) => {
+    const cache = JSON.parse(localStorage.getItem(`_user_banner_data`) || "{}");
+    const bannerData = cache[bannerId];
+
+    return (
+        bannerData &&
+        new Date().getTime() - Number(bannerData.time) < 24 * 3600 * 1000 &&
+        !Number(bannerData.status)
+    );
+};
+
+export const closeBanner = (bannerId: string) => {
+    const cache = JSON.parse(localStorage.getItem(`_user_banner_data`) || "{}");
+    cache[bannerId] = {
+        time: new Date().getTime().toFixed(0),
+        status: "0"
+    };
+    localStorage.setItem(`_user_banner_data`, JSON.stringify(cache));
+};
