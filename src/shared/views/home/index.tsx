@@ -32,8 +32,7 @@ export default class HomeView extends React.Component<
                 name: {
                     keywords: "Eleun,forum,wordpress,php,java,javascript,react"
                 }
-            },
-            auto: true
+            }
         };
 
         // DocumentMeta.rewind();

@@ -240,7 +240,7 @@ export default class TopicMain extends React.Component<
                                     回复
                                 </Button>
                                 <CopyToClipboard
-                                    text={`${GlobalStore.Instance.URL}#thread`}
+                                    text={`${GlobalStore.Instance.getRefUrl()}#thread`}
                                     onCopy={this.refTopicLink}
                                 >
                                     <Button type="text">

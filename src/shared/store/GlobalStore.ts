@@ -6,6 +6,7 @@ import IStoreArgument from "interface/IStoreArgument";
 import BannerMsg from "interface/BannerMsg";
 import { AuthType } from "enum/Auth";
 import { EntityStatus } from "enum/EntityStatus";
+import { addQuery } from "utils/UrlKit";
 import AbstractStore from "./AbstractStore";
 import { IS_NODE } from "../../../env";
 
@@ -67,6 +68,23 @@ export default class GlobalStore extends AbstractStore {
         }
         return `${location.protocol}//${location.host}${location.pathname}`;
     }
+
+    @computed
+    get HREF() {
+        if (IS_NODE) {
+            return this.Location.url;
+        }
+        return location.href;
+    }
+
+    @action
+    getRefUrl = () => {
+        const { user, HREF } = this;
+        if (user && user.id) {
+            return addQuery(HREF || "", "ref", user.id.toString(), false);
+        }
+        return HREF;
+    };
 
     /**
      * 当前用户
