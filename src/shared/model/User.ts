@@ -1,28 +1,33 @@
 import { EntityStatus } from "enum/EntityStatus";
 import Role from "enum/Role";
 
-export default class UserInfo {
+export class BaseUserInfo {
     public id: number;
     public username: string;
     public email: string;
     public nickname: string;
+    public avatar: string;
+}
+
+// /me
+export default class UserInfo extends BaseUserInfo {
     public roleId: Role;
     public unreadCount: number;
     public joinTime: number;
-    public avatar: string;
     public status: EntityStatus;
     public bio: string;
     public url: string;
     public favoriteTopicIds: number[];
+    public followTopicIds: number[];
+    public followUserIds: number[];
+    public balance: number;
+    public dailySigned: boolean;
 }
 
-export class PublicUserInfo {
-    public id: number;
-    public username: string;
-    public nickname: string;
+// /u/username
+export class PublicUserInfo extends BaseUserInfo {
     public roleId: Role;
     public joinTime: number;
-    public avatar: string;
     public bio: string;
     public url: string;
     public lastSeen: number;

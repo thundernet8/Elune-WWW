@@ -1,9 +1,18 @@
 .sidebar {
     width: 250px;
     min-height: 250px;
-    margin-top: 30px;
+    margin-top: 10px;
+    padding-bottom: 10px;
 
-    .widget {
-        margin-bottom: 20px;
+    :global {
+        .widget {
+            margin-bottom: 20px;
+            background: #fff;
+            border-radius: 4px;
+            overflow: hidden;
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
     }
 }

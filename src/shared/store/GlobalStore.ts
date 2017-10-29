@@ -2,6 +2,7 @@ import { observable, action, autorun, computed } from "mobx";
 import UserInfo from "model/User";
 import CommonResp from "model/Resp";
 import { Login, Register, Logout, WhoAmI } from "api/Auth";
+import { DailySign } from "api/User";
 import IStoreArgument from "interface/IStoreArgument";
 import BannerMsg from "interface/BannerMsg";
 import { AuthType } from "enum/Auth";
@@ -164,6 +165,34 @@ export default class GlobalStore extends AbstractStore {
     @action
     setBulletion = (msg: BannerMsg) => {
         this.bannerMsg = msg;
+    };
+
+    /**
+     * 签到相关
+     */
+    @observable dailySigning: boolean = false;
+
+    @action
+    dailySign = () => {
+        const { dailySigning, user } = this;
+        if (dailySigning) {
+            return Promise.reject(false);
+        }
+        this.dailySigning = true;
+        return DailySign().then(resp => {
+            if (resp.result > 0) {
+                this.user = Object.assign({}, user, {
+                    balance: user.balance + resp.result,
+                    dailySigned: true
+                });
+                return resp;
+            } else {
+                throw new Error("签到失败");
+            }
+        });
+        // .finally(() => {
+        //     this.dailySigning = false;
+        // });
     };
 
     /**

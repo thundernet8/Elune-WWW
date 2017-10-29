@@ -5,10 +5,9 @@ import { Link } from "react-router-dom";
 import Topic from "model/Topic";
 import { Tooltip } from "element-react/next";
 import { getTimeDiff, getGMT8DateStr } from "utils/DateTimeKit";
-import CharAvatar from "components/charAvatar";
+import Avatar from "components/avatar";
 
 const styles = require("./index.less");
-// const defaultAvatar = require("IMG/avatar-default.png");
 
 interface TopicItemProps {
     topic: Topic;
@@ -91,11 +90,11 @@ export default class TopicItem extends React.Component<
                                     <img src={author.avatar} />
                                 </span>
                             ) : (
-                                <CharAvatar
+                                <Avatar
                                     className={ClassNames("avatar", [
                                         styles.avatar
                                     ])}
-                                    text={author.username[0]}
+                                    user={author}
                                 />
                             )}
                         </Tooltip>

@@ -48,5 +48,8 @@ export function ReActivate(payload: ReActivateReq) {
 export default {
     Login,
     Register,
-    Logout
+    Logout,
+    WhoAmI,
+    Activate,
+    ReActivate
 };

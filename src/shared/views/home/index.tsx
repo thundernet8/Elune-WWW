@@ -43,8 +43,10 @@ export default class HomeView extends React.Component<
                 <BannerMsg />
                 <WelcomeHero />
                 <div className={ClassNames("container", [styles.container])}>
-                    <HomeAside />
-                    <HomeMain />
+                    <div className={styles.mainWrapper}>
+                        <HomeAside />
+                        <HomeMain />
+                    </div>
                     <Sidebar where="home" />
                 </div>
             </div>

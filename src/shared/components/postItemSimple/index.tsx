@@ -5,7 +5,7 @@ import Post from "model/Post";
 import { Link } from "react-router-dom";
 import { Tooltip } from "element-react/next";
 import { getTimeDiff, getGMT8DateStr } from "utils/DateTimeKit";
-import CharAvatar from "components/charAvatar";
+import Avatar from "components/avatar";
 import PureHtmlContent from "components/pureHtmlContent";
 
 const styles = require("../postItem/index.less");
@@ -50,9 +50,9 @@ export default class PostItemSimple extends React.Component<
                                                 <img src={post.author.avatar} />
                                             </span>
                                         ) : (
-                                            <CharAvatar
+                                            <Avatar
                                                 className={styles.avatar}
-                                                text={post.authorName[0]}
+                                                user={post.author}
                                             />
                                         )}
                                         <span className={styles.username}>

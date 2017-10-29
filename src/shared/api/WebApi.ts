@@ -49,12 +49,15 @@ function webApi<T>(httpMethod: string, path: string, params: any): Promise<T> {
             params: httpMethod.toLowerCase() === "get" ? params : null,
             data: httpMethod.toLowerCase() !== "get" ? params : null,
             validateStatus: function(status) {
-                return status >= 200 && status < 300; // default
+                return status >= 200 && status < 500;
             }
         })
         .then<T>(resp => {
             if (!IS_PROD) {
                 console.dir(resp);
+            }
+            if (resp.status >= 400) {
+                throw new Error(resp.data);
             }
             return resp.data;
         })

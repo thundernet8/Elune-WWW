@@ -7,7 +7,7 @@ import TopicStore from "store/TopicStore";
 import { Link } from "react-router-dom";
 import { Tooltip, Button, Message } from "element-react/next";
 import { getTimeDiff, getGMT8DateStr } from "utils/DateTimeKit";
-import CharAvatar from "components/charAvatar";
+import Avatar from "components/avatar";
 import PureHtmlContent from "components/pureHtmlContent";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
@@ -67,9 +67,9 @@ export default class PostItem extends React.Component<
                                                 <img src={post.author.avatar} />
                                             </span>
                                         ) : (
-                                            <CharAvatar
+                                            <Avatar
                                                 className={styles.avatar}
-                                                text={post.authorName[0]}
+                                                user={post.author}
                                             />
                                         )}
                                         <span className={styles.username}>

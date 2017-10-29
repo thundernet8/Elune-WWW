@@ -1,5 +1,6 @@
 import * as React from "react";
 import ClassNames from "classnames";
+import UserWidget from "./widgets/user";
 
 const styles = require("./index.less");
 
@@ -25,6 +26,7 @@ export default class Sidebar extends React.Component<
     render() {
         return (
             <aside className={styles.sidebar}>
+                <UserWidget />
                 <div className={ClassNames("widget", [styles.widget])}>
                     <div className="widget-content">
                         <a href="https://webapproach.net/go/do" target="_blank">

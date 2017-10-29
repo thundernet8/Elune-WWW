@@ -1,0 +1,88 @@
+@import "../../../../../assets/styles/vars";
+
+.widget {
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 4px;
+    overflow: visible !important;
+}
+
+.content {
+    position: relative;
+}
+
+.divider {
+    margin: 10px 0;
+    border-top: 1px solid rgba(34, 36, 38, 0.15);
+    line-height: 1;
+}
+
+.header {
+    position: relative;
+    padding-left: 75px;
+    height: 80px;
+    .avatar {
+        position: absolute;
+        left: 5px;
+    }
+    .userInfo {
+        padding-top: 5px;
+        .nickname {
+            display: block;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: @darkColor;
+            text-transform: capitalize;
+        }
+        & > span {
+            font-size: 1.4rem;
+            color: @darkColor;
+        }
+
+        .edit {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            font-size: 1.3rem;
+        }
+    }
+}
+
+.infoData {
+    text-align: center;
+    color: @darkColor;
+    .num {
+        font-weight: bold;
+        font-size: 1.6rem;
+        color: @mainColor;
+    }
+}
+
+.footer {
+    .balance {
+        display: flex;
+        & > label {
+            font-size: 1.4rem;
+            line-height: 34px;
+            width: 100px;
+        }
+        & > .balanceDetail {
+            flex: 1;
+            display: flex;
+            & > span {
+                flex: 1;
+                line-height: 34px;
+                display: inline-block;
+                .num {
+                    margin-right: 5px;
+                    font-weight: bold;
+                }
+                img {
+                    width: 16px;
+                    height: 16px;
+                    vertical-align: -3px;
+                }
+            }
+        }
+    }
+}

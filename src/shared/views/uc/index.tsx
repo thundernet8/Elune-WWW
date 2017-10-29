@@ -8,7 +8,7 @@ import GlobalStore from "store/GlobalStore";
 import { getCharColor } from "utils/ColorKit";
 import { getTimeDiff } from "utils/DateTimeKit";
 // import { Link } from "react-router-dom";
-import CharAvatar from "components/charAvatar";
+import Avatar from "components/avatar";
 import { Upload } from "element-react/next";
 import UCAsideView from "./aside";
 import PostsTab from "./tabs/postsTab";
@@ -19,7 +19,6 @@ import FavoritesTab from "./tabs/favoritesTab";
 import { API_BASE } from "../../../../env";
 
 const styles = require("./styles/index.less");
-// const defaultAvatar = require("IMG/avatar-default.png");
 
 interface UCViewProps {
     match: any;
@@ -79,15 +78,6 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
             (!!user.lastSeen &&
                 new Date().getTime() - user.lastSeen * 1000 < 20 * 60000);
 
-        const avatarNode =
-            user && user.avatar ? (
-                <span className={styles.avatar}>
-                    <img src={user.avatar} />
-                </span>
-            ) : (
-                <CharAvatar className={styles.avatar} text={username[0]} />
-            );
-
         return (
             <div
                 className={styles.userHero}
@@ -110,10 +100,20 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
                                         trigger={<i className="el-icon-plus" />}
                                         onSuccess={this.successUploadAvatar}
                                     >
-                                        {avatarNode}
+                                        {
+                                            <Avatar
+                                                className={styles.avatar}
+                                                username={username}
+                                                user={user}
+                                            />
+                                        }
                                     </Upload>
                                 ) : (
-                                    avatarNode
+                                    <Avatar
+                                        className={styles.avatar}
+                                        username={username}
+                                        user={user}
+                                    />
                                 )}
 
                                 <span className={styles.username}>

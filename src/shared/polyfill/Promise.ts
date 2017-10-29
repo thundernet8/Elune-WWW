@@ -6,7 +6,7 @@ Promise.prototype.finally = function(finaliser) {
         },
         reason => {
             finaliser();
-            return reason;
+            throw new Error(reason);
         }
     );
 };

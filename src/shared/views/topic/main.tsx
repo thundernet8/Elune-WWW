@@ -13,7 +13,7 @@ import { Tooltip, Button, Message } from "element-react/next";
 import { getTimeDiff, getGMT8DateStr } from "utils/DateTimeKit";
 import { Link } from "react-router-dom";
 import Post from "model/Post";
-import CharAvatar from "components/charAvatar";
+import Avatar from "components/avatar";
 import { sanitize } from "utils/HtmlKit";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
@@ -155,9 +155,9 @@ export default class TopicMain extends React.Component<
                                                 <img src={me.avatar} />
                                             </span>
                                         ) : (
-                                            <CharAvatar
+                                            <Avatar
                                                 className={styles.avatar}
-                                                text={topic.authorName[0]}
+                                                user={topic.author}
                                             />
                                         )}
                                         <span className={styles.username}>
