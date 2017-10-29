@@ -2,13 +2,11 @@ import * as React from "react";
 import { observer } from "mobx-react";
 import ClassNames from "classnames";
 import DocumentMeta from "react-document-meta";
-// import Topic from "model/Topic";
 import PostItem from "components/postItem";
 import TopicStore from "store/TopicStore";
 import GlobalStore from "store/GlobalStore";
 import LocalEditor from "components/editor";
 import PostEditor from "components/postEditor";
-// import ReactDOMServer from "react-dom/server";
 import { Tooltip, Button, Message } from "element-react/next";
 import { getTimeDiff, getGMT8DateStr } from "utils/DateTimeKit";
 import { Link } from "react-router-dom";
@@ -139,7 +137,6 @@ export default class TopicMain extends React.Component<
             canEditTopic,
             submittingEditTopic
         } = store;
-        const me = GlobalStore.Instance.user;
         const { editingTopic } = this.state;
 
         return (
