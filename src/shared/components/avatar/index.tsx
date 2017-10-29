@@ -28,7 +28,9 @@ export default class Avatar extends React.Component<AvatarProps, AvatarState> {
             );
         }
 
-        const char = username ? username[0] : user ? user.username[0] : "#";
-        return <CharAvatar text={char} />;
+        const char = username
+            ? username[0]
+            : user && user.username ? user.username[0] : "#";
+        return <CharAvatar className={className} text={char} />;
     }
 }

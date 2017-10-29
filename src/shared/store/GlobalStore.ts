@@ -1,13 +1,14 @@
 import { observable, action, autorun, computed } from "mobx";
 import UserInfo from "model/User";
 import CommonResp from "model/Resp";
-import { Login, Register, Logout, WhoAmI } from "api/Auth";
+import { Login, Register, Logout, WhoAmI, RegisterReq } from "api/Auth";
 import { DailySign } from "api/User";
 import IStoreArgument from "interface/IStoreArgument";
 import BannerMsg from "interface/BannerMsg";
 import { AuthType } from "enum/Auth";
 import { EntityStatus } from "enum/EntityStatus";
-import { addQuery } from "utils/UrlKit";
+import { addQuery, getQuery } from "utils/UrlKit";
+import { isIntNumberic } from "utils/TextKit";
 import AbstractStore from "./AbstractStore";
 import { IS_NODE } from "../../../env";
 
@@ -50,7 +51,11 @@ export default class GlobalStore extends AbstractStore {
         // 如果当前登录用户未激活则展示全局banner消息提醒
         autorun(() => {
             const { user } = this;
-            if (user && user.status === EntityStatus.DELETEDORUNACTIVE) {
+            if (
+                user &&
+                user.id &&
+                user.status === EntityStatus.DELETEDORUNACTIVE
+            ) {
                 this.setBulletion({
                     text: "您的账户尚未激活，请立即查收激活邮件进行激活"
                 });
@@ -116,11 +121,16 @@ export default class GlobalStore extends AbstractStore {
      */
     @action
     requestRegister = (username: string, email: string, password: string) => {
-        return Register({
+        const params: RegisterReq = {
             username,
             email,
             password
-        }).then((resp: CommonResp<UserInfo>) => {
+        };
+        const ref = getQuery(this.URL || "", "ref");
+        if (ref && isIntNumberic(ref)) {
+            params.ref = Number(ref);
+        }
+        return Register(params).then((resp: CommonResp<UserInfo>) => {
             this.setUser(resp.result);
             return resp;
         });

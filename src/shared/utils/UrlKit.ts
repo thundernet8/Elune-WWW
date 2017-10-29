@@ -30,3 +30,14 @@ export const addQueries = (url: string, keyValuePairs: object) => {
     }, "");
     return `${urlObj.protocol}//${urlObj.host}${urlObj.pathname}${urlObj.search}${prefix}${suffix}${urlObj.hash}`;
 };
+
+export const getQuery = (url: string, key: string) => {
+    const urlObj = getUrlObj(url);
+    const search = urlObj.search;
+    if (!search || search.length < 3) {
+        return "";
+    }
+    const reg = new RegExp(`${key}=([^?&]*)`, "i");
+    const match = search.match(reg);
+    return match && match.length > 1 && match[1];
+};

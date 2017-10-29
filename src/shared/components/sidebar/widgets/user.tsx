@@ -46,7 +46,7 @@ export default class UserWidget extends React.Component<
 
     render() {
         const { user } = GlobalStore.Instance;
-        if (!user) {
+        if (!user || !user.id) {
             return null;
         }
 

@@ -11,6 +11,7 @@ export interface RegisterReq {
     username: string;
     email: string;
     password: string;
+    ref?: number;
 }
 
 export interface ActivateReq {
@@ -26,7 +27,10 @@ export function Login(payload: LoginReq) {
 }
 
 export function Register(payload: RegisterReq) {
-    return WebApi.Post<CommonResp<UserInfo>>("signup", payload);
+    return WebApi.Post<CommonResp<UserInfo>>(
+        payload.ref ? `signup?ref=${payload.ref}` : "signup",
+        payload
+    );
 }
 
 export function Logout() {
