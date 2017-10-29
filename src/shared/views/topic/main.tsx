@@ -150,16 +150,10 @@ export default class TopicMain extends React.Component<
                             <li className={styles.author}>
                                 <h3>
                                     <Link to={`/u/${topic.authorName}`}>
-                                        {me && me.avatar ? (
-                                            <span className={styles.avatar}>
-                                                <img src={me.avatar} />
-                                            </span>
-                                        ) : (
-                                            <Avatar
-                                                className={styles.avatar}
-                                                user={topic.author}
-                                            />
-                                        )}
+                                        <Avatar
+                                            className={styles.avatar}
+                                            user={topic.author}
+                                        />
                                         <span className={styles.username}>
                                             {topic.authorName}
                                         </span>

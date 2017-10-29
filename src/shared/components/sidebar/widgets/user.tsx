@@ -197,7 +197,8 @@ export default class UserWidget extends React.Component<
                                                 </span>
                                                 <img src={goldImg} />
                                             </Tooltip>
-                                        </span>}
+                                        </span>
+                                    }
                                     {
                                         <span className={styles.silver}>
                                             <Tooltip
@@ -210,7 +211,8 @@ export default class UserWidget extends React.Component<
                                                 </span>
                                                 <img src={silverImg} />
                                             </Tooltip>
-                                        </span>}
+                                        </span>
+                                    }
                                     <span className={styles.bronze}>
                                         <Tooltip
                                             effect="dark"
@@ -229,7 +231,7 @@ export default class UserWidget extends React.Component<
                                 <Tooltip
                                     effect="dark"
                                     placement="top"
-                                    content="新用户通过你的邀请链接注册将获得10银币财富奖励"
+                                    content="新用户通过你的邀请链接注册你将获得10银币财富奖励"
                                 >
                                     <CopyToClipboard
                                         text={this.getRefLink()}
