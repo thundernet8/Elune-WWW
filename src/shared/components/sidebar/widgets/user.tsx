@@ -4,7 +4,15 @@ import ClassNames from "classnames";
 import GlobalStore from "store/GlobalStore";
 import Avatar from "components/avatar";
 import { Link } from "react-router-dom";
-import { Layout, Tooltip, Button, Notification } from "element-react/next";
+import {
+    Layout,
+    Tooltip,
+    Button,
+    Notification,
+    Input,
+    Message
+} from "element-react/next";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const styles = require("./styles/user.less");
 const goldImg = require("IMG/gold.png");
@@ -42,6 +50,23 @@ export default class UserWidget extends React.Component<
                     type: "error"
                 });
             });
+    };
+
+    getRefLink = () => {
+        const store = GlobalStore.Instance;
+        const { user } = store;
+        return store.getHomeRefUrl(user.id.toString());
+    };
+
+    copyRefLink = () => {
+        Message({
+            message: "复制推广链接成功, 邀请注册成功获得银币奖励",
+            type: "success"
+        });
+    };
+
+    focusRefLinkInput = (e: any) => {
+        e.target.select();
     };
 
     render() {
@@ -201,6 +226,24 @@ export default class UserWidget extends React.Component<
                                         </Tooltip>
                                     </span>
                                 </div>
+                            </div>
+                            <div className={styles.refLink}>
+                                <Tooltip
+                                    effect="dark"
+                                    placement="top"
+                                    content="新用户通过你的要求链接注册将获得10银币财富奖励"
+                                >
+                                    <CopyToClipboard
+                                        text={this.getRefLink()}
+                                        onCopy={this.copyRefLink}
+                                    >
+                                        <Input
+                                            value={this.getRefLink()}
+                                            prepend="推广链接"
+                                            onFocus={this.focusRefLinkInput}
+                                        />
+                                    </CopyToClipboard>
+                                </Tooltip>
                             </div>
                         </footer>
                     </div>

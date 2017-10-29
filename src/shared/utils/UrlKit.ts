@@ -5,6 +5,11 @@ const getUrlObj = (url: string) => {
     return IS_NODE ? new NodeURL(url) : new URL(url);
 };
 
+export const getHomeUrl = (url: string) => {
+    const urlObj = getUrlObj(url);
+    return `${urlObj.protocol}//${urlObj.host}`;
+};
+
 export const addQuery = (
     url: string,
     key: string,

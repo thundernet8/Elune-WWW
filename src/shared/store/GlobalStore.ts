@@ -7,7 +7,7 @@ import IStoreArgument from "interface/IStoreArgument";
 import BannerMsg from "interface/BannerMsg";
 import { AuthType } from "enum/Auth";
 import { EntityStatus } from "enum/EntityStatus";
-import { addQuery, getQuery } from "utils/UrlKit";
+import { addQuery, getQuery, getHomeUrl } from "utils/UrlKit";
 import { isIntNumberic } from "utils/TextKit";
 import AbstractStore from "./AbstractStore";
 import { IS_NODE } from "../../../env";
@@ -83,6 +83,11 @@ export default class GlobalStore extends AbstractStore {
         return location.href;
     }
 
+    @computed
+    get HOME() {
+        return getHomeUrl(this.URL || "");
+    }
+
     @action
     getRefUrl = (id?: string) => {
         const { user, HREF } = this;
@@ -90,6 +95,15 @@ export default class GlobalStore extends AbstractStore {
             return addQuery(HREF || "", "ref", id || user.id.toString(), false);
         }
         return HREF;
+    };
+
+    @action
+    getHomeRefUrl = (id?: string) => {
+        const { user, HOME } = this;
+        if (id || (user && user.id)) {
+            return addQuery(HOME || "", "ref", id || user.id.toString(), false);
+        }
+        return HOME;
     };
 
     /**
