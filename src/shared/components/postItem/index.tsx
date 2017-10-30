@@ -141,7 +141,7 @@ export default class PostItem extends React.Component<
                                 </Button>
                                 <CopyToClipboard
                                     text={`${GlobalStore.Instance.getRefUrl(
-                                        me.id.toString()
+                                        me ? me.id.toString() : ""
                                     )}#reply${replyIndex}`}
                                     onCopy={this.refReplyLink}
                                 >
