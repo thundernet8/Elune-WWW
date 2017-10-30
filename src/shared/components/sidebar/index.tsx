@@ -24,8 +24,9 @@ export default class Sidebar extends React.Component<
     }
 
     render() {
+        const { where } = this.props;
         return (
-            <aside className={styles.sidebar}>
+            <aside className={ClassNames([styles.sidebar], [where], "sidebar")}>
                 <UserWidget />
                 <div className={ClassNames("widget", [styles.widget])}>
                     <div className="widget-content">
