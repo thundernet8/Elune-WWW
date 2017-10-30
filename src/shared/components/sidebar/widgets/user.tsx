@@ -79,7 +79,7 @@ export default class UserWidget extends React.Component<
 
         const balance = user.balance || 0;
         const gold = Number((balance / 10000).toFixed(0));
-        const silver = Number(((balance - gold * 10000) / 100).toFixed(0));
+        const silver = Math.floor((balance - gold * 10000) / 100);
         const bronze = balance % 100;
 
         return (
