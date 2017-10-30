@@ -209,12 +209,12 @@ class ActivationView extends React.Component<
     render() {
         const meta = {
             title:
-                "账户激活-Eleun Forum-Web development community,WordPress,PHP,Java,JavaScript",
+                "账户激活-Elune Forum-Web development community,WordPress,PHP,Java,JavaScript",
             description: "I am a description, and I can create multiple tags",
             meta: {
                 charset: "utf-8",
                 name: {
-                    keywords: "Eleun,forum,wordpress,php,java,javascript,react"
+                    keywords: "Elune,forum,wordpress,php,java,javascript,react"
                 }
             }
         };

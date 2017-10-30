@@ -200,13 +200,13 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
         }
 
         const meta = {
-            title: `${username}的个人主页-Eleun Forum-Web development community,WordPress,PHP,Java,JavaScript`,
+            title: `${username}的个人主页-Elune Forum-Web development community,WordPress,PHP,Java,JavaScript`,
             description: "",
             // canonical: "https://elune.me",
             meta: {
                 charset: "utf-8",
                 name: {
-                    keywords: "Eleun,forum,wordpress,php,java,javascript,react"
+                    keywords: "Elune,forum,wordpress,php,java,javascript,react"
                 }
             }
         };

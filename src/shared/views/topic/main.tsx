@@ -489,13 +489,13 @@ export default class TopicMain extends React.Component<
             );
         }
         const meta = {
-            title: `${topic.title}-Eleun Forum-Web development community,WordPress,PHP,Java,JavaScript`,
+            title: `${topic.title}-Elune Forum-Web development community,WordPress,PHP,Java,JavaScript`,
             description: topic.content.substr(0, 100),
             // canonical: "https://elune.me",
             meta: {
                 charset: "utf-8",
                 name: {
-                    keywords: "Eleun,forum,wordpress,php,java,javascript,react"
+                    keywords: "Elune,forum,wordpress,php,java,javascript,react"
                 }
             }
         };

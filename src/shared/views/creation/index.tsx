@@ -183,12 +183,12 @@ class CreationView extends React.Component<
     render() {
         const meta = {
             title:
-                "创建话题-Eleun Forum-Web development community,WordPress,PHP,Java,JavaScript",
+                "创建话题-Elune Forum-Web development community,WordPress,PHP,Java,JavaScript",
             description: "",
             meta: {
                 charset: "utf-8",
                 name: {
-                    keywords: "Eleun,forum,wordpress,php,java,javascript,react"
+                    keywords: "Elune,forum,wordpress,php,java,javascript,react"
                 }
             }
         };
