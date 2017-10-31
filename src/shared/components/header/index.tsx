@@ -96,18 +96,20 @@ class Header extends React.Component<HeaderProps, HeaderState> {
                 >
                     <header>
                         <h4>消息通知</h4>
-                        <Button
-                            type="text"
-                            loading={markingNotificationsStatus}
-                            onClick={globalStore.markNotificationsRead}
-                        >
-                            {!markingNotificationsStatus && (
-                                <i
-                                    className="fa fa-fw fa-check"
-                                    title="标记为全部已读"
-                                />
-                            )}
-                        </Button>
+                        {hasUnread && (
+                            <Button
+                                type="text"
+                                loading={markingNotificationsStatus}
+                                onClick={globalStore.markNotificationsRead}
+                            >
+                                {!markingNotificationsStatus && (
+                                    <i
+                                        className="fa fa-fw fa-check"
+                                        title="标记为全部已读"
+                                    />
+                                )}
+                            </Button>
+                        )}
                     </header>
                     <div className={styles.body}>
                         <ul>
