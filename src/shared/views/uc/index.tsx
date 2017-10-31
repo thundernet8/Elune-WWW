@@ -10,6 +10,7 @@ import { getTimeDiff } from "utils/DateTimeKit";
 // import { Link } from "react-router-dom";
 import Avatar from "components/avatar";
 import { Upload } from "element-react/next";
+import moment from "moment";
 import UCAsideView from "./aside";
 import PostsTab from "./tabs/postsTab";
 import TopicsTab from "./tabs/topicsTab";
@@ -143,9 +144,7 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
                                             <span>
                                                 <i className="fa fa-fw fa-clock-o" />
                                                 {getTimeDiff(
-                                                    new Date(
-                                                        user.lastSeen * 1000
-                                                    )
+                                                    moment(user.lastSeen * 1000)
                                                 )}
                                             </span>
                                         </li>
@@ -153,7 +152,7 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
                                 {user.joinTime && (
                                     <li className={styles.joined}>
                                         <span>
-                                            加入于{getTimeDiff(new Date(user.joinTime * 1000))}
+                                            加入于{getTimeDiff(moment(user.joinTime * 1000))}
                                         </span>
                                     </li>
                                 )}

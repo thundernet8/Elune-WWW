@@ -10,6 +10,7 @@ import { getTimeDiff, getGMT8DateStr } from "utils/DateTimeKit";
 import Avatar from "components/avatar";
 import PureHtmlContent from "components/pureHtmlContent";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import moment from "moment";
 
 const styles = require("./index.less");
 
@@ -83,12 +84,12 @@ export default class PostItem extends React.Component<
                                     effect="dark"
                                     placement="top"
                                     content={getGMT8DateStr(
-                                        new Date(post.createTime * 1000)
+                                        moment(post.createTime * 1000)
                                     )}
                                 >
                                     <span>
                                         {getTimeDiff(
-                                            new Date(post.createTime * 1000)
+                                            moment(post.createTime * 1000)
                                         )}
                                     </span>
                                 </Tooltip>

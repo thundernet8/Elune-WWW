@@ -6,6 +6,7 @@ import Topic from "model/Topic";
 import { Tooltip } from "element-react/next";
 import { getTimeDiff, getGMT8DateStr } from "utils/DateTimeKit";
 import Avatar from "components/avatar";
+import moment from "moment";
 
 const styles = require("./index.less");
 
@@ -45,7 +46,7 @@ export default class TopicItem extends React.Component<
             postTime,
             poster
         } = topic;
-        const latestPostTime = postTime ? new Date(postTime * 1000) : null;
+
         return (
             <div className={ClassNames([styles.topicItem], [className])}>
                 <Dropdown
@@ -78,7 +79,7 @@ export default class TopicItem extends React.Component<
                             effect="dark"
                             placement="bottom"
                             content={`${author.nickname} 发布于 ${getGMT8DateStr(
-                                new Date(createTime * 1000)
+                                moment(createTime * 1000)
                             )}`}
                         >
                             {author.avatar ? (
@@ -167,7 +168,7 @@ export default class TopicItem extends React.Component<
                                     })}
                                 </span>
                             </li>
-                            {latestPostTime &&
+                            {postTime &&
                                 poster && (
                                     <li className={styles.reply}>
                                         <span>
@@ -178,15 +179,13 @@ export default class TopicItem extends React.Component<
                                             回复于{" "}
                                             <time
                                                 data-pubdate="true"
-                                                title={
-                                                    latestPostTime
-                                                        ? getGMT8DateStr(
-                                                              latestPostTime
-                                                          )
-                                                        : ""
-                                                }
+                                                title={getGMT8DateStr(
+                                                    moment(postTime * 1000)
+                                                )}
                                             >
-                                                {getTimeDiff(latestPostTime)}
+                                                {getTimeDiff(
+                                                    moment(postTime * 1000)
+                                                )}
                                             </time>
                                         </span>
                                     </li>

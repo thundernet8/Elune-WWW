@@ -77,6 +77,7 @@
         "immutable": "^3.8.1",
         "mobx": "^3.3.0",
         "mobx-react": "^4.3.3",
+        "moment": "^2.19.1",
         "prop-types": "^15.6.0",
         "react": "^16.0.0",
         "react-click-outside": "^3.0.0",

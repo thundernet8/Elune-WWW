@@ -14,6 +14,7 @@ import Post from "model/Post";
 import Avatar from "components/avatar";
 import { sanitize } from "utils/HtmlKit";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import moment from "moment";
 
 const styles = require("./styles/main.less");
 
@@ -162,12 +163,12 @@ export default class TopicMain extends React.Component<
                                     effect="dark"
                                     placement="top"
                                     content={getGMT8DateStr(
-                                        new Date(topic.createTime * 1000)
+                                        moment(topic.createTime * 1000)
                                     )}
                                 >
                                     <span>
                                         {getTimeDiff(
-                                            new Date(topic.createTime * 1000)
+                                            moment(topic.createTime * 1000)
                                         )}
                                     </span>
                                 </Tooltip>
@@ -178,16 +179,14 @@ export default class TopicMain extends React.Component<
                                         effect="dark"
                                         placement="top"
                                         content={getGMT8DateStr(
-                                            new Date(topic.updateTime * 1000)
+                                            moment(topic.updateTime * 1000)
                                         )}
                                     >
                                         <span>
                                             <span className={styles.dot}>·</span>{" "}
                                             更新于
                                             {getTimeDiff(
-                                                new Date(
-                                                    topic.updateTime * 1000
-                                                )
+                                                moment(topic.updateTime * 1000)
                                             )}
                                         </span>
                                     </Tooltip>
