@@ -81,6 +81,89 @@
     transition: margin-right 0.1s;
 }
 
+.notificationDropdown {
+    & > button {
+        position: relative;
+        width: 36px;
+        i {
+            font-size: 1.6rem;
+            margin-left: -5px !important;
+            position: relative;
+            top: 1px;
+            span {
+                font-size: 0;
+                font-weight: bold;
+                width: 8px;
+                height: 8px;
+                background: @dangerColor;
+                display: inline-block;
+                line-height: 16px;
+                border-radius: 50%;
+                color: #fff;
+                position: absolute;
+                top: -3px;
+                right: -2px;
+            }
+        }
+    }
+    & > ul {
+        width: 300px;
+        header {
+            position: relative;
+            padding: 3px 12px 8px;
+            border-bottom: 1px solid @grayLightPair;
+            h4 {
+                margin: 0;
+                color: @mainColor;
+            }
+            button {
+                position: absolute !important;
+                top: 5px;
+                right: 10px;
+                padding: 0;
+            }
+        }
+        & > .body {
+            ul {
+                max-height: 200px;
+                overflow-x: hidden;
+                overflow-y: auto;
+                & > p {
+                    color: @muteColor;
+                    padding: 30px 10px 20px;
+                    text-align: center;
+                }
+                li {
+                    padding: 5px 10px 0;
+                    h4 {
+                        margin: 0 0 5px;
+                        word-break: break-all;
+                        color: @darkColor;
+                        line-height: 1;
+                        font-size: 1.3rem;
+                    }
+                    p {
+                        word-break: break-all;
+                        line-height: 1.2;
+                        color: @muteColor;
+                        font-size: 1.2rem;
+                    }
+                    &:first-child {
+                        padding-top: 10px;
+                    }
+                }
+            }
+        }
+        & > li {
+            &:last-child {
+                a {
+                    text-align: center;
+                }
+            }
+        }
+    }
+}
+
 .sessionDropdown {
     & > button {
         padding: 0 10px 0 2px;

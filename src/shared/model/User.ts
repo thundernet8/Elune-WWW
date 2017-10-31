@@ -1,5 +1,7 @@
 import { EntityStatus } from "enum/EntityStatus";
 import Role from "enum/Role";
+import Notification from "model/Notification";
+import Pagination from "model/Pagination";
 
 export class BaseUserInfo {
     public id: number;
@@ -13,6 +15,7 @@ export class BaseUserInfo {
 export default class UserInfo extends BaseUserInfo {
     public roleId: Role;
     public unreadCount: number;
+    public unreadNotifications: Pagination<Notification>;
     public joinTime: number;
     public status: EntityStatus;
     public bio: string;

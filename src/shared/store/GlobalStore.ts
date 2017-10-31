@@ -3,6 +3,7 @@ import UserInfo from "model/User";
 import CommonResp from "model/Resp";
 import { Login, Register, Logout, WhoAmI, RegisterReq } from "api/Auth";
 import { DailySign } from "api/User";
+import { UpdateNotificationsStatus } from "api/Notifications";
 import IStoreArgument from "interface/IStoreArgument";
 import BannerMsg from "interface/BannerMsg";
 import { AuthType } from "enum/Auth";
@@ -217,6 +218,39 @@ export default class GlobalStore extends AbstractStore {
         // .finally(() => {
         //     this.dailySigning = false;
         // });
+    };
+
+    /**
+     * 消息通知相关
+     */
+    @observable markingNotificationsStatus: boolean = false;
+
+    @action
+    markNotificationsRead = () => {
+        const { markingNotificationsStatus, user } = this;
+        if (markingNotificationsStatus) {
+            return Promise.reject(false);
+        }
+        this.markingNotificationsStatus = true;
+        return UpdateNotificationsStatus({
+            notifications: user.unreadNotifications.items.map(x => x.id),
+            read: true
+        }).then(resp => {
+            if (resp) {
+                this.user = Object.assign({}, user, {
+                    unreadNotifications: {
+                        items: [],
+                        page: 1,
+                        pageSize: 10,
+                        total: 0
+                    },
+                    unreadCount: 0
+                });
+                return resp;
+            } else {
+                throw new Error("标记消息已读失败");
+            }
+        });
     };
 
     /**
