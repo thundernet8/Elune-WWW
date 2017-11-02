@@ -3,6 +3,7 @@ import UserInfo from "model/User";
 import CommonResp from "model/Resp";
 import { Login, Register, Logout, WhoAmI, RegisterReq } from "api/Auth";
 import { DailySign } from "api/User";
+import { OnlineStatistic, OnlineStatisticResp } from "api/Status";
 import { UpdateNotificationsStatus } from "api/Notifications";
 import IStoreArgument from "interface/IStoreArgument";
 import BannerMsg from "interface/BannerMsg";
@@ -254,10 +255,24 @@ export default class GlobalStore extends AbstractStore {
     };
 
     /**
+     * 获取在线统计
+     */
+
+    @observable onlineStatistic: OnlineStatisticResp;
+
+    @action
+    statistisOnline = () => {
+        return OnlineStatistic().then(resp => {
+            this.onlineStatistic = resp;
+        });
+    };
+
+    /**
      * 初始化
      */
     init = () => {
         this.checkMe();
+        this.statistisOnline();
     };
 
     /**
@@ -278,13 +293,17 @@ export default class GlobalStore extends AbstractStore {
      * SSR数据初始化(必须返回promise)
      */
     fetchData() {
-        return this.checkMe();
+        const promises: Promise<any>[] = [];
+        promises.push(this.checkMe());
+        promises.push(this.statistisOnline());
+        return Promise.all(promises);
     }
 
     public toJSON() {
         const obj = super.toJSON();
         return Object.assign(obj, {
-            user: this.user
+            user: this.user,
+            onlineStatistic: this.onlineStatistic
         });
     }
 
@@ -293,9 +312,12 @@ export default class GlobalStore extends AbstractStore {
         if (!json) {
             return this;
         }
-        const { user, bannerMsg } = json;
+        const { user, onlineStatistic, bannerMsg } = json;
         if (typeof user !== "undefined") {
             this.setUser(user);
+        }
+        if (typeof onlineStatistic !== "undefined") {
+            this.onlineStatistic = onlineStatistic;
         }
         if (typeof bannerMsg !== "undefined") {
             this.setBulletion(bannerMsg);
