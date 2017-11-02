@@ -34,6 +34,7 @@ export class PublicUserInfo extends BaseUserInfo {
     public bio: string;
     public url: string;
     public lastSeen: number;
+    public online: boolean;
     public postsCount: number;
     public topicsCount: number;
     public favoritesCount?: number;

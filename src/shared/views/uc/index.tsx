@@ -74,10 +74,6 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
         const globalStore = GlobalStore.Instance;
         const me = globalStore.user;
         const isSelf = me && user && me.id === user.id;
-        const isOnline =
-            isSelf ||
-            (!!user.lastSeen &&
-                new Date().getTime() - user.lastSeen * 1000 < 20 * 60000);
 
         return (
             <div
@@ -125,7 +121,7 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
                                 <li className={styles.bio}>
                                     <p>{user.bio}</p>
                                 </li>
-                                {isOnline && (
+                                {user.online && (
                                     <li
                                         className={ClassNames(
                                             [styles.lastSeen],
@@ -138,7 +134,7 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
                                         </span>
                                     </li>
                                 )}
-                                {!isOnline &&
+                                {!user.online &&
                                     !!user.lastSeen && (
                                         <li className={styles.lastSeen}>
                                             <span>
