@@ -38,10 +38,11 @@ class CreationView extends React.Component<
     };
 
     fallback = () => {
-        const { history } = this.props;
-        if (history.length > 0) {
-            history.goBack();
-        }
+        // const { history } = this.props;
+        // if (history.length > 0) {
+        //     history.goBack();
+        // }
+        location.href = "/";
     };
 
     formClick = (e: any) => {
@@ -61,6 +62,7 @@ class CreationView extends React.Component<
                     message: "创建话题成功",
                     type: "success"
                 });
+                setTimeout(this.fallback, 1000);
             })
             .catch(err => {
                 Message({
