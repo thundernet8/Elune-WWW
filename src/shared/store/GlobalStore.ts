@@ -295,15 +295,14 @@ export default class GlobalStore extends AbstractStore {
     fetchData() {
         const promises: Promise<any>[] = [];
         promises.push(this.checkMe());
-        promises.push(this.statistisOnline());
+        // promises.push(this.statistisOnline());
         return Promise.all(promises);
     }
 
     public toJSON() {
         const obj = super.toJSON();
         return Object.assign(obj, {
-            user: this.user,
-            onlineStatistic: this.onlineStatistic
+            user: this.user
         });
     }
 
@@ -312,12 +311,9 @@ export default class GlobalStore extends AbstractStore {
         if (!json) {
             return this;
         }
-        const { user, onlineStatistic, bannerMsg } = json;
+        const { user, bannerMsg } = json;
         if (typeof user !== "undefined") {
             this.setUser(user);
-        }
-        if (typeof onlineStatistic !== "undefined") {
-            this.onlineStatistic = onlineStatistic;
         }
         if (typeof bannerMsg !== "undefined") {
             this.setBulletion(bannerMsg);
