@@ -23,30 +23,30 @@ export interface ReActivateReq {
 }
 
 export function Login(payload: LoginReq) {
-    return WebApi.Post<CommonResp<UserInfo>>("signin", payload);
+    return WebApi.FormPost<CommonResp<UserInfo>>("signin", payload);
 }
 
 export function Register(payload: RegisterReq) {
-    return WebApi.Post<CommonResp<UserInfo>>(
+    return WebApi.FormPost<CommonResp<UserInfo>>(
         payload.ref ? `signup?ref=${payload.ref}` : "signup",
         payload
     );
 }
 
 export function Logout() {
-    return WebApi.Post<CommonResp<{}>>("signout", {});
+    return WebApi.FormPost<CommonResp<{}>>("signout", {});
 }
 
 export function WhoAmI() {
-    return WebApi.Post<CommonResp<UserInfo>>("user/me", {});
+    return WebApi.FormPost<CommonResp<UserInfo>>("user/me", {});
 }
 
 export function Activate(payload: ActivateReq) {
-    return WebApi.Post<boolean>(`activate${payload.tokenSearch}`, {});
+    return WebApi.FormPost<boolean>(`activate${payload.tokenSearch}`, {});
 }
 
 export function ReActivate(payload: ReActivateReq) {
-    return WebApi.Post<boolean>("reactivate", payload);
+    return WebApi.FormPost<boolean>("reactivate", payload);
 }
 
 export default {

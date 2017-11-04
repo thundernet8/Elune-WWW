@@ -7,7 +7,12 @@ import qs from "qs";
 
 // axios.defaults.withCredentials = true;
 
-function webApi<T>(httpMethod: string, path: string, params: any): Promise<T> {
+function webApi<T>(
+    httpMethod: string,
+    path: string,
+    params: any,
+    contentType: string = "application/json"
+): Promise<T> {
     path = path.startsWith("/") ? path.substring(1) : path;
     /* tslint:disable */
     const csrfToken =
@@ -21,7 +26,7 @@ function webApi<T>(httpMethod: string, path: string, params: any): Promise<T> {
         "Content-type":
             typeof FormData !== "undefined" && params instanceof FormData
                 ? "multipart/form-data"
-                : "application/x-www-form-urlencoded"
+                : contentType
     };
 
     if (csrfToken) {
@@ -92,9 +97,14 @@ export function webApiPut<T>(path: string, params: any): Promise<T> {
     return webApi("put", path, params);
 }
 
+export function formApiPost<T>(path: string, params: any): Promise<T> {
+    return webApi("post", path, params, "application/x-www-form-urlencoded");
+}
+
 export default {
     Get: webApiGet,
     Post: webApiPost,
     Put: webApiPut,
-    Delete: webApiDel
+    Delete: webApiDel,
+    FormPost: formApiPost
 };

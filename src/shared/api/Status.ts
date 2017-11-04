@@ -7,7 +7,7 @@ export interface OnlineStatisticResp {
 }
 
 export function OnlineStatistic() {
-    return WebApi.Post<OnlineStatisticResp>("status/online", {});
+    return WebApi.FormPost<OnlineStatisticResp>("status/online", {});
 }
 
 export default {

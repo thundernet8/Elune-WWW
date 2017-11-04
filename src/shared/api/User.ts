@@ -15,7 +15,7 @@ export interface FetchUserFavoritesReq {
 }
 
 export function FetchNamedUser(payload: FetchUserReq) {
-    return WebApi.Post<PublicUserInfo>("users/name", payload);
+    return WebApi.FormPost<PublicUserInfo>("users/name", payload);
 }
 
 export function FetchUserFavorites(payload: FetchUserFavoritesReq) {
@@ -27,7 +27,7 @@ export function UpdateUserProfile(payload: UserProfileSetting) {
 }
 
 export function DailySign() {
-    return WebApi.Post<CommonResp<number>>("users/dailySign", {});
+    return WebApi.FormPost<CommonResp<number>>("users/dailySign", {});
 }
 
 export default {
