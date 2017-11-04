@@ -16,11 +16,11 @@ function webApi<T>(httpMethod: string, path: string, params: any): Promise<T> {
     /* tslint:enable */
 
     const headers: any = {
-        Accept: "application/json",
+        Accept: "*/*",
         "Content-type":
             typeof FormData !== "undefined" && params instanceof FormData
                 ? "multipart/form-data"
-                : "application/json"
+                : "text/plain;charset=UTF-8"
     };
 
     if (csrfToken) {
