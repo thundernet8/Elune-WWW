@@ -7,6 +7,7 @@ export interface FetchNotificationsReq {
     page: number;
     pageSize: number;
     order: SortOrder;
+    type?: string;
 }
 
 export interface UpdateNotificationsStatusReq {

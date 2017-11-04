@@ -40,5 +40,5 @@ export const getLocalDate = (gmtDate: moment.Moment) => {
 };
 
 export const getGMT8DateStr = (date: moment.Moment) => {
-    return date.add(8, "hours").format("YYYY-MM-DD HH:mm:ss");
+    return date.add(8, "hours").format("YYYY-MM-DD HH:mm:ss Z");
 };

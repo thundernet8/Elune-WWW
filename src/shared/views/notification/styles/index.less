@@ -1,0 +1,74 @@
+@import "../../../../assets/styles/vars";
+
+.notificationView {
+    position: relative;
+    padding: 20px 0;
+
+    & > .container {
+        display: block;
+        max-width: 960px;
+        background: #fff;
+        padding: 20px 15px;
+        overflow: hidden;
+    }
+}
+
+.tabs {
+    margin-bottom: 15px;
+}
+
+.notificationList {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    position: relative;
+    & > li {
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid @grayLight;
+        &:last-child {
+            border-bottom: none;
+        }
+        header {
+            .sender {
+                margin-right: 10px;
+            }
+            .sendTime {
+                color: @muteColor;
+                display: inline-block;
+            }
+        }
+        h4 {
+            margin-bottom: 10px;
+        }
+        p {
+            position: relative;
+            padding: 10px 15px;
+            margin-top: 10px;
+            border-radius: 3px;
+            word-break: break-all;
+            font-size: 1.4rem;
+            line-height: 1.5;
+            color: #222f3d;
+            background-color: #f3f7fb;
+        }
+    }
+}
+
+.emptyList {
+    font-size: 1.4em;
+    color: #aaa;
+    text-align: center;
+    margin-top: 40px;
+}
+
+.loading {
+    text-align: center;
+    font-size: 3rem;
+    margin: 30px auto;
+}
+
+.loadMore {
+    text-align: center;
+    margin-top: 20px;
+}

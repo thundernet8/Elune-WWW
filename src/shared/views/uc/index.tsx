@@ -35,7 +35,7 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
 
     constructor(props) {
         super(props);
-        const { match, location } = this.props;
+        const { match, location } = props;
         this.store = UCStore.getInstance({ match, location, cookies: "" });
     }
 

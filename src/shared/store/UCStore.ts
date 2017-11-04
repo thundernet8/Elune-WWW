@@ -165,9 +165,10 @@ export default class UCStore extends AbstractStore {
             topics,
             topicsOrder,
             topicsOrderBy,
+            topicsLoading,
             user
         } = this;
-        if (!user || !user.id) {
+        if (topicsLoading || !user || !user.id) {
             return Promise.reject(false);
         }
         const params = {
@@ -181,14 +182,13 @@ export default class UCStore extends AbstractStore {
         return FetchUserTopics(params)
             .then(resp => {
                 this.setTopics(topics.concat(resp.items));
-                this.setField("topicsLoading", false);
                 if (topicsPage === 1) {
                     this.setField("topicsTotal", resp.total);
                 }
                 return resp;
             })
-            .catch(() => {
-                this.setField("topicsLoading", false);
+            .finally(() => {
+                this.topicsLoading = false;
             });
     };
 

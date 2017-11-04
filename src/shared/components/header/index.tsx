@@ -137,7 +137,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
                     </div>
                     <Dropdown.Divider />
                     <Dropdown.Item>
-                        <Link to="/notifications">
+                        <Link to="/notification">
                             <i className="fa fa-fw fa-angle-double-right" />
                             <span className="btn-label">查看全部</span>
                         </Link>

@@ -1,5 +1,5 @@
 /**
- * Generated on Wed, 18 Oct 2017 16:35:58 GMT
+ * Generated on Sat, 04 Nov 2017 14:02:11 GMT 
  * 本文件由routes.yaml模板生成, 请不要直接修改
  */
 
@@ -161,6 +161,38 @@ const routes = [
                     /* tslint:enable */
                 },
                 "activation"
+            );
+        }
+    },
+    {
+        path: "/notification",
+        module: "entries/notification",
+        exact: true,
+        getComponent(cb) {
+            require.ensure(
+                ["entries/notification"],
+                require => {
+                    /* tslint:disable */
+                    cb && cb(require("entries/notification")["default"]);
+                    /* tslint:enable */
+                },
+                "notification"
+            );
+        }
+    },
+    {
+        path: "/notification/system",
+        module: "entries/sysNotification",
+        exact: false,
+        getComponent(cb) {
+            require.ensure(
+                ["entries/sysNotification"],
+                require => {
+                    /* tslint:disable */
+                    cb && cb(require("entries/sysNotification")["default"]);
+                    /* tslint:enable */
+                },
+                "notification"
             );
         }
     },
