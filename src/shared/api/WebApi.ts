@@ -1,6 +1,7 @@
 import { API_BASE, IS_PROD } from "../../../env";
 import axios from "axios";
 import https from "https";
+import qs from "qs";
 // import GlobalStore from "store/GlobalStore";
 // import { SESSION_COOKIE_NAME } from "../../../env";
 
@@ -20,7 +21,7 @@ function webApi<T>(httpMethod: string, path: string, params: any): Promise<T> {
         "Content-type":
             typeof FormData !== "undefined" && params instanceof FormData
                 ? "multipart/form-data"
-                : "text/plain;charset=UTF-8"
+                : "application/x-www-form-urlencoded"
     };
 
     if (csrfToken) {
@@ -47,7 +48,13 @@ function webApi<T>(httpMethod: string, path: string, params: any): Promise<T> {
             url: path,
             method: httpMethod,
             params: httpMethod.toLowerCase() === "get" ? params : null,
-            data: httpMethod.toLowerCase() !== "get" ? params : null,
+            data:
+                httpMethod.toLowerCase() !== "get"
+                    ? headers["Content-type"] ===
+                      "application/x-www-form-urlencoded"
+                      ? qs.stringify(params)
+                      : params
+                    : null,
             validateStatus: function(status) {
                 return status >= 200 && status < 500;
             }
