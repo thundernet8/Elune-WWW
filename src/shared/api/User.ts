@@ -1,4 +1,5 @@
 import WebApi from "api/WebApi";
+import FormApi from "api/FormApi";
 import { PublicUserInfo } from "model/User";
 import Pagination from "model/Pagination";
 import UserProfileSetting from "interface/UserProfileSetting";
@@ -15,11 +16,11 @@ export interface FetchUserFavoritesReq {
 }
 
 export function FetchNamedUser(payload: FetchUserReq) {
-    return WebApi.FormPost<PublicUserInfo>("users/name", payload);
+    return FormApi.Post<PublicUserInfo>("users/name", payload);
 }
 
 export function FetchUserFavorites(payload: FetchUserFavoritesReq) {
-    return WebApi.Get<Pagination<Topic>>("usermetas/favorites", payload);
+    return FormApi.Get<Pagination<Topic>>("usermetas/favorites", payload);
 }
 
 export function UpdateUserProfile(payload: UserProfileSetting) {
@@ -27,7 +28,7 @@ export function UpdateUserProfile(payload: UserProfileSetting) {
 }
 
 export function DailySign() {
-    return WebApi.FormPost<CommonResp<number>>("users/dailySign", {});
+    return FormApi.Post<CommonResp<number>>("users/dailySign", {});
 }
 
 export default {

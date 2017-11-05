@@ -1,5 +1,6 @@
 import CommonResp from "model/Resp";
 import WebApi from "api/WebApi";
+import FormApi from "api/FormApi";
 import { SortOrder, SortOrderBy } from "enum/Sort";
 import Pagination from "model/Pagination";
 import Topic from "model/Topic";
@@ -63,35 +64,35 @@ export function UpdateTopic(payload: UpdateTopicReq) {
 }
 
 export function FetchTopic(payload: FetchTopicReq) {
-    return WebApi.Get<Topic>(`topics/${payload.id}`, {});
+    return FormApi.Get<Topic>(`topics/${payload.id}`, {});
 }
 
 export function FetchTopics(payload: FetchTopicsReq) {
-    return WebApi.Get<Pagination<Topic>>("topics", payload);
+    return FormApi.Get<Pagination<Topic>>("topics", payload);
 }
 
 export function FetchChannelTopics(payload: FetchChannelTopicsReq) {
-    return WebApi.Get<Pagination<Topic>>("topics", payload);
+    return FormApi.Get<Pagination<Topic>>("topics", payload);
 }
 
 export function FetchUserTopics(payload: FetchUserTopicsReq) {
-    return WebApi.Get<Pagination<Topic>>("topics", payload);
+    return FormApi.Get<Pagination<Topic>>("topics", payload);
 }
 
 export function FavoriteTopic(payload: FavoriteTopicReq) {
-    return WebApi.Post<Boolean>(`topics/${payload.id}/favorites`, {});
+    return FormApi.Post<Boolean>(`topics/${payload.id}/favorites`, {});
 }
 
 export function UnFavoriteTopic(payload: UnFavoriteTopicReq) {
-    return WebApi.Delete<Boolean>(`topics/${payload.id}/favorites`, {});
+    return FormApi.Delete<Boolean>(`topics/${payload.id}/favorites`, {});
 }
 
 export function LikeTopic(payload: LikeTopicReq) {
-    return WebApi.Post<Boolean>(`topics/${payload.id}/likes`, {});
+    return FormApi.Post<Boolean>(`topics/${payload.id}/likes`, {});
 }
 
 export function UnLikeTopic(payload: UnLikeTopicReq) {
-    return WebApi.Delete<Boolean>(`topics/${payload.id}/likes`, {});
+    return FormApi.Delete<Boolean>(`topics/${payload.id}/likes`, {});
 }
 
 export default {

@@ -7,7 +7,7 @@ import qs from "qs";
 
 // axios.defaults.withCredentials = true;
 
-function webApi<T>(
+export function webApi<T>(
     httpMethod: string,
     path: string,
     params: any,
@@ -97,14 +97,9 @@ export function webApiPut<T>(path: string, params: any): Promise<T> {
     return webApi("put", path, params);
 }
 
-export function formApiPost<T>(path: string, params: any): Promise<T> {
-    return webApi("post", path, params, "application/x-www-form-urlencoded");
-}
-
 export default {
     Get: webApiGet,
     Post: webApiPost,
     Put: webApiPut,
-    Delete: webApiDel,
-    FormPost: formApiPost
+    Delete: webApiDel
 };

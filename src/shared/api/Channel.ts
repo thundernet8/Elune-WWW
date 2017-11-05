@@ -1,5 +1,6 @@
 import CommonResp from "model/Resp";
 import WebApi from "api/WebApi";
+import FormApi from "api/FormApi";
 import Channel from "model/Channel";
 
 export interface CreateChannelReq {
@@ -24,15 +25,15 @@ export function UpdateChannel(payload: UpdateChannelReq) {
 }
 
 export function GetChannel(id: number) {
-    return WebApi.Get<Channel>(`channels/${id}`, {});
+    return FormApi.Get<Channel>(`channels/${id}`, {});
 }
 
 export function GetChannelBySlug(slug: string) {
-    return WebApi.Get<Channel>(`channels/${slug}`, {});
+    return FormApi.Get<Channel>(`channels/${slug}`, {});
 }
 
 export function GetAllChannels() {
-    return WebApi.Get<Channel[]>(`channels`, {});
+    return FormApi.Get<Channel[]>(`channels`, {});
 }
 
 export default {

@@ -1,5 +1,6 @@
 import CommonResp from "model/Resp";
 import WebApi from "api/WebApi";
+import FormApi from "api/FormApi";
 import Post from "model/Post";
 import Pagination from "model/Pagination";
 import { SortOrder, SortOrderBy } from "enum/Sort";
@@ -44,11 +45,11 @@ export function UpdatePost(payload: UpdatePostReq) {
 }
 
 export function FetchTopicPosts(payload: FetchTopicPostsReq) {
-    return WebApi.Get<Pagination<Post>>(`posts`, payload);
+    return FormApi.Get<Pagination<Post>>(`posts`, payload);
 }
 
 export function FetchUserPosts(payload: FetchUserPostsReq) {
-    return WebApi.Get<Pagination<Post>>(`posts`, payload);
+    return FormApi.Get<Pagination<Post>>(`posts`, payload);
 }
 
 export default {

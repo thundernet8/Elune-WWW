@@ -1,4 +1,4 @@
-import WebApi from "api/WebApi";
+import FormApi from "api/FormApi";
 import Notification from "model/Notification";
 import Pagination from "model/Pagination";
 import { SortOrder } from "enum/Sort";
@@ -16,13 +16,13 @@ export interface UpdateNotificationsStatusReq {
 }
 
 export function FetchNotifications(payload: FetchNotificationsReq) {
-    return WebApi.Get<Pagination<Notification>>("notifications", payload);
+    return FormApi.Get<Pagination<Notification>>("notifications", payload);
 }
 
 export function UpdateNotificationsStatus(
     payload: UpdateNotificationsStatusReq
 ) {
-    return WebApi.Post<Boolean>("notifications/status", payload);
+    return FormApi.Post<Boolean>("notifications/status", payload);
 }
 
 export default {

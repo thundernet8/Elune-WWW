@@ -1,4 +1,4 @@
-import WebApi from "api/WebApi";
+import FormApi from "api/FormApi";
 
 export interface OnlineStatisticResp {
     total: number;
@@ -7,7 +7,7 @@ export interface OnlineStatisticResp {
 }
 
 export function OnlineStatistic() {
-    return WebApi.FormPost<OnlineStatisticResp>("status/online", {});
+    return FormApi.Post<OnlineStatisticResp>("status/online", {});
 }
 
 export default {
