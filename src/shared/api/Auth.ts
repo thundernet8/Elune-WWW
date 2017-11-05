@@ -1,5 +1,4 @@
 import CommonResp from "model/Resp";
-import WebApi from "api/WebApi";
 import FormApi from "api/FormApi";
 import UserInfo from "model/User";
 
