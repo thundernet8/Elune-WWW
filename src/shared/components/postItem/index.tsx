@@ -7,9 +7,10 @@ import TopicStore from "store/TopicStore";
 import { Link } from "react-router-dom";
 import { Tooltip, Button, Message } from "element-react/next";
 import { getTimeDiff, getGMT8DateStr } from "utils/DateTimeKit";
-import CharAvatar from "components/charAvatar";
+import Avatar from "components/avatar";
 import PureHtmlContent from "components/pureHtmlContent";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import moment from "moment";
 
 const styles = require("./index.less");
 
@@ -51,6 +52,7 @@ export default class PostItem extends React.Component<
         const { topic } = store;
         const { posts } = store;
         const replyIndex = this.props.index + 1;
+        const me = GlobalStore.Instance.user;
 
         const replies = posts.filter(x => x.pid === post.id);
         return (
@@ -61,10 +63,16 @@ export default class PostItem extends React.Component<
                             <li className={styles.author}>
                                 <h3>
                                     <Link to={`/u/${post.authorName}`}>
-                                        <CharAvatar
-                                            className={styles.avatar}
-                                            text={post.authorName[0]}
-                                        />
+                                        {post.author.avatar ? (
+                                            <span className={styles.avatar}>
+                                                <img src={post.author.avatar} />
+                                            </span>
+                                        ) : (
+                                            <Avatar
+                                                className={styles.avatar}
+                                                user={post.author}
+                                            />
+                                        )}
                                         <span className={styles.username}>
                                             {post.authorName}
                                         </span>
@@ -76,12 +84,12 @@ export default class PostItem extends React.Component<
                                     effect="dark"
                                     placement="top"
                                     content={getGMT8DateStr(
-                                        new Date(post.createTime * 1000)
+                                        moment(post.createTime * 1000)
                                     )}
                                 >
                                     <span>
                                         {getTimeDiff(
-                                            new Date(post.createTime * 1000)
+                                            moment(post.createTime * 1000)
                                         )}
                                     </span>
                                 </Tooltip>
@@ -133,8 +141,9 @@ export default class PostItem extends React.Component<
                                     回复
                                 </Button>
                                 <CopyToClipboard
-                                    text={`${GlobalStore.Instance
-                                        .URL}#reply${replyIndex}`}
+                                    text={`${GlobalStore.Instance.getRefUrl(
+                                        me ? me.id.toString() : ""
+                                    )}#reply${replyIndex}`}
                                     onCopy={this.refReplyLink}
                                 >
                                     <Button type="text">

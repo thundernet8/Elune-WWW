@@ -2,19 +2,19 @@ import * as React from "react";
 import { observer } from "mobx-react";
 import ClassNames from "classnames";
 import DocumentMeta from "react-document-meta";
-// import Topic from "model/Topic";
 import PostItem from "components/postItem";
 import TopicStore from "store/TopicStore";
 import GlobalStore from "store/GlobalStore";
+import LocalEditor from "components/editor";
 import PostEditor from "components/postEditor";
-// import ReactDOMServer from "react-dom/server";
 import { Tooltip, Button, Message } from "element-react/next";
 import { getTimeDiff, getGMT8DateStr } from "utils/DateTimeKit";
 import { Link } from "react-router-dom";
 import Post from "model/Post";
-import CharAvatar from "components/charAvatar";
+import Avatar from "components/avatar";
 import { sanitize } from "utils/HtmlKit";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import moment from "moment";
 
 const styles = require("./styles/main.less");
 
@@ -26,6 +26,7 @@ interface TopicMainProps {
 
 interface TopicMainState {
     commentting: boolean;
+    editingTopic: boolean;
 }
 
 @observer
@@ -38,7 +39,8 @@ export default class TopicMain extends React.Component<
     constructor(props) {
         super(props);
         this.state = {
-            commentting: false
+            commentting: false,
+            editingTopic: false
         };
     }
 
@@ -60,7 +62,7 @@ export default class TopicMain extends React.Component<
 
     refTopicLink = () => {
         Message({
-            message: "已成功复制帖子链接",
+            message: "已成功复制话题链接",
             type: "success"
         });
     };
@@ -90,9 +92,53 @@ export default class TopicMain extends React.Component<
             });
     };
 
+    toggleTopicEditing = (status: boolean) => {
+        this.setState({
+            editingTopic: status
+        });
+    };
+
+    updateTopic = () => {
+        const { store } = this.props;
+        store
+            .submitEditTopic()
+            .then(() => {
+                Message({
+                    message: "更新话题成功",
+                    type: "success"
+                });
+                this.setState({
+                    editingTopic: false
+                });
+            })
+            .catch(err => {
+                Message({
+                    message: err.message || err.toString(),
+                    type: "error"
+                });
+            });
+    };
+
+    componentDidMount() {
+        const { store } = this.props;
+        GlobalStore.Instance.userPromise.then(() => {
+            store.checkFavoriteStatus();
+            store.checkLikeStatus();
+        });
+    }
+
     renderMainThread = () => {
         const { store } = this.props;
-        const { topic } = store;
+        const {
+            topic,
+            hasFavorited,
+            favoriteActing,
+            hasLiked,
+            likeActing,
+            canEditTopic,
+            submittingEditTopic
+        } = store;
+        const { editingTopic } = this.state;
 
         return (
             <div className={styles.topicWrapper} id="thread">
@@ -102,9 +148,9 @@ export default class TopicMain extends React.Component<
                             <li className={styles.author}>
                                 <h3>
                                     <Link to={`/u/${topic.authorName}`}>
-                                        <CharAvatar
+                                        <Avatar
                                             className={styles.avatar}
-                                            text={topic.authorName[0]}
+                                            user={topic.author}
                                         />
                                         <span className={styles.username}>
                                             {topic.authorName}
@@ -117,27 +163,94 @@ export default class TopicMain extends React.Component<
                                     effect="dark"
                                     placement="top"
                                     content={getGMT8DateStr(
-                                        new Date(topic.createTime * 1000)
+                                        moment(topic.createTime * 1000)
                                     )}
                                 >
                                     <span>
                                         {getTimeDiff(
-                                            new Date(topic.createTime * 1000)
+                                            moment(topic.createTime * 1000)
                                         )}
                                     </span>
                                 </Tooltip>
                             </li>
-                            <li className={styles.idBadge}>
+                            {!!topic.updateTime && (
+                                <li className={styles.meta}>
+                                    <Tooltip
+                                        effect="dark"
+                                        placement="top"
+                                        content={getGMT8DateStr(
+                                            moment(topic.updateTime * 1000)
+                                        )}
+                                    >
+                                        <span>
+                                            <span className={styles.dot}>·</span>{" "}
+                                            更新于
+                                            {getTimeDiff(
+                                                moment(topic.updateTime * 1000)
+                                            )}
+                                        </span>
+                                    </Tooltip>
+                                </li>
+                            )}
+                            {/* <li className={styles.idBadge}>
                                 <span>楼主</span>
-                            </li>
+                            </li> */}
+                            {(function(that) {
+                                if (!canEditTopic) {
+                                    return null;
+                                }
+                                return editingTopic ? (
+                                    <li className={styles.editActions}>
+                                        <a
+                                            href="javascript:;"
+                                            onClick={that.toggleTopicEditing.bind(
+                                                that,
+                                                false
+                                            )}
+                                        >
+                                            取消
+                                        </a>
+                                        <Button
+                                            type="success"
+                                            size="small"
+                                            onClick={that.updateTopic}
+                                            loading={submittingEditTopic}
+                                        >
+                                            更新
+                                        </Button>
+                                    </li>
+                                ) : (
+                                    <li className={styles.editActions}>
+                                        <a
+                                            href="javascript:;"
+                                            onClick={that.toggleTopicEditing.bind(
+                                                that,
+                                                true
+                                            )}
+                                            className={styles.goEditTopic}
+                                        >
+                                            编辑
+                                        </a>
+                                    </li>
+                                );
+                            })(this)}
                         </ul>
                     </header>
-                    <div
-                        className={styles.topicBody}
-                        dangerouslySetInnerHTML={{
-                            __html: sanitize(topic.contentHtml)
-                        }}
-                    />
+                    {editingTopic ? (
+                        <div className={styles.topicBodyEditing}>
+                            <LocalEditor
+                                rawContent={topic.contentRaw}
+                                onChange={store.editTopic}
+                            />
+                        </div>
+                    ) : (
+                        <div
+                            className={styles.topicBody}
+                            dangerouslySetInnerHTML={{
+                                __html: sanitize(topic.contentHtml)
+                            }}
+                        />
+                    )}
                     <aside className={styles.asideActions}>
                         <ul>
                             <li className={styles.replyBtn}>
@@ -145,7 +258,7 @@ export default class TopicMain extends React.Component<
                                     回复
                                 </Button>
                                 <CopyToClipboard
-                                    text={`${GlobalStore.Instance.URL}#thread`}
+                                    text={`${GlobalStore.Instance.getRefUrl()}#thread`}
                                     onCopy={this.refTopicLink}
                                 >
                                     <Button type="text">
@@ -167,23 +280,39 @@ export default class TopicMain extends React.Component<
                                         {topic.viewsCount}
                                     </span>次浏览
                                 </li>
-                                <li className={styles.favorite}>
-                                    <i className="el-icon-star-off" />
+                                <li
+                                    className={styles.favorite}
+                                    onClick={store.handleFavorite}
+                                >
+                                    <i
+                                        className={
+                                            favoriteActing
+                                                ? "el-icon-loading"
+                                                : hasFavorited
+                                                  ? "el-icon-star-on"
+                                                  : "el-icon-star-off"
+                                        }
+                                    />
                                     <span className={styles.count}>
                                         {topic.favoritesCount}
-                                    </span>人收藏
+                                    </span>收藏
                                 </li>
-                                <li className={styles.upvote}>
-                                    <i className="fa fa-thumbs-o-up" />
+                                <li
+                                    className={styles.upvote}
+                                    onClick={store.handleLike}
+                                >
+                                    <i
+                                        className={
+                                            likeActing
+                                                ? "el-icon-loading"
+                                                : hasLiked
+                                                  ? "fa fa-heart"
+                                                  : "fa fa-heart-o"
+                                        }
+                                    />
                                     <span className={styles.count}>
                                         {topic.upvotesCount}
-                                    </span>顶
-                                </li>
-                                <li className={styles.downvote}>
-                                    <i className="fa fa-thumbs-o-down" />
-                                    <span className={styles.count}>
-                                        {topic.downvotesCount}
-                                    </span>踩
+                                    </span>喜欢
                                 </li>
                             </ul>
                         </div>
@@ -359,13 +488,13 @@ export default class TopicMain extends React.Component<
             );
         }
         const meta = {
-            title: `${topic.title}-Eleun Forum-Web development community,WordPress,PHP,Java,JavaScript`,
+            title: `${topic.title}-Elune Forum-Web development community,WordPress,PHP,Java,JavaScript`,
             description: topic.content.substr(0, 100),
             // canonical: "https://elune.me",
             meta: {
                 charset: "utf-8",
                 name: {
-                    keywords: "Eleun,forum,wordpress,php,java,javascript,react"
+                    keywords: "Elune,forum,wordpress,php,java,javascript,react"
                 }
             }
         };

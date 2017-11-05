@@ -1,5 +1,6 @@
 import * as React from "react";
 import ClassNames from "classnames";
+import { bannerClosed, closeBanner } from "utils/CacheKit";
 
 const styles = require("./index.less");
 
@@ -16,7 +17,7 @@ export default class WelcomeHero extends React.Component<
     constructor(props) {
         super(props);
         this.state = {
-            open: true
+            open: false
         };
     }
 
@@ -24,7 +25,14 @@ export default class WelcomeHero extends React.Component<
         this.setState({
             open: false
         });
+        closeBanner("home");
     };
+
+    componentDidMount() {
+        this.setState({
+            open: !bannerClosed("home")
+        });
+    }
 
     render() {
         if (!this.state.open) {

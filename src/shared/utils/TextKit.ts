@@ -4,6 +4,14 @@ export const isEmail = (email: string) => {
     return reg.test(email);
 };
 
+export const isNumberic = (str: string) => {
+    return str != null && str !== "" && !isNaN(str as any);
+};
+
+export const isIntNumberic = (str: string) => {
+    return str != null && str.match(/[0-9]+/);
+};
+
 export const lowerCaseFirst = (str: string) => {
     if (!str) {
         return str;

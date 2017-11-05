@@ -1,5 +1,6 @@
 import CommonResp from "model/Resp";
 import WebApi from "api/WebApi";
+import FormApi from "api/FormApi";
 import { SortOrder, SortOrderBy } from "enum/Sort";
 import Pagination from "model/Pagination";
 import Topic from "model/Topic";
@@ -31,7 +32,26 @@ export interface FetchTopicReq {
     id: number;
 }
 
-export interface UpdateTopicReq extends CreateTopicReq {
+export interface UpdateTopicReq {
+    id: number;
+    content: string;
+    contentHtml: string;
+    contentRaw: string;
+}
+
+export interface FavoriteTopicReq {
+    id: number;
+}
+
+export interface UnFavoriteTopicReq {
+    id: number;
+}
+
+export interface LikeTopicReq {
+    id: number;
+}
+
+export interface UnLikeTopicReq {
     id: number;
 }
 
@@ -40,23 +60,39 @@ export function CreateTopic(payload: CreateTopicReq) {
 }
 
 export function UpdateTopic(payload: UpdateTopicReq) {
-    return WebApi.Put<CommonResp<string>>(`topics/${payload.id}`, payload);
+    return WebApi.Post<CommonResp<string>>(`topics/${payload.id}`, payload);
 }
 
 export function FetchTopic(payload: FetchTopicReq) {
-    return WebApi.Get<Topic>(`topics/${payload.id}`, {});
+    return FormApi.Get<Topic>(`topics/${payload.id}`, {});
 }
 
 export function FetchTopics(payload: FetchTopicsReq) {
-    return WebApi.Get<Pagination<Topic>>("topics", payload);
+    return FormApi.Get<Pagination<Topic>>("topics", payload);
 }
 
 export function FetchChannelTopics(payload: FetchChannelTopicsReq) {
-    return WebApi.Get<Pagination<Topic>>("topics", payload);
+    return FormApi.Get<Pagination<Topic>>("topics", payload);
 }
 
 export function FetchUserTopics(payload: FetchUserTopicsReq) {
-    return WebApi.Get<Pagination<Topic>>("topics", payload);
+    return FormApi.Get<Pagination<Topic>>("topics", payload);
+}
+
+export function FavoriteTopic(payload: FavoriteTopicReq) {
+    return FormApi.Post<Boolean>(`topics/${payload.id}/favorites`, {});
+}
+
+export function UnFavoriteTopic(payload: UnFavoriteTopicReq) {
+    return FormApi.Delete<Boolean>(`topics/${payload.id}/favorites`, {});
+}
+
+export function LikeTopic(payload: LikeTopicReq) {
+    return FormApi.Post<Boolean>(`topics/${payload.id}/likes`, {});
+}
+
+export function UnLikeTopic(payload: UnLikeTopicReq) {
+    return FormApi.Delete<Boolean>(`topics/${payload.id}/likes`, {});
 }
 
 export default {
@@ -65,5 +101,9 @@ export default {
     FetchTopic,
     FetchTopics,
     FetchChannelTopics,
-    FetchUserTopics
+    FetchUserTopics,
+    FavoriteTopic,
+    UnFavoriteTopic,
+    LikeTopic,
+    UnLikeTopic
 };

@@ -38,10 +38,11 @@ class CreationView extends React.Component<
     };
 
     fallback = () => {
-        const { history } = this.props;
-        if (history.length > 0) {
-            history.goBack();
-        }
+        // const { history } = this.props;
+        // if (history.length > 0) {
+        //     history.goBack();
+        // }
+        location.href = "/";
     };
 
     formClick = (e: any) => {
@@ -61,6 +62,7 @@ class CreationView extends React.Component<
                     message: "创建话题成功",
                     type: "success"
                 });
+                setTimeout(this.fallback, 1000);
             })
             .catch(err => {
                 Message({
@@ -183,12 +185,12 @@ class CreationView extends React.Component<
     render() {
         const meta = {
             title:
-                "创建话题-Eleun Forum-Web development community,WordPress,PHP,Java,JavaScript",
+                "创建话题-Elune Forum-Web development community,WordPress,PHP,Java,JavaScript",
             description: "",
             meta: {
                 charset: "utf-8",
                 name: {
-                    keywords: "Eleun,forum,wordpress,php,java,javascript,react"
+                    keywords: "Elune,forum,wordpress,php,java,javascript,react"
                 }
             }
         };

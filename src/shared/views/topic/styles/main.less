@@ -2,7 +2,13 @@
 
 .mainView {
     position: relative;
-    padding: 20px 30px 30px 0;
+    padding: 20px 20px 20px 0;
+}
+
+.mainWrapper {
+    background: #fff;
+    border-radius: 4px;
+    padding: 0 15px 20px;
 }
 
 .topicLoading,
@@ -34,6 +40,26 @@
                     line-height: 1;
                     cursor: pointer;
                     color: #fff;
+                }
+                &.editActions {
+                    float: right;
+                    line-height: 49px;
+                    button {
+                        margin-left: 10px;
+                        padding: 5px 10px;
+                    }
+                    .goEditTopic {
+                        opacity: 0;
+                    }
+                }
+
+                .dot {
+                    padding: 0 5px 0 0;
+                    font-size: 2rem;
+                    font-weight: bold;
+                    vertical-align: middle;
+                    line-height: 1;
+                    color: @darkColor;
                 }
             }
         }
@@ -127,6 +153,9 @@
         .asideActions {
             opacity: 1;
         }
+        .goEditTopic {
+            opacity: 1 !important;
+        }
     }
 
     footer {
@@ -152,6 +181,16 @@
                 &.views {
                     float: left;
                 }
+            }
+        }
+        :global {
+            .el-icon-star-on,
+            .el-icon-star-off {
+                color: @favoriteColor;
+            }
+            .fa-heart-o,
+            .fa-heart {
+                color: @likeColor;
             }
         }
     }
@@ -248,4 +287,8 @@
             }
         }
     }
+}
+
+.topicBodyEditing {
+    margin-bottom: 20px;
 }

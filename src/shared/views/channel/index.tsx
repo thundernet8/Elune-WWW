@@ -47,12 +47,12 @@ class ChannelView extends React.Component<ChannelViewProps, ChannelViewState> {
         const meta = {
             title: `${channel
                 ? channel.title + "-"
-                : ""}Eleun Forum-Web development community,WordPress,PHP,Java,JavaScript`,
+                : ""}Elune Forum-Web development community,WordPress,PHP,Java,JavaScript`,
             description: channel ? channel.description : "",
             meta: {
                 charset: "utf-8",
                 name: {
-                    keywords: "Eleun,forum,wordpress,php,java,javascript,react"
+                    keywords: "Elune,forum,wordpress,php,java,javascript,react"
                 }
             }
         };
@@ -62,8 +62,10 @@ class ChannelView extends React.Component<ChannelViewProps, ChannelViewState> {
                 <DocumentMeta {...meta} />
                 <ChannelHero channel={channel} />
                 <div className={ClassNames("container", [styles.container])}>
-                    <Aside channel={channel ? channel : null as any} />
-                    <ChannelMain />
+                    <div className={styles.mainWrapper}>
+                        <Aside channel={channel ? channel : null as any} />
+                        <ChannelMain />
+                    </div>
                     <Sidebar where="channel" />
                 </div>
             </div>

@@ -68,9 +68,88 @@ class Header extends React.Component<HeaderProps, HeaderState> {
         );
     };
 
+    renderNotifications = () => {
+        const globalStore = GlobalStore.Instance;
+        const { user, markingNotificationsStatus } = globalStore;
+        if (!user || !user.id) {
+            return null;
+        }
+        const hasUnread = user.unreadCount > 0;
+        const notifications = user.unreadNotifications.items;
+
+        return (
+            <li className={styles.itemNotifications}>
+                <Dropdown
+                    className={styles.notificationDropdown}
+                    autoClose={false}
+                    anchorNode={
+                        <span className="btn-label">
+                            {hasUnread ? (
+                                <i className="fa fa-fw fa-bell">
+                                    <span>{user.unreadCount}</span>
+                                </i>
+                            ) : (
+                                <i className="fa fa-fw fa-bell-o" />
+                            )}
+                        </span>
+                    }
+                >
+                    <header>
+                        <h4>消息通知</h4>
+                        {hasUnread && (
+                            <Button
+                                type="text"
+                                loading={markingNotificationsStatus}
+                                onClick={globalStore.markNotificationsRead}
+                            >
+                                {!markingNotificationsStatus && (
+                                    <i
+                                        className="fa fa-fw fa-check"
+                                        title="标记为全部已读"
+                                    />
+                                )}
+                            </Button>
+                        )}
+                    </header>
+                    <div className={styles.body}>
+                        <ul>
+                            {(function() {
+                                if (notifications && notifications.length > 0) {
+                                    return notifications.map(
+                                        (notification, index) => {
+                                            return (
+                                                <li key={index}>
+                                                    <h4>
+                                                        {notification.title}
+                                                    </h4>
+                                                    <p>
+                                                        {notification.content}
+                                                    </p>
+                                                </li>
+                                            );
+                                        }
+                                    );
+                                } else {
+                                    return <p>没有未读消息通知</p>;
+                                }
+                            })()}
+                        </ul>
+                    </div>
+                    <Dropdown.Divider />
+                    <Dropdown.Item>
+                        <Link to="/notification">
+                            <i className="fa fa-fw fa-angle-double-right" />
+                            <span className="btn-label">查看全部</span>
+                        </Link>
+                    </Dropdown.Item>
+                </Dropdown>
+            </li>
+        );
+    };
+
     renderSession = () => {
         const globalStore = GlobalStore.Instance;
-        const user = globalStore.user;
+        const { user } = globalStore;
         if (!user || !user.id) {
             return null;
         }
@@ -190,8 +269,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
                                         <ul className={styles.searchResults} />
                                     </div>
                                 </li>
-                                {/* <li className={styles.itemNotifications}></li>
-                        <li className={styles.itemSession}></li> */}
+                                {this.renderNotifications()}
                                 {!logged && (
                                     <li className={styles.itemSignup}>
                                         <Button

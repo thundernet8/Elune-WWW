@@ -20,12 +20,12 @@ export default class NotFoundView extends React.Component<
     render() {
         const meta = {
             title:
-                "404 Not Found-Eleun Forum-Web development community,WordPress,PHP,Java,JavaScript",
+                "404 Not Found-Elune Forum-Web development community,WordPress,PHP,Java,JavaScript",
             description: "I am a description, and I can create multiple tags",
             meta: {
                 charset: "utf-8",
                 name: {
-                    keywords: "Eleun,forum,wordpress,php,java,javascript,react"
+                    keywords: "Elune,forum,wordpress,php,java,javascript,react"
                 }
             },
             link: {

@@ -13,7 +13,8 @@ const getPlugins = function() {
         new AssetsPlugin({
             filename: "venders-config.json",
             path: "./"
-        })
+        }),
+        new webpack.HashedModuleIdsPlugin()
     ];
 
     if (!isDev) {
@@ -46,7 +47,8 @@ const config = {
             // "element-react",
             "element-react/next",
             "draft-js",
-            "react-draft-wysiwyg"
+            "react-draft-wysiwyg",
+            "moment"
         ]
     },
     output: {

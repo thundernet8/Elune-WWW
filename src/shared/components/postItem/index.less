@@ -108,6 +108,20 @@
             border-bottom: 2px dotted #fff;
             margin: 1em 0;
         }
+
+        a[data-mention] {
+            background: @grayLightPair;
+            color: @mainColor;
+            border-radius: 4px;
+            padding: 2px 5px;
+            margin: 0 2px;
+            border: 0 !important;
+        }
+
+        a[data-mention]:not([data-value*="#"]) {
+            background: #20a0ff;
+            color: #fff;
+        }
     }
 
     .postActions {

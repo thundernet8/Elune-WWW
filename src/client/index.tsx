@@ -4,6 +4,7 @@ import { matchPath } from "react-router-dom";
 import { Provider } from "mobx-react";
 import PageLoader from "common/pageLoader";
 import routes from "./routes";
+require("polyfill");
 
 require("STYLES/global/index.less");
 require("STYLES/global/element/index.css");

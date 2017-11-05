@@ -69,12 +69,18 @@ export default class TopicsTab extends React.Component<
 
     render() {
         const { store } = this.props;
-        const { topicsLoading, hasMoreTopic, getNextPageTopics } = store;
+        const {
+            topicsLoading,
+            hasMoreTopic,
+            getNextPageTopics,
+            topicsTotal
+        } = store;
         return (
             <div className={styles.topicsTab}>
                 {this.renderTopicList()}
                 {!topicsLoading &&
-                    hasMoreTopic && (
+                    hasMoreTopic &&
+                    topicsTotal !== -1 && (
                         <div className={styles.loadMore}>
                             <Button onClick={getNextPageTopics}>载入更多</Button>
                         </div>

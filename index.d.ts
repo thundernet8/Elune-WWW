@@ -5,3 +5,7 @@ interface NodeRequire {
         moduleName?: string
     ) => void;
 }
+
+interface Promise<T> {
+    finally: (callback) => Promise<T>;
+}

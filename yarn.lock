@@ -2054,9 +2054,9 @@ draft-js@^0.10.2:
     immutable "~3.7.4"
     object-assign "^4.1.0"
 
-draftjs-to-html-fork@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/draftjs-to-html-fork/-/draftjs-to-html-fork-0.1.0.tgz#b5b48871efee7aa2f05407386d4fc60617a0302b"
+draftjs-to-html-fork@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/draftjs-to-html-fork/-/draftjs-to-html-fork-0.1.2.tgz#d60350794ff7690bdb20e712aacea749f05736a2"
   dependencies:
     prismjs "^1.8.1"
 
@@ -4724,6 +4724,10 @@ mobx@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/mobx/-/mobx-3.3.0.tgz#1bc1dd7e78547065af04b49bdb7f2098cada47aa"
 
+moment@^2.19.1:
+  version "2.19.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.19.1.tgz#56da1a2d1cbf01d38b7e1afc31c10bcfa1929167"
+
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
@@ -6400,8 +6404,8 @@ prettyjson@^1.1.2:
     minimist "^1.2.0"
 
 prismjs@^1.8.1:
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.8.1.tgz#bd0cdc32e9a561c1c8c3c9733765a7f1ec3b54ee"
+  version "1.8.3"
+  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.8.3.tgz#4a3d140be5f2614a8987ca2330733a40d8ad207b"
   optionalDependencies:
     clipboard "^1.5.5"
 
@@ -6507,7 +6511,7 @@ qs@6.5.0:
   version "6.5.0"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.0.tgz#8d04954d364def3efc55b5a0793e1e2c8b1e6e49"
 
-qs@6.5.1:
+qs@6.5.1, qs@^6.5.1:
   version "6.5.1"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.1.tgz#349cdf6eef89ec45c12d7d5eb3fc0c870343a6d8"
 

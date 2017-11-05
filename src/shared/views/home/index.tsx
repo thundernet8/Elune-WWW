@@ -24,13 +24,13 @@ export default class HomeView extends React.Component<
     render() {
         const meta = {
             title:
-                "Eleun Forum-Web development community,WordPress,PHP,Java,JavaScript",
-            description: "Eleun Forum",
+                "Elune Forum-Web development community,WordPress,PHP,Java,JavaScript",
+            description: "Elune Forum",
             // canonical: "https://elune.me",
             meta: {
                 charset: "utf-8",
                 name: {
-                    keywords: "Eleun,forum,wordpress,php,java,javascript,react"
+                    keywords: "Elune,forum,wordpress,php,java,javascript,react"
                 }
             }
         };
@@ -43,8 +43,10 @@ export default class HomeView extends React.Component<
                 <BannerMsg />
                 <WelcomeHero />
                 <div className={ClassNames("container", [styles.container])}>
-                    <HomeAside />
-                    <HomeMain />
+                    <div className={styles.mainWrapper}>
+                        <HomeAside />
+                        <HomeMain />
+                    </div>
                     <Sidebar where="home" />
                 </div>
             </div>

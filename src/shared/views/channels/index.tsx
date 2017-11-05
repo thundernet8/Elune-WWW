@@ -182,13 +182,13 @@ export default class ChannelsView extends React.Component<
     render() {
         const meta = {
             title:
-                "所有频道-Eleun Forum-Web development community,WordPress,PHP,Java,JavaScript",
-            description: "Eleun Forum所有频道",
+                "所有频道-Elune Forum-Web development community,WordPress,PHP,Java,JavaScript",
+            description: "Elune Forum所有频道",
             // canonical: "https://elune.me",
             meta: {
                 charset: "utf-8",
                 name: {
-                    keywords: "Eleun,forum,wordpress,php,java,javascript,react"
+                    keywords: "Elune,forum,wordpress,php,java,javascript,react"
                 }
             }
         };

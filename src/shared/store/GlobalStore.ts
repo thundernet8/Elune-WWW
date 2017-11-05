@@ -1,11 +1,16 @@
 import { observable, action, autorun, computed } from "mobx";
 import UserInfo from "model/User";
 import CommonResp from "model/Resp";
-import { Login, Register, Logout, WhoAmI } from "api/Auth";
+import { Login, Register, Logout, WhoAmI, RegisterReq } from "api/Auth";
+import { DailySign } from "api/User";
+import { OnlineStatistic, OnlineStatisticResp } from "api/Status";
+import { UpdateNotificationsStatus } from "api/Notifications";
 import IStoreArgument from "interface/IStoreArgument";
 import BannerMsg from "interface/BannerMsg";
 import { AuthType } from "enum/Auth";
 import { EntityStatus } from "enum/EntityStatus";
+import { addQuery, getQuery, getHomeUrl } from "utils/UrlKit";
+import { isIntNumberic } from "utils/TextKit";
 import AbstractStore from "./AbstractStore";
 import { IS_NODE } from "../../../env";
 
@@ -48,7 +53,11 @@ export default class GlobalStore extends AbstractStore {
         // 如果当前登录用户未激活则展示全局banner消息提醒
         autorun(() => {
             const { user } = this;
-            if (user && user.status === EntityStatus.DELETEDORUNACTIVE) {
+            if (
+                user &&
+                user.id &&
+                user.status === EntityStatus.DELETEDORUNACTIVE
+            ) {
                 this.setBulletion({
                     text: "您的账户尚未激活，请立即查收激活邮件进行激活"
                 });
@@ -67,6 +76,37 @@ export default class GlobalStore extends AbstractStore {
         }
         return `${location.protocol}//${location.host}${location.pathname}`;
     }
+
+    @computed
+    get HREF() {
+        if (IS_NODE) {
+            return this.Location.url;
+        }
+        return location.href;
+    }
+
+    @computed
+    get HOME() {
+        return getHomeUrl(this.URL || "");
+    }
+
+    @action
+    getRefUrl = (id?: string) => {
+        const { user, HREF } = this;
+        if (id || (user && user.id)) {
+            return addQuery(HREF || "", "ref", id || user.id.toString(), false);
+        }
+        return HREF;
+    };
+
+    @action
+    getHomeRefUrl = (id?: string) => {
+        const { user, HOME } = this;
+        if (id || (user && user.id)) {
+            return addQuery(HOME || "", "ref", id || user.id.toString(), false);
+        }
+        return HOME;
+    };
 
     /**
      * 当前用户
@@ -97,11 +137,16 @@ export default class GlobalStore extends AbstractStore {
      */
     @action
     requestRegister = (username: string, email: string, password: string) => {
-        return Register({
+        const params: RegisterReq = {
             username,
             email,
             password
-        }).then((resp: CommonResp<UserInfo>) => {
+        };
+        const ref = getQuery(this.URL || "", "ref");
+        if (ref && isIntNumberic(ref)) {
+            params.ref = Number(ref);
+        }
+        return Register(params).then((resp: CommonResp<UserInfo>) => {
             this.setUser(resp.result);
             return resp;
         });
@@ -149,27 +194,109 @@ export default class GlobalStore extends AbstractStore {
     };
 
     /**
+     * 签到相关
+     */
+    @observable dailySigning: boolean = false;
+
+    @action
+    dailySign = () => {
+        const { dailySigning, user } = this;
+        if (dailySigning) {
+            return Promise.reject(false);
+        }
+        this.dailySigning = true;
+        return DailySign().then(resp => {
+            if (resp.result > 0) {
+                this.user = Object.assign({}, user, {
+                    balance: user.balance + resp.result,
+                    dailySigned: true
+                });
+                return resp;
+            } else {
+                throw new Error("签到失败");
+            }
+        });
+        // .finally(() => {
+        //     this.dailySigning = false;
+        // });
+    };
+
+    /**
+     * 消息通知相关
+     */
+    @observable markingNotificationsStatus: boolean = false;
+
+    @action
+    markNotificationsRead = () => {
+        const { markingNotificationsStatus, user } = this;
+        if (markingNotificationsStatus) {
+            return Promise.reject(false);
+        }
+        this.markingNotificationsStatus = true;
+        return UpdateNotificationsStatus({
+            notifications: user.unreadNotifications.items.map(x => x.id),
+            read: true
+        }).then(resp => {
+            if (resp) {
+                this.user = Object.assign({}, user, {
+                    unreadNotifications: {
+                        items: [],
+                        page: 1,
+                        pageSize: 10,
+                        total: 0
+                    },
+                    unreadCount: 0
+                });
+                return resp;
+            } else {
+                throw new Error("标记消息已读失败");
+            }
+        });
+    };
+
+    /**
+     * 获取在线统计
+     */
+
+    @observable onlineStatistic: OnlineStatisticResp;
+
+    @action
+    statistisOnline = () => {
+        return OnlineStatistic().then(resp => {
+            this.onlineStatistic = resp;
+        });
+    };
+
+    /**
      * 初始化
      */
     init = () => {
         this.checkMe();
+        this.statistisOnline();
     };
 
     /**
      * 初始化 - 根据会话获取当前用户信息
      */
+
+    @observable userPromise: Promise<UserInfo>;
+
     checkMe = () => {
-        return WhoAmI().then((resp: CommonResp<UserInfo>) => {
+        this.userPromise = WhoAmI().then((resp: CommonResp<UserInfo>) => {
             this.setUser(resp.result);
-            return resp;
+            return resp.result;
         });
+        return this.userPromise;
     };
 
     /**
      * SSR数据初始化(必须返回promise)
      */
     fetchData() {
-        return this.checkMe();
+        const promises: Promise<any>[] = [];
+        promises.push(this.checkMe());
+        // promises.push(this.statistisOnline());
+        return Promise.all(promises);
     }
 
     public toJSON() {

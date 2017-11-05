@@ -1,5 +1,5 @@
 /**
- * Generated on Wed, 18 Oct 2017 16:35:58 GMT
+ * Generated on Sat, 04 Nov 2017 14:02:11 GMT
  * 本文件由routes.yaml模板生成, 请不要直接修改
  */
 
@@ -12,6 +12,7 @@ import Article from "entries/article";
 import Uc from "entries/uc";
 import Creation from "entries/creation";
 import Activation from "entries/activation";
+import Notification from "entries/notification";
 import NotFound from "entries/notFound";
 
 const routes = [
@@ -25,6 +26,8 @@ const routes = [
     { path: "/u/:username/:tab", exact: false, component: Uc },
     { path: "/creation", exact: false, component: Creation },
     { path: "/activation", exact: false, component: Activation },
+    { path: "/notification", exact: true, component: Notification },
+    { path: "/notification/system", exact: false, component: Notification },
     { path: "", exact: false, component: NotFound }
 ];
 

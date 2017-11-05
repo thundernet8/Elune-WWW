@@ -1,12 +1,18 @@
 import { API_BASE, IS_PROD } from "../../../env";
 import axios from "axios";
 import https from "https";
+import qs from "qs";
 // import GlobalStore from "store/GlobalStore";
 // import { SESSION_COOKIE_NAME } from "../../../env";
 
 // axios.defaults.withCredentials = true;
 
-function webApi<T>(httpMethod: string, path: string, params: any): Promise<T> {
+export function webApi<T>(
+    httpMethod: string,
+    path: string,
+    params: any,
+    contentType: string = "application/json"
+): Promise<T> {
     path = path.startsWith("/") ? path.substring(1) : path;
     /* tslint:disable */
     const csrfToken =
@@ -16,11 +22,11 @@ function webApi<T>(httpMethod: string, path: string, params: any): Promise<T> {
     /* tslint:enable */
 
     const headers: any = {
-        Accept: "application/json",
+        Accept: "*/*",
         "Content-type":
             typeof FormData !== "undefined" && params instanceof FormData
                 ? "multipart/form-data"
-                : "application/json"
+                : contentType
     };
 
     if (csrfToken) {
@@ -47,14 +53,23 @@ function webApi<T>(httpMethod: string, path: string, params: any): Promise<T> {
             url: path,
             method: httpMethod,
             params: httpMethod.toLowerCase() === "get" ? params : null,
-            data: httpMethod.toLowerCase() !== "get" ? params : null,
+            data:
+                httpMethod.toLowerCase() !== "get"
+                    ? headers["Content-type"] ===
+                      "application/x-www-form-urlencoded"
+                      ? qs.stringify(params)
+                      : params
+                    : null,
             validateStatus: function(status) {
-                return status >= 200 && status < 300; // default
+                return status >= 200 && status < 500;
             }
         })
         .then<T>(resp => {
             if (!IS_PROD) {
                 console.dir(resp);
+            }
+            if (resp.status >= 400) {
+                throw new Error(resp.data);
             }
             return resp.data;
         })

@@ -1,14 +1,31 @@
 import { observable, action, computed } from "mobx";
-import { FetchTopic } from "api/Topic";
+import {
+    FetchTopic,
+    UpdateTopic,
+    FavoriteTopic,
+    UnFavoriteTopic,
+    LikeTopic,
+    UnLikeTopic
+} from "api/Topic";
 import { FetchTopicPosts, CreatePost } from "api/Post";
 import Topic from "model/Topic";
 import Post from "model/Post";
 import CommonResp from "model/Resp";
 import IStoreArgument from "interface/IStoreArgument";
 import { SortOrder, SortOrderBy } from "enum/Sort";
+import Role from "enum/Role";
 import { EditorSuggestion } from "interface/EditorSuggestion";
 import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html-fork";
+import {
+    hasFavoriteTopic,
+    favoriteTopic,
+    unFavoriteTopic,
+    hasLikeTopic,
+    likeTopic,
+    unLikeTopic
+} from "utils/CacheKit";
+import GlobalStore from "store/GlobalStore";
 import AbstractStore from "./AbstractStore";
 import { IS_NODE } from "../../../env";
 
@@ -69,6 +86,74 @@ export default class TopicStore extends AbstractStore {
     @observable loading: boolean = false;
 
     /**
+     * 话题编辑
+     */
+    @computed
+    get canEditTopic() {
+        const me = GlobalStore.Instance.user;
+        const { topic } = this;
+        if (!me || !topic) {
+            return false;
+        }
+        // 普通用户话题发布3600秒后不可再编辑
+        return (
+            me.roleId <= Role.ADMIN ||
+            (me.roleId <= Role.NORMAL_USER &&
+                me.id === topic.authorId &&
+                new Date().getTime() / 1000 - topic.createTime < 3600)
+        );
+    }
+
+    @observable editTopicContent: string = "";
+    @observable editTopciContentHtml: string = "";
+    @observable editTopicContentRaw: string = "";
+
+    @action
+    editTopic = (raw: string, html: string, plainText: string) => {
+        this.editTopicContent = plainText;
+        this.editTopciContentHtml = html;
+        this.editTopicContentRaw = raw;
+    };
+
+    @observable submittingEditTopic: boolean = false;
+
+    @action
+    submitEditTopic = () => {
+        const {
+            editTopicContent,
+            editTopciContentHtml,
+            editTopicContentRaw,
+            topic
+        } = this;
+        if (!editTopicContent || editTopicContent.length < 50) {
+            return Promise.reject("话题不能少于50字");
+        }
+        this.submittingEditTopic = true;
+        return UpdateTopic({
+            id: topic.id,
+            content: editTopicContent,
+            contentHtml: editTopciContentHtml,
+            contentRaw: editTopicContentRaw
+        })
+            .then(resp => {
+                if (!resp.result) {
+                    throw new Error("更新话题失败");
+                } else {
+                    const newTopic = Object.assign({}, topic, {
+                        content: editTopicContent,
+                        contentHtml: editTopciContentHtml,
+                        contentRaw: editTopicContentRaw
+                    });
+                    this.topic = newTopic;
+                    return resp;
+                }
+            })
+            .finally(() => {
+                this.submittingEditTopic = false;
+            });
+    };
+
+    /**
      * 所有频道列表
      */
     @observable topic: Topic = null as any;
@@ -85,10 +170,17 @@ export default class TopicStore extends AbstractStore {
         }
         const { id } = this.Match.params;
         this.loading = true;
-        return FetchTopic({ id: Number(id) }).then(resp => {
-            this.setTopic(resp);
-            this.setField("loading", false);
-        });
+        return FetchTopic({ id: Number(id) })
+            .then(resp => {
+                this.setTopic(resp);
+                this.setField("loading", false);
+            })
+            .then(() => {
+                if (!IS_NODE) {
+                    this.checkFavoriteStatus();
+                    this.checkLikeStatus();
+                }
+            });
     };
 
     @observable postsLoading: boolean = false;
@@ -338,6 +430,188 @@ export default class TopicStore extends AbstractStore {
     @action
     cleanPostEditor = () => {
         this.postEditorState = EditorState.createEmpty();
+    };
+
+    /**
+     * 收藏
+     */
+
+    @observable favoriteActing: boolean = false;
+    @observable hasFavorited: boolean = false;
+
+    @action
+    setFavorite = (status: boolean = true) => {
+        this.hasFavorited = status;
+    };
+
+    @action
+    favoriteTopic = () => {
+        const { topic, favoriteActing } = this;
+        const { id } = topic;
+        if (favoriteActing) {
+            return Promise.reject(false);
+        }
+        this.favoriteActing = true;
+        return FavoriteTopic({
+            id
+        })
+            .then(result => {
+                if (result) {
+                    this.setFavorite(true);
+                }
+                favoriteTopic(GlobalStore.Instance.user.id, id);
+                const newTopic = Object.assign({}, topic, {
+                    favoritesCount: topic.favoritesCount + 1
+                });
+                this.setTopic(newTopic);
+                return result;
+            })
+            .finally(() => {
+                this.favoriteActing = false;
+            });
+    };
+
+    @action
+    unFavoriteTopic = () => {
+        const { topic, favoriteActing } = this;
+        const { id } = topic;
+        if (favoriteActing) {
+            return Promise.reject(false);
+        }
+        this.favoriteActing = true;
+        return UnFavoriteTopic({
+            id
+        })
+            .then(result => {
+                if (result) {
+                    this.setFavorite(false);
+                }
+                unFavoriteTopic(GlobalStore.Instance.user.id, id);
+                const newTopic = Object.assign({}, topic, {
+                    favoritesCount: topic.favoritesCount - 1
+                });
+                this.setTopic(newTopic);
+                return result;
+            })
+            .finally(() => {
+                this.favoriteActing = false;
+            });
+    };
+
+    @action
+    handleFavorite = () => {
+        if (this.hasFavorited) {
+            return this.unFavoriteTopic();
+        } else {
+            return this.favoriteTopic();
+        }
+    };
+
+    @action
+    checkFavoriteStatus = () => {
+        const globalStore = GlobalStore.Instance;
+        const { user } = globalStore;
+        const { topic } = this;
+        if (!user || !user.id || !topic) {
+            return;
+        }
+        if (user.favoriteTopicIds.includes(topic.id)) {
+            favoriteTopic(user.id, topic.id);
+            this.setFavorite(true);
+            return;
+        }
+        if (hasFavoriteTopic(user.id, topic.id)) {
+            this.setFavorite(true);
+        }
+    };
+
+    /**
+     * 喜欢
+     */
+
+    @observable likeActing: boolean = false;
+    @observable hasLiked: boolean = false;
+
+    @action
+    setLike = (status: boolean = true) => {
+        this.hasLiked = status;
+    };
+
+    @action
+    likeTopic = () => {
+        const { topic, likeActing } = this;
+        const { id } = topic;
+        if (likeActing) {
+            return Promise.reject(false);
+        }
+        this.likeActing = true;
+        return LikeTopic({
+            id
+        })
+            .then(result => {
+                if (result) {
+                    this.setLike(true);
+                }
+                likeTopic(GlobalStore.Instance.user.id, id);
+                const newTopic = Object.assign({}, topic, {
+                    upvotesCount: topic.upvotesCount + 1
+                });
+                this.setTopic(newTopic);
+                return result;
+            })
+            .finally(() => {
+                this.likeActing = false;
+            });
+    };
+
+    @action
+    unLikeTopic = () => {
+        const { topic, likeActing } = this;
+        const { id } = topic;
+        if (likeActing) {
+            return Promise.reject(false);
+        }
+        this.likeActing = true;
+        return UnLikeTopic({
+            id
+        })
+            .then(result => {
+                if (result) {
+                    this.setLike(false);
+                }
+                unLikeTopic(GlobalStore.Instance.user.id, id);
+                const newTopic = Object.assign({}, topic, {
+                    upvotesCount: topic.upvotesCount - 1
+                });
+                this.setTopic(newTopic);
+                return result;
+            })
+            .finally(() => {
+                this.likeActing = false;
+            });
+    };
+
+    @action
+    handleLike = () => {
+        if (this.hasLiked) {
+            // return this.unLikeTopic();
+            return; // 暂时不允许取消赞
+        } else {
+            return this.likeTopic();
+        }
+    };
+
+    @action
+    checkLikeStatus = () => {
+        const globalStore = GlobalStore.Instance;
+        const { user } = globalStore;
+        const { topic } = this;
+        if (!user || !user.id || !topic) {
+            return;
+        }
+        if (hasLikeTopic(user.id, topic.id)) {
+            this.setLike(true);
+        }
     };
 
     /**

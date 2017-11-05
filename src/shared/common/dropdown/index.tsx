@@ -7,6 +7,7 @@ interface DropdownProps {
     className?: any;
     anchorNode: React.ReactNode;
     menuPosition?: "top" | "right";
+    autoClose?: boolean;
 }
 
 interface DropdownState {
@@ -23,7 +24,8 @@ export default class Dropdown extends React.Component<
 
     static defaultProps = {
         className: "",
-        menuPosition: "right"
+        menuPosition: "right",
+        autoClose: true
     };
 
     constructor(props) {
@@ -40,6 +42,10 @@ export default class Dropdown extends React.Component<
     };
 
     blurClose = () => {
+        const { autoClose } = this.props;
+        if (!autoClose) {
+            return;
+        }
         this.timer = setTimeout(() => {
             this.setState({
                 open: false

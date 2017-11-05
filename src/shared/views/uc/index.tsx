@@ -7,20 +7,24 @@ import UCStore from "store/UCStore";
 import GlobalStore from "store/GlobalStore";
 import { getCharColor } from "utils/ColorKit";
 import { getTimeDiff } from "utils/DateTimeKit";
-import { Link } from "react-router-dom";
-import CharAvatar from "components/charAvatar";
+// import { Link } from "react-router-dom";
+import Avatar from "components/avatar";
+import { Upload } from "element-react/next";
+import moment from "moment";
 import UCAsideView from "./aside";
 import PostsTab from "./tabs/postsTab";
 import TopicsTab from "./tabs/topicsTab";
 import MentionsTab from "./tabs/mentionsTab";
 import SettingsTab from "./tabs/settingsTab";
+import FavoritesTab from "./tabs/favoritesTab";
+import { API_BASE } from "../../../../env";
 
 const styles = require("./styles/index.less");
-// const defaultAvatar = require("IMG/avatar-default.png");
 
 interface UCViewProps {
     match: any;
     location: any;
+    history: any;
 }
 
 interface UCViewState {}
@@ -31,9 +35,13 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
 
     constructor(props) {
         super(props);
-        const { match, location } = this.props;
+        const { match, location } = props;
         this.store = UCStore.getInstance({ match, location, cookies: "" });
     }
+
+    successUploadAvatar = response => {
+        this.store.updateLocalUserField("avatar", response.result);
+    };
 
     componentDidUpdate(prevProps) {
         const { location, match } = this.props;
@@ -44,10 +52,28 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
         }
     }
 
+    componentDidMount() {
+        const { match, history } = this.props;
+        let { tab } = match.params;
+        if (!tab) {
+            return;
+        }
+        if (
+            ["mentions", "topics", "posts", "favorites", "settings"].indexOf(
+                tab
+            ) < 0
+        ) {
+            history.push("/404");
+        }
+    }
+
     renderBrand = () => {
         const { match } = this.props;
         const { username } = match.params;
         const { user } = this.store;
+        const globalStore = GlobalStore.Instance;
+        const me = globalStore.user;
+        const isSelf = me && user && me.id === user.id;
 
         return (
             <div
@@ -60,34 +86,69 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
                     >
                         <div className={styles.profile}>
                             <h2 className={styles.identity}>
-                                <Link to={`/u/${username}`}>
-                                    <CharAvatar
+                                {isSelf ? (
+                                    <Upload
+                                        className={styles.avatarUploader}
+                                        action={`${API_BASE}upload/avatars`}
+                                        multiple={false}
+                                        withCredentials
+                                        showFileList={false}
+                                        accept="image/*"
+                                        trigger={<i className="el-icon-plus" />}
+                                        onSuccess={this.successUploadAvatar}
+                                    >
+                                        {
+                                            <Avatar
+                                                className={styles.avatar}
+                                                username={username}
+                                                user={user}
+                                            />
+                                        }
+                                    </Upload>
+                                ) : (
+                                    <Avatar
                                         className={styles.avatar}
-                                        text={username[0]}
+                                        username={username}
+                                        user={user}
                                     />
-                                    <span className={styles.username}>
-                                        {user.nickname || username}
-                                    </span>
-                                </Link>
+                                )}
+
+                                <span className={styles.username}>
+                                    {user.nickname || username}
+                                </span>
                             </h2>
                             <ul className={styles.info}>
                                 <li className={styles.bio}>
                                     <p>{user.bio}</p>
                                 </li>
-                                {!!user.lastSeen && (
-                                    <li className={styles.lastSeen}>
+                                {user.online && (
+                                    <li
+                                        className={ClassNames(
+                                            [styles.lastSeen],
+                                            [styles.online]
+                                        )}
+                                    >
                                         <span>
-                                            <i className="fa fa-fw fa-clock-o" />
-                                            {getTimeDiff(
-                                                new Date(user.lastSeen * 1000)
-                                            )}
+                                            <i className="fa fa-fw fa-circle" />
+                                            在线
                                         </span>
                                     </li>
                                 )}
+                                {!user.online &&
+                                    !!user.lastSeen && (
+                                        <li className={styles.lastSeen}>
+                                            <span>
+                                                <i className="fa fa-fw fa-clock-o" />
+                                                {getTimeDiff(
+                                                    moment(user.lastSeen * 1000)
+                                                )}
+                                            </span>
+                                        </li>
+                                    )}
                                 {user.joinTime && (
                                     <li className={styles.joined}>
                                         <span>
-                                            加入于{getTimeDiff(new Date(user.joinTime * 1000))}
+                                            加入于{getTimeDiff(moment(user.joinTime * 1000))}
                                         </span>
                                     </li>
                                 )}
@@ -108,8 +169,10 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
                 return <TopicsTab store={store} />;
             case "mentions":
                 return <MentionsTab />;
+            case "favorites":
+                return <FavoritesTab store={store} />;
             case "settings":
-                return <SettingsTab />;
+                return <SettingsTab store={store} />;
             default:
                 return null;
         }
@@ -119,22 +182,26 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
         const { user } = this.store;
         const globalStore = GlobalStore.Instance;
         const me = globalStore.user;
-        let { tab, username } = this.props.match.params;
+        const { match } = this.props;
+        let { tab, username } = match.params;
         tab = (tab || "posts").toLowerCase();
 
-        if (["mentions", "topics", "posts", "settings"].indexOf(tab) < 0) {
-            // TODO 404 redirect
+        if (
+            ["mentions", "topics", "posts", "favorites", "settings"].indexOf(
+                tab
+            ) < 0
+        ) {
             return null;
         }
 
         const meta = {
-            title: `${username}的个人主页-Eleun Forum-Web development community,WordPress,PHP,Java,JavaScript`,
+            title: `${username}的个人主页-Elune Forum-Web development community,WordPress,PHP,Java,JavaScript`,
             description: "",
             // canonical: "https://elune.me",
             meta: {
                 charset: "utf-8",
                 name: {
-                    keywords: "Eleun,forum,wordpress,php,java,javascript,react"
+                    keywords: "Elune,forum,wordpress,php,java,javascript,react"
                 }
             }
         };

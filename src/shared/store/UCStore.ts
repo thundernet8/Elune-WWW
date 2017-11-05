@@ -1,12 +1,18 @@
 import { observable, action, computed } from "mobx";
-import { FetchNamedUser } from "api/User";
+import {
+    FetchNamedUser,
+    FetchUserFavorites,
+    UpdateUserProfile
+} from "api/User";
 import { FetchUserTopics } from "api/Topic";
 import { FetchUserPosts } from "api/Post";
 import { PublicUserInfo } from "model/User";
 import Topic from "model/Topic";
 import Post from "model/Post";
 import IStoreArgument from "interface/IStoreArgument";
+import UserProfileSetting from "interface/UserProfileSetting";
 import { SortOrder, SortOrderBy } from "enum/Sort";
+import GlobalStore from "store/GlobalStore";
 import AbstractStore from "./AbstractStore";
 import { IS_NODE } from "../../../env";
 
@@ -92,10 +98,28 @@ export default class UCStore extends AbstractStore {
                     return this.getUserPosts() as Promise<any>;
                 case "topics":
                     return this.getUserTopics();
+                case "favorites":
+                    if (!IS_NODE) {
+                        return GlobalStore.Instance.userPromise.then(me => {
+                            if (me.id === resp.id) {
+                                return this.getUserFavorites();
+                            }
+                        });
+                    }
+                case "settings":
+                    this.setProfileSettings(resp);
+                    break;
                 default:
                     return Promise.resolve(true);
             }
         });
+    };
+
+    @action
+    updateLocalUserField = (field: string, value: any) => {
+        const { user } = this;
+        user[field] = value;
+        this.setField("user", Object.assign({}, user));
     };
 
     /**
@@ -141,9 +165,10 @@ export default class UCStore extends AbstractStore {
             topics,
             topicsOrder,
             topicsOrderBy,
+            topicsLoading,
             user
         } = this;
-        if (!user || !user.id) {
+        if (topicsLoading || !user || !user.id) {
             return Promise.reject(false);
         }
         const params = {
@@ -157,14 +182,13 @@ export default class UCStore extends AbstractStore {
         return FetchUserTopics(params)
             .then(resp => {
                 this.setTopics(topics.concat(resp.items));
-                this.setField("topicsLoading", false);
                 if (topicsPage === 1) {
                     this.setField("topicsTotal", resp.total);
                 }
                 return resp;
             })
-            .catch(() => {
-                this.setField("topicsLoading", false);
+            .finally(() => {
+                this.topicsLoading = false;
             });
     };
 
@@ -272,6 +296,119 @@ export default class UCStore extends AbstractStore {
         this.setField("postsPage", 1);
         this.setField("postsTotal", 0);
         this.getUserPosts();
+    };
+
+    /**
+     * 用户收藏相关
+     */
+
+    /**
+     * 当前页的收藏列表
+     */
+    @observable favorites: Topic[] = [];
+
+    @action
+    setFavorites = (favorites: Topic[]) => {
+        this.favorites = favorites;
+    };
+
+    @observable favoritesPage: number = 1;
+    @observable favoritesPageSize: number = 20;
+    @observable favoritesTotal: number = -1;
+
+    @computed
+    get hasMoreFavorites() {
+        const { favoritesPage, favoritesPageSize, favoritesTotal } = this;
+        return (
+            favoritesTotal === -1 ||
+            favoritesPage * favoritesPageSize < favoritesTotal
+        );
+    }
+
+    @observable favoritesLoading: boolean = false;
+
+    @action
+    getUserFavorites = () => {
+        const { favoritesPage, favoritesPageSize, favorites, user } = this;
+        if (!user || !user.id) {
+            return Promise.reject(false);
+        }
+        const params = {
+            page: favoritesPage,
+            pageSize: favoritesPageSize
+        };
+        this.setField("favoritesLoading", true);
+        return FetchUserFavorites(params)
+            .then(resp => {
+                this.setFavorites(favorites.concat(resp.items));
+                this.setField("favoritesLoading", false);
+                if (favoritesPage === 1) {
+                    this.setField("favoritesTotal", resp.total);
+                }
+                return resp;
+            })
+            .catch(() => {
+                this.setField("favoritesLoading", false);
+            });
+    };
+
+    @action
+    getNextPageFavorites = () => {
+        const { favoritesPage, favoritesPageSize, favoritesTotal } = this;
+        if ((favoritesPage - 1) * favoritesPageSize >= favoritesTotal) {
+            return;
+        }
+        this.setField("favoritesPage", favoritesPage + 1);
+        this.getUserFavorites();
+    };
+
+    @action
+    refreshFavorites = () => {
+        this.setFavorites([]);
+        this.setField("favoritesPage", 1);
+        this.setField("favoritesTotal", 0);
+        this.getUserFavorites();
+    };
+
+    /**
+     * 个人设置相关
+     */
+
+    @observable userProfileSettings: UserProfileSetting;
+
+    @action
+    inputProfileSettings = (field: string, value: string) => {
+        const { userProfileSettings } = this;
+        this.userProfileSettings = Object.assign({}, userProfileSettings, {
+            [field]: value
+        });
+    };
+
+    @action
+    setProfileSettings = (user: PublicUserInfo) => {
+        this.userProfileSettings = {
+            nickname: user.nickname,
+            bio: user.bio,
+            url: user.url
+        };
+    };
+
+    @observable profileSaving: boolean = false;
+
+    @action
+    saveProfile = () => {
+        const { userProfileSettings, user } = this;
+        if (!userProfileSettings.nickname) {
+            return Promise.reject("昵称不能为空");
+        }
+        this.profileSaving = true;
+        return UpdateUserProfile(userProfileSettings)
+            .then(() => {
+                this.user = Object.assign({}, user, userProfileSettings);
+            })
+            .finally(() => {
+                this.profileSaving = false;
+            });
     };
 
     /**

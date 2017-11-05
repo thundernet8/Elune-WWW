@@ -5,10 +5,10 @@ import { Link } from "react-router-dom";
 import Topic from "model/Topic";
 import { Tooltip } from "element-react/next";
 import { getTimeDiff, getGMT8DateStr } from "utils/DateTimeKit";
-import CharAvatar from "components/charAvatar";
+import Avatar from "components/avatar";
+import moment from "moment";
 
 const styles = require("./index.less");
-// const defaultAvatar = require("IMG/avatar-default.png");
 
 interface TopicItemProps {
     topic: Topic;
@@ -46,7 +46,7 @@ export default class TopicItem extends React.Component<
             postTime,
             poster
         } = topic;
-        const latestPostTime = postTime ? new Date(postTime * 1000) : null;
+
         return (
             <div className={ClassNames([styles.topicItem], [className])}>
                 <Dropdown
@@ -79,15 +79,25 @@ export default class TopicItem extends React.Component<
                             effect="dark"
                             placement="bottom"
                             content={`${author.nickname} 发布于 ${getGMT8DateStr(
-                                new Date(createTime * 1000)
+                                moment(createTime * 1000)
                             )}`}
                         >
-                            <CharAvatar
-                                className={ClassNames("avatar", [
-                                    styles.avatar
-                                ])}
-                                text={author.username[0]}
-                            />
+                            {author.avatar ? (
+                                <span
+                                    className={ClassNames("avatar", [
+                                        styles.avatar
+                                    ])}
+                                >
+                                    <img src={author.avatar} />
+                                </span>
+                            ) : (
+                                <Avatar
+                                    className={ClassNames("avatar", [
+                                        styles.avatar
+                                    ])}
+                                    user={author}
+                                />
+                            )}
                         </Tooltip>
                     </Link>
                     <ul className={styles.badges}>
@@ -158,29 +168,28 @@ export default class TopicItem extends React.Component<
                                     })}
                                 </span>
                             </li>
-                            {latestPostTime && (
-                                <li className={styles.reply}>
-                                    <span>
-                                        <i className="icon fa fa-fw fa-reply " />
-                                        <span className={styles.username}>
-                                            {poster}
-                                        </span>{" "}
-                                        回复于{" "}
-                                        <time
-                                            data-pubdate="true"
-                                            title={
-                                                latestPostTime
-                                                    ? getGMT8DateStr(
-                                                          latestPostTime
-                                                      )
-                                                    : ""
-                                            }
-                                        >
-                                            {getTimeDiff(latestPostTime)}
-                                        </time>
-                                    </span>
-                                </li>
-                            )}
+                            {postTime &&
+                                poster && (
+                                    <li className={styles.reply}>
+                                        <span>
+                                            <i className="icon fa fa-fw fa-reply " />
+                                            <span className={styles.username}>
+                                                {poster}
+                                            </span>{" "}
+                                            回复于{" "}
+                                            <time
+                                                data-pubdate="true"
+                                                title={getGMT8DateStr(
+                                                    moment(postTime * 1000)
+                                                )}
+                                            >
+                                                {getTimeDiff(
+                                                    moment(postTime * 1000)
+                                                )}
+                                            </time>
+                                        </span>
+                                    </li>
+                                )}
                             <li className={styles.excerpt}>
                                 <span>
                                     {content.substr(0, 100)}

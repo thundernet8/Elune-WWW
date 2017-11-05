@@ -4,6 +4,7 @@ export const enum SortOrder {
 }
 
 export const enum SortOrderBy {
+    NONE = "none",
     ID = "id",
     CREATE_TIME = "create_time",
     UPDATE_TIME = "update_time",
