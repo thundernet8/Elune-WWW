@@ -90,11 +90,15 @@
     .topicBody {
         font-size: 1.4rem;
         // color: @darkColor;
-        img {
-            display: block;
-            max-width: 100%;
-            padding: 20px;
-            margin: 0 auto 10px;
+        :global {
+            img {
+                display: block;
+                max-width: 100%;
+                padding: 20px;
+                margin: 0 auto 10px;
+                filter: blur(20px);
+                animation: 0.5s both sharpen;
+            }
         }
         p {
             line-height: 1.6;
