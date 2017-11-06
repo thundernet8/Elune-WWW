@@ -51,6 +51,10 @@
   module: entries/sysNotification
   chunk: notification
   exact: false
+- path: /following
+  module: entries/following
+  chunk: following
+  exact: true
 - path:
   module: entries/notFound
   chunk: notFound

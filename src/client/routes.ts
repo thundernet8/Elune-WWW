@@ -1,5 +1,5 @@
 /**
- * Generated on Sat, 04 Nov 2017 14:02:11 GMT
+ * Generated on Mon, 06 Nov 2017 16:20:25 GMT 
  * 本文件由routes.yaml模板生成, 请不要直接修改
  */
 
@@ -193,6 +193,22 @@ const routes = [
                     /* tslint:enable */
                 },
                 "notification"
+            );
+        }
+    },
+    {
+        path: "/following",
+        module: "entries/following",
+        exact: true,
+        getComponent(cb) {
+            require.ensure(
+                ["entries/following"],
+                require => {
+                    /* tslint:disable */
+                    cb && cb(require("entries/following")["default"]);
+                    /* tslint:enable */
+                },
+                "following"
             );
         }
     },

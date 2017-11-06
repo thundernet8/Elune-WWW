@@ -21,8 +21,8 @@ export default class UserInfo extends BaseUserInfo {
     public joinTime: number;
     public status: EntityStatus;
     public favoriteTopicIds: number[];
-    public followTopicIds: number[];
-    public followUserIds: number[];
+    public followingTopicIds: number[];
+    public followingUserIds: number[];
     public balance: number;
     public dailySigned: boolean;
 }

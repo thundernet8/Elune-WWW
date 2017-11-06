@@ -1,21 +1,20 @@
 import * as React from "react";
 import ClassNames from "classnames";
-import WelcomeHero from "components/welcomeHero";
 import BannerMsg from "components/bannerMsg";
-import HomeAside from "./aside";
-import HomeMain from "./main";
+import HomeAside from "../home/aside";
+import FollowingMain from "./main";
 import Sidebar from "components/sidebar";
 import DocumentMeta from "react-document-meta";
 
-const styles = require("./styles/index.less");
+const styles = require("../home/styles/index.less");
 
-interface HomeViewProps {}
+interface FollowingViewProps {}
 
-interface HomeViewState {}
+interface FollowingViewState {}
 
-export default class HomeView extends React.Component<
-    HomeViewProps,
-    HomeViewState
+export default class FollowingView extends React.Component<
+    FollowingViewProps,
+    FollowingViewState
 > {
     constructor(props) {
         super(props);
@@ -24,7 +23,7 @@ export default class HomeView extends React.Component<
     render() {
         const meta = {
             title:
-                "Elune Forum-Web development community,WordPress,PHP,Java,JavaScript",
+                "关注话题-Elune Forum-Web development community,WordPress,PHP,Java,JavaScript",
             description: "Elune Forum",
             // canonical: "https://elune.me",
             meta: {
@@ -39,13 +38,12 @@ export default class HomeView extends React.Component<
             <div className={styles.homeview}>
                 <DocumentMeta {...meta} />
                 <BannerMsg />
-                <WelcomeHero />
                 <div className={ClassNames("container", [styles.container])}>
                     <div className={styles.mainWrapper}>
                         <HomeAside />
-                        <HomeMain />
+                        <FollowingMain />
                     </div>
-                    <Sidebar where="home" />
+                    <Sidebar where="following" />
                 </div>
             </div>
         );

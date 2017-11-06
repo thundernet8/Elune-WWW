@@ -13,6 +13,7 @@ const styles = require("./index.less");
 interface TopicItemProps {
     topic: Topic;
     className?: string;
+    following?: boolean;
 }
 
 interface TopicItemState {
@@ -32,7 +33,7 @@ export default class TopicItem extends React.Component<
 
     render() {
         const { read } = this.state;
-        const { topic, className } = this.props;
+        const { topic, className, following } = this.props;
         const {
             id,
             title,
@@ -60,10 +61,17 @@ export default class TopicItem extends React.Component<
                     }
                 >
                     <Dropdown.Item hasIcon>
-                        <button>
-                            <i className="fa fa-fw fa-star" />
-                            <span className="btn-label">关注</span>
-                        </button>
+                        {following ? (
+                            <button>
+                                <i className="fa fa-fw fa-star" />
+                                <span className="btn-label">取消关注</span>
+                            </button>
+                        ) : (
+                            <button>
+                                <i className="fa fa-fw fa-star-o" />
+                                <span className="btn-label">关注</span>
+                            </button>
+                        )}
                     </Dropdown.Item>
                 </Dropdown>
                 <div

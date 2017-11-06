@@ -4,6 +4,7 @@ import TopicItem from "components/topicItem";
 import Select from "common/select";
 import HomeStore from "store/HomeStore";
 import ChannelStore from "store/ChannelStore";
+import FollowingStore from "store/FollowingStore";
 import { Button } from "element-react/next";
 import { SortOrderBy } from "enum/Sort";
 import ClassNames from "classnames";
@@ -12,7 +13,7 @@ import { Link } from "react-router-dom";
 const styles = require("./index.less");
 
 interface TopicListProps {
-    store: HomeStore | ChannelStore;
+    store: HomeStore | ChannelStore | FollowingStore;
 }
 
 interface TopicListState {}
@@ -38,16 +39,28 @@ export default class TopicList extends React.Component<
                         [styles.emptyList]
                     )}
                 >
-                    空空如也，何不<Link to="/creation">创作</Link>一个？
+                    {store instanceof FollowingStore ? (
+                        <p>空空如也，何不去关注一个？</p>
+                    ) : (
+                        <p>
+                            空空如也，何不<Link to="/creation">创作</Link>一个？
+                        </p>
+                    )}
                 </div>
             );
         }
         return (
             <ul className={styles.topicList}>
                 {topics.map((topic, index) => {
+                    const followStatus =
+                        store instanceof FollowingStore ? true : false; // TODO judgement
                     return (
                         <li key={index}>
-                            <TopicItem key={index} topic={topic} />
+                            <TopicItem
+                                key={index}
+                                topic={topic}
+                                following={followStatus}
+                            />
                         </li>
                     );
                 })}
@@ -72,30 +85,31 @@ export default class TopicList extends React.Component<
         } = store;
         return (
             <div className={styles.main}>
-                <div className={styles.toolbar}>
-                    <Select value={orderBy} onSelect={switchSort}>
-                        <Select.Option value={SortOrderBy.LAST_POST_TIME}>
-                            最新回复
-                        </Select.Option>
-                        <Select.Option value={SortOrderBy.POSTS_COUNT}>
-                            热门话题
-                        </Select.Option>
-                        <Select.Option value={SortOrderBy.CREATE_TIME}>
-                            近期话题
-                        </Select.Option>
-                    </Select>
-                    <ul className={styles.actions}>
-                        <li className="item-refresh">
-                            <button
-                                title="刷新"
-                                className="btn btn--icon hasIcon"
-                                type="button"
-                                onClick={refreshTopics}
-                            >
-                                <i className="icon fa fa-fw fa-refresh btn-icon" />
-                            </button>
-                        </li>
-                        {/* <li className="item-markAllAsRead">
+                {!(store instanceof FollowingStore) && (
+                    <div className={styles.toolbar}>
+                        <Select value={orderBy} onSelect={switchSort}>
+                            <Select.Option value={SortOrderBy.LAST_POST_TIME}>
+                                最新回复
+                            </Select.Option>
+                            <Select.Option value={SortOrderBy.POSTS_COUNT}>
+                                热门话题
+                            </Select.Option>
+                            <Select.Option value={SortOrderBy.CREATE_TIME}>
+                                近期话题
+                            </Select.Option>
+                        </Select>
+                        <ul className={styles.actions}>
+                            <li className="item-refresh">
+                                <button
+                                    title="刷新"
+                                    className="btn btn--icon hasIcon"
+                                    type="button"
+                                    onClick={refreshTopics}
+                                >
+                                    <i className="icon fa fa-fw fa-refresh btn-icon" />
+                                </button>
+                            </li>
+                            {/* <li className="item-markAllAsRead">
                             <button
                                 title="标记所有为已读"
                                 className="btn btn--icon hasIcon"
@@ -104,8 +118,9 @@ export default class TopicList extends React.Component<
                                 <i className="icon fa fa-fw fa-check btn-icon" />
                             </button>
                         </li> */}
-                    </ul>
-                </div>
+                        </ul>
+                    </div>
+                )}
                 <div className={styles.topicListWrapper}>
                     {this.renderTopicList()}
                     {!topicsLoading &&

@@ -1,5 +1,5 @@
 /**
- * Generated on Sat, 04 Nov 2017 14:02:11 GMT
+ * Generated on Mon, 06 Nov 2017 16:20:25 GMT 
  * 本文件由routes.yaml模板生成, 请不要直接修改
  */
 
@@ -13,6 +13,7 @@ import Uc from "entries/uc";
 import Creation from "entries/creation";
 import Activation from "entries/activation";
 import Notification from "entries/notification";
+import Following from "entries/following";
 import NotFound from "entries/notFound";
 
 const routes = [
@@ -28,6 +29,7 @@ const routes = [
     { path: "/activation", exact: false, component: Activation },
     { path: "/notification", exact: true, component: Notification },
     { path: "/notification/system", exact: false, component: Notification },
+    { path: "/following", exact: true, component: Following },
     { path: "", exact: false, component: NotFound }
 ];
 
