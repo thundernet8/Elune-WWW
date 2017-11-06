@@ -9,6 +9,8 @@ export class BaseUserInfo {
     public email: string;
     public nickname: string;
     public avatar: string;
+    public bio: string;
+    public url: string;
 }
 
 // /me
@@ -18,8 +20,6 @@ export default class UserInfo extends BaseUserInfo {
     public unreadNotifications: Pagination<Notification>;
     public joinTime: number;
     public status: EntityStatus;
-    public bio: string;
-    public url: string;
     public favoriteTopicIds: number[];
     public followTopicIds: number[];
     public followUserIds: number[];
@@ -31,8 +31,6 @@ export default class UserInfo extends BaseUserInfo {
 export class PublicUserInfo extends BaseUserInfo {
     public roleId: Role;
     public joinTime: number;
-    public bio: string;
-    public url: string;
     public lastSeen: number;
     public online: boolean;
     public postsCount: number;
