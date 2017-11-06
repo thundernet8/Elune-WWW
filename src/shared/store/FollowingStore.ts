@@ -80,22 +80,14 @@ export default class FollowingStore extends AbstractStore {
     @observable topicsLoading: boolean = false;
 
     @observable order: SortOrder = SortOrder.DESC;
-    @observable orderBy: SortOrderBy = SortOrderBy.LAST_POST_TIME;
-
-    @action
-    switchSort = (orderBy: SortOrderBy) => {
-        this.orderBy = orderBy;
-        this.refreshTopics();
-    };
 
     @action
     getFollowingTopics = () => {
-        const { page, pageSize, topics, order, orderBy } = this;
+        const { page, pageSize, topics, order } = this;
         const params = {
             page,
             pageSize,
-            order,
-            orderBy
+            order
         };
         this.topicsLoading = true;
         return FetchUserFollowings(params)
