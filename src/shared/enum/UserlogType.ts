@@ -1,0 +1,25 @@
+const enum UserlogType {
+    LOGIN = 1,
+    LOGOUT = 2,
+    REGISTER = 3,
+    ACTIVATE_ACCOUNT = 4,
+    REACTIVATE_EMAIL = 5,
+    BALANCE = 10,
+    CREATE_TOPIC = 20,
+    UPDATE_TOPIC = 21,
+    DELETE_TOPIC = 22,
+    CREATE_POST = 25,
+    FAVORITE_TOPIC = 30,
+    UNFAVORITE_TOPIC = 31,
+    LIKE_TOPIC = 32,
+    UPLOAD_IMAGE = 40,
+    UPLOAD_AVATAR = 41,
+    UPDATE_PROFILE = 50,
+    READ_NOTIFICATIONS = 60,
+    FOLLOW_TOPIC = 70,
+    UNFOLLOW_TOPIC = 71,
+    FOLLOW_USER = 80,
+    UNFOLLOW_USER = 81
+}
+
+export default UserlogType;
