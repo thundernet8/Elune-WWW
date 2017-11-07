@@ -160,7 +160,8 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
 
                                 <span className={styles.username}>
                                     {user.nickname || username}
-                                    {user &&
+                                    {me &&
+                                        user &&
                                         !isSelf && (
                                             <span className={styles.follow}>
                                                 {followed ? (

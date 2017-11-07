@@ -1,5 +1,5 @@
 /**
- * Generated on Tue, 07 Nov 2017 03:39:07 GMT
+ * Generated on Tue, 07 Nov 2017 16:13:40 GMT 
  * 本文件由routes.yaml模板生成, 请不要直接修改
  */
 
@@ -64,7 +64,7 @@ const routes = [
                     cb && cb(require("entries/channel")["default"]);
                     /* tslint:enable */
                 },
-                "channel"
+                "home"
             );
         }
     },
@@ -208,7 +208,7 @@ const routes = [
                     cb && cb(require("entries/following")["default"]);
                     /* tslint:enable */
                 },
-                "following"
+                "home"
             );
         }
     },

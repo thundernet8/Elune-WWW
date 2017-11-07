@@ -18,7 +18,7 @@
   exact: true
 - path: /channel/:slug
   module: entries/channel
-  chunk: channel
+  chunk: home
   exact: false
 - path: /topic/:id
   module: entries/topic
@@ -53,7 +53,7 @@
   exact: false
 - path: /following
   module: entries/following
-  chunk: following
+  chunk: home
   exact: true
 - path: /following/users
   module: entries/followUsers

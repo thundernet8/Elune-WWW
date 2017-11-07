@@ -77,15 +77,20 @@ class FollowView extends React.Component<FollowViewProps, FollowViewState> {
                 <Layout.Row gutter={20}>
                     {users.map((user, index) => {
                         return (
-                            <Layout.Col span={12} key={index}>
-                                <li
-                                    key={index}
+                            <Layout.Col
+                                className={styles.listItem}
+                                span={12}
+                                key={index}
+                            >
+                                <div
+                                    className={styles.mask}
                                     style={{
                                         background: getCharColor(
                                             user.username[0]
                                         )
                                     }}
-                                >
+                                />
+                                <li key={index}>
                                     <header>
                                         <Avatar
                                             user={user}

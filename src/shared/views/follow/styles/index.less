@@ -52,12 +52,24 @@
 }
 
 .userList {
+    .listItem {
+        position: relative;
+        margin-bottom: 20px;
+    }
+    .mask {
+        position: absolute;
+        top: 0;
+        left: 10px;
+        bottom: 0;
+        right: 10px;
+        border-radius: 4px;
+    }
     li {
         position: relative;
-        border-radius: 4px;
         padding: 10px 15px;
-        margin-bottom: 20px;
         color: #fff;
+        background: rgba(0, 0, 0, 0.25);
+        border-radius: 4px;
         a {
             color: #fff;
             &:hover {
@@ -73,6 +85,8 @@
                 position: absolute;
                 left: 15px;
                 top: 15px;
+                line-height: 64px;
+                font-size: 3rem;
             }
             .userInfo {
                 width: 100%;
