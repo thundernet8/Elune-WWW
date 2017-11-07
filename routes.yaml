@@ -55,6 +55,14 @@
   module: entries/following
   chunk: following
   exact: true
+- path: /following/users
+  module: entries/followUsers
+  chunk: follow
+  exact: true
+- path: /following/activities
+  module: entries/followActivities
+  chunk: follow
+  exact: true
 - path:
   module: entries/notFound
   chunk: notFound

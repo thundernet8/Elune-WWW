@@ -3,6 +3,7 @@ import UserlogType from "enum/UserlogType";
 export default class Userlog {
     public id: number;
     public uid: number;
+    public username: string;
     public type: UserlogType;
     public beforeStatus: string;
     public afterStatus: string;

@@ -11,15 +11,15 @@ export class BaseUserInfo {
     public avatar: string;
     public bio: string;
     public url: string;
+    public joinTime: number;
+    public status: EntityStatus;
+    public roleId: Role;
 }
 
 // /me
 export default class UserInfo extends BaseUserInfo {
-    public roleId: Role;
     public unreadCount: number;
     public unreadNotifications: Pagination<Notification>;
-    public joinTime: number;
-    public status: EntityStatus;
     public favoriteTopicIds: number[];
     public followingTopicIds: number[];
     public followingUserIds: number[];
@@ -29,8 +29,6 @@ export default class UserInfo extends BaseUserInfo {
 
 // /u/username
 export class PublicUserInfo extends BaseUserInfo {
-    public roleId: Role;
-    public joinTime: number;
     public lastSeen: number;
     public online: boolean;
     public postsCount: number;

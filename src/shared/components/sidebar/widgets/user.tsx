@@ -137,8 +137,9 @@ export default class UserWidget extends React.Component<
                                 <Layout.Col span={8}>
                                     <Link to={`/following`}>
                                         <div className={styles.num}>
-                                            {(user.followTopicIds &&
-                                                user.followTopicIds.length) ||
+                                            {(user.followingTopicIds &&
+                                                user.followingTopicIds
+                                                    .length) ||
                                                 0}
                                         </div>
                                         <span className={styles.numText}>
@@ -147,10 +148,10 @@ export default class UserWidget extends React.Component<
                                     </Link>
                                 </Layout.Col>
                                 <Layout.Col span={8}>
-                                    <Link to={`/user/following`}>
+                                    <Link to={`/following/users`}>
                                         <div className={styles.num}>
-                                            {(user.followUserIds &&
-                                                user.followUserIds.length) ||
+                                            {(user.followingUserIds &&
+                                                user.followingUserIds.length) ||
                                                 0}
                                         </div>
                                         <span className={styles.numText}>
@@ -197,7 +198,8 @@ export default class UserWidget extends React.Component<
                                                 </span>
                                                 <img src={goldImg} />
                                             </Tooltip>
-                                        </span>}
+                                        </span>
+                                    }
                                     {
                                         <span className={styles.silver}>
                                             <Tooltip
@@ -210,7 +212,8 @@ export default class UserWidget extends React.Component<
                                                 </span>
                                                 <img src={silverImg} />
                                             </Tooltip>
-                                        </span>}
+                                        </span>
+                                    }
                                     <span className={styles.bronze}>
                                         <Tooltip
                                             effect="dark"

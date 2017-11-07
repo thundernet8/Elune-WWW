@@ -80,6 +80,13 @@ export default class FollowingStore extends AbstractStore {
     @observable topicsLoading: boolean = false;
 
     @observable order: SortOrder = SortOrder.DESC;
+    @observable orderBy: SortOrderBy = SortOrderBy.ID;
+
+    @action
+    switchSort = (orderBy: SortOrderBy) => {
+        this.orderBy = orderBy;
+        this.refreshTopics();
+    };
 
     @action
     getFollowingTopics = () => {

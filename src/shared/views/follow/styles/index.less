@@ -1,0 +1,154 @@
+@import "../../../../assets/styles/vars";
+
+.followView {
+    position: relative;
+    padding: 20px 0;
+
+    & > .container {
+        display: block;
+        max-width: 960px;
+        background: #fff;
+        padding: 20px 15px;
+        overflow: hidden;
+    }
+}
+
+.tabs {
+    margin-bottom: 15px;
+}
+
+.followList {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    position: relative;
+    & > li {
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid @grayLight;
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+}
+
+.emptyList {
+    font-size: 1.4em;
+    color: #aaa;
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 30px;
+}
+
+.loading {
+    text-align: center;
+    font-size: 3rem;
+    margin: 30px auto;
+}
+
+.loadMore {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.userList {
+    li {
+        position: relative;
+        border-radius: 4px;
+        padding: 10px 15px;
+        margin-bottom: 20px;
+        color: #fff;
+        a {
+            color: #fff;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+        header {
+            padding-left: 80px;
+            min-height: 80px;
+            .avatar {
+                width: 64px;
+                height: 64px;
+                position: absolute;
+                left: 15px;
+                top: 15px;
+            }
+            .userInfo {
+                width: 100%;
+                margin-top: 5px;
+                .nickname {
+                    font-size: 1.6rem;
+                    line-height: 2;
+                }
+            }
+        }
+        .userMetas {
+            p {
+                i {
+                    margin-right: 8px;
+                }
+            }
+        }
+    }
+}
+
+.activityRow {
+    position: relative;
+    padding-left: 100px;
+    min-height: 75px;
+    .icon {
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        span {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 2.4rem;
+            text-align: center;
+            line-height: 60px;
+        }
+        img {
+            display: block;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid #fafafa;
+        }
+    }
+    .content {
+        width: 100%;
+        header {
+            margin-bottom: 10px;
+            & > span {
+                display: inline-block;
+                font-size: 1.5rem;
+                line-height: 30px;
+            }
+            .username {
+                text-transform: capitalize;
+            }
+            .divider {
+                font-size: 2.4rem;
+                color: @muteColor;
+                padding: 0 10px;
+                vertical-align: bottom;
+            }
+            .time {
+                color: @muteColor;
+                font-size: 1.3rem;
+            }
+        }
+        p {
+            a {
+                color: @blackColor;
+                &:hover {
+                    color: @darkColor;
+                }
+            }
+        }
+    }
+}
