@@ -9,7 +9,7 @@ import { getCharColor } from "utils/ColorKit";
 import { getTimeDiff } from "utils/DateTimeKit";
 // import { Link } from "react-router-dom";
 import Avatar from "components/avatar";
-import { Upload } from "element-react/next";
+import { Upload, Message } from "element-react/next";
 import moment from "moment";
 import UCAsideView from "./aside";
 import PostsTab from "./tabs/postsTab";
@@ -43,6 +43,48 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
         this.store.updateLocalUserField("avatar", response.result);
     };
 
+    followUser = () => {
+        const { followUser } = GlobalStore.Instance;
+        const { user } = this.store;
+        if (!user) {
+            return;
+        }
+        return followUser(user.id)
+            .then(() => {
+                Message({
+                    message: "关注用户成功",
+                    type: "success"
+                });
+            })
+            .catch(() => {
+                Message({
+                    message: "关注用户失败",
+                    type: "error"
+                });
+            });
+    };
+
+    unfollowUser = () => {
+        const { unfollowUser } = GlobalStore.Instance;
+        const { user } = this.store;
+        if (!user) {
+            return;
+        }
+        return unfollowUser(user.id)
+            .then(() => {
+                Message({
+                    message: "取消关注成功",
+                    type: "success"
+                });
+            })
+            .catch(() => {
+                Message({
+                    message: "取消关注失败",
+                    type: "error"
+                });
+            });
+    };
+
     componentDidUpdate(prevProps) {
         const { location, match } = this.props;
         const { username } = match.params;
@@ -74,6 +116,9 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
         const globalStore = GlobalStore.Instance;
         const me = globalStore.user;
         const isSelf = me && user && me.id === user.id;
+        const followingUserIds = me ? me.followingUserIds : [];
+        const followed = user && followingUserIds.includes(user.id);
+        const { switchingFollowUserStatus } = globalStore;
 
         return (
             <div
@@ -115,6 +160,40 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
 
                                 <span className={styles.username}>
                                     {user.nickname || username}
+                                    {user &&
+                                        !isSelf && (
+                                            <span className={styles.follow}>
+                                                {followed ? (
+                                                    <span
+                                                        onClick={
+                                                            this.unfollowUser
+                                                        }
+                                                    >
+                                                        <i
+                                                            className={
+                                                                switchingFollowUserStatus
+                                                                    ? "el-icon-loading"
+                                                                    : "fa fa-fw fa-retweet"
+                                                            }
+                                                        />取消关注
+                                                    </span>
+                                                ) : (
+                                                    <span
+                                                        onClick={
+                                                            this.followUser
+                                                        }
+                                                    >
+                                                        <i
+                                                            className={
+                                                                switchingFollowUserStatus
+                                                                    ? "el-icon-loading"
+                                                                    : "fa fa-fw fa-plus"
+                                                            }
+                                                        />关注
+                                                    </span>
+                                                )}
+                                            </span>
+                                        )}
                                 </span>
                             </h2>
                             <ul className={styles.info}>
