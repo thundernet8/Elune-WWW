@@ -32,7 +32,7 @@ export default class TopicList extends React.Component<
         const { store } = this.props;
         const { topics, topicsLoading, total } = store;
         const me = GlobalStore.Instance.user;
-        const followTopicIds = me ? me.favoriteTopicIds : [];
+        const followTopicIds = me ? me.followingTopicIds : [];
 
         if (total === 0 && !topicsLoading) {
             return (

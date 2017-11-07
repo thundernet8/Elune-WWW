@@ -19,6 +19,6 @@ export function formApiPut<T>(path: string, params: any): Promise<T> {
 export default {
     Get: formApiGet,
     Post: formApiPost,
-    Put: formApiDel,
-    Delete: formApiPut
+    Put: formApiPut,
+    Delete: formApiDel
 };

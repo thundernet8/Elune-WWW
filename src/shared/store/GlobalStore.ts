@@ -278,7 +278,7 @@ export default class GlobalStore extends AbstractStore {
         const { switchingFollowTopicStatus, user } = this;
         if (
             switchingFollowTopicStatus ||
-            (user && user.favoriteTopicIds.includes(id))
+            (user && user.followingTopicIds.includes(id))
         ) {
             return Promise.reject(false);
         }
@@ -289,9 +289,9 @@ export default class GlobalStore extends AbstractStore {
         })
             .then(resp => {
                 if (resp) {
-                    const favoriteTopicIds = user.favoriteTopicIds;
-                    favoriteTopicIds.push(id);
-                    this.user = Object.assign({}, user, favoriteTopicIds);
+                    const followingTopicIds = user.followingTopicIds;
+                    followingTopicIds.push(id);
+                    this.user = Object.assign({}, user, { followingTopicIds });
                 } else {
                     throw new Error("");
                 }
@@ -307,7 +307,7 @@ export default class GlobalStore extends AbstractStore {
         if (
             switchingFollowTopicStatus ||
             !user ||
-            !user.favoriteTopicIds.includes(id)
+            !user.followingTopicIds.includes(id)
         ) {
             return Promise.reject(false);
         }
@@ -318,10 +318,10 @@ export default class GlobalStore extends AbstractStore {
         })
             .then(resp => {
                 if (resp) {
-                    const favoriteTopicIds = user.favoriteTopicIds.filter(
+                    const followingTopicIds = user.followingTopicIds.filter(
                         x => x !== id
                     );
-                    this.user = Object.assign({}, user, favoriteTopicIds);
+                    this.user = Object.assign({}, user, { followingTopicIds });
                 } else {
                     throw new Error("");
                 }

@@ -119,6 +119,46 @@ export default class TopicMain extends React.Component<
             });
     };
 
+    followTopic = () => {
+        const { store } = this.props;
+        const { topic } = store;
+        const { id } = topic;
+        return GlobalStore.Instance
+            .followTopic(id)
+            .then(() => {
+                Message({
+                    message: "关注话题成功",
+                    type: "success"
+                });
+            })
+            .catch(() => {
+                Message({
+                    message: "关注话题失败",
+                    type: "error"
+                });
+            });
+    };
+
+    unfollowTopic = () => {
+        const { store } = this.props;
+        const { topic } = store;
+        const { id } = topic;
+        return GlobalStore.Instance
+            .unfollowTopic(id)
+            .then(() => {
+                Message({
+                    message: "取消关注成功",
+                    type: "success"
+                });
+            })
+            .catch(() => {
+                Message({
+                    message: "取消关注失败",
+                    type: "error"
+                });
+            });
+    };
+
     componentDidMount() {
         const { store } = this.props;
         GlobalStore.Instance.userPromise.then(() => {
@@ -139,6 +179,9 @@ export default class TopicMain extends React.Component<
             submittingEditTopic
         } = store;
         const { editingTopic } = this.state;
+        const me = GlobalStore.Instance.user;
+        const { switchingFollowTopicStatus } = GlobalStore.Instance;
+        const followTopicIds = me ? me.followingTopicIds : [];
 
         return (
             <div className={styles.topicWrapper} id="thread">
@@ -254,6 +297,27 @@ export default class TopicMain extends React.Component<
                     <aside className={styles.asideActions}>
                         <ul>
                             <li className={styles.replyBtn}>
+                                {followTopicIds.includes(topic.id) && (
+                                    <Button
+                                        type="text"
+                                        onClick={this.unfollowTopic}
+                                    >
+                                        {switchingFollowTopicStatus && (
+                                            <i className="el-icon-loading" />
+                                        )}取消关注
+                                    </Button>
+                                )}
+                                {!followTopicIds.includes(topic.id) && (
+                                    <Button
+                                        type="text"
+                                        onClick={this.followTopic}
+                                    >
+                                        {switchingFollowTopicStatus && (
+                                            <i className="el-icon-loading" />
+                                        )}关注
+                                    </Button>
+                                )}
+
                                 <Button type="text" onClick={this.goComment}>
                                     回复
                                 </Button>

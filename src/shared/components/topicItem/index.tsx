@@ -1,4 +1,5 @@
 import * as React from "react";
+import { observer } from "mobx-react";
 import Dropdown from "common/dropdown";
 import ClassNames from "classnames";
 import { Link } from "react-router-dom";
@@ -21,6 +22,7 @@ interface TopicItemState {
     read: boolean;
 }
 
+@observer
 export default class TopicItem extends React.Component<
     TopicItemProps,
     TopicItemState
@@ -99,6 +101,7 @@ export default class TopicItem extends React.Component<
                             <i className="fa fa-fw fa-ellipsis-v" />
                         </span>
                     }
+                    autoClose={false}
                 >
                     <Dropdown.Item hasIcon>
                         {following ? (
