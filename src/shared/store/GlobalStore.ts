@@ -3,6 +3,7 @@ import UserInfo from "model/User";
 import CommonResp from "model/Resp";
 import { Login, Register, Logout, WhoAmI, RegisterReq } from "api/Auth";
 import { DailySign } from "api/User";
+import { FollowTopic, UnFollowTopic } from "api/Usermeta";
 import { OnlineStatistic, OnlineStatisticResp } from "api/Status";
 import { UpdateNotificationsStatus } from "api/Notifications";
 import IStoreArgument from "interface/IStoreArgument";
@@ -265,6 +266,69 @@ export default class GlobalStore extends AbstractStore {
         return OnlineStatistic().then(resp => {
             this.onlineStatistic = resp;
         });
+    };
+
+    /**
+     * 关注/取消关注主题
+     */
+    @observable switchingFollowTopicStatus: boolean = false;
+
+    @action
+    followTopic = (id: number) => {
+        const { switchingFollowTopicStatus, user } = this;
+        if (
+            switchingFollowTopicStatus ||
+            (user && user.favoriteTopicIds.includes(id))
+        ) {
+            return Promise.reject(false);
+        }
+
+        this.switchingFollowTopicStatus = true;
+        return FollowTopic({
+            id
+        })
+            .then(resp => {
+                if (resp) {
+                    const favoriteTopicIds = user.favoriteTopicIds;
+                    favoriteTopicIds.push(id);
+                    this.user = Object.assign({}, user, favoriteTopicIds);
+                } else {
+                    throw new Error("");
+                }
+            })
+            .finally(() => {
+                this.switchingFollowTopicStatus = false;
+            });
+    };
+
+    @action
+    unfollowTopic = (id: number) => {
+        const { switchingFollowTopicStatus, user } = this;
+        if (
+            switchingFollowTopicStatus ||
+            !user ||
+            !user.favoriteTopicIds.includes(id)
+        ) {
+            return Promise.reject(false);
+        }
+
+        this.switchingFollowTopicStatus = true;
+        return UnFollowTopic({
+            id
+        })
+            .then(resp => {
+                if (resp) {
+                    const favoriteTopicIds = user.favoriteTopicIds.filter(
+                        x => x !== id
+                    );
+                    this.user = Object.assign({}, user, favoriteTopicIds);
+                } else {
+                    throw new Error("");
+                }
+            })
+            .finally(() => {
+                this.switchingFollowTopicStatus = false;
+            });
     };
 
     /**

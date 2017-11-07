@@ -5,6 +5,7 @@ import Select from "common/select";
 import HomeStore from "store/HomeStore";
 import ChannelStore from "store/ChannelStore";
 import FollowingStore from "store/FollowingStore";
+import GlobalStore from "store/GlobalStore";
 import { Button } from "element-react/next";
 import { SortOrderBy } from "enum/Sort";
 import ClassNames from "classnames";
@@ -30,6 +31,8 @@ export default class TopicList extends React.Component<
     renderTopicList = () => {
         const { store } = this.props;
         const { topics, topicsLoading, total } = store;
+        const me = GlobalStore.Instance.user;
+        const followTopicIds = me ? me.favoriteTopicIds : [];
 
         if (total === 0 && !topicsLoading) {
             return (
@@ -52,14 +55,12 @@ export default class TopicList extends React.Component<
         return (
             <ul className={styles.topicList}>
                 {topics.map((topic, index) => {
-                    const followStatus =
-                        store instanceof FollowingStore ? true : false; // TODO judgement
                     return (
                         <li key={index}>
                             <TopicItem
                                 key={index}
                                 topic={topic}
-                                following={followStatus}
+                                following={followTopicIds.includes(topic.id)}
                             />
                         </li>
                     );

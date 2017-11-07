@@ -3,10 +3,11 @@ import Dropdown from "common/dropdown";
 import ClassNames from "classnames";
 import { Link } from "react-router-dom";
 import Topic from "model/Topic";
-import { Tooltip } from "element-react/next";
+import { Tooltip, Message } from "element-react/next";
 import { getTimeDiff, getGMT8DateStr } from "utils/DateTimeKit";
 import Avatar from "components/avatar";
 import moment from "moment";
+import GlobalStore from "store/GlobalStore";
 
 const styles = require("./index.less");
 
@@ -31,6 +32,44 @@ export default class TopicItem extends React.Component<
         };
     }
 
+    followTopic = () => {
+        const { topic } = this.props;
+        const { id } = topic;
+        return GlobalStore.Instance
+            .followTopic(id)
+            .then(() => {
+                Message({
+                    message: "关注话题成功",
+                    type: "success"
+                });
+            })
+            .catch(() => {
+                Message({
+                    message: "关注话题失败",
+                    type: "error"
+                });
+            });
+    };
+
+    unfollowTopic = () => {
+        const { topic } = this.props;
+        const { id } = topic;
+        return GlobalStore.Instance
+            .unfollowTopic(id)
+            .then(() => {
+                Message({
+                    message: "取消关注成功",
+                    type: "success"
+                });
+            })
+            .catch(() => {
+                Message({
+                    message: "取消关注失败",
+                    type: "error"
+                });
+            });
+    };
+
     render() {
         const { read } = this.state;
         const { topic, className, following } = this.props;
@@ -47,6 +86,7 @@ export default class TopicItem extends React.Component<
             postTime,
             poster
         } = topic;
+        const { switchingFollowTopicStatus } = GlobalStore.Instance;
 
         return (
             <div className={ClassNames([styles.topicItem], [className])}>
@@ -62,13 +102,21 @@ export default class TopicItem extends React.Component<
                 >
                     <Dropdown.Item hasIcon>
                         {following ? (
-                            <button>
-                                <i className="fa fa-fw fa-star" />
+                            <button onClick={this.unfollowTopic}>
+                                {switchingFollowTopicStatus ? (
+                                    <i className="el-icon-loading" />
+                                ) : (
+                                    <i className="fa fa-fw fa-star" />
+                                )}
                                 <span className="btn-label">取消关注</span>
                             </button>
                         ) : (
-                            <button>
-                                <i className="fa fa-fw fa-star-o" />
+                            <button onClick={this.followTopic}>
+                                {switchingFollowTopicStatus ? (
+                                    <i className="el-icon-loading" />
+                                ) : (
+                                    <i className="fa fa-fw fa-star-o" />
+                                )}
                                 <span className="btn-label">关注</span>
                             </button>
                         )}

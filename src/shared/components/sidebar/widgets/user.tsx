@@ -198,8 +198,7 @@ export default class UserWidget extends React.Component<
                                                 </span>
                                                 <img src={goldImg} />
                                             </Tooltip>
-                                        </span>
-                                    }
+                                        </span>}
                                     {
                                         <span className={styles.silver}>
                                             <Tooltip
@@ -212,8 +211,7 @@ export default class UserWidget extends React.Component<
                                                 </span>
                                                 <img src={silverImg} />
                                             </Tooltip>
-                                        </span>
-                                    }
+                                        </span>}
                                     <span className={styles.bronze}>
                                         <Tooltip
                                             effect="dark"
