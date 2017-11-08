@@ -116,7 +116,7 @@ class UCView extends React.Component<UCViewProps, UCViewState> {
         const globalStore = GlobalStore.Instance;
         const me = globalStore.user;
         const isSelf = me && user && me.id === user.id;
-        const followingUserIds = me ? me.followingUserIds : [];
+        const followingUserIds = me && me.id ? me.followingUserIds : [];
         const followed = user && followingUserIds.includes(user.id);
         const { switchingFollowUserStatus } = globalStore;
 
