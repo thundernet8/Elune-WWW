@@ -86,6 +86,8 @@ export default class NotificationStore extends AbstractStore {
 
         if (type === "system") {
             params.type = type;
+        } else {
+            params.type = "user";
         }
 
         this.loading = true;
