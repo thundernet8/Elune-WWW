@@ -114,7 +114,9 @@ class NotificationView extends React.Component<
                                 </div>
                             </header>
                             <h4>{notification.title}</h4>
-                            <p>{notification.content}</p>
+                            {notification.content && (
+                                <p>{notification.content}</p>
+                            )}
                         </li>
                     );
                 })}
