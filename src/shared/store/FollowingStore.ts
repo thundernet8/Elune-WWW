@@ -100,9 +100,7 @@ export default class FollowingStore extends AbstractStore {
         return FetchUserFollowings(params)
             .then(resp => {
                 this.setTopics(topics.concat(resp.items));
-                if (page === 1) {
-                    this.total = resp.total;
-                }
+                this.total = resp.total;
                 return resp;
             })
             .finally(() => {

@@ -4,7 +4,7 @@ import ClassNames from "classnames";
 import { withRouter } from "react-router";
 import DocumentMeta from "react-document-meta";
 import FollowStore from "store/FollowStore";
-import { Tabs, TabPane, Layout } from "element-react/next";
+import { Tabs, TabPane, Layout, Pagination } from "element-react/next";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { getTimeDiff } from "utils/DateTimeKit";
@@ -45,6 +45,25 @@ class FollowView extends React.Component<FollowViewProps, FollowViewState> {
         history.push(`/following/${tabName}`);
     };
 
+    onPageChange = (nextpage: number) => {
+        const { history, type } = this.props;
+        const { page } = this.store;
+        if ((page > 1 && nextpage === 1) || (page === 1 && nextpage > 1)) {
+            this.store.destroy();
+        }
+        const pageSuffix = nextpage === 1 ? "" : `/page/${nextpage}`;
+        history.push(`/following/${type}${pageSuffix}`);
+    };
+
+    componentDidUpdate(prevProps) {
+        const { location, match } = this.props;
+        const page = Number(match.params.page) || 1;
+        const prevPage = Number(prevProps.match.params.page) || 1;
+        if (page !== prevPage) {
+            this.store = FollowStore.rebuild({ location, match, cookies: "" });
+        }
+    }
+
     renderTabs = () => {
         const { type } = this.props;
         return (
@@ -58,8 +77,8 @@ class FollowView extends React.Component<FollowViewProps, FollowViewState> {
     };
 
     renderUserList = () => {
-        const { userTotal, users, loading } = this.store;
-        if (userTotal === 0 && !loading) {
+        const { total, users, loading } = this.store;
+        if (total === 0 && !loading) {
             return (
                 <div
                     className={ClassNames(
@@ -145,8 +164,8 @@ class FollowView extends React.Component<FollowViewProps, FollowViewState> {
     };
 
     renderActitityList = () => {
-        const { logTotal, activities, loading } = this.store;
-        if (logTotal === 0 && !loading) {
+        const { total, activities, loading } = this.store;
+        if (total === 0 && !loading) {
             return (
                 <div
                     className={ClassNames(
@@ -177,6 +196,25 @@ class FollowView extends React.Component<FollowViewProps, FollowViewState> {
         );
     };
 
+    renderPagination = () => {
+        const { store } = this;
+        const { total, page, pageSize, loading } = store;
+        if (total < 0 || loading) {
+            return null;
+        }
+        return (
+            <div className={styles.pagination}>
+                <Pagination
+                    layout="prev, pager, next"
+                    total={total}
+                    currentPage={page}
+                    pageSize={pageSize}
+                    onCurrentChange={this.onPageChange}
+                />
+            </div>
+        );
+    };
+
     render() {
         const { type } = this.props;
         const meta = {
@@ -201,6 +239,7 @@ class FollowView extends React.Component<FollowViewProps, FollowViewState> {
                     {type === "users"
                         ? this.renderUserList()
                         : this.renderActitityList()}
+                    {this.renderPagination()}
                 </div>
             </div>
         );

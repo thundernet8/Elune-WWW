@@ -1,5 +1,5 @@
 /**
- * Generated on Tue, 07 Nov 2017 16:13:40 GMT 
+ * Generated on Wed, 08 Nov 2017 09:51:04 GMT 
  * 本文件由routes.yaml模板生成, 请不要直接修改
  */
 
@@ -13,6 +13,7 @@ import Creation from "entries/creation";
 import Activation from "entries/activation";
 import Notification from "entries/notification";
 import Follow from "entries/followUsers";
+import Balance from "entries/balance";
 import NotFound from "entries/notFound";
 
 const routes = [
@@ -27,10 +28,28 @@ const routes = [
     { path: "/creation", exact: false, component: Creation },
     { path: "/activation", exact: false, component: Activation },
     { path: "/notification", exact: true, component: Notification },
-    { path: "/notification/system", exact: false, component: Notification },
+    { path: "/notification/page/:page", exact: false, component: Notification },
+    { path: "/notification/system", exact: true, component: Notification },
+    {
+        path: "/notification/system/page/:page",
+        exact: false,
+        component: Notification
+    },
     { path: "/following", exact: true, component: Home },
     { path: "/following/users", exact: true, component: Follow },
+    { path: "/following/users/page:page", exact: false, component: Follow },
     { path: "/following/activities", exact: true, component: Follow },
+    {
+        path: "/following/activities/page/:page",
+        exact: false,
+        component: Follow
+    },
+    { path: "/balance", exact: true, component: Balance },
+    { path: "/balance/page/:page", exact: false, component: Balance },
+    { path: "/balance/rank", exact: true, component: Balance },
+    { path: "/balance/rank/page/:page", exact: false, component: Balance },
+    { path: "/balance/costrank", exact: true, component: Balance },
+    { path: "/balance/costrank/page/:page", exact: false, component: Balance },
     { path: "", exact: false, component: NotFound }
 ];
 

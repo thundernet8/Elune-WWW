@@ -32,10 +32,23 @@ export default class FollowStore extends AbstractStore {
         return FollowStore.instance;
     }
 
+    public static rebuild(arg: IStoreArgument = {} as IStoreArgument) {
+        const instance = FollowStore.getInstance(arg);
+        instance.reset(arg);
+        instance.loading = false;
+        instance.users = [];
+        instance.activities = [];
+        instance.page = Number(arg.match.params.page) || 1;
+        instance.total = -1;
+        instance.fetchData();
+        return instance;
+    }
+
     private constructor(arg: IStoreArgument, type) {
         super(arg);
 
         this.type = type;
+        this.page = Number(arg.match.params.page) || 1;
         if (!IS_NODE) {
             // 浏览器端从全局InitialState中初始化Store
             const initialState = window.__INITIAL_STATE__ || {};
@@ -54,31 +67,31 @@ export default class FollowStore extends AbstractStore {
     @observable loading: boolean = false;
     @observable order: SortOrder = SortOrder.DESC;
 
+    @observable page: number = 1;
+    @observable pageSize: number = 10;
+    @observable total = -1;
+
     /**
      * 用户列表
      */
     @observable users: BaseUserInfo[] = [];
 
-    @observable userPage: number = 1;
-    @observable userPageSize: number = 10;
-    @observable userTotal = -1;
-
     @computed
     get hasMoreUsers() {
-        const { userPage, userPageSize, userTotal } = this;
-        return userTotal === -1 || userPage * userPageSize < userTotal;
+        const { page, pageSize, total } = this;
+        return total === -1 || page * pageSize < total;
     }
 
     @action
     getFollowUsers = () => {
-        const { userPage, userPageSize, users, order, loading } = this;
+        const { page, pageSize, users, order, loading } = this;
         if (loading) {
             return Promise.reject(false);
         }
 
         const params: any = {
-            page: userPage,
-            pageSize: userPageSize,
+            page,
+            pageSize,
             order
         };
 
@@ -86,9 +99,7 @@ export default class FollowStore extends AbstractStore {
         return FetchFollowingUsers(params)
             .then(resp => {
                 this.users = users.concat(resp.items);
-                if (userPage === 1) {
-                    this.userTotal = resp.total;
-                }
+                this.total = resp.total;
                 return resp;
             })
             .finally(() => {
@@ -98,19 +109,19 @@ export default class FollowStore extends AbstractStore {
 
     @action
     getNextPageUsers = () => {
-        const { userPage, userPageSize, userTotal } = this;
-        if ((userPage - 1) * userPageSize > userTotal) {
+        const { page, pageSize, total } = this;
+        if ((page - 1) * pageSize > total) {
             return;
         }
-        this.userPage = userPage + 1;
+        this.page = page + 1;
         this.getFollowUsers();
     };
 
     @action
     refreshUsers = () => {
         this.users = [];
-        this.userPage = 1;
-        this.userTotal = 0;
+        this.page = 1;
+        this.total = 0;
         this.getFollowUsers();
     };
 
@@ -119,26 +130,22 @@ export default class FollowStore extends AbstractStore {
      */
     @observable activities: Userlog[] = [];
 
-    @observable logPage: number = 1;
-    @observable logPageSize: number = 20;
-    @observable logTotal = -1;
-
     @computed
     get hasMoreActivities() {
-        const { logPage, logPageSize, logTotal } = this;
-        return logTotal === -1 || logPage * logPageSize < logTotal;
+        const { page, pageSize, total } = this;
+        return total === -1 || page * pageSize < total;
     }
 
     @action
     getFollowActivities = () => {
-        const { logPage, logPageSize, activities, order, loading } = this;
+        const { page, pageSize, activities, order, loading } = this;
         if (loading) {
             return Promise.reject(false);
         }
 
         const params: any = {
-            page: logPage,
-            pageSize: logPageSize,
+            page,
+            pageSize,
             order
         };
 
@@ -146,9 +153,7 @@ export default class FollowStore extends AbstractStore {
         return FetchFollowingActivities(params)
             .then(resp => {
                 this.activities = activities.concat(resp.items);
-                if (logPage === 1) {
-                    this.logTotal = resp.total;
-                }
+                this.total = resp.total;
                 return resp;
             })
             .finally(() => {
@@ -158,19 +163,19 @@ export default class FollowStore extends AbstractStore {
 
     @action
     getNextPageActivities = () => {
-        const { logPage, logPageSize, logTotal } = this;
-        if ((logPage - 1) * logPageSize > logTotal) {
+        const { page, pageSize, total } = this;
+        if ((page - 1) * pageSize > total) {
             return;
         }
-        this.logPage = logPage + 1;
+        this.page = page + 1;
         this.getFollowActivities();
     };
 
     @action
     refreshActivities = () => {
         this.activities = [];
-        this.logPage = 1;
-        this.logTotal = 0;
+        this.page = 1;
+        this.total = 0;
         this.getFollowActivities();
     };
 
@@ -189,12 +194,11 @@ export default class FollowStore extends AbstractStore {
 
     public toJSON() {
         const obj = super.toJSON();
-        const { users, activities, userTotal, logTotal } = this;
+        const { users, activities, total } = this;
         return Object.assign(obj, {
             users,
             activities,
-            userTotal,
-            logTotal
+            total
         });
     }
 
@@ -204,18 +208,15 @@ export default class FollowStore extends AbstractStore {
         if (!json) {
             return this;
         }
-        const { users, activities, userTotal, logTotal } = json;
+        const { users, activities, total } = json;
         if (typeof users !== "undefined") {
             this.users = users;
-        }
-        if (typeof userTotal !== "undefined") {
-            this.userTotal = Number(userTotal);
         }
         if (typeof activities !== "undefined") {
             this.activities = activities;
         }
-        if (typeof logTotal !== "undefined") {
-            this.logTotal = Number(logTotal);
+        if (typeof total !== "undefined") {
+            this.total = Number(total);
         }
         return this;
     }

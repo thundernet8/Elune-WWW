@@ -33,10 +33,22 @@ export default class NotificationStore extends AbstractStore {
         return NotificationStore.instance;
     }
 
+    public static rebuild(arg: IStoreArgument = {} as IStoreArgument) {
+        const instance = NotificationStore.getInstance(arg);
+        instance.reset(arg);
+        instance.loading = false;
+        instance.notifications = [];
+        instance.page = Number(arg.match.params.page) || 1;
+        instance.total = -1;
+        instance.fetchData();
+        return instance;
+    }
+
     private constructor(arg: IStoreArgument, type) {
         super(arg);
 
         this.type = type;
+        this.page = Number(arg.match.params.page) || 1;
         if (!IS_NODE) {
             // 浏览器端从全局InitialState中初始化Store
             const initialState = window.__INITIAL_STATE__ || {};
@@ -94,9 +106,7 @@ export default class NotificationStore extends AbstractStore {
         return FetchNotifications(params)
             .then(resp => {
                 this.notifications = notifications.concat(resp.items);
-                if (page === 1) {
-                    this.total = resp.total;
-                }
+                this.total = resp.total;
                 return resp;
             })
             .finally(() => {
