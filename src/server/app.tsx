@@ -1,10 +1,12 @@
 import * as React from "react";
 import { StaticRouter as Router, Route, Switch } from "react-router-dom";
 import { Provider } from "mobx-react";
+import * as DocumentMeta from "react-document-meta";
 import routes from "./routes";
 require("polyfill");
 
 export const Routes = routes;
+export const SSRDocumentMeta = DocumentMeta;
 
 export default function Server(location, context, stores) {
     return (

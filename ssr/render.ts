@@ -1,6 +1,5 @@
 import * as path from "path";
 import { matchPath } from "react-router-dom";
-import * as DocumentMeta from "react-document-meta";
 import * as Promise from "bluebird";
 import * as ReactDOMServer from "react-dom/server";
 import * as ejs from "ejs";
@@ -9,6 +8,7 @@ import { lowerCaseFirst } from "../src/shared/utils/TextKit";
 import IStoreArgument from "../src/shared/interface/IStoreArgument";
 const App = require("../dist/assets/js/server").default;
 const routes = require("../dist/assets/js/server").Routes;
+const DocumentMeta = require("../dist/assets/js/server").SSRDocumentMeta;
 
 export default (req, res) => {
     const fullUrl = req.protocol + "://" + req.headers.host + req.originalUrl;
