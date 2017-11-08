@@ -553,12 +553,12 @@ export default class TopicMain extends React.Component<
         }
         const meta = {
             title: `${topic.title}-Elune Forum-Web development community,WordPress,PHP,Java,JavaScript`,
-            description: topic.content.substr(0, 100),
+            description: topic.content.substr(0, 100).replace(/\s/g, ""),
             // canonical: "https://elune.me",
             meta: {
                 charset: "utf-8",
                 name: {
-                    keywords: "Elune,forum,wordpress,php,java,javascript,react"
+                    keywords: topic.tags.map(tag => tag.title).join(",")
                 }
             }
         };
