@@ -4,10 +4,13 @@ import ClassNames from "classnames";
 import { withRouter } from "react-router";
 import DocumentMeta from "react-document-meta";
 import BalanceStore from "store/BalanceStore";
-import { Tabs, TabPane, Pagination } from "element-react/next";
-// import { Link } from "react-router-dom";
+import { Tabs, TabPane, Pagination, Table } from "element-react/next";
+import { Link } from "react-router-dom";
 import moment from "moment";
 import { getGMT8DateStr } from "utils/DateTimeKit";
+import BalanceLogTypes from "model/BalanceLogTypes";
+import Avatar from "components/avatar";
+import BalanceBadge from "components/balanceBadge";
 
 const styles = require("./styles/index.less");
 
@@ -127,32 +130,92 @@ class BalanceView extends React.Component<BalanceViewProps, BalanceViewState> {
                         [styles.emptyList]
                     )}
                 >
-                    空空如也~
+                    没有任何记录~
                 </div>
             );
         }
-        return (
-            <ul className={styles.detailList}>
-                {details.map((detail, index) => {
+
+        const columns = [
+            {
+                label: "时间",
+                prop: "createTime",
+                width: 190,
+                render: row => {
                     return (
-                        <li key={index}>
-                            <div className={styles.col}>
-                                {getGMT8DateStr(
-                                    moment(detail.createTime * 1000)
-                                )}
-                            </div>
-                            <div className={styles.col}>
-                                {detail.afterStatus}
-                            </div>
-                        </li>
+                        <span className={styles.timeCol}>
+                            {getGMT8DateStr(moment(row.createTime * 1000))}
+                        </span>
                     );
-                })}
+                }
+            },
+            {
+                label: "类型",
+                prop: "type",
+                width: 150,
+                render: row => {
+                    return <span>{BalanceLogTypes[row.type.toString()]}</span>;
+                }
+            },
+            {
+                label: "数额",
+                prop: "amount",
+                width: 100,
+                render: row => {
+                    return (
+                        <span
+                            className={ClassNames({
+                                [styles.green]: row.amount > 0,
+                                [styles.red]: row.amount < 0
+                            })}
+                        >
+                            {row.amount > 0 ? "+" : "-"}
+                            {row.amount}
+                        </span>
+                    );
+                }
+            },
+            {
+                label: "余额",
+                prop: "balance",
+                width: 120
+            },
+            {
+                label: "事由",
+                prop: "content",
+                render: row => {
+                    return (
+                        <span className={styles.desCol}>
+                            {row.link ? (
+                                <a href={row.link} target="_blank">
+                                    {row.content}
+                                </a>
+                            ) : (
+                                row.content
+                            )}
+                        </span>
+                    );
+                }
+            }
+        ];
+
+        const data = details.map(detail => {
+            return Object.assign({}, detail);
+        });
+        return (
+            <div className={styles.detailList}>
+                <Table
+                    className={styles.balanceTable}
+                    columns={columns}
+                    data={data}
+                    stripe
+                    border
+                />
                 {loading && (
                     <div className={styles.loading}>
                         <i className="el-icon-loading" />
                     </div>
                 )}
-            </ul>
+            </div>
         );
     };
 
@@ -171,9 +234,9 @@ class BalanceView extends React.Component<BalanceViewProps, BalanceViewState> {
             );
         }
         return (
-            <ul className={styles.costrankList}>
+            <ul className={styles.rankList}>
                 {ranks.map((rank, index) => {
-                    return <li key={index}>{rank.uid}</li>;
+                    return this.renderRankItem(rank, index);
                 })}
                 {loading && (
                     <div className={styles.loading}>
@@ -200,8 +263,8 @@ class BalanceView extends React.Component<BalanceViewProps, BalanceViewState> {
         }
         return (
             <ul className={styles.costrankList}>
-                {costranks.map((costrank, index) => {
-                    return <li key={index}>{costrank.uid}</li>;
+                {costranks.map((rank, index) => {
+                    return this.renderRankItem(rank, index, true);
                 })}
                 {loading && (
                     <div className={styles.loading}>
@@ -209,6 +272,49 @@ class BalanceView extends React.Component<BalanceViewProps, BalanceViewState> {
                     </div>
                 )}
             </ul>
+        );
+    };
+
+    renderRankItem = (rank, index, isCostRank = false) => {
+        const { page, pageSize } = this.store;
+        const { user } = rank;
+        return (
+            <li key={index} className={styles.rankItem}>
+                <Avatar className={styles.avatar} user={user} />
+                <div className={styles.content}>
+                    <header>
+                        {index + (page - 1) * pageSize + 1}.{" "}
+                        <span className={styles.username}>
+                            <Link to={`/u/${user.username}`}>
+                                {user.nickname}
+                            </Link>
+                        </span>
+                    </header>
+                    <div className={styles.main}>
+                        {user.bio && <p className={styles.bio}>{user.bio}</p>}
+                        {user.url && (
+                            <p className={styles.url}>
+                                <a href={user.url} target="_blank">
+                                    {user.url}
+                                </a>
+                            </p>
+                        )}
+                        {isCostRank ? (
+                            <label className={styles.costBalanceBadge}>
+                                共消费 $<span>{rank.amount}</span>
+                            </label>
+                        ) : (
+                            <BalanceBadge
+                                className={styles.balanceBadge}
+                                balance={rank.amount}
+                            />
+                        )}
+                    </div>
+                    <footer>
+                        第 <span>{user.id}</span> 号成员
+                    </footer>
+                </div>
+            </li>
         );
     };
 
