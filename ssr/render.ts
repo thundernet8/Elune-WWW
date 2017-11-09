@@ -36,7 +36,9 @@ export default (req, res) => {
             const storeClasses = route.component["STORE_CLASSES"];
             storeClasses &&
                 storeClasses.forEach((clazz: any) => {
-                    clazz.getInstance().destroy();
+                    if (clazz.instance) {
+                        clazz.instance = null;
+                    }
                     if (clazz.getInstance) {
                         const key = lowerCaseFirst(clazz.name);
                         stores[key] = clazz.getInstance(storeArg);
