@@ -196,7 +196,7 @@ export default class TopicMain extends React.Component<
                                             user={topic.author}
                                         />
                                         <span className={styles.username}>
-                                            {topic.authorName}
+                                            {topic.author.nickname}
                                         </span>
                                     </Link>
                                 </h3>
