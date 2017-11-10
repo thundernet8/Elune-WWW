@@ -278,16 +278,26 @@ class BalanceView extends React.Component<BalanceViewProps, BalanceViewState> {
     renderRankItem = (rank, index, isCostRank = false) => {
         const { page, pageSize } = this.store;
         const { user } = rank;
+        const id = index + (page - 1) * pageSize + 1;
         return (
             <li key={index} className={styles.rankItem}>
                 <Avatar className={styles.avatar} user={user} />
                 <div className={styles.content}>
                     <header>
-                        {index + (page - 1) * pageSize + 1}.{" "}
+                        {id}.{" "}
                         <span className={styles.username}>
                             <Link to={`/u/${user.username}`}>
                                 {user.nickname}
                             </Link>
+                            {id === 1 && (
+                                <span className={styles.metal}>🥇</span>
+                            )}
+                            {id === 2 && (
+                                <span className={styles.metal}>🥈</span>
+                            )}
+                            {id === 3 && (
+                                <span className={styles.metal}>🥉</span>
+                            )}
                         </span>
                     </header>
                     <div className={styles.main}>
