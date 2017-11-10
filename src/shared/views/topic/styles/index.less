@@ -10,3 +10,18 @@
         max-width: calc(~"100% - 250px");
     }
 }
+
+@media screen and (max-width: 480px) {
+    .container {
+        display: block;
+        & > main {
+            width: 100%;
+            max-width: 100%;
+            padding: 20px 0;
+        }
+        & > aside {
+            display: block;
+            margin: 10px auto;
+        }
+    }
+}

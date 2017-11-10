@@ -13,11 +13,9 @@ import {
     Message
 } from "element-react/next";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import BalanceBadge from "components/balanceBadge";
 
 const styles = require("./styles/user.less");
-const goldImg = require("IMG/gold.png");
-const silverImg = require("IMG/silver.png");
-const bronzeImg = require("IMG/bronze.png");
 
 interface UserWidgetProps {}
 
@@ -78,9 +76,6 @@ export default class UserWidget extends React.Component<
         const { dailySigned } = user;
 
         const balance = user.balance || 0;
-        const gold = Number((balance / 10000).toFixed(0));
-        const silver = Math.floor((balance - gold * 10000) / 100);
-        const bronze = balance % 100;
 
         return (
             <div className={ClassNames("widget", [styles.widget])}>
@@ -137,8 +132,9 @@ export default class UserWidget extends React.Component<
                                 <Layout.Col span={8}>
                                     <Link to={`/following`}>
                                         <div className={styles.num}>
-                                            {(user.followTopicIds &&
-                                                user.followTopicIds.length) ||
+                                            {(user.followingTopicIds &&
+                                                user.followingTopicIds
+                                                    .length) ||
                                                 0}
                                         </div>
                                         <span className={styles.numText}>
@@ -147,10 +143,10 @@ export default class UserWidget extends React.Component<
                                     </Link>
                                 </Layout.Col>
                                 <Layout.Col span={8}>
-                                    <Link to={`/user/following`}>
+                                    <Link to={`/following/users`}>
                                         <div className={styles.num}>
-                                            {(user.followUserIds &&
-                                                user.followUserIds.length) ||
+                                            {(user.followingUserIds &&
+                                                user.followingUserIds.length) ||
                                                 0}
                                         </div>
                                         <span className={styles.numText}>
@@ -167,7 +163,8 @@ export default class UserWidget extends React.Component<
                                     if (dailySigned) {
                                         return (
                                             <label>
-                                                <i className="fa fa-fw fa-superpowers" />个人财富
+                                                <i className="fa fa-fw fa-superpowers" />
+                                                <Link to="/balance">个人财富</Link>
                                             </label>
                                         );
                                     } else {
@@ -184,46 +181,7 @@ export default class UserWidget extends React.Component<
                                         );
                                     }
                                 })(this)}
-                                <div className={styles.balanceDetail}>
-                                    {
-                                        <span className={styles.gold}>
-                                            <Tooltip
-                                                effect="dark"
-                                                placement="top"
-                                                content={`${gold} 金币`}
-                                            >
-                                                <span className={styles.num}>
-                                                    {gold}
-                                                </span>
-                                                <img src={goldImg} />
-                                            </Tooltip>
-                                        </span>}
-                                    {
-                                        <span className={styles.silver}>
-                                            <Tooltip
-                                                effect="dark"
-                                                placement="top"
-                                                content={`${silver} 银币`}
-                                            >
-                                                <span className={styles.num}>
-                                                    {silver}
-                                                </span>
-                                                <img src={silverImg} />
-                                            </Tooltip>
-                                        </span>}
-                                    <span className={styles.bronze}>
-                                        <Tooltip
-                                            effect="dark"
-                                            placement="left-start"
-                                            content={`${bronze} 铜币`}
-                                        >
-                                            <span className={styles.num}>
-                                                {bronze}
-                                            </span>
-                                            <img src={bronzeImg} />
-                                        </Tooltip>
-                                    </span>
-                                </div>
+                                <BalanceBadge balance={balance} onWidget />
                             </div>
                             <div className={styles.refLink}>
                                 <Tooltip

@@ -136,9 +136,7 @@ export default class ChannelStore extends AbstractStore {
             .then(resp => {
                 this.setTopics(topics.concat(resp.items));
                 this.setField("topicsLoading", false);
-                if (page === 1) {
-                    this.setField("total", resp.total);
-                }
+                this.setField("total", resp.total);
                 return resp;
             })
             .catch(() => {

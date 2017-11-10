@@ -1,0 +1,154 @@
+@import "../../../../assets/styles/vars";
+
+.balanceView {
+    position: relative;
+    padding: 20px 0;
+
+    & > .container {
+        display: block;
+        max-width: 960px;
+        background: #fff;
+        padding: 20px 15px;
+        overflow: hidden;
+    }
+}
+
+.tabs {
+    margin-bottom: 15px;
+}
+
+.emptyList {
+    font-size: 1.4em;
+    color: #aaa;
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 30px;
+}
+
+.loading {
+    text-align: center;
+    font-size: 3rem;
+    margin: 30px auto;
+}
+
+.loadMore {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.detailList {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    position: relative;
+}
+
+.balanceTable {
+    th,
+    td {
+        text-align: center;
+    }
+
+    .timeCol,
+    .desCol {
+        color: @mainColor;
+    }
+
+    .red,
+    .green {
+        font-weight: bold;
+    }
+
+    .red {
+        color: @dangerColor;
+    }
+
+    .green {
+        color: @successColor;
+    }
+
+    .timeCol {
+        font-size: 1.2rem;
+    }
+
+    :global {
+        .el-table__body-wrapper {
+            overflow-x: hidden;
+        }
+    }
+}
+
+.rankItem {
+    position: relative;
+    padding-left: 90px;
+    margin-bottom: 20px;
+    min-height: 90px;
+    .avatar {
+        position: absolute;
+        width: 64px;
+        height: 64px;
+        line-height: 64px;
+        left: 5px;
+        top: 5px;
+    }
+    .content {
+        position: relative;
+        padding-bottom: 20px;
+        border-bottom: 1px solid @grayLight;
+        header {
+            font-size: 2rem;
+            color: @darkColor;
+            margin-bottom: 10px;
+            a {
+                color: @darkColor;
+            }
+        }
+
+        .main {
+            color: @muteColor;
+            font-size: 1.3rem;
+            line-height: 1.6;
+            margin-bottom: 10px;
+            p {
+                margin-bottom: 0;
+            }
+        }
+
+        footer {
+            color: @grayDark;
+            font-size: 1.8rem;
+        }
+
+        .balanceBadge,
+        .costBalanceBadge {
+            position: absolute;
+            right: 20px;
+            top: 30px;
+            border: 1px solid @grayLightPair;
+            border-radius: 20px;
+            padding: 0 10px;
+            background: #f1f1f1;
+        }
+
+        .balanceBadge {
+            color: @blackColor;
+            width: 150px;
+        }
+
+        .costBalanceBadge {
+            line-height: 36px;
+            span {
+                font-size: 2rem;
+                padding: 0 5px;
+                color: @darkColor;
+                line-height: 36px;
+                vertical-align: bottom;
+            }
+        }
+    }
+}

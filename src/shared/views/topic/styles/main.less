@@ -80,8 +80,8 @@
             width: 64px;
             height: 64px;
             img {
-                width: 64px;
-                height: 64px;
+                width: 100%;
+                height: 100%;
                 border-radius: 50%;
             }
         }
@@ -90,11 +90,15 @@
     .topicBody {
         font-size: 1.4rem;
         // color: @darkColor;
-        img {
-            display: block;
-            max-width: 100%;
-            padding: 20px;
-            margin: 0 auto 10px;
+        :global {
+            img {
+                display: block;
+                max-width: 100%;
+                padding: 20px;
+                margin: 0 auto 10px;
+                filter: blur(20px);
+                animation: 0.5s both sharpen;
+            }
         }
         p {
             line-height: 1.6;
@@ -145,6 +149,11 @@
                 margin-left: -5px;
                 display: inline-block;
                 vertical-align: top;
+                button {
+                    i {
+                        margin-right: 5px;
+                    }
+                }
             }
         }
     }
@@ -291,4 +300,25 @@
 
 .topicBodyEditing {
     margin-bottom: 20px;
+}
+
+@media screen and (max-width: 480px) {
+    .mainWrapper {
+        padding: 0 0 20px;
+    }
+    .topicWrapper {
+        padding-left: 0;
+
+        header {
+            .avatar {
+                position: relative;
+                left: 0;
+                line-height: 32px;
+                height: 32px;
+                width: 32px;
+                vertical-align: bottom;
+                margin-right: 10px;
+            }
+        }
+    }
 }

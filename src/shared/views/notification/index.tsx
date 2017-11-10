@@ -4,7 +4,7 @@ import ClassNames from "classnames";
 import { withRouter } from "react-router";
 import DocumentMeta from "react-document-meta";
 import NotificationStore from "store/NotificationStore";
-import { Tabs, TabPane, Tooltip } from "element-react/next";
+import { Tabs, TabPane, Tooltip, Pagination } from "element-react/next";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { getTimeDiff, getGMT8DateStr } from "utils/DateTimeKit";
@@ -48,6 +48,33 @@ class NotificationView extends React.Component<
             history.push("/notification");
         }
     };
+
+    onPageChange = (nextpage: number) => {
+        const { history, type } = this.props;
+        const { page } = this.store;
+        if ((page > 1 && nextpage === 1) || (page === 1 && nextpage > 1)) {
+            this.store.destroy();
+        }
+        const pageSuffix = nextpage === 1 ? "" : `/page/${nextpage}`;
+        if (type === "system") {
+            history.push(`/notification/system${pageSuffix}`);
+        } else {
+            history.push(`/notification${pageSuffix}`);
+        }
+    };
+
+    componentDidUpdate(prevProps) {
+        const { location, match } = this.props;
+        const page = Number(match.params.page) || 1;
+        const prevPage = Number(prevProps.match.params.page) || 1;
+        if (page !== prevPage) {
+            this.store = NotificationStore.rebuild({
+                location,
+                match,
+                cookies: ""
+            });
+        }
+    }
 
     renderTabs = () => {
         const { type } = this.props;
@@ -114,7 +141,9 @@ class NotificationView extends React.Component<
                                 </div>
                             </header>
                             <h4>{notification.title}</h4>
-                            <p>{notification.content}</p>
+                            {notification.content && (
+                                <p>{notification.content}</p>
+                            )}
                         </li>
                     );
                 })}
@@ -124,6 +153,25 @@ class NotificationView extends React.Component<
                     </div>
                 )}
             </ul>
+        );
+    };
+
+    renderPagination = () => {
+        const { store } = this;
+        const { total, page, pageSize, loading } = store;
+        if (total < 0 || loading) {
+            return null;
+        }
+        return (
+            <div className={styles.pagination}>
+                <Pagination
+                    layout="prev, pager, next"
+                    total={total}
+                    currentPage={page}
+                    pageSize={pageSize}
+                    onCurrentChange={this.onPageChange}
+                />
+            </div>
         );
     };
 

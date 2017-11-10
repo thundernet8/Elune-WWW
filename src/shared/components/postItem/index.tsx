@@ -74,7 +74,7 @@ export default class PostItem extends React.Component<
                                             />
                                         )}
                                         <span className={styles.username}>
-                                            {post.authorName}
+                                            {post.author.nickname}
                                         </span>
                                     </Link>
                                 </h3>

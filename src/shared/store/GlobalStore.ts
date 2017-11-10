@@ -3,6 +3,12 @@ import UserInfo from "model/User";
 import CommonResp from "model/Resp";
 import { Login, Register, Logout, WhoAmI, RegisterReq } from "api/Auth";
 import { DailySign } from "api/User";
+import {
+    FollowTopic,
+    UnFollowTopic,
+    FollowUser,
+    UnFollowUser
+} from "api/Usermeta";
 import { OnlineStatistic, OnlineStatisticResp } from "api/Status";
 import { UpdateNotificationsStatus } from "api/Notifications";
 import IStoreArgument from "interface/IStoreArgument";
@@ -265,6 +271,132 @@ export default class GlobalStore extends AbstractStore {
         return OnlineStatistic().then(resp => {
             this.onlineStatistic = resp;
         });
+    };
+
+    /**
+     * 关注/取消关注主题
+     */
+    @observable switchingFollowTopicStatus: boolean = false;
+
+    @action
+    followTopic = (id: number) => {
+        const { switchingFollowTopicStatus, user } = this;
+        if (
+            switchingFollowTopicStatus ||
+            (user && user.followingTopicIds.includes(id))
+        ) {
+            return Promise.reject(false);
+        }
+
+        this.switchingFollowTopicStatus = true;
+        return FollowTopic({
+            id
+        })
+            .then(resp => {
+                if (resp) {
+                    const followingTopicIds = user.followingTopicIds;
+                    followingTopicIds.push(id);
+                    this.user = Object.assign({}, user, { followingTopicIds });
+                } else {
+                    throw new Error("");
+                }
+            })
+            .finally(() => {
+                this.switchingFollowTopicStatus = false;
+            });
+    };
+
+    @action
+    unfollowTopic = (id: number) => {
+        const { switchingFollowTopicStatus, user } = this;
+        if (
+            switchingFollowTopicStatus ||
+            !user ||
+            !user.followingTopicIds.includes(id)
+        ) {
+            return Promise.reject(false);
+        }
+
+        this.switchingFollowTopicStatus = true;
+        return UnFollowTopic({
+            id
+        })
+            .then(resp => {
+                if (resp) {
+                    const followingTopicIds = user.followingTopicIds.filter(
+                        x => x !== id
+                    );
+                    this.user = Object.assign({}, user, { followingTopicIds });
+                } else {
+                    throw new Error("");
+                }
+            })
+            .finally(() => {
+                this.switchingFollowTopicStatus = false;
+            });
+    };
+
+    /**
+     * 关注/取消关注用户
+     */
+    @observable switchingFollowUserStatus: boolean = false;
+
+    @action
+    followUser = (id: number) => {
+        const { switchingFollowUserStatus, user } = this;
+        if (
+            switchingFollowUserStatus ||
+            (user && user.followingUserIds.includes(id))
+        ) {
+            return Promise.reject(false);
+        }
+
+        this.switchingFollowUserStatus = true;
+        return FollowUser({
+            id
+        })
+            .then(resp => {
+                if (resp) {
+                    const followingUserIds = user.followingUserIds;
+                    followingUserIds.push(id);
+                    this.user = Object.assign({}, user, { followingUserIds });
+                } else {
+                    throw new Error("");
+                }
+            })
+            .finally(() => {
+                this.switchingFollowUserStatus = false;
+            });
+    };
+
+    @action
+    unfollowUser = (id: number) => {
+        const { switchingFollowUserStatus, user } = this;
+        if (
+            switchingFollowUserStatus ||
+            !user ||
+            !user.followingUserIds.includes(id)
+        ) {
+            return Promise.reject(false);
+        }
+
+        this.switchingFollowUserStatus = true;
+        return UnFollowUser({
+            id
+        })
+            .then(resp => {
+                if (resp) {
+                    const followingUserIds = user.followingUserIds.filter(
+                        x => x !== id
+                    );
+                    this.user = Object.assign({}, user, { followingUserIds });
+                } else {
+                    throw new Error("");
+                }
+            })
+            .finally(() => {
+                this.switchingFollowUserStatus = false;
+            });
     };
 
     /**
