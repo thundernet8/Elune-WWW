@@ -168,7 +168,7 @@ class BalanceView extends React.Component<BalanceViewProps, BalanceViewState> {
                                 [styles.red]: row.amount < 0
                             })}
                         >
-                            {row.amount > 0 ? "+" : "-"}
+                            {row.amount > 0 ? "+" : ""}
                             {row.amount}
                         </span>
                     );
