@@ -170,7 +170,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
                                     text={user.username[0]}
                                 />
                             )}
-                            {user.username}
+                            {user.nickname}
                         </span>
                     }
                 >

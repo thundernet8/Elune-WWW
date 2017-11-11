@@ -1,6 +1,6 @@
 import WebApi from "api/WebApi";
 import FormApi from "api/FormApi";
-import { PublicUserInfo } from "model/User";
+import { PublicUserInfo, BaseUserInfo } from "model/User";
 import Pagination from "model/Pagination";
 import UserProfileSetting from "interface/UserProfileSetting";
 import Topic from "model/Topic";
@@ -23,6 +23,13 @@ export function FetchUserFavorites(payload: FetchUserFavoritesReq) {
     return FormApi.Get<Pagination<Topic>>("usermetas/favorites", payload);
 }
 
+export function FetchFollowingUsers(payload: {}) {
+    return FormApi.Get<Pagination<BaseUserInfo>>(
+        "usermetas/following/users",
+        payload
+    );
+}
+
 export function UpdateUserProfile(payload: UserProfileSetting) {
     return WebApi.Post<Boolean>("users/profile", payload);
 }
@@ -34,6 +41,7 @@ export function DailySign() {
 export default {
     FetchNamedUser,
     FetchUserFavorites,
+    FetchFollowingUsers,
     UpdateUserProfile,
     DailySign
 };

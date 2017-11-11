@@ -36,6 +36,10 @@ export interface FetchUserPostsReq {
     orderBy: SortOrderBy;
 }
 
+export interface LikePostReq {
+    id: number;
+}
+
 export function CreatePost(payload: CreatePostReq) {
     return WebApi.Post<CommonResp<number>>("posts", payload);
 }
@@ -52,9 +56,14 @@ export function FetchUserPosts(payload: FetchUserPostsReq) {
     return FormApi.Get<Pagination<Post>>(`posts`, payload);
 }
 
+export function LikePost(payload: LikePostReq) {
+    return FormApi.Post<Boolean>(`posts/${payload.id}/likes`, {});
+}
+
 export default {
     CreatePost,
     UpdatePost,
     FetchTopicPosts,
-    FetchUserPosts
+    FetchUserPosts,
+    LikePost
 };

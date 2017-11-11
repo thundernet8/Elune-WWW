@@ -1,3 +1,4 @@
+import WebApi from "api/WebApi";
 import FormApi from "api/FormApi";
 import Notification from "model/Notification";
 import Pagination from "model/Pagination";
@@ -22,7 +23,7 @@ export function FetchNotifications(payload: FetchNotificationsReq) {
 export function UpdateNotificationsStatus(
     payload: UpdateNotificationsStatusReq
 ) {
-    return FormApi.Post<Boolean>("notifications/status", payload);
+    return WebApi.Post<Boolean>("notifications/status", payload);
 }
 
 export default {

@@ -122,20 +122,18 @@ export default class HomeStore extends AbstractStore {
             order,
             orderBy
         };
-        this.setField("topicsLoading", true);
+        this.topicsLoading = true;
         return FetchTopics(params)
             .then(resp => {
                 this.setTopics(
                     keepExist ? topics.concat(resp.items) : resp.items
                 );
-                this.setField("topicsLoading", false);
-                if (page === 1) {
-                    this.setField("total", resp.total);
-                }
+
+                this.total = resp.total;
                 return resp;
             })
-            .catch(() => {
-                this.setField("topicsLoading", false);
+            .finally(() => {
+                this.topicsLoading = false;
             });
     };
 

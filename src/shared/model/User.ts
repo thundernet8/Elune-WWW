@@ -9,30 +9,26 @@ export class BaseUserInfo {
     public email: string;
     public nickname: string;
     public avatar: string;
+    public bio: string;
+    public url: string;
+    public joinTime: number;
+    public status: EntityStatus;
+    public roleId: Role;
 }
 
 // /me
 export default class UserInfo extends BaseUserInfo {
-    public roleId: Role;
     public unreadCount: number;
     public unreadNotifications: Pagination<Notification>;
-    public joinTime: number;
-    public status: EntityStatus;
-    public bio: string;
-    public url: string;
     public favoriteTopicIds: number[];
-    public followTopicIds: number[];
-    public followUserIds: number[];
+    public followingTopicIds: number[];
+    public followingUserIds: number[];
     public balance: number;
     public dailySigned: boolean;
 }
 
 // /u/username
 export class PublicUserInfo extends BaseUserInfo {
-    public roleId: Role;
-    public joinTime: number;
-    public bio: string;
-    public url: string;
     public lastSeen: number;
     public online: boolean;
     public postsCount: number;

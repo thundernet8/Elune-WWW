@@ -18,7 +18,7 @@
   exact: true
 - path: /channel/:slug
   module: entries/channel
-  chunk: channel
+  chunk: home
   exact: false
 - path: /topic/:id
   module: entries/topic
@@ -47,9 +47,61 @@
   module: entries/notification
   chunk: notification
   exact: true
+- path: /notification/page/:page
+  module: entries/notification
+  chunk: notification
+  exact: false
 - path: /notification/system
   module: entries/sysNotification
   chunk: notification
+  exact: true
+- path: /notification/system/page/:page
+  module: entries/sysNotification
+  chunk: notification
+  exact: false
+- path: /following
+  module: entries/following
+  chunk: home
+  exact: true
+- path: /following/users
+  module: entries/followUsers
+  chunk: follow
+  exact: true
+- path: /following/users/page:page
+  module: entries/followUsers
+  chunk: follow
+  exact: false
+- path: /following/activities
+  module: entries/followActivities
+  chunk: follow
+  exact: true
+- path: /following/activities/page/:page
+  module: entries/followActivities
+  chunk: follow
+  exact: false
+- path: /balance
+  module: entries/balance
+  chunk: balance
+  exact: true
+- path: /balance/page/:page
+  module: entries/balance
+  chunk: balance
+  exact: false
+- path: /balance/rank
+  module: entries/balanceRank
+  chunk: balance
+  exact: true
+- path: /balance/rank/page/:page
+  module: entries/balanceRank
+  chunk: balance
+  exact: false
+- path: /balance/costrank
+  module: entries/balanceCostRank
+  chunk: balance
+  exact: true
+- path: /balance/costrank/page/:page
+  module: entries/balanceCostRank
+  chunk: balance
   exact: false
 - path:
   module: entries/notFound
