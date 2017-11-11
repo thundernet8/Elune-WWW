@@ -164,6 +164,7 @@ export default class TopicMain extends React.Component<
         GlobalStore.Instance.userPromise.then(() => {
             store.checkFavoriteStatus();
             store.checkLikeStatus();
+            store.syncLikePostsCache();
         });
     }
 

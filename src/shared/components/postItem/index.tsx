@@ -44,15 +44,43 @@ export default class PostItem extends React.Component<
         });
     };
 
+    likePost = () => {
+        const { post, store } = this.props;
+        const { likedPosts } = store;
+        const hasLiked = likedPosts.includes(post.id);
+        if (hasLiked) {
+            return;
+        }
+        return store
+            .likePost(post.id)
+            .then(result => {
+                if (result) {
+                    Message({
+                        message: "感谢评论成功",
+                        type: "success"
+                    });
+                } else {
+                    throw new Error("");
+                }
+            })
+            .catch(err => {
+                Message({
+                    message: err.message || "感谢评论失败，请重新尝试",
+                    type: "error"
+                });
+            });
+    };
+
     render() {
         // const parent = posts.find(x => x.id === post.pid);
         // const htmlToReactParser = new HtmlToReactParser();
 
         const { post, store } = this.props;
-        const { topic } = store;
-        const { posts } = store;
+        const { topic, posts, likedPosts, likePostActing } = store;
         const replyIndex = this.props.index + 1;
         const me = GlobalStore.Instance.user;
+        const hasLiked = likedPosts.includes(post.id);
+        const canLike = me.id !== post.authorId;
 
         const replies = posts.filter(x => x.pid === post.id);
         return (
@@ -137,6 +165,17 @@ export default class PostItem extends React.Component<
                     <aside className={styles.postActions}>
                         <ul>
                             <li className={styles.replyBtn}>
+                                {canLike && (
+                                    <Button type="text" onClick={this.likePost}>
+                                        {likePostActing ? (
+                                            <i className="el-icon-loading" />
+                                        ) : hasLiked ? (
+                                            "已感谢"
+                                        ) : (
+                                            "感谢"
+                                        )}
+                                    </Button>
+                                )}
                                 <Button type="text" onClick={this.goReply}>
                                     回复
                                 </Button>

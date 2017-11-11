@@ -7,7 +7,7 @@ import {
     LikeTopic,
     UnLikeTopic
 } from "api/Topic";
-import { FetchTopicPosts, CreatePost } from "api/Post";
+import { FetchTopicPosts, CreatePost, LikePost } from "api/Post";
 import Topic from "model/Topic";
 import Post from "model/Post";
 import CommonResp from "model/Resp";
@@ -23,7 +23,9 @@ import {
     unFavoriteTopic,
     hasLikeTopic,
     likeTopic,
-    unLikeTopic
+    unLikeTopic,
+    getLikedPosts,
+    likePost
 } from "utils/CacheKit";
 import GlobalStore from "store/GlobalStore";
 import AbstractStore from "./AbstractStore";
@@ -365,8 +367,13 @@ export default class TopicStore extends AbstractStore {
             postEditorState,
             editingPostText,
             editingPostMentions,
-            topic
+            topic,
+            submittingPost
         } = this;
+
+        if (submittingPost) {
+            return Promise.reject(false);
+        }
 
         const contentRaw = convertToRaw(postEditorState.getCurrentContent());
 
@@ -526,7 +533,7 @@ export default class TopicStore extends AbstractStore {
     };
 
     /**
-     * 喜欢
+     * 喜欢(话题)
      */
 
     @observable likeActing: boolean = false;
@@ -612,6 +619,56 @@ export default class TopicStore extends AbstractStore {
         if (hasLikeTopic(user.id, topic.id)) {
             this.setLike(true);
         }
+    };
+
+    /**
+     * 喜欢(评论)
+     */
+
+    @observable likePostActing: boolean = false;
+    @observable likedPosts: number[] = [];
+
+    @action
+    likePost = (id: number) => {
+        const { likePostActing, posts, likedPosts } = this;
+        if (likePostActing) {
+            return Promise.reject(false);
+        }
+        this.likePostActing = true;
+        return LikePost({
+            id
+        })
+            .then(result => {
+                if (result) {
+                    likedPosts.push(id);
+                    this.likedPosts = Array.from(new Set(likedPosts));
+                    likePost(GlobalStore.Instance.user.id, id);
+                    const newPosts = posts.map(post => {
+                        if (post.id === id) {
+                            const count = post.upvotesCount + 1;
+                            return Object.assign({}, post, {
+                                upvotesCount: count
+                            });
+                        }
+                        return post;
+                    });
+                    this.posts = newPosts;
+                }
+                return result;
+            })
+            .finally(() => {
+                this.likePostActing = false;
+            });
+    };
+
+    @action
+    syncLikePostsCache = () => {
+        const globalStore = GlobalStore.Instance;
+        const { user } = globalStore;
+        if (!user || !user.id) {
+            return;
+        }
+        this.likedPosts = getLikedPosts(user.id);
     };
 
     /**

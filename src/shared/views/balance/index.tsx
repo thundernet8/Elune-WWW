@@ -208,7 +208,7 @@ class BalanceView extends React.Component<BalanceViewProps, BalanceViewState> {
                     columns={columns}
                     data={data}
                     stripe
-                    border
+                    border={false}
                 />
                 {loading && (
                     <div className={styles.loading}>
