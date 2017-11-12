@@ -80,7 +80,7 @@ export default class PostItem extends React.Component<
         const replyIndex = this.props.index + 1;
         const me = GlobalStore.Instance.user;
         const hasLiked = likedPosts.includes(post.id);
-        const canLike = me.id !== post.authorId;
+        const canLike = me && me.id !== post.authorId;
 
         const replies = posts.filter(x => x.pid === post.id);
         return (
