@@ -7,3 +7,5 @@ ssr/*.ejs
 src/shared/interface/**/*.js
 src/shared/utils/**/*.js
 envrc
+manifest.json
+venders-config.json
