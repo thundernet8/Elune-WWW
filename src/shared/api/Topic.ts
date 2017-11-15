@@ -55,6 +55,14 @@ export interface UnLikeTopicReq {
     id: number;
 }
 
+export interface StickyTopicReq {
+    id: number;
+}
+
+export interface UnStickyTopicReq {
+    id: number;
+}
+
 export function CreateTopic(payload: CreateTopicReq) {
     return WebApi.Post<CommonResp<string>>("topics", payload);
 }
@@ -95,6 +103,14 @@ export function UnLikeTopic(payload: UnLikeTopicReq) {
     return FormApi.Delete<Boolean>(`topics/${payload.id}/likes`, {});
 }
 
+export function StickyTopic(payload: StickyTopicReq) {
+    return FormApi.Post<Boolean>(`topics/${payload.id}/sticky`, {});
+}
+
+export function UnStickyTopic(payload: UnStickyTopicReq) {
+    return FormApi.Delete<Boolean>(`topics/${payload.id}/sticky`, {});
+}
+
 export default {
     CreateTopic,
     UpdateTopic,
@@ -105,5 +121,7 @@ export default {
     FavoriteTopic,
     UnFavoriteTopic,
     LikeTopic,
-    UnLikeTopic
+    UnLikeTopic,
+    StickyTopic,
+    UnStickyTopic
 };

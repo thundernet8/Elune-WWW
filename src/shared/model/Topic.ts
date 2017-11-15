@@ -13,8 +13,8 @@ export default class Topic {
     public title: string;
     public authorName: string;
     public authorId: number;
-    public isPinned: boolean;
-    public isEssence: boolean;
+    public isPinned: number;
+    public isEssence: number;
     public viewsCount: number;
     public upvotesCount: number;
     public downvotesCount: number;
