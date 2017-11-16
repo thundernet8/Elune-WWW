@@ -5,7 +5,9 @@ import {
     FavoriteTopic,
     UnFavoriteTopic,
     LikeTopic,
-    UnLikeTopic
+    UnLikeTopic,
+    StickyTopic,
+    UnStickyTopic
 } from "api/Topic";
 import { FetchTopicPosts, CreatePost, LikePost } from "api/Post";
 import Topic from "model/Topic";
@@ -558,12 +560,12 @@ export default class TopicStore extends AbstractStore {
             .then(result => {
                 if (result) {
                     this.setLike(true);
+                    likeTopic(GlobalStore.Instance.user.id, id);
+                    const newTopic = Object.assign({}, topic, {
+                        upvotesCount: topic.upvotesCount + 1
+                    });
+                    this.setTopic(newTopic);
                 }
-                likeTopic(GlobalStore.Instance.user.id, id);
-                const newTopic = Object.assign({}, topic, {
-                    upvotesCount: topic.upvotesCount + 1
-                });
-                this.setTopic(newTopic);
                 return result;
             })
             .finally(() => {
@@ -669,6 +671,63 @@ export default class TopicStore extends AbstractStore {
             return;
         }
         this.likedPosts = getLikedPosts(user.id);
+    };
+
+    /**
+     * 置顶话题
+     */
+
+    @observable stickyActing: boolean = false;
+
+    @action
+    stickyTopic = () => {
+        const { topic, stickyActing } = this;
+        const { id } = topic;
+        if (stickyActing) {
+            return Promise.reject(false);
+        }
+        this.stickyActing = true;
+        return StickyTopic({
+            id
+        })
+            .then(result => {
+                if (result) {
+                    const newTopic = Object.assign({}, topic, {
+                        isPinned: 1
+                    });
+                    this.setTopic(newTopic);
+                }
+                return result;
+            })
+            .finally(() => {
+                this.stickyActing = false;
+            });
+    };
+
+    @action
+    unStickyTopic = () => {
+        const { topic, stickyActing } = this;
+        const { id } = topic;
+        if (stickyActing) {
+            return Promise.reject(false);
+        }
+        this.stickyActing = true;
+        return UnStickyTopic({
+            id
+        })
+            .then(result => {
+                if (result) {
+                    const newTopic = Object.assign({}, topic, {
+                        isPinned: 0
+                    });
+                    this.setTopic(newTopic);
+                }
+
+                return result;
+            })
+            .finally(() => {
+                this.stickyActing = false;
+            });
     };
 
     /**
