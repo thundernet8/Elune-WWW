@@ -159,6 +159,42 @@ export default class TopicMain extends React.Component<
             });
     };
 
+    stickyTopic = () => {
+        const { store } = this.props;
+        const { stickyTopic } = store;
+        return stickyTopic()
+            .then(() => {
+                Message({
+                    message: "置顶话题成功",
+                    type: "success"
+                });
+            })
+            .catch(() => {
+                Message({
+                    message: "置顶话题失败",
+                    type: "error"
+                });
+            });
+    };
+
+    unStickyTopic = () => {
+        const { store } = this.props;
+        const { unStickyTopic } = store;
+        return unStickyTopic()
+            .then(() => {
+                Message({
+                    message: "取消置顶话题成功",
+                    type: "success"
+                });
+            })
+            .catch(() => {
+                Message({
+                    message: "取消置顶话题失败",
+                    type: "error"
+                });
+            });
+    };
+
     componentDidMount() {
         const { store } = this.props;
         GlobalStore.Instance.userPromise.then(() => {
@@ -177,8 +213,10 @@ export default class TopicMain extends React.Component<
             hasLiked,
             likeActing,
             canEditTopic,
-            submittingEditTopic
+            submittingEditTopic,
+            stickyActing
         } = store;
+        const { isPinned } = topic;
         const { editingTopic } = this.state;
         const me = GlobalStore.Instance.user;
         const { switchingFollowTopicStatus } = GlobalStore.Instance;
@@ -239,6 +277,25 @@ export default class TopicMain extends React.Component<
                             {/* <li className={styles.idBadge}>
                                 <span>楼主</span>
                             </li> */}
+                            {(function(that) {
+                                return (
+                                    <li className={styles.editActions}>
+                                        <Button
+                                            type="text"
+                                            onClick={
+                                                isPinned
+                                                    ? that.unStickyTopic
+                                                    : that.stickyTopic
+                                            }
+                                        >
+                                            {stickyActing && (
+                                                <i className="el-icon-loading" />
+                                            )}
+                                            {isPinned ? "取消置顶" : "置顶"}
+                                        </Button>
+                                    </li>
+                                );
+                            })(this)}
                             {(function(that) {
                                 if (!canEditTopic) {
                                     return null;
