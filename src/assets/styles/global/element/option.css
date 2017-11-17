@@ -99,7 +99,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: rgb(72, 84, 106);
+    color: rgb(72, 106, 106);
     height: 36px;
     line-height: 1.5;
     box-sizing: border-box;
@@ -107,16 +107,16 @@
 }
 
 .el-select-dropdown__item.hover, .el-select-dropdown__item:hover{
-    background-color: rgb(228, 231, 241)
+    background-color: rgb(228, 240, 241)
 }
 
 .el-select-dropdown__item.selected{
     color: #fff;
-    background-color: #536f90
+    background-color: #00d1b2
 }
 
 .el-select-dropdown__item.selected.hover{
-    background-color: rgb(73, 98, 127)
+    background-color: rgb(0, 184, 157)
 }
 
 .el-select-dropdown__item span{
@@ -124,7 +124,7 @@
 }
 
 .el-select-dropdown__item.is-disabled{
-    color: rgb(191, 200, 217);
+    color: rgb(191, 217, 216);
     cursor: not-allowed
 }
 
@@ -136,7 +136,6 @@
   -------------------------- */
     /* Colors
   -------------------------- */
-    /* #20a0ff #1abc9c*/
     /* Link
   -------------------------- */
     /* Border

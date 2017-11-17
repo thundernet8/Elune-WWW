@@ -106,7 +106,7 @@
 
 .el-breadcrumb__separator{
     margin: 0 8px;
-    color: rgb(191, 200, 217)
+    color: rgb(191, 217, 216)
 }
 
 .el-breadcrumb__item{
@@ -116,7 +116,7 @@
 .el-breadcrumb__item:last-child .el-breadcrumb__item__inner, .el-breadcrumb__item:last-child .el-breadcrumb__item__inner a{}
 
 .el-breadcrumb__item:last-child .el-breadcrumb__item__inner, .el-breadcrumb__item:last-child .el-breadcrumb__item__inner:hover, .el-breadcrumb__item:last-child .el-breadcrumb__item__inner a, .el-breadcrumb__item:last-child .el-breadcrumb__item__inner a:hover{
-    color: rgb(151, 164, 190);
+    color: rgb(151, 190, 190);
     cursor: text
 }
 
@@ -128,11 +128,11 @@
 
 .el-breadcrumb__item__inner, .el-breadcrumb__item__inner a{
     transition: color .15s linear;
-    color: rgb(72, 84, 106)
+    color: rgb(72, 106, 106)
 }
 
 .el-breadcrumb__item__inner:hover, .el-breadcrumb__item__inner a:hover{
-    color: #536f90;
+    color: #00d1b2;
     cursor: pointer
 }
 :root{
@@ -140,7 +140,6 @@
   -------------------------- */
     /* Colors
   -------------------------- */
-    /* #20a0ff #1abc9c*/
     /* Link
   -------------------------- */
     /* Border

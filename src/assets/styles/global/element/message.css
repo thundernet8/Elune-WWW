@@ -107,11 +107,11 @@
 }
 
 .el-message .el-icon-circle-check{
-    color: #2ecc71;
+    color: #13ce66;
 }
 
 .el-message .el-icon-circle-cross{
-    color: #e74c3c;
+    color: #ff4949;
 }
 
 .el-message .el-icon-information{
@@ -119,7 +119,7 @@
 }
 
 .el-message .el-icon-warning{
-    color: #f1c40f;
+    color: #f7ba2a;
 }
 
 .el-message__group{
@@ -137,7 +137,7 @@
     font-size: 14px;
     margin: 0 34px 0 0;
     white-space: nowrap;
-    color: rgb(131, 142, 165);
+    color: rgb(131, 164, 165);
     text-align: justify;
 }
 
@@ -163,12 +163,12 @@
     right: 0;
     position: absolute;
     cursor: pointer;
-    color: rgb(191, 200, 217);
+    color: rgb(191, 217, 216);
     font-size: 14px;
 }
 
 .el-message__closeBtn:hover{
-    color: rgb(151, 164, 190);
+    color: rgb(151, 190, 190);
 }
 
 .el-message-fade-enter, .el-message-fade-leave-active {
@@ -180,7 +180,6 @@
   -------------------------- */
     /* Colors
   -------------------------- */
-    /* #20a0ff #1abc9c*/
     /* Link
   -------------------------- */
     /* Border

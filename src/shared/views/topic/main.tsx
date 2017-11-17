@@ -306,15 +306,15 @@ export default class TopicMain extends React.Component<
                                 }
                                 return editingTopic ? (
                                     <li className={styles.editActions}>
-                                        <a
-                                            href="javascript:;"
+                                        <Button
+                                            type="text"
                                             onClick={that.toggleTopicEditing.bind(
                                                 that,
                                                 false
                                             )}
                                         >
                                             取消
-                                        </a>
+                                        </Button>
                                         <Button
                                             type="success"
                                             size="small"
@@ -326,8 +326,8 @@ export default class TopicMain extends React.Component<
                                     </li>
                                 ) : (
                                     <li className={styles.editActions}>
-                                        <a
-                                            href="javascript:;"
+                                        <Button
+                                            type="text"
                                             onClick={that.toggleTopicEditing.bind(
                                                 that,
                                                 true
@@ -335,7 +335,7 @@ export default class TopicMain extends React.Component<
                                             className={styles.goEditTopic}
                                         >
                                             编辑
-                                        </a>
+                                        </Button>
                                     </li>
                                 );
                             })(this)}

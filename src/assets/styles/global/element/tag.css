@@ -91,7 +91,7 @@
 }
 
 .el-tag{
-    background-color: rgb(131, 142, 165);
+    background-color: rgb(131, 164, 165);
     display: inline-block;
     padding: 0 5px;
     height: 24px;
@@ -121,89 +121,88 @@
 
 .el-tag .el-icon-close:hover{
     background-color: #fff;
-    color: rgb(131, 142, 165)
+    color: rgb(131, 164, 165)
 }
 
 .el-tag--gray{
-    background-color: rgb(228, 231, 241);
-    border-color: rgb(228, 231, 241);
-    color: rgb(72, 84, 106)
+    background-color: rgb(228, 240, 241);
+    border-color: rgb(228, 240, 241);
+    color: rgb(72, 106, 106)
 }
 
 .el-tag--gray .el-tag__close:hover{
-    background-color: rgb(72, 84, 106);
+    background-color: rgb(72, 106, 106);
     color: #fff
 }
 
 .el-tag--gray.is-hit{
-    border-color: rgb(72, 84, 106)
+    border-color: rgb(72, 106, 106)
 }
 
 .el-tag--primary{
-    background-color: rgba(83, 111, 144, 0.1);
-    border-color: rgba(83, 111, 144, 0.2);
-    color: #536f90
+    background-color: rgba(0, 209, 178, 0.1);
+    border-color: rgba(0, 209, 178, 0.2);
+    color: #00d1b2
 }
 
 .el-tag--primary .el-tag__close:hover{
-    background-color: #536f90;
+    background-color: #00d1b2;
     color: #fff
 }
 
 .el-tag--primary.is-hit{
-    border-color: #536f90
+    border-color: #00d1b2
 }
 
 .el-tag--success{
     background-color: rgba(18, 206, 102, 0.1);
     border-color: rgba(18, 206, 102, 0.2);
-    color: #2ecc71
+    color: #13ce66
 }
 
 .el-tag--success .el-tag__close:hover{
-    background-color: #2ecc71;
+    background-color: #13ce66;
     color: #fff
 }
 
 .el-tag--success.is-hit{
-    border-color: #2ecc71
+    border-color: #13ce66
 }
 
 .el-tag--warning{
     background-color: rgba(247, 186, 41, 0.1);
     border-color: rgba(247, 186, 41, 0.2);
-    color: #f1c40f
+    color: #f7ba2a
 }
 
 .el-tag--warning .el-tag__close:hover{
-    background-color: #f1c40f;
+    background-color: #f7ba2a;
     color: #fff
 }
 
 .el-tag--warning.is-hit{
-    border-color: #f1c40f
+    border-color: #f7ba2a
 }
 
 .el-tag--danger{
     background-color: rgba(255, 73, 73, 0.1);
     border-color: rgba(255, 73, 73, 0.2);
-    color: #e74c3c
+    color: #ff4949
 }
 
 .el-tag--danger .el-tag__close:hover{
-    background-color: #e74c3c;
+    background-color: #ff4949;
     color: #fff
 }
 
 .el-tag--danger.is-hit{
-    border-color: #e74c3c
+    border-color: #ff4949
 }
 :root{
     /* Transition
   -------------------------- */
     /* Colors
   -------------------------- */
-    /* #20a0ff #1abc9c*/
     /* Link
   -------------------------- */
     /* Border

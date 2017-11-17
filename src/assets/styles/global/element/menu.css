@@ -100,7 +100,7 @@
   height: 56px;
   line-height: 56px;
   font-size: 14px;
-  color: rgb(72, 84, 106);
+  color: rgb(72, 106, 106);
   padding: 0 20px;
   cursor: pointer;
   position: relative;
@@ -115,7 +115,7 @@
   position: relative;
   margin: 0;
   padding-left: 0;
-  background-color: rgb(238, 240, 246);
+  background-color: rgb(238, 246, 246);
 }
 
 .el-menu li{
@@ -123,23 +123,23 @@
 }
 
 .el-menu--dark{
-  background-color: rgb(50, 61, 87);
+  background-color: rgb(50, 86, 87);
 }
 
 .el-menu--dark .el-menu-item, .el-menu--dark .el-submenu__title{
-  color: rgb(191, 200, 217);
+  color: rgb(191, 217, 216);
 }
 
 .el-menu--dark .el-menu-item:hover, .el-menu--dark .el-submenu__title:hover{
-  background-color: rgb(72, 84, 106);
+  background-color: rgb(72, 106, 106);
 }
 
 .el-menu--dark .el-submenu .el-menu{
-  background-color: rgb(31, 42, 61);
+  background-color: rgb(31, 61, 60);
 }
 
 .el-menu--dark .el-submenu .el-menu .el-menu-item:hover{
-  background-color: rgb(72, 84, 106);
+  background-color: rgb(72, 106, 106);
 }
 
 .el-menu--horizontal{}
@@ -160,7 +160,7 @@
 }
 
 .el-menu--horizontal .el-menu-item:hover{
-  background-color: rgb(209, 217, 229);
+  background-color: rgb(209, 229, 229);
 }
 
 .el-menu--horizontal .el-submenu{
@@ -172,7 +172,7 @@
   position: absolute;
   top: 65px;
   left: 0;
-  border: 1px solid rgb(209, 217, 229);
+  border: 1px solid rgb(209, 229, 229);
   padding: 5px 0;
   background-color: #fff;
   z-index: 100;
@@ -198,34 +198,34 @@
   position: static;
   vertical-align: middle;
   margin-left: 5px;
-  color: rgb(151, 164, 190);
+  color: rgb(151, 190, 190);
   margin-top: -3px;
 }
 
 .el-menu--horizontal .el-menu-item:hover, .el-menu--horizontal .el-submenu__title:hover{
-  background-color: rgb(238, 240, 246);
+  background-color: rgb(238, 246, 246);
 }
 
 .el-menu--horizontal > .el-menu-item:hover, .el-menu--horizontal > .el-submenu:hover .el-submenu__title, .el-menu--horizontal > .el-submenu.is-active .el-submenu__title{
-  border-bottom: 5px solid #536f90;
+  border-bottom: 5px solid #00d1b2;
 }
 
 .el-menu--horizontal.el-menu--dark{}
 
 .el-menu--horizontal.el-menu--dark .el-menu-item:hover, .el-menu--horizontal.el-menu--dark .el-submenu__title:hover{
-  background-color: rgb(50, 61, 87);
+  background-color: rgb(50, 86, 87);
 }
 
 .el-menu--horizontal.el-menu--dark .el-submenu .el-menu-item, .el-menu--horizontal.el-menu--dark .el-submenu .el-submenu-title{
-  color: rgb(72, 84, 106);
+  color: rgb(72, 106, 106);
 }
 
 .el-menu--horizontal.el-menu--dark .el-submenu .el-menu-item:hover, .el-menu--horizontal.el-menu--dark .el-submenu .el-submenu-title:hover{
-  background-color: rgb(209, 217, 229);
+  background-color: rgb(209, 229, 229);
 }
 
 .el-menu--horizontal.el-menu--dark .el-submenu .el-menu-item.is-active{
-  color: #536f90;
+  color: #00d1b2;
 }
 
 .el-menu--collapse{
@@ -286,11 +286,11 @@
 }
 
 .el-menu-item:hover{
-  background-color: rgb(209, 217, 229);
+  background-color: rgb(209, 229, 229);
 }
 
 .el-menu-item.is-active{
-  color: #536f90;
+  color: #00d1b2;
 }
 
 .el-submenu [class^="el-icon-"]{
@@ -301,7 +301,7 @@
 }
 
 .el-submenu .el-menu{
-  background-color: rgb(228, 231, 241);
+  background-color: rgb(228, 240, 241);
 }
 
 .el-submenu .el-menu-item{
@@ -312,7 +312,7 @@
 }
 
 .el-submenu .el-menu-item:hover{
-  background-color: rgb(209, 217, 229);
+  background-color: rgb(209, 229, 229);
 }
 
 .el-submenu.is-opened > .el-submenu__title .el-submenu__icon-arrow{
@@ -320,7 +320,7 @@
 }
 
 .el-submenu.is-active .el-submenu__title{
-  border-bottom-color: #536f90;
+  border-bottom-color: #00d1b2;
 }
 
 .el-submenu__title{
@@ -328,7 +328,7 @@
 }
 
 .el-submenu__title:hover{
-  background-color: rgb(209, 217, 229);
+  background-color: rgb(209, 229, 229);
 }
 
 .el-submenu__title *{
@@ -353,7 +353,7 @@
   line-height: normal;
   font-size: 14px;
   padding-left: 20px;
-  color: rgb(151, 164, 190);
+  color: rgb(151, 190, 190);
 }
 
 .horizontal-collapse-transition .el-submenu__title .el-submenu__icon-arrow {
@@ -365,7 +365,6 @@
   -------------------------- */
   /* Colors
   -------------------------- */
-  /* #20a0ff #1abc9c*/
   /* Link
   -------------------------- */
   /* Border

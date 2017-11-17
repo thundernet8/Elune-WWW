@@ -117,7 +117,7 @@
     display: inline-block;
     position: absolute;
     border-color: inherit;
-    background-color: rgb(191, 200, 217);
+    background-color: rgb(191, 217, 216);
 }
 
 .el-step__line.is-vertical{
@@ -175,28 +175,28 @@
 }
 
 .el-step__head.is-finish{
-    color: #536f90;
-    border-color: #536f90;
+    color: #00d1b2;
+    border-color: #00d1b2;
 }
 
 .el-step__head.is-error{
-    color: #e74c3c;
-    border-color: #e74c3c;
+    color: #ff4949;
+    border-color: #ff4949;
 }
 
 .el-step__head.is-success{
-    color: #2ecc71;
-    border-color: #2ecc71;
+    color: #13ce66;
+    border-color: #13ce66;
 }
 
 .el-step__head.is-wait{
-    color: rgb(191, 200, 217);
-    border-color: rgb(191, 200, 217);
+    color: rgb(191, 217, 216);
+    border-color: rgb(191, 217, 216);
 }
 
 .el-step__head.is-process{
-    color: rgb(191, 200, 217);
-    border-color: rgb(191, 200, 217);
+    color: rgb(191, 217, 216);
+    border-color: rgb(191, 217, 216);
 }
 
 .el-step__head.is-text{
@@ -207,32 +207,32 @@
 
 .el-step__head.is-text.is-finish{
     color: #fff;
-    background-color: #536f90;
-    border-color: #536f90;
+    background-color: #00d1b2;
+    border-color: #00d1b2;
 }
 
 .el-step__head.is-text.is-error{
     color: #fff;
-    background-color: #e74c3c;
-    border-color: #e74c3c;
+    background-color: #ff4949;
+    border-color: #ff4949;
 }
 
 .el-step__head.is-text.is-success{
     color: #fff;
-    background-color: #2ecc71;
-    border-color: #2ecc71;
+    background-color: #13ce66;
+    border-color: #13ce66;
 }
 
 .el-step__head.is-text.is-wait{
-    color: rgb(191, 200, 217);
+    color: rgb(191, 217, 216);
     background-color: #fff;
-    border-color: rgb(191, 200, 217);
+    border-color: rgb(191, 217, 216);
 }
 
 .el-step__head.is-text.is-process{
     color: #fff;
-    background-color: rgb(191, 200, 217);
-    border-color: rgb(191, 200, 217);
+    background-color: rgb(191, 217, 216);
+    border-color: rgb(191, 217, 216);
 }
 
 .el-step__main{
@@ -249,27 +249,27 @@
 
 .el-step__title.is-finish{
     font-weight: 700;
-    color: #536f90;
+    color: #00d1b2;
 }
 
 .el-step__title.is-error{
     font-weight: 700;
-    color: #e74c3c;
+    color: #ff4949;
 }
 
 .el-step__title.is-success{
     font-weight: 700;
-    color: #2ecc71;
+    color: #13ce66;
 }
 
 .el-step__title.is-wait{
     font-weight: 400;
-    color: rgb(151, 164, 190);
+    color: rgb(151, 190, 190);
 }
 
 .el-step__title.is-process{
     font-weight: 700;
-    color: rgb(72, 84, 106);
+    color: rgb(72, 106, 106);
 }
 
 .el-step__description{
@@ -279,30 +279,29 @@
 }
 
 .el-step__description.is-finish{
-    color: #536f90;
+    color: #00d1b2;
 }
 
 .el-step__description.is-error{
-    color: #e74c3c;
+    color: #ff4949;
 }
 
 .el-step__description.is-success{
-    color: #2ecc71;
+    color: #13ce66;
 }
 
 .el-step__description.is-wait{
-    color: rgb(191, 200, 217);
+    color: rgb(191, 217, 216);
 }
 
 .el-step__description.is-process{
-    color: rgb(131, 142, 165);
+    color: rgb(131, 164, 165);
 }
 :root{
     /* Transition
   -------------------------- */
     /* Colors
   -------------------------- */
-    /* #20a0ff #1abc9c*/
     /* Link
   -------------------------- */
     /* Border

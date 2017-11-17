@@ -101,24 +101,24 @@
 }
 
 .el-progress.is-exception .el-progress-bar__inner{
-  background-color:#e74c3c;
+  background-color:#ff4949;
 }
 
 .el-progress.is-exception .el-progress__text{
-  color:#e74c3c;
+  color:#ff4949;
 }
 
 .el-progress.is-success .el-progress-bar__inner{
-  background-color:#2ecc71;
+  background-color:#13ce66;
 }
 
 .el-progress.is-success .el-progress__text{
-  color:#2ecc71;
+  color:#13ce66;
 }
 
 .el-progress__text{
   font-size:14px;
-  color:rgb(72, 84, 106);
+  color:rgb(72, 106, 106);
   display: inline-block;
   vertical-align: middle;
   margin-left: 10px;
@@ -176,7 +176,7 @@
 .el-progress-bar__outer{
   height: 6px;
   border-radius: 100px;
-  background-color:rgb(228, 231, 241);
+  background-color:rgb(228, 240, 241);
   overflow: hidden;
   position: relative;
   vertical-align: middle;
@@ -188,7 +188,7 @@
   top: 0;
   height: 100%;
   border-radius: 2px 0 0 2px;
-  background-color:#536f90;
+  background-color:#00d1b2;
   text-align: right;
   border-radius: 100px;
   line-height: 1;
@@ -216,7 +216,6 @@
   -------------------------- */
   /* Colors
   -------------------------- */
-  /* #20a0ff #1abc9c*/
   /* Link
   -------------------------- */
   /* Border

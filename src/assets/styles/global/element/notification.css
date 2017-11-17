@@ -105,11 +105,11 @@
 }
 
 .el-notification .el-icon-circle-check{
-    color: #2ecc71;
+    color: #13ce66;
 }
 
 .el-notification .el-icon-circle-cross{
-    color: #e74c3c;
+    color: #ff4949;
 }
 
 .el-notification .el-icon-information{
@@ -117,7 +117,7 @@
 }
 
 .el-notification .el-icon-warning{
-    color: #f1c40f;
+    color: #f7ba2a;
 }
 
 .el-notification__group{
@@ -131,7 +131,7 @@
 .el-notification__title{
     font-weight: 400;
     font-size: 16px;
-    color: rgb(31, 42, 61);
+    color: rgb(31, 61, 60);
     margin: 0;
 }
 
@@ -139,7 +139,7 @@
     font-size: 14px;
     line-height: 21px;
     margin: 10px 0 0 0;
-    color: rgb(131, 142, 165);
+    color: rgb(131, 164, 165);
     text-align: justify;
 }
 
@@ -157,12 +157,12 @@
     right: 20px;
     position: absolute;
     cursor: pointer;
-    color: rgb(191, 200, 217);
+    color: rgb(191, 217, 216);
     font-size: 14px;
 }
 
 .el-notification__closeBtn:hover{
-    color: rgb(151, 164, 190);
+    color: rgb(151, 190, 190);
 }
 
 .el-notification-fade-enter {
@@ -178,7 +178,6 @@
   -------------------------- */
     /* Colors
   -------------------------- */
-    /* #20a0ff #1abc9c*/
     /* Link
   -------------------------- */
     /* Border

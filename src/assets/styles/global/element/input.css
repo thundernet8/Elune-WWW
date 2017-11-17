@@ -98,27 +98,27 @@
 }
 
 .el-input.is-disabled .el-input__inner{
-    background-color: rgb(238, 240, 246);
-    border-color: rgb(209, 217, 229);
+    background-color: rgb(238, 246, 246);
+    border-color: rgb(209, 229, 229);
     color: #bbb;
     cursor: not-allowed
 }
 
 .el-input.is-disabled .el-input__inner::-webkit-input-placeholder{
-    color: rgb(191, 200, 217)
+    color: rgb(191, 217, 216)
 }
 
 .el-input.is-disabled .el-input__inner:-ms-input-placeholder{
-    color: rgb(191, 200, 217)
+    color: rgb(191, 217, 216)
 }
 
 .el-input.is-disabled .el-input__inner::placeholder{
-    color: rgb(191, 200, 217)
+    color: rgb(191, 217, 216)
 }
 
 .el-input.is-active .el-input__inner{
     outline: none;
-    border-color: #536f90;
+    border-color: #00d1b2;
 }
 
 .el-input__inner{
@@ -129,9 +129,9 @@
     background-image: none;
     border-radius: 4px;
     border: 1px solid
-        rgb(191, 200, 217);
+        rgb(191, 217, 216);
     box-sizing: border-box;
-    color: rgb(31, 42, 61);
+    color: rgb(31, 61, 60);
     display: inline-block;
     font-size: inherit;
     height: 36px;
@@ -144,24 +144,24 @@
 }
 
 .el-input__inner::-webkit-input-placeholder{
-    color: rgb(151, 164, 190)
+    color: rgb(151, 190, 190)
 }
 
 .el-input__inner:-ms-input-placeholder{
-    color: rgb(151, 164, 190)
+    color: rgb(151, 190, 190)
 }
 
 .el-input__inner::placeholder{
-    color: rgb(151, 164, 190)
+    color: rgb(151, 190, 190)
 }
 
 .el-input__inner:hover{
-    border-color: rgb(131, 142, 165)
+    border-color: rgb(131, 164, 165)
 }
 
 .el-input__inner:focus{
     outline: none;
-    border-color: #536f90
+    border-color: #00d1b2
 }
 
 .el-input__icon{
@@ -171,7 +171,7 @@
     right: 0;
     top: 0;
     text-align: center;
-    color: rgb(191, 200, 217);
+    color: rgb(191, 217, 216);
     transition: all .3s
 }
 
@@ -191,11 +191,11 @@
 
 .el-input__icon.is-clickable:hover{
     cursor: pointer;
-    color: rgb(131, 142, 165)
+    color: rgb(131, 164, 165)
 }
 
 .el-input__icon.is-clickable:hover + .el-input__inner{
-    border-color: rgb(131, 142, 165)
+    border-color: rgb(131, 164, 165)
 }
 
 .el-input--large{
@@ -235,13 +235,13 @@
 }
 
 .el-input-group__append, .el-input-group__prepend{
-    background-color: rgb(252, 252, 253);
-    color: rgb(151, 164, 190);
+    background-color: rgb(250, 254, 253);
+    color: rgb(151, 190, 190);
     vertical-align: middle;
     display: table-cell;
     position: relative;
     border: 1px solid
-        rgb(191, 200, 217);
+        rgb(191, 217, 216);
     border-radius: 4px;
     padding: 0 10px;
     width: 1px;
@@ -294,22 +294,22 @@
 }
 
 .el-textarea.is-disabled .el-textarea__inner{
-    background-color: rgb(238, 240, 246);
-    border-color: rgb(209, 217, 229);
+    background-color: rgb(238, 246, 246);
+    border-color: rgb(209, 229, 229);
     color: #bbb;
     cursor: not-allowed
 }
 
 .el-textarea.is-disabled .el-textarea__inner::-webkit-input-placeholder{
-    color: rgb(191, 200, 217)
+    color: rgb(191, 217, 216)
 }
 
 .el-textarea.is-disabled .el-textarea__inner:-ms-input-placeholder{
-    color: rgb(191, 200, 217)
+    color: rgb(191, 217, 216)
 }
 
 .el-textarea.is-disabled .el-textarea__inner::placeholder{
-    color: rgb(191, 200, 217)
+    color: rgb(191, 217, 216)
 }
 
 .el-textarea__inner{
@@ -320,42 +320,41 @@
     box-sizing: border-box;
     width: 100%;
     font-size: 14px;
-    color: rgb(31, 42, 61);
+    color: rgb(31, 61, 60);
     background-color: #fff;
     background-image: none;
     border: 1px solid
-        rgb(191, 200, 217);
+        rgb(191, 217, 216);
     border-radius: 4px;
     transition: border-color 0.2s
         cubic-bezier(0.645, 0.045, 0.355, 1)
 }
 
 .el-textarea__inner::-webkit-input-placeholder{
-    color: rgb(151, 164, 190)
+    color: rgb(151, 190, 190)
 }
 
 .el-textarea__inner:-ms-input-placeholder{
-    color: rgb(151, 164, 190)
+    color: rgb(151, 190, 190)
 }
 
 .el-textarea__inner::placeholder{
-    color: rgb(151, 164, 190)
+    color: rgb(151, 190, 190)
 }
 
 .el-textarea__inner:hover{
-    border-color: rgb(131, 142, 165)
+    border-color: rgb(131, 164, 165)
 }
 
 .el-textarea__inner:focus{
     outline: none;
-    border-color: #536f90
+    border-color: #00d1b2
 }
 :root{
     /* Transition
   -------------------------- */
     /* Colors
   -------------------------- */
-    /* #20a0ff #1abc9c*/
     /* Link
   -------------------------- */
     /* Border

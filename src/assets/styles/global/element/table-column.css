@@ -91,7 +91,7 @@
   --------------------------*/
 }
 .el-checkbox{
-    color: rgb(31, 42, 61);
+    color: rgb(31, 61, 60);
     position: relative;
     cursor: pointer;
     display: inline-block;
@@ -113,8 +113,8 @@
     vertical-align: middle;
 }
 .el-checkbox__input.is-indeterminate .el-checkbox__inner{
-    background-color: #536f90;
-    border-color: rgb(1, 98, 208);
+    background-color: #00d1b2;
+    border-color: rgb(1, 188, 160);
 }
 .el-checkbox__input.is-indeterminate .el-checkbox__inner::before{
     content: '';
@@ -130,37 +130,37 @@
     display: none;
 }
 .el-checkbox__input.is-focus .el-checkbox__inner{
-    border-color: #536f90;
+    border-color: #00d1b2;
 }
 .el-checkbox__input.is-checked .el-checkbox__inner{
-    background-color: #536f90;
-    border-color: rgb(1, 98, 208);
+    background-color: #00d1b2;
+    border-color: rgb(1, 188, 160);
 }
 .el-checkbox__input.is-checked .el-checkbox__inner::after{
     transform: rotate(45deg) scaleY(1);
 }
 .el-checkbox__input.is-disabled .el-checkbox__inner{
-    background-color: rgb(238, 240, 246);
-    border-color: rgb(209, 217, 229);
+    background-color: rgb(238, 246, 246);
+    border-color: rgb(209, 229, 229);
     cursor: not-allowed;
 }
 .el-checkbox__input.is-disabled .el-checkbox__inner::after{
     cursor: not-allowed;
-    border-color: rgb(238, 240, 246);
+    border-color: rgb(238, 246, 246);
 }
 .el-checkbox__input.is-disabled .el-checkbox__inner + .el-checkbox__label{
     cursor: not-allowed;
 }
 .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner{
-    background-color: rgb(209, 217, 229);
-    border-color: rgb(209, 217, 229);
+    background-color: rgb(209, 229, 229);
+    border-color: rgb(209, 229, 229);
 }
 .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner::after{
     border-color: #fff;
 }
 .el-checkbox__input.is-disabled.is-indeterminate .el-checkbox__inner{
-    background-color: rgb(209, 217, 229);
-    border-color: rgb(209, 217, 229);
+    background-color: rgb(209, 229, 229);
+    border-color: rgb(209, 229, 229);
 }
 .el-checkbox__input.is-disabled.is-indeterminate .el-checkbox__inner::before{
     border-color: #fff;
@@ -173,7 +173,7 @@
     display: inline-block;
     position: relative;
     border: 1px solid
-        rgb(191, 200, 217);
+        rgb(191, 217, 216);
     border-radius: 4px;
     box-sizing: border-box;
     width: 18px;
@@ -184,7 +184,7 @@
                   background-color .25s cubic-bezier(.71,-.46,.29,1.46);
 }
 .el-checkbox__inner:hover{
-    border-color: #536f90;
+    border-color: #00d1b2;
 }
 .el-checkbox__inner::after{
     box-sizing: content-box;
@@ -221,26 +221,26 @@
 .el-checkbox-button.is-checked{}
 .el-checkbox-button.is-checked .el-checkbox-button__inner{
     color: #fff;
-    background-color: #536f90;
-    border-color: #536f90;
-    box-shadow: -1px 0 0 0 #536f90;
+    background-color: #00d1b2;
+    border-color: #00d1b2;
+    box-shadow: -1px 0 0 0 #00d1b2;
 }
 .el-checkbox-button.is-disabled{}
 .el-checkbox-button.is-disabled .el-checkbox-button__inner{
-    color: rgb(191, 200, 217);
+    color: rgb(191, 217, 216);
     cursor: not-allowed;
     background-image: none;
-    background-color: rgb(238, 240, 246);
-    border-color: rgb(209, 217, 229);
+    background-color: rgb(238, 246, 246);
+    border-color: rgb(209, 229, 229);
     box-shadow: none;
 }
 .el-checkbox-button.is-focus{}
 .el-checkbox-button.is-focus .el-checkbox-button__inner{
-    border-color: #536f90;
+    border-color: #00d1b2;
 }
 .el-checkbox-button:first-child .el-checkbox-button__inner{
     border-left: 1px solid
-        rgb(191, 200, 217);
+        rgb(191, 217, 216);
     border-radius: 4px 0 0 4px;
     box-shadow: none !important;
 }
@@ -255,9 +255,9 @@
     cursor: pointer;
     background: #fff;
     border: 1px solid
-        rgb(191, 200, 217);
+        rgb(191, 217, 216);
     border-left: 0;
-    color: rgb(31, 42, 61);
+    color: rgb(31, 61, 60);
     -webkit-appearance: none;
     text-align: center;
     box-sizing: border-box;
@@ -274,7 +274,7 @@
     border-radius: 0;
 }
 .el-checkbox-button__inner:hover{
-    color: #536f90;
+    color: #00d1b2;
 }
 .el-checkbox-button__inner [class*="el-icon-"]{
     line-height: 0.9;
@@ -400,7 +400,7 @@
   --------------------------*/
 }
 .el-tag{
-    background-color: rgb(131, 142, 165);
+    background-color: rgb(131, 164, 165);
     display: inline-block;
     padding: 0 5px;
     height: 24px;
@@ -428,67 +428,67 @@
 }
 .el-tag .el-icon-close:hover{
     background-color: #fff;
-    color: rgb(131, 142, 165);
+    color: rgb(131, 164, 165);
 }
 .el-tag--gray{
-    background-color: rgb(228, 231, 241);
-    border-color: rgb(228, 231, 241);
-    color: rgb(72, 84, 106);
+    background-color: rgb(228, 240, 241);
+    border-color: rgb(228, 240, 241);
+    color: rgb(72, 106, 106);
 }
 .el-tag--gray .el-tag__close:hover{
-    background-color: rgb(72, 84, 106);
+    background-color: rgb(72, 106, 106);
     color: #fff;
 }
 .el-tag--gray.is-hit{
-    border-color: rgb(72, 84, 106);
+    border-color: rgb(72, 106, 106);
 }
 .el-tag--primary{
-    background-color: rgba(83, 111, 144, 0.1);
-    border-color: rgba(83, 111, 144, 0.2);
-    color: #536f90;
+    background-color: rgba(0, 209, 178, 0.1);
+    border-color: rgba(0, 209, 178, 0.2);
+    color: #00d1b2;
 }
 .el-tag--primary .el-tag__close:hover{
-    background-color: #536f90;
+    background-color: #00d1b2;
     color: #fff;
 }
 .el-tag--primary.is-hit{
-    border-color: #536f90;
+    border-color: #00d1b2;
 }
 .el-tag--success{
     background-color: rgba(18, 206, 102, 0.1);
     border-color: rgba(18, 206, 102, 0.2);
-    color: #2ecc71;
+    color: #13ce66;
 }
 .el-tag--success .el-tag__close:hover{
-    background-color: #2ecc71;
+    background-color: #13ce66;
     color: #fff;
 }
 .el-tag--success.is-hit{
-    border-color: #2ecc71;
+    border-color: #13ce66;
 }
 .el-tag--warning{
     background-color: rgba(247, 186, 41, 0.1);
     border-color: rgba(247, 186, 41, 0.2);
-    color: #f1c40f;
+    color: #f7ba2a;
 }
 .el-tag--warning .el-tag__close:hover{
-    background-color: #f1c40f;
+    background-color: #f7ba2a;
     color: #fff;
 }
 .el-tag--warning.is-hit{
-    border-color: #f1c40f;
+    border-color: #f7ba2a;
 }
 .el-tag--danger{
     background-color: rgba(255, 73, 73, 0.1);
     border-color: rgba(255, 73, 73, 0.2);
-    color: #e74c3c;
+    color: #ff4949;
 }
 .el-tag--danger .el-tag__close:hover{
-    background-color: #e74c3c;
+    background-color: #ff4949;
     color: #fff;
 }
 .el-tag--danger.is-hit{
-    border-color: #e74c3c;
+    border-color: #ff4949;
 }
 :root{
     /* Transition
@@ -589,7 +589,7 @@
 }
 
 .el-table-filter{
-    border: solid 1px rgb(209, 217, 229);
+    border: solid 1px rgb(209, 229, 229);
     border-radius: 2px;
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12),
@@ -614,12 +614,12 @@
 }
 
 .el-table-filter__list-item:hover{
-    background-color: rgb(228, 231, 241);
-    color: rgb(72, 84, 106);
+    background-color: rgb(228, 240, 241);
+    color: rgb(72, 106, 106);
 }
 
 .el-table-filter__list-item.is-active{
-    background-color: #536f90;
+    background-color: #00d1b2;
     color: #fff;
 }
 
@@ -628,21 +628,21 @@
 }
 
 .el-table-filter__bottom{
-    border-top: 1px solid rgb(209, 217, 229);
+    border-top: 1px solid rgb(209, 229, 229);
     padding: 8px;
 }
 
 .el-table-filter__bottom button {
     background: transparent;
     border: none;
-    color: rgb(131, 142, 165);
+    color: rgb(131, 164, 165);
     cursor: pointer;
     font-size: 14px;
     padding: 0 3px
 }
 
 .el-table-filter__bottom button:hover{
-    color: #536f90;
+    color: #00d1b2;
 }
 
 .el-table-filter__bottom button:focus{
@@ -650,7 +650,7 @@
 }
 
 .el-table-filter__bottom button.is-disabled{
-    color: rgb(191, 200, 217);
+    color: rgb(191, 217, 216);
     cursor: not-allowed;
 }
 
@@ -671,7 +671,6 @@
   -------------------------- */
     /* Colors
   -------------------------- */
-    /* #20a0ff #1abc9c*/
     /* Link
   -------------------------- */
     /* Border
