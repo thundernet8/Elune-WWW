@@ -679,6 +679,16 @@ export default class TopicStore extends AbstractStore {
 
     @observable stickyActing: boolean = false;
 
+    @computed
+    get canStickyTopic() {
+        const me = GlobalStore.Instance.user;
+        const { topic } = this;
+        if (!me || !topic) {
+            return false;
+        }
+        return me.roleId <= Role.ADMIN;
+    }
+
     @action
     stickyTopic = () => {
         const { topic, stickyActing } = this;

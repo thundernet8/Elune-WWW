@@ -214,6 +214,7 @@ export default class TopicMain extends React.Component<
             likeActing,
             canEditTopic,
             submittingEditTopic,
+            canStickyTopic,
             stickyActing
         } = store;
         const { isPinned } = topic;
@@ -278,6 +279,9 @@ export default class TopicMain extends React.Component<
                                 <span>楼主</span>
                             </li> */}
                             {(function(that) {
+                                if (!canStickyTopic) {
+                                    return null;
+                                }
                                 return (
                                     <li className={styles.editActions}>
                                         <Button
