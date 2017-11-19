@@ -450,14 +450,7 @@ export default class TopicMain extends React.Component<
 
     renderPostList = () => {
         const { store } = this.props;
-        const { loading, postsLoading, posts } = store;
-        if (!loading && postsLoading) {
-            return (
-                <div className={styles.postsLoading}>
-                    <i className="el-icon-loading" />
-                </div>
-            );
-        }
+        const { loading, postsLoading, posts, hasMorePosts } = store;
         return (
             <div className={styles.postListWrapper}>
                 <ul className={styles.postList}>
@@ -474,6 +467,20 @@ export default class TopicMain extends React.Component<
                         );
                     })}
                 </ul>
+                {!loading &&
+                    postsLoading && (
+                        <div className={styles.postsLoading}>
+                            <i className="el-icon-loading" />
+                        </div>
+                    )}
+                {!postsLoading &&
+                    hasMorePosts && (
+                        <div className={styles.loadMore}>
+                            <Button onClick={store.getNextPagePosts}>
+                                载入更多
+                            </Button>
+                        </div>
+                    )}
             </div>
         );
     };

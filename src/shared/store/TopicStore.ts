@@ -82,11 +82,6 @@ export default class TopicStore extends AbstractStore {
         TopicStore.instance = null as any;
     }
 
-    @action
-    setField = (field: string, value: any) => {
-        this[field] = value;
-    };
-
     @observable loading: boolean = false;
 
     /**
@@ -177,13 +172,15 @@ export default class TopicStore extends AbstractStore {
         return FetchTopic({ id: Number(id) })
             .then(resp => {
                 this.setTopic(resp);
-                this.setField("loading", false);
             })
             .then(() => {
                 if (!IS_NODE) {
                     this.checkFavoriteStatus();
                     this.checkLikeStatus();
                 }
+            })
+            .finally(() => {
+                this.loading = false;
             });
     };
 
@@ -279,38 +276,36 @@ export default class TopicStore extends AbstractStore {
             orderBy,
             topicId: Number(id)
         };
-        this.setField("postsLoading", true);
+
+        this.postsLoading = true;
         return FetchTopicPosts(params)
             .then(resp => {
                 this.setPosts(
                     keepExist ? posts.concat(resp.items) : resp.items
                 );
-                this.setField("postsLoading", false);
-                if (postPage === 1) {
-                    this.setField("total", resp.total);
-                }
+                this.postTotal = resp.total;
                 return resp;
             })
-            .catch(() => {
-                this.setField("topicsLoading", false);
+            .finally(() => {
+                this.postsLoading = false;
             });
     };
 
     @action
-    getNextPageTopics = () => {
+    getNextPagePosts = () => {
         const { postPage, postPageSize, postTotal } = this;
         if ((postPage - 1) * postPageSize >= postTotal) {
             return;
         }
-        this.setField("postPage", postPage + 1);
+        this.postPage = postPage + 1;
         this.getPosts(true);
     };
 
     @action
     refreshPosts = () => {
         this.setPosts([]);
-        this.setField("postPage", 1);
-        this.setField("postTotal", 0);
+        this.postPage = 1;
+        this.postTotal = 0;
         this.getPosts();
     };
 
@@ -418,14 +413,12 @@ export default class TopicStore extends AbstractStore {
             mentions
         })
             .then((resp: CommonResp<number>) => {
-                this.setField("submittingPost", false);
-                this.setField("postEditorState", EditorState.createEmpty());
+                this.postEditorState = EditorState.createEmpty();
                 this.getPosts();
                 return resp;
             })
-            .catch(err => {
-                this.setField("submittingPost", false);
-                throw new Error(err);
+            .finally(() => {
+                this.submittingPost = false;
             });
     };
 
@@ -759,6 +752,7 @@ export default class TopicStore extends AbstractStore {
         });
     }
 
+    @action
     public fromJSON(json: any) {
         super.fromJSON(json);
         if (!json) {
@@ -771,7 +765,7 @@ export default class TopicStore extends AbstractStore {
         if (typeof posts !== "undefined") {
             this.setPosts(posts);
         }
-        this.setField("postTotal", postTotal);
+        this.postTotal = postTotal;
         return this;
     }
 }

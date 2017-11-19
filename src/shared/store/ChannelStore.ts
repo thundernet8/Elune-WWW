@@ -1,7 +1,5 @@
 import { observable, action, computed } from "mobx";
 import Channel from "model/Channel";
-// import CommonResp from "model/Resp";
-// import Pagination from "model/Pagination";
 import Topic from "model/Topic";
 import { GetChannelBySlug } from "api/Channel";
 import { FetchChannelTopics } from "api/Topic";
@@ -60,11 +58,6 @@ export default class ChannelStore extends AbstractStore {
             }
         }
     }
-
-    @action
-    setField = (field: string, value: any) => {
-        this[field] = value;
-    };
 
     /**
      * 当前频道
@@ -131,16 +124,15 @@ export default class ChannelStore extends AbstractStore {
             orderBy,
             channelId: channel.id
         };
-        this.setField("topicsLoading", true);
+        this.topicsLoading = true;
         return FetchChannelTopics(params)
             .then(resp => {
                 this.setTopics(topics.concat(resp.items));
-                this.setField("topicsLoading", false);
-                this.setField("total", resp.total);
+                this.total = resp.total;
                 return resp;
             })
-            .catch(() => {
-                this.setField("topicsLoading", false);
+            .finally(() => {
+                this.topicsLoading = false;
             });
     };
 
@@ -150,15 +142,15 @@ export default class ChannelStore extends AbstractStore {
         if ((page - 1) * pageSize >= total) {
             return;
         }
-        this.setField("page", page + 1);
+        this.page = page + 1;
         this.getChannelTopics(this.channel);
     };
 
     @action
     refreshTopics = () => {
         this.setTopics([]);
-        this.setField("page", 1);
-        this.setField("total", 0);
+        this.page = 1;
+        this.total = 0;
         this.getChannelTopics(this.channel);
     };
 
@@ -197,7 +189,7 @@ export default class ChannelStore extends AbstractStore {
         if (typeof topics !== "undefined") {
             this.setTopics(topics);
         }
-        this.setField("total", total);
+        this.total = total;
         return this;
     }
 }
