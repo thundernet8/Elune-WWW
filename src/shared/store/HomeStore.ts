@@ -50,11 +50,6 @@ export default class HomeStore extends AbstractStore {
         HomeStore.instance = null as any;
     }
 
-    @action
-    setField = (field: string, value: any) => {
-        this[field] = value;
-    };
-
     /**
      * 所有频道列表
      */
@@ -143,15 +138,15 @@ export default class HomeStore extends AbstractStore {
         if ((page - 1) * pageSize >= total) {
             return;
         }
-        this.setField("page", page + 1);
+        this.page = page + 1;
         this.getTopics(true);
     };
 
     @action
     refreshTopics = () => {
         this.setTopics([]);
-        this.setField("page", 1);
-        this.setField("total", 0);
+        this.page = 1;
+        this.total = 0;
         this.getTopics();
     };
 
@@ -174,6 +169,7 @@ export default class HomeStore extends AbstractStore {
         });
     }
 
+    @action
     public fromJSON(json: any) {
         super.fromJSON(json);
         if (!json) {
@@ -186,7 +182,7 @@ export default class HomeStore extends AbstractStore {
         if (typeof topics !== "undefined") {
             this.setTopics(topics);
         }
-        this.setField("total", total);
+        this.total = total;
         return this;
     }
 }

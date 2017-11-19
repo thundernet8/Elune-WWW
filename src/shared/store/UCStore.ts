@@ -70,11 +70,6 @@ export default class UCStore extends AbstractStore {
         UCStore.instance = null as any;
     }
 
-    @action
-    setField = (field: string, value: any) => {
-        this[field] = value;
-    };
-
     @observable loading: boolean = false;
 
     /**
@@ -90,8 +85,8 @@ export default class UCStore extends AbstractStore {
         const { username, tab } = this.Match.params;
         this.loading = true;
         return FetchNamedUser({ username }).then(resp => {
-            this.setField("user", resp || {});
-            this.setField("loading", false);
+            this.user = resp || {};
+            this.loading = false;
             switch (tab) {
                 case undefined:
                 case "posts":
@@ -102,7 +97,8 @@ export default class UCStore extends AbstractStore {
                     if (!IS_NODE) {
                         return GlobalStore.Instance.userPromise.then(me => {
                             if (me.id === resp.id) {
-                                return this.getUserFavorites();
+                            } else {
+                                return Promise.resolve(true as any);
                             }
                         });
                     }
@@ -119,7 +115,7 @@ export default class UCStore extends AbstractStore {
     updateLocalUserField = (field: string, value: any) => {
         const { user } = this;
         user[field] = value;
-        this.setField("user", Object.assign({}, user));
+        this.user = Object.assign({}, user);
     };
 
     /**
@@ -178,13 +174,11 @@ export default class UCStore extends AbstractStore {
             orderBy: topicsOrderBy,
             authorId: user.id
         };
-        this.setField("topicsLoading", true);
+        this.topicsLoading = true;
         return FetchUserTopics(params)
             .then(resp => {
                 this.setTopics(topics.concat(resp.items));
-                if (topicsPage === 1) {
-                    this.setField("topicsTotal", resp.total);
-                }
+                this.topicsTotal = resp.total;
                 return resp;
             })
             .finally(() => {
@@ -198,15 +192,15 @@ export default class UCStore extends AbstractStore {
         if ((topicsPage - 1) * topicsPageSize >= topicsTotal) {
             return;
         }
-        this.setField("topicsPage", topicsPage + 1);
+        this.topicsPage = topicsPage + 1;
         this.getUserTopics();
     };
 
     @action
     refreshTopics = () => {
         this.setTopics([]);
-        this.setField("topicsPage", 1);
-        this.setField("topicsTotal", 0);
+        this.topicsPage = 1;
+        this.topicsTotal = 0;
         this.getUserTopics();
     };
 
@@ -265,18 +259,15 @@ export default class UCStore extends AbstractStore {
             orderBy: postsOrderBy,
             authorId: user.id
         };
-        this.setField("postsLoading", true);
+        this.postsLoading = true;
         return FetchUserPosts(params)
             .then(resp => {
                 this.setPosts(posts.concat(resp.items));
-                this.setField("postsLoading", false);
-                if (postsPage === 1) {
-                    this.setField("postsTotal", resp.total);
-                }
+                this.postsTotal = resp.total;
                 return resp;
             })
-            .catch(() => {
-                this.setField("postsLoading", false);
+            .finally(() => {
+                this.postsLoading = false;
             });
     };
 
@@ -286,15 +277,15 @@ export default class UCStore extends AbstractStore {
         if ((postsPage - 1) * postsPageSize >= postsTotal) {
             return;
         }
-        this.setField("postsPage", postsPage + 1);
+        this.postsPage = postsPage + 1;
         this.getUserPosts();
     };
 
     @action
     refreshPosts = () => {
         this.setPosts([]);
-        this.setField("postsPage", 1);
-        this.setField("postsTotal", 0);
+        this.postsPage = 1;
+        this.postsTotal = 0;
         this.getUserPosts();
     };
 
@@ -337,18 +328,15 @@ export default class UCStore extends AbstractStore {
             page: favoritesPage,
             pageSize: favoritesPageSize
         };
-        this.setField("favoritesLoading", true);
+        this.favoritesLoading = true;
         return FetchUserFavorites(params)
             .then(resp => {
                 this.setFavorites(favorites.concat(resp.items));
-                this.setField("favoritesLoading", false);
-                if (favoritesPage === 1) {
-                    this.setField("favoritesTotal", resp.total);
-                }
+                this.favoritesTotal = resp.total;
                 return resp;
             })
-            .catch(() => {
-                this.setField("favoritesLoading", false);
+            .finally(() => {
+                this.favoritesLoading = false;
             });
     };
 
@@ -358,15 +346,15 @@ export default class UCStore extends AbstractStore {
         if ((favoritesPage - 1) * favoritesPageSize >= favoritesTotal) {
             return;
         }
-        this.setField("favoritesPage", favoritesPage + 1);
+        this.favoritesPage = favoritesPage + 1;
         this.getUserFavorites();
     };
 
     @action
     refreshFavorites = () => {
         this.setFavorites([]);
-        this.setField("favoritesPage", 1);
-        this.setField("favoritesTotal", 0);
+        this.favoritesPage = 1;
+        this.favoritesTotal = 0;
         this.getUserFavorites();
     };
 
@@ -432,6 +420,7 @@ export default class UCStore extends AbstractStore {
         });
     }
 
+    @action
     public fromJSON(json: any) {
         super.fromJSON(json);
         if (!json) {
@@ -439,19 +428,19 @@ export default class UCStore extends AbstractStore {
         }
         const { user, topics, posts, topicsTotal, postsTotal } = json;
         if (typeof user !== "undefined") {
-            this.setField("user", user);
+            this.user = user;
         }
         if (typeof topics !== "undefined") {
-            this.setField("topics", topics);
+            this.topics = topics;
         }
         if (typeof posts !== "undefined") {
-            this.setField("posts", posts);
+            this.posts = posts;
         }
         if (typeof topicsTotal !== "undefined") {
-            this.setField("topicsTotal", topicsTotal);
+            this.topicsTotal = topicsTotal;
         }
         if (typeof postsTotal !== "undefined") {
-            this.setField("postsTotal", postsTotal);
+            this.postsTotal = postsTotal;
         }
         return this;
     }

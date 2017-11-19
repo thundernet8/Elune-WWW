@@ -45,11 +45,6 @@ export default class ChannelsStore extends AbstractStore {
         ChannelsStore.instance = null as any;
     }
 
-    @action
-    setField = (field: string, value: any) => {
-        this[field] = value;
-    };
-
     @observable loading: boolean = false;
 
     /**

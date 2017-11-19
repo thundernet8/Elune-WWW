@@ -47,11 +47,6 @@ export default class CreateTopicStore extends AbstractStore {
         CreateTopicStore.instance = null as any;
     }
 
-    @action
-    setField = (field: string, value: any) => {
-        this[field] = value;
-    };
-
     /**
      * 所有频道列表
      */
@@ -155,12 +150,10 @@ export default class CreateTopicStore extends AbstractStore {
         })
             .then(resp => {
                 this.clearData();
-                this.setField("requesting", false);
                 return resp;
             })
-            .catch(err => {
-                this.setField("requesting", false);
-                throw new Error(err);
+            .finally(() => {
+                this.requesting = false;
             });
     };
 
