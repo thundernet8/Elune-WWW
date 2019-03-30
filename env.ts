@@ -5,7 +5,7 @@ export const IS_NODE =
     new Object().toString.call(global) === "[object global]";
 export const API_BASE =
     IS_PROD && !IS_NODE
-        ? "https://elune.fuli.news/api/v1/"
+        ? "https://api.elune.me/api/v1/"
         : "http://127.0.0.1:9000/api/v1/";
 
 // SSR Server
