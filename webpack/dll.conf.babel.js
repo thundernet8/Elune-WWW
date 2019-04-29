@@ -55,7 +55,7 @@ const config = {
         path: path.resolve(__dirname, "../dist/assets/js"),
         publicPath: isDev
             ? "/assets/js/"
-            : "https://assets.webapproach.net/elune/assets/js/",
+            : "https://s0.parser.cc/elune/assets/js/",
         filename: "[name].[chunkhash:8].js",
         library: "[name]_[chunkhash:8]"
     },
