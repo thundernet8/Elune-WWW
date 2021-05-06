@@ -90,7 +90,7 @@
         "react-router-dom": "^4.2.2",
         "react-transition-group": "^1.2.0",
         "response-time": "^2.3.2",
-        "sanitize-html": "^1.14.1",
+        "sanitize-html": "^2.3.2",
         "throttle-debounce": "^1.0.1"
     },
     "scripts": {
