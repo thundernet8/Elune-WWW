@@ -22,7 +22,7 @@
         "css-loader": "^0.28.7",
         "cssnano": "^3.10.0",
         "customized-progress-webpack-plugin": "^0.0.3",
-        "element-theme": "^0.7.2",
+        "element-theme": "^2.0.1",
         "extract-text-webpack-plugin": "^3.0.0",
         "file-loader": "^0.11.2",
         "html-webpack-plugin": "^2.30.1",
