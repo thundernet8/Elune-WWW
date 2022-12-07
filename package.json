@@ -72,7 +72,7 @@
         "draftjs-to-html-fork": "^0.1.2",
         "ejs": "^2.5.7",
         "element-theme-default": "^1.4.6",
-        "express": "^4.15.4",
+        "express": "^4.17.3",
         "forever": "^0.15.3",
         "immutable": "^3.8.1",
         "mobx": "^3.3.0",
